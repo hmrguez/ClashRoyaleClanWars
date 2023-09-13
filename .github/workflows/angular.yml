@@ -28,11 +28,8 @@ jobs:
     - name: LS
       run: ls
 
-    - name: Install dependencies
-      run: npm install
-
     - name: Build Angular app
-      run: ng build
+      run: ng build --prod --project=ClashRoyaleClanWarsApp
 
     - name: Run tests
-      run: ng test
+      run: ng test --project=ClashRoyaleClanWarsApp
