@@ -30,9 +30,9 @@ jobs:
     - name: Build Angular app
       run: |
         cd ClashRoyaleClanWarsApp
-        ng build --prod
+        ng build
     
     - name: Test Angular app
       run: |
         cd ClashRoyaleClanWarsApp
-        ng test --project=ClashRoyaleClanWarsApp
+        ng test
