@@ -23,7 +23,7 @@ jobs:
       run: npm install -g @angular/cli
 
     - name: Change directory to Angular app
-      run: cd ClashRoyaleClanWarsApp
+      run: cd ClashRoyaleClanWars/ClashRoyaleClanWarsApp
 
     - name: Install dependencies
       run: npm install
