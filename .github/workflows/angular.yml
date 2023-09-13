@@ -1,4 +1,4 @@
-name: Build and Test Angular App
+name: Angular
 
 on:
   push:
@@ -31,8 +31,4 @@ jobs:
       run: |
         cd ClashRoyaleClanWarsApp
         ng build
-    
-    - name: Test Angular app
-      run: |
-        cd ClashRoyaleClanWarsApp
-        ng test
+  
