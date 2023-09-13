@@ -22,6 +22,11 @@ jobs:
     - name: Install Angular CLI
       run: npm install -g @angular/cli
 
+    - name: Install dependencies
+      run: |
+        cd ClashRoyaleClanWarsApp
+        npm install 
+
     - name: Build Angular app
       run: |
         cd ClashRoyaleClanWarsApp
