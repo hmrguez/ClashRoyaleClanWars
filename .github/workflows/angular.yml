@@ -22,14 +22,12 @@ jobs:
     - name: Install Angular CLI
       run: npm install -g @angular/cli
 
-    - name: Change directory to Angular app
-      run: cd ClashRoyaleClanWarsApp
-
-    - name: LS
-      run: ls
-
     - name: Build Angular app
-      run: ng build --prod --project=ClashRoyaleClanWarsApp
-
-    - name: Run tests
-      run: ng test --project=ClashRoyaleClanWarsApp
+      run: |
+        cd ClashRoyaleClanWarsApp
+        ng build --prod
+    
+    - name: Test Angular app
+      run: |
+        cd ClashRoyaleClanWarsApp
+        ng test --project=ClashRoyaleClanWarsApp
