@@ -19,7 +19,7 @@
 
     <ng-template pTemplate="header">
       <tr>
-        <th *ngFor="let column of columns; let i = index">
+        <th [pSortableColumn]="column.field" *ngFor="let column of columns; let i = index">
           <div class="column-header">
             {{ column.header }}
             <div [ngSwitch]="column.type">
@@ -43,6 +43,8 @@
               <ng-container *ngSwitchCase="ColumnType.Boolean">
                 <p-columnFilter type="boolean" field="verified" display="menu"></p-columnFilter>
               </ng-container>
+
+              <p-sortIcon *ngIf="column.type !== ColumnType.Image" [field]="column.field"></p-sortIcon>
 
             </div>
           </div>
