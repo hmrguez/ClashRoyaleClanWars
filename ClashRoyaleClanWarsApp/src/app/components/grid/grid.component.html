@@ -1,0 +1,22 @@
+<p-table [value]="data" [columns]="columns">
+  <ng-template pTemplate="header">
+    <tr>
+      <th *ngFor="let column of columns">{{ column.header }}</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowData let-columns="columns">
+    <tr>
+      <td *ngFor="let column of columns">
+        <ng-container *ngIf="column.type === ColumnType.Enum">
+          <button pButton pRipple [label]="rowData[column.field]" [disabled]="true" [style]="{background: column.enumColors.get(rowData[column.field]), border: 'none'}"></button>
+        </ng-container>
+        <ng-container *ngIf="column.type === ColumnType.Image">
+          <img [src]="rowData[column.field]" alt="Image" />
+        </ng-container>
+        <ng-container *ngIf="column.type === ColumnType.General">
+          {{ rowData[column.field]}}
+        </ng-container>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
