@@ -11,4 +11,5 @@ export class GridComponent {
   @Input() data: any[] = []
   @Input() columns: IColumn[] = []
   protected readonly ColumnType = ColumnType;
+  protected readonly scroll = scroll;
 }

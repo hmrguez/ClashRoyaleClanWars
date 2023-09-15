@@ -1,4 +1,4 @@
-<p-table [value]="data" [columns]="columns">
+<p-table [value]="data" [columns]="columns" [paginator]="true" [rows]="10" responsiveLayout="scroll">
   <ng-template pTemplate="header">
     <tr>
       <th *ngFor="let column of columns">{{ column.header }}</th>
@@ -7,7 +7,6 @@
   <ng-template pTemplate="body" let-rowData let-columns="columns">
     <tr>
       <td *ngFor="let column of columns">
-
         <div [ngSwitch]="column.type">
           <ng-container *ngSwitchCase="ColumnType.General">
             {{ rowData[column.field]}}
