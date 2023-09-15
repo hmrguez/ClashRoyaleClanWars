@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {ColumnType, IColumn} from "./components/grid/IColumn";
+import {SelectItem} from "primeng/api";
 
 @Component({
   selector: 'app-root',
@@ -19,6 +20,10 @@ export class AppComponent {
         ['Male', 'blue'],
         ['Female', 'pink'],
       ]),
+      enumOptions: [
+        <SelectItem>{label: 'Male', value: 'Male'},
+        <SelectItem>{label: 'Female', value: 'Female'}
+      ]
     },
     { header: 'Country', field: 'country', type: ColumnType.General },
     {
@@ -29,6 +34,10 @@ export class AppComponent {
         ['Active', 'green'],
         ['Inactive', 'red'],
       ]),
+      enumOptions: [
+        <SelectItem>{label: 'Active', value: 'Active'},
+        <SelectItem>{label: 'Inactive', value: 'Inactive'}
+      ]
     },
     { header: 'Verified', field: 'verified', type: ColumnType.Boolean },
   ];

@@ -14,7 +14,6 @@ export class GridComponent implements OnInit{
   @ViewChild('dt1') table!: Table
   protected readonly ColumnType = ColumnType;
   filterFields: string[] = [];
-
   globalFilter: string = ''
 
   ngOnInit(): void {

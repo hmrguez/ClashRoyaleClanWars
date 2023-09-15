@@ -7,3 +7,10 @@
   color: red;
   font-size: 1.5rem
 }
+
+.column-header{
+  display: flex;
+  justify-content: start;
+  gap: 15px;
+  align-items: center;
+}

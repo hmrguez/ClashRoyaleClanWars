@@ -10,6 +10,10 @@ import { ButtonModule } from "primeng/button";
 import { RippleModule } from "primeng/ripple";
 import {InputTextModule} from "primeng/inputtext";
 import {FormsModule} from "@angular/forms";
+import {MultiSelectModule} from "primeng/multiselect";
+import {DropdownModule} from "primeng/dropdown";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {CardModule} from "primeng/card";
 
 
 @NgModule({
@@ -19,13 +23,17 @@ import {FormsModule} from "@angular/forms";
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     TableModule,
     BadgeModule,
     ButtonModule,
     RippleModule,
     InputTextModule,
-    FormsModule
+    FormsModule,
+    MultiSelectModule,
+    DropdownModule,
+    CardModule
   ],
   providers: [],
   bootstrap: [AppComponent]
