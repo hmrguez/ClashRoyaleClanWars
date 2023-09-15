@@ -1,9 +1,28 @@
-<p-table [value]="data" [columns]="columns" [paginator]="true" [rows]="10" responsiveLayout="scroll">
+<p-table #dt1
+         [dataKey]="columns[0].field"
+         [value]="data"
+         [columns]="columns"
+         [paginator]="true" [rows]="10"
+         [globalFilterFields]="filterFields"
+
+         responsiveLayout="scroll">
+
+  <ng-template pTemplate="caption">
+    <div [style]="{'display': 'flex', 'justify-content':'space-between'}">
+      <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear()"></button>
+      <span class="p-input-icon-left ml-auto">
+          <i class="pi pi-search"></i>
+          <input pInputText type="text" (input)="filterData()" [(ngModel)]="globalFilter" placeholder="Search keyword" />
+      </span>
+    </div>
+  </ng-template>
+
   <ng-template pTemplate="header">
     <tr>
       <th *ngFor="let column of columns">{{ column.header }}</th>
     </tr>
   </ng-template>
+
   <ng-template pTemplate="body" let-rowData let-columns="columns">
     <tr>
       <td *ngFor="let column of columns">

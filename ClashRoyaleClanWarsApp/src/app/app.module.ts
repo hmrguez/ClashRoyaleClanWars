@@ -8,6 +8,8 @@ import { TableModule } from "primeng/table";
 import { BadgeModule } from "primeng/badge";
 import { ButtonModule } from "primeng/button";
 import { RippleModule } from "primeng/ripple";
+import {InputTextModule} from "primeng/inputtext";
+import {FormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -21,7 +23,9 @@ import { RippleModule } from "primeng/ripple";
     TableModule,
     BadgeModule,
     ButtonModule,
-    RippleModule
+    RippleModule,
+    InputTextModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
