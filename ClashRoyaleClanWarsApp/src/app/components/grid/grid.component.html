@@ -7,15 +7,21 @@
   <ng-template pTemplate="body" let-rowData let-columns="columns">
     <tr>
       <td *ngFor="let column of columns">
-        <ng-container *ngIf="column.type === ColumnType.Enum">
-          <button pButton pRipple [label]="rowData[column.field]" [disabled]="true" [style]="{background: column.enumColors.get(rowData[column.field]), border: 'none'}"></button>
-        </ng-container>
-        <ng-container *ngIf="column.type === ColumnType.Image">
-          <img [src]="rowData[column.field]" alt="Image" />
-        </ng-container>
-        <ng-container *ngIf="column.type === ColumnType.General">
-          {{ rowData[column.field]}}
-        </ng-container>
+
+        <div [ngSwitch]="column.type">
+          <ng-container *ngSwitchCase="ColumnType.General">
+            {{ rowData[column.field]}}
+          </ng-container>
+          <ng-container *ngSwitchCase="ColumnType.Image">
+            <img [src]="rowData[column.field]" alt="Image" />
+          </ng-container>
+          <ng-container *ngSwitchCase="ColumnType.Enum">
+            <button pButton pRipple [label]="rowData[column.field]" [disabled]="true" [style]="{background: column.enumColors.get(rowData[column.field]), border: 'none'}"></button>
+          </ng-container>
+          <ng-container *ngSwitchDefault>
+            <i class="pi" [ngClass]="{'true-icon pi-check-circle': rowData[column.field], 'false-icon pi-times-circle': !rowData[column.field]}"></i>
+          </ng-container>
+        </div>
       </td>
     </tr>
   </ng-template>

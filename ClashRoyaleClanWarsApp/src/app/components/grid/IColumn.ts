@@ -8,5 +8,6 @@ export interface IColumn {
 export enum ColumnType{
   General,
   Enum,
-  Image
+  Image,
+  Boolean
 }
