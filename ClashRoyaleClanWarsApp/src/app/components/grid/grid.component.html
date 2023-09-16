@@ -116,7 +116,7 @@
         </td>
         <td>
           <div [ngClass]="'top-bar-item'" [style]="{'justify-content': 'space-around', 'gap': '2px'}">
-            <button pButton pRipple icon="pi pi-pencil" class="p-button-info mr-2" (click)="openEdit(rowData)"></button>
+            <button *ngIf="adminUser" pButton pRipple icon="pi pi-pencil" class="p-button-info mr-2" (click)="openEdit(rowData)"></button>
             <button *ngIf="detailPage!=='' " pButton pRipple icon="pi pi-cog" class="p-button-secondary mr-2" [routerLink]="detailPage + '/' + rowData[primaryKey]"></button>
           </div>
         </td>
