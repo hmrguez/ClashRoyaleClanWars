@@ -14,16 +14,18 @@ import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
 
 export class GridComponent implements OnInit{
   @Input() title: string = '';
-  @Input() data: any[] = [];
   @Input() columns: IColumn[] = [];
   @Input() primaryKey: string = '';
   @Input() detailPage: string = ''
   @ViewChild('dt') table!: Table;
 
   @Input() adminUser: boolean = false
+  @Input() fetchDataFunc!: () => Promise<any[]>
   @Input() createFunc!: (model: any) => any
   @Input() deleteFunc!: (model: any) => any
   @Input() updateFunc!: (model: any) => any
+
+  data: any[] = []
 
   filterFields: string[] = [];
   globalFilter: string = '';
@@ -38,6 +40,7 @@ export class GridComponent implements OnInit{
   protected readonly ColumnType = ColumnType;
 
   ngOnInit(): void {
+    this.loadData().then();
     this.createFormModel();
     this.filterFields = this.columns.map(x=>x.field)
   }
@@ -74,7 +77,7 @@ export class GridComponent implements OnInit{
     });
   }
 
-  saveAsExcelFile(buffer: any, fileName: string): void {
+  private saveAsExcelFile(buffer: any, fileName: string): void {
     let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
     let EXCEL_EXTENSION = '.xlsx';
     const data: Blob = new Blob([buffer], {
@@ -117,7 +120,7 @@ export class GridComponent implements OnInit{
     this.hideDialog()
   }
 
-  createFormModel(model: any = null){
+  private createFormModel(model: any = null){
     const formControls: { [key: string]: FormControl } = {};
 
     this.columns.forEach((column) => {
@@ -150,4 +153,8 @@ export class GridComponent implements OnInit{
 
     this.createEditForm = new FormGroup(formControls);
   }
+
+    private async loadData() {
+        this.data = await this.fetchDataFunc()
+    }
 }

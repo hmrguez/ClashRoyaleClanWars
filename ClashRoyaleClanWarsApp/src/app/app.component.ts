@@ -118,4 +118,5 @@ sampleData: any[] = [
 
   createFunc = (model: any) => console.log(model)
   updateFunc = (model: any) => console.log(model)
+  fetchData = () => new Promise<any[]>((resolve, reject) => resolve(this.sampleData))
 }

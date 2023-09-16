@@ -1,6 +1,9 @@
 <clash-grid [columns]="columns"
-            [data]="sampleData"
             [adminUser]="true"
             [title]="'Citizens'"
+            [fetchDataFunc]="fetchData"
             [createFunc]="createFunc"
-            [updateFunc]="updateFunc"></clash-grid>
+            [updateFunc]="updateFunc"
+            [primaryKey]="'id'"
+            [detailPage]="'citizen'"
+></clash-grid>
