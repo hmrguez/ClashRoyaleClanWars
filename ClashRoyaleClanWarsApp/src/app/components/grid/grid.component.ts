@@ -16,11 +16,18 @@ export class GridComponent implements OnInit{
   @Input() data: any[] = [];
   @Input() columns: IColumn[] = [];
   @ViewChild('dt') table!: Table;
-  protected readonly ColumnType = ColumnType;
+
+  @Input() adminUser: boolean = false
+  @Input() createFunc!: (model: any) => any
+  @Input() deleteFunc!: (model: any) => any
+  @Input() updateFunc!: (model: any) => any
+
   filterFields: string[] = [];
   globalFilter: string = '';
   selectionOnlyExport: boolean = false;
   selectedData: any[] = [];
+
+  protected readonly ColumnType = ColumnType;
 
   ngOnInit(): void {
     this.filterFields = this.columns.map(x=>x.field)
@@ -65,5 +72,13 @@ export class GridComponent implements OnInit{
       type: EXCEL_TYPE
     });
     FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+  }
+
+  openNew() {
+
+  }
+
+  deleteSelectedProducts() {
+
   }
 }
