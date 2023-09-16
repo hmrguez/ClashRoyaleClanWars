@@ -19,7 +19,8 @@ export class GridComponent implements OnInit{
   protected readonly ColumnType = ColumnType;
   filterFields: string[] = [];
   globalFilter: string = '';
-  selectionOnly: boolean = false;
+  selectionOnlyExport: boolean = false;
+  selectedData: any[] = [];
 
   ngOnInit(): void {
     this.filterFields = this.columns.map(x=>x.field)
@@ -37,7 +38,8 @@ export class GridComponent implements OnInit{
 
   exportPdf() {
     const doc = new jsPDF()
-    const body = this.data.map(item => Object.values(item).map(y=>String(y)))
+    const exportData = this.selectionOnlyExport ? this.selectedData : this.data
+    const body = exportData.map(item => Object.values(item).map(y=>String(y)))
 
     autoTable(doc, {
       head: [this.columns.map(x=>x.header)],
@@ -49,7 +51,7 @@ export class GridComponent implements OnInit{
 
   exportExcel() {
     import("xlsx").then(xlsx => {
-      const worksheet = xlsx.utils.json_to_sheet(this.data);
+      const worksheet = xlsx.utils.json_to_sheet(this.selectionOnlyExport ? this.selectedData : this.data);
       const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
       const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
       this.saveAsExcelFile(excelBuffer, "data");

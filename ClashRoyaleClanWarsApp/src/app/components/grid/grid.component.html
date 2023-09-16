@@ -5,22 +5,21 @@
            [columns]="columns"
            [paginator]="true" [rows]="10"
            [globalFilterFields]="filterFields"
+           [(selection)]="selectedData"
            responsiveLayout="scroll">
 
     <ng-template pTemplate="caption">
       <div [style]="{'display': 'flex', 'justify-content':'space-between', 'align-items': 'center'}">
-
-
         <p-toolbar>
           <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear()"></button>
-          <button type="button" pButton pRipple icon="pi pi-file" (click)="dt.exportCSV({selectionOnly: selectionOnly})" class="mr-2" pTooltip="CSV" tooltipPosition="bottom"></button>
-          <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel(selectionOnly)" class="p-button-success mr-2"  pTooltip="XLS" tooltipPosition="bottom"></button>
-          <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf(selectionOnly)" class="p-button-warning mr-2" pTooltip="PDF" tooltipPosition="bottom"></button>
+          <button type="button" pButton pRipple icon="pi pi-file" (click)="dt.exportCSV({selectionOnly: selectionOnlyExport})" class="mr-2" pTooltip="CSV" tooltipPosition="bottom"></button>
+          <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()" class="p-button-success mr-2"  pTooltip="XLS" tooltipPosition="bottom"></button>
+          <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf()" class="p-button-warning mr-2" pTooltip="PDF" tooltipPosition="bottom"></button>
         </p-toolbar>
 
         <p-toolbar [style]="{'display': 'flex', 'justify-content':'space-between', 'align-items': 'top', 'gap': '20px'}">
           <b>Selection Only Export</b>
-          <p-inputSwitch [(ngModel)]="selectionOnly" [styleClass]="'mt-2'"></p-inputSwitch>
+          <p-inputSwitch [(ngModel)]="selectionOnlyExport" [styleClass]="'mt-2'"></p-inputSwitch>
         </p-toolbar>
 
 
@@ -35,6 +34,9 @@
 
     <ng-template pTemplate="header">
       <tr>
+        <th style="width: 3rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
         <th [pSortableColumn]="column.field" *ngFor="let column of columns; let i = index">
           <div class="column-header">
             {{ column.header }}
@@ -70,6 +72,9 @@
 
     <ng-template pTemplate="body" let-rowData let-columns="columns">
       <tr>
+        <td>
+          <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+        </td>
         <td *ngFor="let column of columns">
           <div [ngSwitch]="column.type">
             <ng-container *ngSwitchCase="ColumnType.General">
