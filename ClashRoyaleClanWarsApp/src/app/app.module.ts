@@ -8,6 +8,15 @@ import { TableModule } from "primeng/table";
 import { BadgeModule } from "primeng/badge";
 import { ButtonModule } from "primeng/button";
 import { RippleModule } from "primeng/ripple";
+import {InputTextModule} from "primeng/inputtext";
+import {FormsModule} from "@angular/forms";
+import {MultiSelectModule} from "primeng/multiselect";
+import {DropdownModule} from "primeng/dropdown";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {CardModule} from "primeng/card";
+import {ToolbarModule} from "primeng/toolbar";
+import {InputSwitchModule} from "primeng/inputswitch";
+import {TooltipModule} from "primeng/tooltip";
 
 
 @NgModule({
@@ -17,11 +26,20 @@ import { RippleModule } from "primeng/ripple";
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     TableModule,
     BadgeModule,
     ButtonModule,
-    RippleModule
+    RippleModule,
+    InputTextModule,
+    FormsModule,
+    MultiSelectModule,
+    DropdownModule,
+    CardModule,
+    ToolbarModule,
+    InputSwitchModule,
+    TooltipModule
   ],
   providers: [],
   bootstrap: [AppComponent]
