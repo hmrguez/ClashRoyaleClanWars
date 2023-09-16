@@ -50,7 +50,7 @@ import {CalendarModule} from "primeng/calendar";
     PaginatorModule,
     CheckboxModule,
     CalendarModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

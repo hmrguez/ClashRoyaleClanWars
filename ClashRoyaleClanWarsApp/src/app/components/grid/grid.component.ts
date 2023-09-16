@@ -16,6 +16,8 @@ export class GridComponent implements OnInit{
   @Input() title: string = '';
   @Input() data: any[] = [];
   @Input() columns: IColumn[] = [];
+  @Input() primaryKey: string = '';
+  @Input() detailPage: string = ''
   @ViewChild('dt') table!: Table;
 
   @Input() adminUser: boolean = false
@@ -30,7 +32,7 @@ export class GridComponent implements OnInit{
 
   @ViewChild('myForm', { static: false }) myForm!: NgForm;
   createEditForm!: FormGroup;
-  visibleDialog: boolean = false
+  visibleDialog: boolean = true
   isCreating: boolean = false; // true for creating and false for editing
 
   protected readonly ColumnType = ColumnType;

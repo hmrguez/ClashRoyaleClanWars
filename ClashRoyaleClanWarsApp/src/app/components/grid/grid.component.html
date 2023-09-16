@@ -115,7 +115,10 @@
           </div>
         </td>
         <td>
-          <button pButton pRipple icon="pi pi-pencil" class="p-button-info mr-2" (click)="openEdit(rowData)"></button>
+          <div [ngClass]="'top-bar-item'" [style]="{'justify-content': 'space-around', 'gap': '2px'}">
+            <button pButton pRipple icon="pi pi-pencil" class="p-button-info mr-2" (click)="openEdit(rowData)"></button>
+            <button *ngIf="detailPage!=='' " pButton pRipple icon="pi pi-cog" class="p-button-secondary mr-2" [routerLink]="detailPage + '/' + rowData[primaryKey]"></button>
+          </div>
         </td>
       </tr>
     </ng-template>
@@ -128,18 +131,18 @@
       <div class="field" *ngFor="let column of columns">
         <div [ngSwitch]="column.type">
           <ng-container *ngSwitchCase="ColumnType.String">
-            <label [for]="column.field">{{ column.header }}</label>
-            <input type="text" pInputText [id]="column.field" [formControlName]="column.field"/>
+            <label [for]="column.field" [style]="{'margin-bottom': '.5rem'}">{{ column.header }}</label>
+            <input pInputText type="text" [style]="{'margin-bottom': '1.2rem'}" [id]="column.field" [formControlName]="column.field"/>
           </ng-container>
 
           <ng-container *ngSwitchCase="ColumnType.LargeString">
-            <label [for]="column.field">{{ column.header }}</label>
-            <textarea [id]="column.field" pInputTextarea [formControlName]="column.field" rows="3" cols="20"></textarea>
+            <label [for]="column.field" [style]="{'margin-bottom': '.5rem'}">{{ column.header }}</label>
+            <textarea [id]="column.field" pInputTextarea [style]="{'margin-bottom': '1.2rem'}" [formControlName]="column.field" rows="3" cols="20"></textarea>
           </ng-container>
 
           <ng-container *ngSwitchCase="ColumnType.Enum">
-            <label [for]="column.field">{{ column.header }}</label>
-            <p-dropdown [formControlName]="column.field" [inputId]="column.field" [options]="column.enumOptions" appendTo="body">
+            <label [for]="column.field" [style]="{'margin-bottom': '.5rem'}">{{ column.header }}</label>
+            <p-dropdown [style]="{'margin-bottom': '1.2rem'}" [formControlName]="column.field" [inputId]="column.field" [options]="column.enumOptions" appendTo="body">
               <ng-template let-option pTemplate="item">
                 <button pButton pRipple [label]="option.label" [disabled]="true" [style]="{ background: column.enumColors?.get(option.label), border: 'none'}" ></button>
               </ng-template>
@@ -147,18 +150,18 @@
           </ng-container>
 
           <ng-container *ngSwitchCase="ColumnType.Date">
-            <label [for]="column.field">{{column.header}}</label>
-            <p-calendar [formControlName]="column.field" [showIcon]="true" [inputId]="column.field" ></p-calendar>
+            <label [for]="column.field" [style]="{'margin-bottom': '.5rem'}">{{column.header}} </label>
+            <p-calendar [style]="{'margin-bottom': '1.2rem'}" [formControlName]="column.field" [showIcon]="true" [inputId]="column.field" ></p-calendar>
           </ng-container>
 
           <ng-container *ngSwitchCase="ColumnType.Number">
-            <label [for]="column.field">{{ column.header }}</label>
-            <p-inputNumber [id]="column.field" [formControlName]="column.field" locale="en-US" placeholder="0"></p-inputNumber>
+            <label [for]="column.field" [style]="{'margin-bottom': '.5rem'}">{{ column.header }}</label>
+            <p-inputNumber [style]="{'margin-bottom': '1.2rem'}" [id]="column.field" [formControlName]="column.field" locale="en-US" placeholder="0"></p-inputNumber>
           </ng-container>
 
           <ng-container *ngSwitchCase="ColumnType.Boolean">
-            <label [for]="column.field">{{ column.header }}</label>
-            <p-checkbox [formControlName]="column.field" [binary]="true" [inputId]="column.field"></p-checkbox>
+            <label [for]="column.field" [style]="{'margin-bottom': '.5rem', 'display': 'block'}">{{ column.header }}</label>
+            <p-checkbox [style]="{'margin-bottom': '1.2rem'}" [formControlName]="column.field" [binary]="true" [inputId]="column.field"></p-checkbox>
           </ng-container>
         </div>
       </div>
