@@ -34,7 +34,7 @@ export class GridComponent implements OnInit{
 
   @ViewChild('myForm', { static: false }) myForm!: NgForm;
   createEditForm!: FormGroup;
-  visibleDialog: boolean = true
+  visibleDialog: boolean = false
   isCreating: boolean = false; // true for creating and false for editing
 
   protected readonly ColumnType = ColumnType;
@@ -154,7 +154,7 @@ export class GridComponent implements OnInit{
     this.createEditForm = new FormGroup(formControls);
   }
 
-    private async loadData() {
-        this.data = await this.fetchDataFunc()
-    }
+  private async loadData() {
+      this.data = await this.fetchDataFunc()
+  }
 }
