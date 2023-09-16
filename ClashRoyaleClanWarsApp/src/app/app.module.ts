@@ -17,6 +17,7 @@ import {CardModule} from "primeng/card";
 import {ToolbarModule} from "primeng/toolbar";
 import {InputSwitchModule} from "primeng/inputswitch";
 import {TooltipModule} from "primeng/tooltip";
+import {DialogModule} from "primeng/dialog";
 
 
 @NgModule({
@@ -24,23 +25,24 @@ import {TooltipModule} from "primeng/tooltip";
     AppComponent,
     GridComponent
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    TableModule,
-    BadgeModule,
-    ButtonModule,
-    RippleModule,
-    InputTextModule,
-    FormsModule,
-    MultiSelectModule,
-    DropdownModule,
-    CardModule,
-    ToolbarModule,
-    InputSwitchModule,
-    TooltipModule
-  ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        TableModule,
+        BadgeModule,
+        ButtonModule,
+        RippleModule,
+        InputTextModule,
+        FormsModule,
+        MultiSelectModule,
+        DropdownModule,
+        CardModule,
+        ToolbarModule,
+        InputSwitchModule,
+        TooltipModule,
+        DialogModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

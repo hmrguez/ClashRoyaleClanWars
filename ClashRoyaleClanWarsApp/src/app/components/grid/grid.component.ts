@@ -29,6 +29,7 @@ export class GridComponent implements OnInit{
 
   visibleDialog: boolean = false
   createEditModel: any = {}
+  submitted: boolean = false;
 
   protected readonly ColumnType = ColumnType;
 
@@ -80,6 +81,7 @@ export class GridComponent implements OnInit{
   openNew() {
     this.createEditModel = {};
     this.visibleDialog = true;
+    this.submitted = false;
   }
 
   openEdit(model: any){
@@ -89,6 +91,7 @@ export class GridComponent implements OnInit{
 
   hideDialog(){
     this.visibleDialog = false;
+    this.submitted = false;
   }
 
   deleteSelectedProducts() {

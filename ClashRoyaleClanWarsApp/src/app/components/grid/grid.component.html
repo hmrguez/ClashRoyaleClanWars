@@ -118,4 +118,60 @@
   </p-table>
 </p-card>
 
+<p-dialog [(visible)]="visibleDialog" [style]="{width: '450px'}" [header]="title + 'Details'" [modal]="true" styleClass="p-fluid">
+  <ng-template pTemplate="content">
+    <div class="field" *ngFor="let column of columns">
+      <div [ngSwitch]="column.type">
+        <ng-container *ngSwitchCase="ColumnType.String">
+          <label [for]="column.field">Name</label>
+          <input type="text" pInputText [id]="column.field" [(ngModel)]="createEditModel[column.field]" required autofocus />
+          <small class="p-error" *ngIf="submitted && !createEditModel[column.field]">{{column.header}} is required.</small>
+        </ng-container>
+        <ng-container *ngSwitchCase="ColumnType.LargeString">
 
+        </ng-container>
+        <ng-container *ngSwitchCase="ColumnType.Number">
+
+        </ng-container>
+        <ng-container *ngSwitchCase="ColumnType.Date">
+
+        </ng-container>
+        <ng-container *ngSwitchCase="ColumnType.Enum">
+
+        </ng-container>
+        <ng-container *ngSwitchCase="ColumnType.Boolean">
+
+        </ng-container>
+      </div>
+
+    </div>
+    <div class="field">
+      <label for="description">Description</label>
+      <textarea id="description" pInputTextarea [(ngModel)]="product.description" required rows="3" cols="20"></textarea>
+    </div>
+    <div class="field">
+      <label for="inventoryStatus">Inventory Status</label>
+      <p-dropdown [(ngModel)]="product.inventoryStatus" inputId="inventoryStatus" [options]="statuses" placeholder="Select">
+        <ng-template let-option pTemplate="item">
+          <span [class]="'product-badge status-' + option.value">{{option.label}}</span>
+        </ng-template>
+      </p-dropdown>
+    </div>
+
+    <div class="formgrid grid">
+      <div class="field col">
+        <label for="price">Price</label>
+        <p-inputNumber id="price" [(ngModel)]="product.price" mode="currency" currency="USD" locale="en-US"></p-inputNumber>
+      </div>
+      <div class="field col">
+        <label for="quantity">Quantity</label>
+        <p-inputNumber id="quantity" [(ngModel)]="product.quantity"></p-inputNumber>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+    <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveProduct()"></button>
+  </ng-template>
+</p-dialog>
