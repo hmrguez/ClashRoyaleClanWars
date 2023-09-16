@@ -16,6 +16,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {CardModule} from "primeng/card";
 import {ToolbarModule} from "primeng/toolbar";
 import {InputSwitchModule} from "primeng/inputswitch";
+import {TooltipModule} from "primeng/tooltip";
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import {InputSwitchModule} from "primeng/inputswitch";
     DropdownModule,
     CardModule,
     ToolbarModule,
-    InputSwitchModule
+    InputSwitchModule,
+    TooltipModule
   ],
   providers: [],
   bootstrap: [AppComponent]
