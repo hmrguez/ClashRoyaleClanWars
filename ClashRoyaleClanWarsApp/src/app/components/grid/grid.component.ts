@@ -4,6 +4,7 @@ import {Table} from "primeng/table";
 import * as FileSaver from 'file-saver';
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
+import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
 
 @Component({
   selector: 'clash-grid',
@@ -27,13 +28,16 @@ export class GridComponent implements OnInit{
   selectionOnlyExport: boolean = false;
   selectedData: any[] = [];
 
+  @ViewChild('myForm', { static: false }) myForm!: NgForm;
+  createEditForm!: FormGroup;
   visibleDialog: boolean = false
   createEditModel: any = {}
-  submitted: boolean = false;
+  isCreating: boolean = false; // true for creating and false for editing
 
   protected readonly ColumnType = ColumnType;
 
   ngOnInit(): void {
+    this.createFormModel();
     this.filterFields = this.columns.map(x=>x.field)
   }
 
@@ -81,22 +85,68 @@ export class GridComponent implements OnInit{
   openNew() {
     this.createEditModel = {};
     this.visibleDialog = true;
-    this.submitted = false;
+    this.isCreating = true;
   }
 
   openEdit(model: any){
-    this.createEditModel = {}
+    this.createEditModel = { ... model }
     this.visibleDialog = true
+    this.isCreating = false;
   }
 
   hideDialog(){
     this.visibleDialog = false;
-    this.submitted = false;
   }
 
   deleteSelectedProducts() {
     for (const selectedDatum of this.selectedData) {
       this.deleteFunc(selectedDatum)
     }
+  }
+
+  saveProduct() {
+    if(!this.createEditForm.valid) return;
+    const model = this.createEditForm.value
+    if(this.isCreating){
+      this.createFunc(model)
+    } else {
+      this.updateFunc(model)
+    }
+
+    this.hideDialog()
+  }
+
+  createFormModel(model: any = null){
+    const formControls: { [key: string]: FormControl } = {};
+
+    this.columns.forEach((column) => {
+      switch (column.type){
+        case ColumnType.String:
+          formControls[column.field] = new FormControl(model?.[column.field] ?? '', Validators.required);
+          break;
+        case ColumnType.LargeString:
+          formControls[column.field] = new FormControl(model?.[column.field] ?? '', Validators.required);
+          break;
+        case ColumnType.Image:
+          formControls[column.field] = new FormControl(model?.[column.field] ?? '', Validators.required);
+          break;
+        case ColumnType.Number:
+          formControls[column.field] = new FormControl(model?.[column.field] ?? 0, Validators.required);
+          break;
+        case ColumnType.Boolean:
+          formControls[column.field] = new FormControl(model?.[column.field] ?? false, Validators.required);
+          break;
+        case ColumnType.Date:
+          formControls[column.field] = new FormControl(model?.[column.field] ?? new Date(), Validators.required);
+          break;
+        case ColumnType.Enum:
+          formControls[column.field] = new FormControl(model?.[column.field] ?? column.enumOptions?.[0].value, Validators.required);
+          break;
+        default:
+          throw new Error(`No supported type, ${column.type}`)
+      }
+    });
+
+    this.createEditForm = new FormGroup(formControls);
   }
 }

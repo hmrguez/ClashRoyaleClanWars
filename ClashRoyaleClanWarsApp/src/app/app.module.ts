@@ -9,7 +9,7 @@ import { BadgeModule } from "primeng/badge";
 import { ButtonModule } from "primeng/button";
 import { RippleModule } from "primeng/ripple";
 import {InputTextModule} from "primeng/inputtext";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MultiSelectModule} from "primeng/multiselect";
 import {DropdownModule} from "primeng/dropdown";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
@@ -19,6 +19,9 @@ import {InputSwitchModule} from "primeng/inputswitch";
 import {TooltipModule} from "primeng/tooltip";
 import {DialogModule} from "primeng/dialog";
 import {InputTextareaModule} from "primeng/inputtextarea";
+import {PaginatorModule} from "primeng/paginator";
+import {CheckboxModule} from "primeng/checkbox";
+import {CalendarModule} from "primeng/calendar";
 
 
 @NgModule({
@@ -43,7 +46,11 @@ import {InputTextareaModule} from "primeng/inputtextarea";
     InputSwitchModule,
     TooltipModule,
     DialogModule,
-    InputTextareaModule
+    InputTextareaModule,
+    PaginatorModule,
+    CheckboxModule,
+    CalendarModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

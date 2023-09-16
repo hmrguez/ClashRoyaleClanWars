@@ -118,62 +118,52 @@
   </p-table>
 </p-card>
 
-<p-dialog [(visible)]="visibleDialog" [style]="{width: '450px'}" [header]="title + 'Details'" [modal]="true" styleClass="p-fluid">
+<p-dialog [(visible)]="visibleDialog" [style]="{width: '450px'}" [header]="title + ' Details'" [modal]="true" styleClass="p-fluid">
   <ng-template pTemplate="content">
-    <div class="field" *ngFor="let column of columns">
-      <div [ngSwitch]="column.type">
-        <ng-container *ngSwitchCase="ColumnType.String">
-          <label [for]="column.field">{{column.header}}</label>
-          <input type="text" pInputText [id]="column.field" [(ngModel)]="createEditModel[column.field]" required autofocus />
-          <small class="p-error" *ngIf="submitted && !createEditModel[column.field]">{{column.header}} is required.</small>
-        </ng-container>
-        <ng-container *ngSwitchCase="ColumnType.LargeString">
-          <label [for]="column.field">Description</label>
-          <textarea [id]="column.field" pInputTextarea [(ngModel)]="createEditModel[column.field]" required rows="3" cols="20"></textarea>
-          <small class="p-error" *ngIf="submitted && !createEditModel[column.field]">{{column.header}} is required.</small>
-        </ng-container>
-        <ng-container *ngSwitchCase="ColumnType.Number">
+    <form #myForm="ngForm" [formGroup]="createEditForm">
+      <div class="field" *ngFor="let column of columns">
+        <div [ngSwitch]="column.type">
+          <ng-container *ngSwitchCase="ColumnType.String">
+            <label [for]="column.field">{{ column.header }}</label>
+            <input type="text" pInputText [id]="column.field" [formControlName]="column.field"/>
+          </ng-container>
 
-        </ng-container>
-        <ng-container *ngSwitchCase="ColumnType.Date">
+          <ng-container *ngSwitchCase="ColumnType.LargeString">
+            <label [for]="column.field">{{ column.header }}</label>
+            <textarea [id]="column.field" pInputTextarea [formControlName]="column.field" rows="3" cols="20"></textarea>
+          </ng-container>
 
-        </ng-container>
-        <ng-container *ngSwitchCase="ColumnType.Enum">
+          <ng-container *ngSwitchCase="ColumnType.Enum">
+            <label [for]="column.field">{{ column.header }}</label>
+            <p-dropdown [formControlName]="column.field" [inputId]="column.field" [options]="column.enumOptions" appendTo="body">
+              <ng-template let-option pTemplate="item">
+                <button pButton pRipple [label]="option.label" [disabled]="true" [style]="{ background: column.enumColors?.get(option.label), border: 'none'}" ></button>
+              </ng-template>
+            </p-dropdown>
+          </ng-container>
 
-        </ng-container>
-        <ng-container *ngSwitchCase="ColumnType.Boolean">
+          <ng-container *ngSwitchCase="ColumnType.Date">
+            <label [for]="column.field">{{column.header}}</label>
+            <p-calendar [formControlName]="column.field" [showIcon]="true" [inputId]="column.field" ></p-calendar>
+          </ng-container>
 
-        </ng-container>
+          <ng-container *ngSwitchCase="ColumnType.Number">
+            <label [for]="column.field">{{ column.header }}</label>
+            <p-inputNumber [id]="column.field" [formControlName]="column.field" locale="en-US" placeholder="0"></p-inputNumber>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="ColumnType.Boolean">
+            <label [for]="column.field">{{ column.header }}</label>
+            <p-checkbox [formControlName]="column.field" [binary]="true" [inputId]="column.field"></p-checkbox>
+          </ng-container>
+        </div>
       </div>
+    </form>
 
-    </div>
-    <div class="field">
-      <label for="description">Description</label>
-      <textarea id="description" pInputTextarea [(ngModel)]="product.description" required rows="3" cols="20"></textarea>
-    </div>
-    <div class="field">
-      <label for="inventoryStatus">Inventory Status</label>
-      <p-dropdown [(ngModel)]="product.inventoryStatus" inputId="inventoryStatus" [options]="statuses" placeholder="Select">
-        <ng-template let-option pTemplate="item">
-          <span [class]="'product-badge status-' + option.value">{{option.label}}</span>
-        </ng-template>
-      </p-dropdown>
-    </div>
-
-    <div class="formgrid grid">
-      <div class="field col">
-        <label for="price">Price</label>
-        <p-inputNumber id="price" [(ngModel)]="product.price" mode="currency" currency="USD" locale="en-US"></p-inputNumber>
-      </div>
-      <div class="field col">
-        <label for="quantity">Quantity</label>
-        <p-inputNumber id="quantity" [(ngModel)]="product.quantity"></p-inputNumber>
-      </div>
-    </div>
   </ng-template>
 
   <ng-template pTemplate="footer">
     <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-    <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveProduct()"></button>
+    <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveProduct()" [disabled]="!createEditForm.valid"></button>
   </ng-template>
 </p-dialog>

@@ -115,4 +115,7 @@ sampleData: any[] = [
     country: 'USA',
     status: 'Active', verified: true
   },];
+
+  createFunc = (model: any) => console.log(model)
+  updateFunc = (model: any) => console.log(model)
 }
