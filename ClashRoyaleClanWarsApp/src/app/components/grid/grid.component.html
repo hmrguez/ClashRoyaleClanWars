@@ -1,5 +1,5 @@
 <p-card [style]="{'margin': '1.3rem'}">
-  <p-table #dt1
+  <p-table #dt
            [dataKey]="columns[0].field"
            [value]="data"
            [columns]="columns"
@@ -8,12 +8,28 @@
            responsiveLayout="scroll">
 
     <ng-template pTemplate="caption">
-      <div [style]="{'display': 'flex', 'justify-content':'space-between'}">
-        <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear()"></button>
-        <span class="p-input-icon-left ml-auto">
-          <i class="pi pi-search"></i>
-          <input pInputText type="text" (input)="filterData()" [(ngModel)]="globalFilter" placeholder="Search keyword" />
-      </span>
+      <div [style]="{'display': 'flex', 'justify-content':'space-between', 'align-items': 'center'}">
+
+
+        <p-toolbar>
+          <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear()"></button>
+          <button type="button" pButton pRipple icon="pi pi-file" (click)="dt.exportCSV({selectionOnly: selectionOnly})" class="mr-2" pTooltip="CSV" tooltipPosition="bottom"></button>
+          <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel(selectionOnly)" class="p-button-success mr-2"  pTooltip="XLS" tooltipPosition="bottom"></button>
+          <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf(selectionOnly)" class="p-button-warning mr-2" pTooltip="PDF" tooltipPosition="bottom"></button>
+        </p-toolbar>
+
+        <p-toolbar [style]="{'display': 'flex', 'justify-content':'space-between', 'align-items': 'top', 'gap': '20px'}">
+          <b>Selection Only Export</b>
+          <p-inputSwitch [(ngModel)]="selectionOnly" [styleClass]="'mt-2'"></p-inputSwitch>
+        </p-toolbar>
+
+
+        <div>
+          <span class="p-input-icon-left ml-auto">
+            <i class="pi pi-search"></i>
+            <input pInputText type="text" (input)="filterData()" [(ngModel)]="globalFilter" placeholder="Search keyword" />
+        </span>
+        </div>
       </div>
     </ng-template>
 

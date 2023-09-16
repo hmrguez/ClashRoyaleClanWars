@@ -14,6 +14,8 @@ import {MultiSelectModule} from "primeng/multiselect";
 import {DropdownModule} from "primeng/dropdown";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {CardModule} from "primeng/card";
+import {ToolbarModule} from "primeng/toolbar";
+import {InputSwitchModule} from "primeng/inputswitch";
 
 
 @NgModule({
@@ -33,7 +35,9 @@ import {CardModule} from "primeng/card";
     FormsModule,
     MultiSelectModule,
     DropdownModule,
-    CardModule
+    CardModule,
+    ToolbarModule,
+    InputSwitchModule
   ],
   providers: [],
   bootstrap: [AppComponent]
