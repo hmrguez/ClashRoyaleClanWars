@@ -89,6 +89,7 @@
             </div>
           </div>
         </th>
+        <th>Actions</th>
       </tr>
     </ng-template>
 
@@ -112,6 +113,9 @@
               {{ rowData[column.field]}}
             </ng-container>
           </div>
+        </td>
+        <td>
+          <button pButton pRipple icon="pi pi-pencil" class="p-button-info mr-2" (click)="openEdit(rowData)"></button>
         </td>
       </tr>
     </ng-template>
