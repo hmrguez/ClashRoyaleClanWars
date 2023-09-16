@@ -9,7 +9,10 @@ export interface IColumn {
 }
 
 export enum ColumnType{
-  General,
+  String,
+  LargeString,
+  Number,
+  Date,
   Enum,
   Image,
   Boolean

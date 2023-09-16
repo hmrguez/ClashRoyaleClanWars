@@ -27,6 +27,9 @@ export class GridComponent implements OnInit{
   selectionOnlyExport: boolean = false;
   selectedData: any[] = [];
 
+  visibleDialog: boolean = false
+  createEditModel: any = {}
+
   protected readonly ColumnType = ColumnType;
 
   ngOnInit(): void {
@@ -75,10 +78,22 @@ export class GridComponent implements OnInit{
   }
 
   openNew() {
+    this.createEditModel = {};
+    this.visibleDialog = true;
+  }
 
+  openEdit(model: any){
+    this.createEditModel = {}
+    this.visibleDialog = true
+  }
+
+  hideDialog(){
+    this.visibleDialog = false;
   }
 
   deleteSelectedProducts() {
-
+    for (const selectedDatum of this.selectedData) {
+      this.deleteFunc(selectedDatum)
+    }
   }
 }
