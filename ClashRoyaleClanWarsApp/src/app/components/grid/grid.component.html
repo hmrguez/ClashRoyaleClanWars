@@ -123,12 +123,14 @@
     <div class="field" *ngFor="let column of columns">
       <div [ngSwitch]="column.type">
         <ng-container *ngSwitchCase="ColumnType.String">
-          <label [for]="column.field">Name</label>
+          <label [for]="column.field">{{column.header}}</label>
           <input type="text" pInputText [id]="column.field" [(ngModel)]="createEditModel[column.field]" required autofocus />
           <small class="p-error" *ngIf="submitted && !createEditModel[column.field]">{{column.header}} is required.</small>
         </ng-container>
         <ng-container *ngSwitchCase="ColumnType.LargeString">
-
+          <label [for]="column.field">Description</label>
+          <textarea [id]="column.field" pInputTextarea [(ngModel)]="createEditModel[column.field]" required rows="3" cols="20"></textarea>
+          <small class="p-error" *ngIf="submitted && !createEditModel[column.field]">{{column.header}} is required.</small>
         </ng-container>
         <ng-container *ngSwitchCase="ColumnType.Number">
 

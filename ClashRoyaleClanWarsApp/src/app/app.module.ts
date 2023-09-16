@@ -18,6 +18,7 @@ import {ToolbarModule} from "primeng/toolbar";
 import {InputSwitchModule} from "primeng/inputswitch";
 import {TooltipModule} from "primeng/tooltip";
 import {DialogModule} from "primeng/dialog";
+import {InputTextareaModule} from "primeng/inputtextarea";
 
 
 @NgModule({
@@ -25,24 +26,25 @@ import {DialogModule} from "primeng/dialog";
     AppComponent,
     GridComponent
   ],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        AppRoutingModule,
-        TableModule,
-        BadgeModule,
-        ButtonModule,
-        RippleModule,
-        InputTextModule,
-        FormsModule,
-        MultiSelectModule,
-        DropdownModule,
-        CardModule,
-        ToolbarModule,
-        InputSwitchModule,
-        TooltipModule,
-        DialogModule
-    ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    TableModule,
+    BadgeModule,
+    ButtonModule,
+    RippleModule,
+    InputTextModule,
+    FormsModule,
+    MultiSelectModule,
+    DropdownModule,
+    CardModule,
+    ToolbarModule,
+    InputSwitchModule,
+    TooltipModule,
+    DialogModule,
+    InputTextareaModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })
