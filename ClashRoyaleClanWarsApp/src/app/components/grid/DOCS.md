@@ -46,8 +46,20 @@ const genderColumn: IColumn = {
 3. After both the data and columns are fetched or created. You need to instantiate the component
 
 ```angular2html
-<clash-grid [columns]="myColumns" [data]="myData"></clash-grid>
+<clash-grid [columns]="columns"
+            [data]="sampleData"
+            [adminUser]="true"
+            [title]="'Citizens'"
+            [createFunc]="createFunc"
+            [updateFunc]="updateFunc"
+            [deleteFunc]="deleteFunc"
+></clash-grid>
+
 ```
+
+adminUser is a boolean that should reflect that the user has access to create, edit and delete data
+
+All three functions are functions that the first argument is the model and are interacted when deleting, creating and updating data
 
 4. Enjoy!!!
 

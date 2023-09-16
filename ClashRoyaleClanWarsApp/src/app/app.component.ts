@@ -9,9 +9,9 @@ import {SelectItem} from "primeng/api";
 })
 export class AppComponent {
   columns: IColumn[] = [
-    { header: 'ID', field: 'id', type: ColumnType.General },
-    { header: 'Name', field: 'name', type: ColumnType.General },
-    { header: 'Age', field: 'age', type: ColumnType.General },
+    { header: 'ID', field: 'id', type: ColumnType.Number },
+    { header: 'Name', field: 'name', type: ColumnType.LargeString },
+    { header: 'Age', field: 'age', type: ColumnType.Number },
     {
       header: 'Gender',
       field: 'gender',
@@ -25,7 +25,7 @@ export class AppComponent {
         <SelectItem>{label: 'Female', value: 'Female'}
       ]
     },
-    { header: 'Country', field: 'country', type: ColumnType.General },
+    { header: 'Country', field: 'country', type: ColumnType.String },
     {
       header: 'Status',
       field: 'status',
@@ -115,4 +115,7 @@ sampleData: any[] = [
     country: 'USA',
     status: 'Active', verified: true
   },];
+
+  createFunc = (model: any) => console.log(model)
+  updateFunc = (model: any) => console.log(model)
 }

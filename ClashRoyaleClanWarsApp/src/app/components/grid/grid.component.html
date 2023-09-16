@@ -1,4 +1,30 @@
 <p-card [style]="{'margin': '1.3rem'}">
+
+  <p-toolbar styleClass="mb-4 flex justify-space-between">
+    <ng-container>
+      <div *ngIf="adminUser" [ngClass]="'top-bar-item'">
+        <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+        <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedProducts()" [disabled]="!selectedData || !selectedData.length"></button>
+      </div>
+      <div *ngIf="!adminUser" [style]="{'align-items': 'center'}">
+        <h4><b>{{ title }}</b></h4>
+      </div>
+    </ng-container>
+    <ng-container>
+      <div [ngClass]="'top-bar-item'">
+        <b>Selection Only Export</b>
+        <p-inputSwitch [(ngModel)]="selectionOnlyExport" [styleClass]="'mt-2'"></p-inputSwitch>
+      </div>
+    </ng-container>
+    <ng-container>
+      <div [ngClass]="'top-bar-item'">
+        <button type="button" pButton pRipple icon="pi pi-file" (click)="dt.exportCSV({selectionOnly: selectionOnlyExport})" class="mr-2" pTooltip="CSV" tooltipPosition="bottom"></button>
+        <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()" class="p-button-success mr-2"  pTooltip="XLS" tooltipPosition="bottom"></button>
+        <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf()" class="p-button-warning mr-2" pTooltip="PDF" tooltipPosition="bottom"></button>
+      </div>
+    </ng-container>
+  </p-toolbar>
+
   <p-table #dt
            [dataKey]="columns[0].field"
            [value]="data"
@@ -10,18 +36,7 @@
 
     <ng-template pTemplate="caption">
       <div [style]="{'display': 'flex', 'justify-content':'space-between', 'align-items': 'center'}">
-        <p-toolbar>
-          <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear()"></button>
-          <button type="button" pButton pRipple icon="pi pi-file" (click)="dt.exportCSV({selectionOnly: selectionOnlyExport})" class="mr-2" pTooltip="CSV" tooltipPosition="bottom"></button>
-          <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()" class="p-button-success mr-2"  pTooltip="XLS" tooltipPosition="bottom"></button>
-          <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf()" class="p-button-warning mr-2" pTooltip="PDF" tooltipPosition="bottom"></button>
-        </p-toolbar>
-
-        <p-toolbar [style]="{'display': 'flex', 'justify-content':'space-between', 'align-items': 'top', 'gap': '20px'}">
-          <b>Selection Only Export</b>
-          <p-inputSwitch [(ngModel)]="selectionOnlyExport" [styleClass]="'mt-2'"></p-inputSwitch>
-        </p-toolbar>
-
+        <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear()"></button>
 
         <div>
           <span class="p-input-icon-left ml-auto">
@@ -40,10 +55,18 @@
         <th [pSortableColumn]="column.field" *ngFor="let column of columns; let i = index">
           <div class="column-header">
             {{ column.header }}
-            <div [ngSwitch]="column.type">
 
-              <ng-container *ngSwitchCase="ColumnType.General">
+            <div [ngSwitch]="column.type">
+              <ng-container *ngSwitchCase="ColumnType.String || ColumnType.LargeString">
                 <p-columnFilter type="text" [field]="column.field" display="menu"></p-columnFilter>
+              </ng-container>
+
+              <ng-container *ngSwitchCase="ColumnType.Number">
+                <p-columnFilter type="numeric" [field]="column.field" display="menu"></p-columnFilter>
+              </ng-container>
+
+              <ng-container *ngSwitchCase="ColumnType.Date">
+                <p-columnFilter type="date" [field]="column.field" display="menu"></p-columnFilter>
               </ng-container>
 
               <ng-container *ngSwitchCase="ColumnType.Enum">
@@ -63,10 +86,10 @@
               </ng-container>
 
               <p-sortIcon *ngIf="column.type !== ColumnType.Image" [field]="column.field"></p-sortIcon>
-
             </div>
           </div>
         </th>
+        <th>Actions</th>
       </tr>
     </ng-template>
 
@@ -77,22 +100,77 @@
         </td>
         <td *ngFor="let column of columns">
           <div [ngSwitch]="column.type">
-            <ng-container *ngSwitchCase="ColumnType.General">
-              {{ rowData[column.field]}}
-            </ng-container>
             <ng-container *ngSwitchCase="ColumnType.Image">
               <img [src]="rowData[column.field]" alt="Image" />
             </ng-container>
             <ng-container *ngSwitchCase="ColumnType.Enum">
               <button pButton pRipple [label]="rowData[column.field]" [disabled]="true" [style]="{background: column.enumColors.get(rowData[column.field]), border: 'none'}"></button>
             </ng-container>
-            <ng-container *ngSwitchDefault>
+            <ng-container *ngSwitchCase="ColumnType.Boolean">
               <i class="pi" [ngClass]="{'true-icon pi-check-circle': rowData[column.field], 'false-icon pi-times-circle': !rowData[column.field]}"></i>
             </ng-container>
+            <ng-container *ngSwitchDefault>
+              {{ rowData[column.field]}}
+            </ng-container>
+          </div>
+        </td>
+        <td>
+          <div [ngClass]="'top-bar-item'" [style]="{'justify-content': 'space-around', 'gap': '2px'}">
+            <button *ngIf="adminUser" pButton pRipple icon="pi pi-pencil" class="p-button-info mr-2" (click)="openEdit(rowData)"></button>
+            <button *ngIf="detailPage!=='' " pButton pRipple icon="pi pi-cog" class="p-button-secondary mr-2" [routerLink]="detailPage + '/' + rowData[primaryKey]"></button>
           </div>
         </td>
       </tr>
     </ng-template>
   </p-table>
-
 </p-card>
+
+<p-dialog [(visible)]="visibleDialog" [style]="{width: '450px'}" [header]="title + ' Details'" [modal]="true" styleClass="p-fluid">
+  <ng-template pTemplate="content">
+    <form #myForm="ngForm" [formGroup]="createEditForm">
+      <div class="field" *ngFor="let column of columns">
+        <div [ngSwitch]="column.type">
+          <ng-container *ngSwitchCase="ColumnType.String">
+            <label [for]="column.field" [style]="{'margin-bottom': '.5rem'}">{{ column.header }}</label>
+            <input pInputText type="text" [style]="{'margin-bottom': '1.2rem'}" [id]="column.field" [formControlName]="column.field"/>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="ColumnType.LargeString">
+            <label [for]="column.field" [style]="{'margin-bottom': '.5rem'}">{{ column.header }}</label>
+            <textarea [id]="column.field" pInputTextarea [style]="{'margin-bottom': '1.2rem'}" [formControlName]="column.field" rows="3" cols="20"></textarea>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="ColumnType.Enum">
+            <label [for]="column.field" [style]="{'margin-bottom': '.5rem'}">{{ column.header }}</label>
+            <p-dropdown [style]="{'margin-bottom': '1.2rem'}" [formControlName]="column.field" [inputId]="column.field" [options]="column.enumOptions" appendTo="body">
+              <ng-template let-option pTemplate="item">
+                <button pButton pRipple [label]="option.label" [disabled]="true" [style]="{ background: column.enumColors?.get(option.label), border: 'none'}" ></button>
+              </ng-template>
+            </p-dropdown>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="ColumnType.Date">
+            <label [for]="column.field" [style]="{'margin-bottom': '.5rem'}">{{column.header}} </label>
+            <p-calendar [style]="{'margin-bottom': '1.2rem'}" [formControlName]="column.field" [showIcon]="true" [inputId]="column.field" ></p-calendar>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="ColumnType.Number">
+            <label [for]="column.field" [style]="{'margin-bottom': '.5rem'}">{{ column.header }}</label>
+            <p-inputNumber [style]="{'margin-bottom': '1.2rem'}" [id]="column.field" [formControlName]="column.field" locale="en-US" placeholder="0"></p-inputNumber>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="ColumnType.Boolean">
+            <label [for]="column.field" [style]="{'margin-bottom': '.5rem', 'display': 'block'}">{{ column.header }}</label>
+            <p-checkbox [style]="{'margin-bottom': '1.2rem'}" [formControlName]="column.field" [binary]="true" [inputId]="column.field"></p-checkbox>
+          </ng-container>
+        </div>
+      </div>
+    </form>
+
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+    <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveProduct()" [disabled]="!createEditForm.valid"></button>
+  </ng-template>
+</p-dialog>
