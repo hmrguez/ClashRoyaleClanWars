@@ -56,12 +56,16 @@
         <th style="width: 3rem">
           <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
         </th>
-        <th [pSortableColumn]="column.field" *ngFor="let column of columns; let i = index">
+        <th [pSortableColumn]="column.field" *ngFor="let column of columns">
           <div class="column-header">
             {{ column.header }}
 
             <div [ngSwitch]="column.type">
-              <ng-container *ngSwitchCase="ColumnType.String || ColumnType.LargeString">
+              <ng-container *ngSwitchCase="ColumnType.LargeString">
+                <p-columnFilter type="text" [field]="column.field" display="menu"></p-columnFilter>
+              </ng-container>
+
+              <ng-container *ngSwitchCase="ColumnType.String">
                 <p-columnFilter type="text" [field]="column.field" display="menu"></p-columnFilter>
               </ng-container>
 
