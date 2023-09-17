@@ -116,15 +116,21 @@ export class GridComponent implements OnInit{
     for (const selectedDatum of this.selectedData) {
       this.dataService.delete(selectedDatum[this.primaryKey])
     }
+
+    this.loadData().then()
   }
 
   saveProduct() {
     if(!this.createEditForm.valid) return;
     const model = this.createEditForm.value
     if(this.isCreating){
-      this.dataService.create(model)
+      this.dataService.create(model).subscribe({
+        next: value => this.loadData()
+      })
     } else {
-      this.dataService.update(model[this.primaryKey], model)
+      this.dataService.update(model[this.primaryKey], model).subscribe({
+        next: value => this.loadData()
+      })
     }
 
     this.hideDialog()
