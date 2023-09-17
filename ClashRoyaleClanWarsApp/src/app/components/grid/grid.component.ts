@@ -126,6 +126,7 @@ export class GridComponent implements OnInit{
 
   deleteSelectedProducts() {
     for (const selectedDatum of this.selectedData) {
+      console.log(selectedDatum)
       this.dataService.delete(selectedDatum[this.primaryKey]).subscribe({
         next: () => this.messageService.add({severity:'success', summary: this.title + ' deleted'}),
         error: () => this.messageService.add({severity: 'danger', summary: 'Error', detail: 'Error while deleting data. Try again later'})
@@ -207,5 +208,19 @@ export class GridComponent implements OnInit{
 
   private editContextMenuAction() {
     this.openEdit(this.selectedDatum)
+  }
+
+  showConfirm() {
+    this.messageService.clear();
+    this.messageService.add({key: 'c', sticky: true, severity:'warn', summary:'Are you sure you want to delete all selected?', detail:'Confirm to proceed'});
+  }
+
+  onConfirm() {
+    this.deleteSelectedProducts()
+    this.messageService.clear('c');
+  }
+
+  onReject() {
+    this.messageService.clear('c');
   }
 }

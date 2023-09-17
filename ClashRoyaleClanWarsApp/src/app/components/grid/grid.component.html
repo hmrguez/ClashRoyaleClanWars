@@ -1,5 +1,24 @@
 <p-contextMenu #cm [model]="menuItems"></p-contextMenu>
 <p-toast></p-toast>
+<p-toast position="bottom-center" key="c" (onClose)="onReject()" [baseZIndex]="5000">
+  <ng-template let-message pTemplate="message">
+    <div class="flex flex-column" style="flex: 1">
+      <div class="text-center">
+        <i class="pi pi-exclamation-triangle" style="font-size: 3rem"></i>
+        <h4>{{message.summary}}</h4>
+        <p>{{message.detail}}</p>
+      </div>
+      <div [style]="{'display': 'flex', 'justify-content': 'space-around'}" >
+        <div class="">
+          <button type="button" pButton (click)="onConfirm()" label="Yes" class="p-button-success"></button>
+        </div>
+        <div class="">
+          <button type="button" pButton (click)="onReject()" label="No" class="p-button-secondary"></button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</p-toast>
 
 <p-card [style]="{'margin': '1.3rem'}">
 
@@ -7,7 +26,7 @@
     <ng-container>
       <div *ngIf="adminUser" [ngClass]="'top-bar-item'">
         <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
-        <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedProducts()" [disabled]="!selectedData || !selectedData.length"></button>
+        <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger" (click)="showConfirm()" [disabled]="!selectedData || !selectedData.length"></button>
       </div>
       <div *ngIf="!adminUser" [style]="{'align-items': 'center'}">
         <h4><b>{{ title }}</b></h4>
