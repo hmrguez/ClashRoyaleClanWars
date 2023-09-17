@@ -22,6 +22,7 @@ import {InputTextareaModule} from "primeng/inputtextarea";
 import {PaginatorModule} from "primeng/paginator";
 import {CheckboxModule} from "primeng/checkbox";
 import {CalendarModule} from "primeng/calendar";
+import {ContextMenuModule} from "primeng/contextmenu";
 
 
 @NgModule({
@@ -29,29 +30,30 @@ import {CalendarModule} from "primeng/calendar";
     AppComponent,
     GridComponent
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    TableModule,
-    BadgeModule,
-    ButtonModule,
-    RippleModule,
-    InputTextModule,
-    FormsModule,
-    MultiSelectModule,
-    DropdownModule,
-    CardModule,
-    ToolbarModule,
-    InputSwitchModule,
-    TooltipModule,
-    DialogModule,
-    InputTextareaModule,
-    PaginatorModule,
-    CheckboxModule,
-    CalendarModule,
-    ReactiveFormsModule,
-  ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        TableModule,
+        BadgeModule,
+        ButtonModule,
+        RippleModule,
+        InputTextModule,
+        FormsModule,
+        MultiSelectModule,
+        DropdownModule,
+        CardModule,
+        ToolbarModule,
+        InputSwitchModule,
+        TooltipModule,
+        DialogModule,
+        InputTextareaModule,
+        PaginatorModule,
+        CheckboxModule,
+        CalendarModule,
+        ReactiveFormsModule,
+        ContextMenuModule,
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

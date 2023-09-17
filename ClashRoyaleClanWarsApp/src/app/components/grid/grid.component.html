@@ -1,3 +1,5 @@
+<p-contextMenu #cm [model]="menuItems"></p-contextMenu>
+
 <p-card [style]="{'margin': '1.3rem'}">
 
   <p-toolbar styleClass="mb-4 flex justify-space-between">
@@ -32,6 +34,8 @@
            [paginator]="true" [rows]="10"
            [globalFilterFields]="filterFields"
            [(selection)]="selectedData"
+           [(contextMenuSelection)]="selectedDatum"
+           [contextMenu]="cm"
            responsiveLayout="scroll">
 
     <ng-template pTemplate="caption">
@@ -94,7 +98,7 @@
     </ng-template>
 
     <ng-template pTemplate="body" let-rowData let-columns="columns">
-      <tr>
+      <tr [pContextMenuRow]="rowData">
         <td>
           <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
         </td>

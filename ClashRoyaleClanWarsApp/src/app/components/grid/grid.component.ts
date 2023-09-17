@@ -7,6 +7,8 @@ import autoTable from 'jspdf-autotable'
 import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
 import {CrudService} from "../../services/CrudService";
 import {Observable} from "rxjs";
+import {MenuItem} from "primeng/api";
+import {Route, Router} from "@angular/router";
 
 @Component({
   selector: 'clash-grid',
@@ -37,12 +39,24 @@ export class GridComponent implements OnInit{
   visibleDialog: boolean = false
   isCreating: boolean = false; // true for creating and false for editing
 
+  menuItems: MenuItem[] = [];
+  selectedDatum: any;
+
   protected readonly ColumnType = ColumnType;
+
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
     this.loadData().then();
     this.createFormModel();
     this.filterFields = this.columns.map(x=>x.field)
+
+    this.menuItems = [
+      { label: 'View ', visible: this.detailPage != '', icon: 'pi pi-fw pi-search', command: () => this.viewContextMenuAction()},
+      { label: 'Delete', visible: this.adminUser, icon: 'pi pi-fw pi-times', command: () => this.deleteContextMenuAction()},
+      { label: 'Edit', visible: this.adminUser, icon: 'pi pi-fw pi-pencil', command: () => this.editContextMenuAction()},
+    ]
+    console.log(this.menuItems)
   }
 
   private async loadData() {
@@ -169,5 +183,15 @@ export class GridComponent implements OnInit{
     this.createEditForm = new FormGroup(formControls);
   }
 
+  viewContextMenuAction(){
+    this.router.navigate([this.detailPage + "/" + this.selectedDatum[this.primaryKey]]).then()
+  }
 
+  private deleteContextMenuAction() {
+    this.dataService.delete(this.selectedDatum[this.primaryKey]).subscribe({next: this.loadData})
+  }
+
+  private editContextMenuAction() {
+    this.openEdit(this.selectedDatum)
+  }
 }
