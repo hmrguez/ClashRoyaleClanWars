@@ -23,6 +23,8 @@ import {PaginatorModule} from "primeng/paginator";
 import {CheckboxModule} from "primeng/checkbox";
 import {CalendarModule} from "primeng/calendar";
 import {ContextMenuModule} from "primeng/contextmenu";
+import {ToastModule} from "primeng/toast";
+import {MessageService} from "primeng/api";
 
 
 @NgModule({
@@ -30,31 +32,32 @@ import {ContextMenuModule} from "primeng/contextmenu";
     AppComponent,
     GridComponent
   ],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        AppRoutingModule,
-        TableModule,
-        BadgeModule,
-        ButtonModule,
-        RippleModule,
-        InputTextModule,
-        FormsModule,
-        MultiSelectModule,
-        DropdownModule,
-        CardModule,
-        ToolbarModule,
-        InputSwitchModule,
-        TooltipModule,
-        DialogModule,
-        InputTextareaModule,
-        PaginatorModule,
-        CheckboxModule,
-        CalendarModule,
-        ReactiveFormsModule,
-        ContextMenuModule,
-    ],
-  providers: [],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    TableModule,
+    BadgeModule,
+    ButtonModule,
+    RippleModule,
+    InputTextModule,
+    FormsModule,
+    MultiSelectModule,
+    DropdownModule,
+    CardModule,
+    ToolbarModule,
+    InputSwitchModule,
+    TooltipModule,
+    DialogModule,
+    InputTextareaModule,
+    PaginatorModule,
+    CheckboxModule,
+    CalendarModule,
+    ReactiveFormsModule,
+    ContextMenuModule,
+    ToastModule,
+  ],
+  providers: [MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

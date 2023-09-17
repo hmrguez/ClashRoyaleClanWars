@@ -7,7 +7,7 @@ import autoTable from 'jspdf-autotable'
 import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
 import {CrudService} from "../../services/CrudService";
 import {Observable} from "rxjs";
-import {MenuItem} from "primeng/api";
+import {MenuItem, MessageService} from "primeng/api";
 import {Route, Router} from "@angular/router";
 
 @Component({
@@ -44,7 +44,7 @@ export class GridComponent implements OnInit{
 
   protected readonly ColumnType = ColumnType;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private messageService: MessageService) { }
 
   ngOnInit(): void {
     this.loadData().then();
@@ -126,7 +126,10 @@ export class GridComponent implements OnInit{
 
   deleteSelectedProducts() {
     for (const selectedDatum of this.selectedData) {
-      this.dataService.delete(selectedDatum[this.primaryKey])
+      this.dataService.delete(selectedDatum[this.primaryKey]).subscribe({
+        next: () => this.messageService.add({severity:'success', summary: this.title + ' deleted'}),
+        error: () => this.messageService.add({severity: 'danger', summary: 'Error', detail: 'Error while deleting data. Try again later'})
+      })
     }
 
     this.loadData().then()
@@ -137,11 +140,23 @@ export class GridComponent implements OnInit{
     const model = this.createEditForm.value
     if(this.isCreating){
       this.dataService.create(model).subscribe({
-        next: () => this.loadData()
+        next: () => {
+          this.messageService.add({severity: 'success', summary: 'Created ' + this.title})
+          this.loadData().then()
+        },
+        error: () => {
+          this.messageService.add({severity: 'danger', summary: 'Error', detail: 'Error while creating ' + this.title + '. Try again later'})
+        }
       })
     } else {
       this.dataService.update(model[this.primaryKey], model).subscribe({
-        next: () => this.loadData()
+        next: () => {
+          this.messageService.add({severity: 'success', summary: 'Updated ' + this.title})
+          this.loadData().then()
+        },
+        error: () => {
+          this.messageService.add({severity: 'danger', summary: 'Error', detail: 'Error while updating ' + this.title + '. Try again later'})
+        }
       })
     }
 
