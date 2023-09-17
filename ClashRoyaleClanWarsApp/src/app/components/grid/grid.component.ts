@@ -5,7 +5,7 @@ import * as FileSaver from 'file-saver';
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
-import {CrudService} from "../../services/ICrudService";
+import {CrudService} from "../../services/CrudService";
 import {Observable} from "rxjs";
 
 @Component({
