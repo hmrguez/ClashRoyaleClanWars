@@ -56,7 +56,6 @@ export class GridComponent implements OnInit{
       { label: 'Delete', visible: this.adminUser, icon: 'pi pi-fw pi-times', command: () => this.deleteContextMenuAction()},
       { label: 'Edit', visible: this.adminUser, icon: 'pi pi-fw pi-pencil', command: () => this.editContextMenuAction()},
     ]
-    console.log(this.menuItems)
   }
 
   private async loadData() {

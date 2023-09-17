@@ -93,7 +93,6 @@
             </div>
           </div>
         </th>
-        <th>Actions</th>
       </tr>
     </ng-template>
 
@@ -116,13 +115,6 @@
             <ng-container *ngSwitchDefault>
               {{ rowData[column.field]}}
             </ng-container>
-          </div>
-        </td>
-        <td>
-          <div [ngClass]="'top-bar-item'" [style]="{'justify-content': 'space-around', 'gap': '2px'}">
-            <button *ngIf="adminUser" pButton pRipple icon="pi pi-pencil" class="p-button-info mr-2" (click)="openEdit(rowData)"></button>
-            <button *ngIf="detailPage!=='' " pButton pRipple icon="pi pi-cog" class="p-button-secondary mr-2" [routerLink]="detailPage + '/' + rowData[primaryKey]"></button>
-            <button *ngIf="adminUser" pButton pRipple icon="pi pi-trash" class="p-button-danger mr-2" (click)="dataService.delete(rowData[primaryKey])"></button>
           </div>
         </td>
       </tr>
