@@ -7,7 +7,6 @@ import autoTable from 'jspdf-autotable'
 import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
 import {CrudService} from "../../services/ICrudService";
 import {Observable} from "rxjs";
-import {MenuItem} from "primeng/api";
 
 @Component({
   selector: 'clash-grid',
@@ -125,11 +124,11 @@ export class GridComponent implements OnInit{
     const model = this.createEditForm.value
     if(this.isCreating){
       this.dataService.create(model).subscribe({
-        next: value => this.loadData()
+        next: () => this.loadData()
       })
     } else {
       this.dataService.update(model[this.primaryKey], model).subscribe({
-        next: value => this.loadData()
+        next: () => this.loadData()
       })
     }
 
