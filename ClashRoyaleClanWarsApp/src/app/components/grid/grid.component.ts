@@ -7,6 +7,8 @@ import autoTable from 'jspdf-autotable'
 import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
 import {CrudService} from "../../services/CrudService";
 import {Observable} from "rxjs";
+import {MenuItem, MessageService} from "primeng/api";
+import {Route, Router} from "@angular/router";
 
 @Component({
   selector: 'clash-grid',
@@ -37,12 +39,23 @@ export class GridComponent implements OnInit{
   visibleDialog: boolean = false
   isCreating: boolean = false; // true for creating and false for editing
 
+  menuItems: MenuItem[] = [];
+  selectedDatum: any;
+
   protected readonly ColumnType = ColumnType;
+
+  constructor(private router: Router, private messageService: MessageService) { }
 
   ngOnInit(): void {
     this.loadData().then();
     this.createFormModel();
     this.filterFields = this.columns.map(x=>x.field)
+
+    this.menuItems = [
+      { label: 'View ', visible: this.detailPage != '', icon: 'pi pi-fw pi-search', command: () => this.viewContextMenuAction()},
+      { label: 'Delete', visible: this.adminUser, icon: 'pi pi-fw pi-times', command: () => this.deleteContextMenuAction()},
+      { label: 'Edit', visible: this.adminUser, icon: 'pi pi-fw pi-pencil', command: () => this.editContextMenuAction()},
+    ]
   }
 
   private async loadData() {
@@ -113,7 +126,11 @@ export class GridComponent implements OnInit{
 
   deleteSelectedProducts() {
     for (const selectedDatum of this.selectedData) {
-      this.dataService.delete(selectedDatum[this.primaryKey])
+      console.log(selectedDatum)
+      this.dataService.delete(selectedDatum[this.primaryKey]).subscribe({
+        next: () => this.messageService.add({severity:'success', summary: this.title + ' deleted'}),
+        error: () => this.messageService.add({severity: 'danger', summary: 'Error', detail: 'Error while deleting data. Try again later'})
+      })
     }
 
     this.loadData().then()
@@ -124,11 +141,23 @@ export class GridComponent implements OnInit{
     const model = this.createEditForm.value
     if(this.isCreating){
       this.dataService.create(model).subscribe({
-        next: () => this.loadData()
+        next: () => {
+          this.messageService.add({severity: 'success', summary: 'Created ' + this.title})
+          this.loadData().then()
+        },
+        error: () => {
+          this.messageService.add({severity: 'danger', summary: 'Error', detail: 'Error while creating ' + this.title + '. Try again later'})
+        }
       })
     } else {
       this.dataService.update(model[this.primaryKey], model).subscribe({
-        next: () => this.loadData()
+        next: () => {
+          this.messageService.add({severity: 'success', summary: 'Updated ' + this.title})
+          this.loadData().then()
+        },
+        error: () => {
+          this.messageService.add({severity: 'danger', summary: 'Error', detail: 'Error while updating ' + this.title + '. Try again later'})
+        }
       })
     }
 
@@ -169,5 +198,29 @@ export class GridComponent implements OnInit{
     this.createEditForm = new FormGroup(formControls);
   }
 
+  viewContextMenuAction(){
+    this.router.navigate([this.detailPage + "/" + this.selectedDatum[this.primaryKey]]).then()
+  }
 
+  private deleteContextMenuAction() {
+    this.dataService.delete(this.selectedDatum[this.primaryKey]).subscribe({next: this.loadData})
+  }
+
+  private editContextMenuAction() {
+    this.openEdit(this.selectedDatum)
+  }
+
+  showConfirm() {
+    this.messageService.clear();
+    this.messageService.add({key: 'c', sticky: true, severity:'warn', summary:'Are you sure you want to delete all selected?', detail:'Confirm to proceed'});
+  }
+
+  onConfirm() {
+    this.deleteSelectedProducts()
+    this.messageService.clear('c');
+  }
+
+  onReject() {
+    this.messageService.clear('c');
+  }
 }

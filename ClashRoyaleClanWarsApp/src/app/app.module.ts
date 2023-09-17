@@ -22,6 +22,9 @@ import {InputTextareaModule} from "primeng/inputtextarea";
 import {PaginatorModule} from "primeng/paginator";
 import {CheckboxModule} from "primeng/checkbox";
 import {CalendarModule} from "primeng/calendar";
+import {ContextMenuModule} from "primeng/contextmenu";
+import {ToastModule} from "primeng/toast";
+import {MessageService} from "primeng/api";
 
 
 @NgModule({
@@ -51,8 +54,10 @@ import {CalendarModule} from "primeng/calendar";
     CheckboxModule,
     CalendarModule,
     ReactiveFormsModule,
+    ContextMenuModule,
+    ToastModule,
   ],
-  providers: [],
+  providers: [MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

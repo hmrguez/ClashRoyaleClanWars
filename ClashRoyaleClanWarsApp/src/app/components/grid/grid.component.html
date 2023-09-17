@@ -1,10 +1,32 @@
+<p-contextMenu #cm [model]="menuItems"></p-contextMenu>
+<p-toast></p-toast>
+<p-toast position="bottom-center" key="c" (onClose)="onReject()" [baseZIndex]="5000">
+  <ng-template let-message pTemplate="message">
+    <div class="flex flex-column" style="flex: 1">
+      <div class="text-center">
+        <i class="pi pi-exclamation-triangle" style="font-size: 3rem"></i>
+        <h4>{{message.summary}}</h4>
+        <p>{{message.detail}}</p>
+      </div>
+      <div [style]="{'display': 'flex', 'justify-content': 'space-around'}" >
+        <div class="">
+          <button type="button" pButton (click)="onConfirm()" label="Yes" class="p-button-success"></button>
+        </div>
+        <div class="">
+          <button type="button" pButton (click)="onReject()" label="No" class="p-button-secondary"></button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</p-toast>
+
 <p-card [style]="{'margin': '1.3rem'}">
 
   <p-toolbar styleClass="mb-4 flex justify-space-between">
     <ng-container>
       <div *ngIf="adminUser" [ngClass]="'top-bar-item'">
         <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
-        <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedProducts()" [disabled]="!selectedData || !selectedData.length"></button>
+        <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger" (click)="showConfirm()" [disabled]="!selectedData || !selectedData.length"></button>
       </div>
       <div *ngIf="!adminUser" [style]="{'align-items': 'center'}">
         <h4><b>{{ title }}</b></h4>
@@ -32,6 +54,8 @@
            [paginator]="true" [rows]="10"
            [globalFilterFields]="filterFields"
            [(selection)]="selectedData"
+           [(contextMenuSelection)]="selectedDatum"
+           [contextMenu]="cm"
            responsiveLayout="scroll">
 
     <ng-template pTemplate="caption">
@@ -52,12 +76,16 @@
         <th style="width: 3rem">
           <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
         </th>
-        <th [pSortableColumn]="column.field" *ngFor="let column of columns; let i = index">
+        <th [pSortableColumn]="column.field" *ngFor="let column of columns">
           <div class="column-header">
             {{ column.header }}
 
             <div [ngSwitch]="column.type">
-              <ng-container *ngSwitchCase="ColumnType.String || ColumnType.LargeString">
+              <ng-container *ngSwitchCase="ColumnType.LargeString">
+                <p-columnFilter type="text" [field]="column.field" display="menu"></p-columnFilter>
+              </ng-container>
+
+              <ng-container *ngSwitchCase="ColumnType.String">
                 <p-columnFilter type="text" [field]="column.field" display="menu"></p-columnFilter>
               </ng-container>
 
@@ -89,12 +117,11 @@
             </div>
           </div>
         </th>
-        <th>Actions</th>
       </tr>
     </ng-template>
 
     <ng-template pTemplate="body" let-rowData let-columns="columns">
-      <tr>
+      <tr [pContextMenuRow]="rowData">
         <td>
           <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
         </td>
@@ -112,13 +139,6 @@
             <ng-container *ngSwitchDefault>
               {{ rowData[column.field]}}
             </ng-container>
-          </div>
-        </td>
-        <td>
-          <div [ngClass]="'top-bar-item'" [style]="{'justify-content': 'space-around', 'gap': '2px'}">
-            <button *ngIf="adminUser" pButton pRipple icon="pi pi-pencil" class="p-button-info mr-2" (click)="openEdit(rowData)"></button>
-            <button *ngIf="detailPage!=='' " pButton pRipple icon="pi pi-cog" class="p-button-secondary mr-2" [routerLink]="detailPage + '/' + rowData[primaryKey]"></button>
-            <button *ngIf="adminUser" pButton pRipple icon="pi pi-trash" class="p-button-danger mr-2" (click)="dataService.delete(rowData[primaryKey])"></button>
           </div>
         </td>
       </tr>
