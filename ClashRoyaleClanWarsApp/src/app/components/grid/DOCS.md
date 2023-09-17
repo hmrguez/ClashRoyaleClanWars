@@ -16,13 +16,6 @@ export interface IColumn {
   // This represents the items that will be used in the dropdown selection list for the filtering
   enumOptions?: SelectItem[]
 }
-
-export enum ColumnType{
-  General,
-  Enum,
-  Image,
-  Boolean
-}
 ```
 
 For example. If you have people and want to create the Gender column it would go like this
@@ -47,19 +40,21 @@ const genderColumn: IColumn = {
 
 ```angular2html
 <clash-grid [columns]="columns"
-            [data]="sampleData"
-            [adminUser]="true"
+            [adminUser]="false"
             [title]="'Citizens'"
-            [createFunc]="createFunc"
-            [updateFunc]="updateFunc"
-            [deleteFunc]="deleteFunc"
+            [primaryKey]="'id'"
+            [detailPage]="'citizen'"
+            [dataService]="myDataService"
+            [customFetchDataFunc]="getData"
 ></clash-grid>
 
 ```
 
 adminUser is a boolean that should reflect that the user has access to create, edit and delete data
+myDataService is an heir of the CrudService<T> class, that will be used in for the creation, deletion, fetching and updating of the data
+detailPage is an optional parameter for the base route of a detail of a specific row, you can access it with the cog at the end of every row, if empty no cog is displayed
 
-All three functions are functions that the first argument is the model and are interacted when deleting, creating and updating data
+The way the table works is that it fetches data automatically using the dataService.getAll() method, but you can use another custom fetch function by providing it through the customFetchDataFunc param
 
 4. Enjoy!!!
 

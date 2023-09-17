@@ -5,6 +5,8 @@ import * as FileSaver from 'file-saver';
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
+import {CrudService} from "../../services/CrudService";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'clash-grid',
@@ -14,16 +16,16 @@ import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
 
 export class GridComponent implements OnInit{
   @Input() title: string = '';
-  @Input() data: any[] = [];
   @Input() columns: IColumn[] = [];
   @Input() primaryKey: string = '';
   @Input() detailPage: string = ''
   @ViewChild('dt') table!: Table;
 
-  @Input() adminUser: boolean = false
-  @Input() createFunc!: (model: any) => any
-  @Input() deleteFunc!: (model: any) => any
-  @Input() updateFunc!: (model: any) => any
+  @Input() dataService!: CrudService<any>;
+  @Input() adminUser: boolean = false;
+  @Input() customFetchDataFunc!: () => Observable<any[]>
+
+  data: any[] = []
 
   filterFields: string[] = [];
   globalFilter: string = '';
@@ -32,14 +34,24 @@ export class GridComponent implements OnInit{
 
   @ViewChild('myForm', { static: false }) myForm!: NgForm;
   createEditForm!: FormGroup;
-  visibleDialog: boolean = true
+  visibleDialog: boolean = false
   isCreating: boolean = false; // true for creating and false for editing
 
   protected readonly ColumnType = ColumnType;
 
   ngOnInit(): void {
+    this.loadData().then();
     this.createFormModel();
     this.filterFields = this.columns.map(x=>x.field)
+  }
+
+  private async loadData() {
+    const fetchData = this.customFetchDataFunc ? this.customFetchDataFunc() : this.dataService.getAll();
+    fetchData.subscribe({
+        next: (v) => this.data = v,
+        error: (e) => console.log(e)
+      }
+    )
   }
 
   filterData() {
@@ -74,7 +86,7 @@ export class GridComponent implements OnInit{
     });
   }
 
-  saveAsExcelFile(buffer: any, fileName: string): void {
+  private saveAsExcelFile(buffer: any, fileName: string): void {
     let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
     let EXCEL_EXTENSION = '.xlsx';
     const data: Blob = new Blob([buffer], {
@@ -101,23 +113,29 @@ export class GridComponent implements OnInit{
 
   deleteSelectedProducts() {
     for (const selectedDatum of this.selectedData) {
-      this.deleteFunc(selectedDatum)
+      this.dataService.delete(selectedDatum[this.primaryKey])
     }
+
+    this.loadData().then()
   }
 
   saveProduct() {
     if(!this.createEditForm.valid) return;
     const model = this.createEditForm.value
     if(this.isCreating){
-      this.createFunc(model)
+      this.dataService.create(model).subscribe({
+        next: () => this.loadData()
+      })
     } else {
-      this.updateFunc(model)
+      this.dataService.update(model[this.primaryKey], model).subscribe({
+        next: () => this.loadData()
+      })
     }
 
     this.hideDialog()
   }
 
-  createFormModel(model: any = null){
+  private createFormModel(model: any = null){
     const formControls: { [key: string]: FormControl } = {};
 
     this.columns.forEach((column) => {
@@ -150,4 +168,6 @@ export class GridComponent implements OnInit{
 
     this.createEditForm = new FormGroup(formControls);
   }
+
+
 }
