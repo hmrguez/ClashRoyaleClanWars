@@ -5,6 +5,8 @@ import * as FileSaver from 'file-saver';
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
+import {CrudService} from "../../services/ICrudService";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'clash-grid',
@@ -19,11 +21,9 @@ export class GridComponent implements OnInit{
   @Input() detailPage: string = ''
   @ViewChild('dt') table!: Table;
 
-  @Input() adminUser: boolean = false
-  @Input() fetchDataFunc!: () => Promise<any[]>
-  @Input() createFunc!: (model: any) => any
-  @Input() deleteFunc!: (model: any) => any
-  @Input() updateFunc!: (model: any) => any
+  @Input() dataService!: CrudService<any>;
+  @Input() adminUser: boolean = false;
+  @Input() customFetchDataFunc!: () => Observable<any[]>
 
   data: any[] = []
 
@@ -43,6 +43,15 @@ export class GridComponent implements OnInit{
     this.loadData().then();
     this.createFormModel();
     this.filterFields = this.columns.map(x=>x.field)
+  }
+
+  private async loadData() {
+    const fetchData = this.customFetchDataFunc ? this.customFetchDataFunc() : this.dataService.getAll();
+    fetchData.subscribe({
+        next: (v) => this.data = v,
+        error: (e) => console.log(e)
+      }
+    )
   }
 
   filterData() {
@@ -104,7 +113,7 @@ export class GridComponent implements OnInit{
 
   deleteSelectedProducts() {
     for (const selectedDatum of this.selectedData) {
-      this.deleteFunc(selectedDatum)
+      this.dataService.delete(selectedDatum[this.primaryKey])
     }
   }
 
@@ -112,9 +121,9 @@ export class GridComponent implements OnInit{
     if(!this.createEditForm.valid) return;
     const model = this.createEditForm.value
     if(this.isCreating){
-      this.createFunc(model)
+      this.dataService.create(model)
     } else {
-      this.updateFunc(model)
+      this.dataService.update(model[this.primaryKey], model)
     }
 
     this.hideDialog()
@@ -154,7 +163,5 @@ export class GridComponent implements OnInit{
     this.createEditForm = new FormGroup(formControls);
   }
 
-  private async loadData() {
-      this.data = await this.fetchDataFunc()
-  }
+
 }

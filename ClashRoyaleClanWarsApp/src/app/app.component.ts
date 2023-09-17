@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {ColumnType, IColumn} from "./components/grid/IColumn";
 import {SelectItem} from "primeng/api";
+import {of} from "rxjs";
 
 @Component({
   selector: 'app-root',
@@ -42,7 +43,7 @@ export class AppComponent {
     { header: 'Verified', field: 'verified', type: ColumnType.Boolean },
   ];
 
-sampleData: any[] = [
+  sampleData: any[] = [
     {id: 1, name: 'John Doe', age: 30, gender: 'Male', country: 'USA', status: 'Active', verified: true}, {
 
     id: 2,
@@ -115,8 +116,5 @@ sampleData: any[] = [
     country: 'USA',
     status: 'Active', verified: true
   },];
-
-  createFunc = (model: any) => console.log(model)
-  updateFunc = (model: any) => console.log(model)
-  fetchData = () => new Promise<any[]>((resolve, reject) => resolve(this.sampleData))
+  getData = () => of(this.sampleData)
 }
