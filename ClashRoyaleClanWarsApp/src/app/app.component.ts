@@ -9,112 +9,75 @@ import {of} from "rxjs";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  columns: IColumn[] = [
-    { header: 'ID', field: 'id', type: ColumnType.Number },
-    { header: 'Name', field: 'name', type: ColumnType.LargeString },
-    { header: 'Age', field: 'age', type: ColumnType.Number },
-    {
-      header: 'Gender',
-      field: 'gender',
-      type: ColumnType.Enum,
-      enumColors: new Map<string, string>([
-        ['Male', 'blue'],
-        ['Female', 'pink'],
-      ]),
-      enumOptions: [
-        <SelectItem>{label: 'Male', value: 'Male'},
-        <SelectItem>{label: 'Female', value: 'Female'}
-      ]
-    },
-    { header: 'Country', field: 'country', type: ColumnType.String },
-    {
-      header: 'Status',
-      field: 'status',
-      type: ColumnType.Enum,
-      enumColors: new Map<string, string>([
-        ['Active', 'green'],
-        ['Inactive', 'red'],
-      ]),
-      enumOptions: [
-        <SelectItem>{label: 'Active', value: 'Active'},
-        <SelectItem>{label: 'Inactive', value: 'Inactive'}
-      ]
-    },
-    { header: 'Verified', field: 'verified', type: ColumnType.Boolean },
-  ];
+  sampleData: any;
+  columns: any;
 
-  sampleData: any[] = [
-    {id: 1, name: 'John Doe', age: 30, gender: 'Male', country: 'USA', status: 'Active', verified: true}, {
+  constructor() {
+    this.sampleData = [
+      {
+        stringField: "Sample 1",
+        numberField: 123,
+        listField: [
+          { subStringField1: "Item 1.1", subStringField2: "Item 1.2" },
+          { subStringField1: "Item 2.1", subStringField2: "Item 2.2" },
+        ],
+      },
+      {
+        stringField: "Sample 2",
+        numberField: 456,
+        listField: [
+          { subStringField1: "Item 3.1", subStringField2: "Item 3.2" },
+          { subStringField1: "Item 4.1", subStringField2: "Item 4.2" },
+        ],
+      },
+      {
+        stringField: "Sample 3",
+        numberField: 789,
+        listField: [
+          { subStringField1: "Item 5.1", subStringField2: "Item 5.2" },
+          { subStringField1: "Item 6.1", subStringField2: "Item 6.2" },
+        ],
+      },
+      {
+        stringField: "Sample 4",
+        numberField: 101112,
+        listField: [
+          { subStringField1: "Item 7.1", subStringField2: "Item 7.2" },
+          { subStringField1: "Item 8.1", subStringField2: "Item 8.2" },
+        ],
+      },
+    ];
+    this.columns = [
+      {
+        header: "String Column",
+        field: "stringField",
+        type: ColumnType.String,
+      },
+      {
+        header: "Number Column",
+        field: "numberField",
+        type: ColumnType.Number,
+      },
+      {
+        header: "List Column",
+        field: "listField",
+        type: ColumnType.List,
+        subColumns: [
+          {
+            header: "Sub String Column 1",
+            field: "subStringField1",
+            type: ColumnType.String,
+          },
+          {
+            header: "Sub String Column 2",
+            field: "subStringField2",
+            type: ColumnType.String,
+          },
+        ],
+      },
+    ];
+  }
 
-    id: 2,
-    name: 'Alice Johnson',
-    age: 25,
-    gender: 'Female',
-    country: 'Canada',
-    status: 'Inactive', verified: true
-  }, {
-    id: 3,
-    name: 'Bob Smith',
-    age: 35,
-    gender: 'Male',
-    country: 'UK',
-    status: 'Active', verified: false
-  }, {
-    id: 4,
-    name: 'Eva Martinez',
-    age: 28,
-    gender: 'Female',
-    country: 'Spain',
-    status: 'Active', verified: true
-  }, {
-    id: 5,
-    name: 'Michael Brown',
-    age: 40,
-    gender: 'Male',
-    country: 'Australia',
-    status: 'Inactive', verified: false
-  }, {
-    id: 6,
-    name: 'Sophia Lee',
-    age: 22,
-    gender: 'Female',
-    country: 'South Korea',
-    status: 'Active', verified: true
-  }, {
-    id: 7,
-    name: 'David Wilson',
-    age: 45,
-    gender: 'Male',
-    country: 'Canada',
-    status: 'Active', verified: true
-  }, {
-    id: 8,
-    name: 'Olivia Davis',
-    age: 29,
-    gender: 'Female',
-    country: 'USA',
-    status: 'Inactive', verified: true
-  }, {
-    id: 9,
-    name: 'Liam Taylor',
-    age: 33,
-    gender: 'Male',
-    country: 'UK',
-    status: 'Active', verified: true
-  }, {
-    id: 10,
-    name: 'Emma Smith',
-    age: 27,
-    gender: 'Female',
-    country: 'Australia',
-    status: 'Active', verified: true
-  }, {
-    id: 11,
-    name: 'Mia Johnson',
-    age: 31,
-    gender: 'Female',
-    country: 'USA',
-    status: 'Active', verified: true
-  },];
+
   getData = () => of(this.sampleData)
 }

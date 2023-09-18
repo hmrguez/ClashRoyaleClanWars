@@ -190,6 +190,9 @@ export class GridComponent implements OnInit{
         case ColumnType.Enum:
           formControls[column.field] = new FormControl(model?.[column.field] ?? column.enumOptions?.[0].value, Validators.required);
           break;
+        case ColumnType.List:
+          formControls[column.field] = new FormControl(model?.[column.field] ?? [], Validators.required);
+          break;
         default:
           throw new Error(`No supported type, ${column.type}`)
       }
