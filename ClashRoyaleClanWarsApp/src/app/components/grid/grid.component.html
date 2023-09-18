@@ -22,7 +22,7 @@
 
 <p-card [style]="{'margin': '1.3rem'}">
 
-  <p-toolbar styleClass="mb-4 flex justify-space-between">
+  <p-toolbar *ngIf="showToolbar" styleClass="mb-4 flex justify-space-between">
     <ng-container>
       <div *ngIf="adminUser" [ngClass]="'top-bar-item'">
         <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
@@ -51,7 +51,7 @@
            [dataKey]="columns[0].field"
            [value]="data"
            [columns]="columns"
-           [paginator]="true" [rows]="10"
+           [paginator]="showToolbar" [rows]="10"
            [globalFilterFields]="filterFields"
            [(selection)]="selectedData"
            [(contextMenuSelection)]="selectedDatum"
@@ -61,7 +61,9 @@
     <ng-template pTemplate="caption">
       <div [style]="{'display': 'flex', 'justify-content':'space-between', 'align-items': 'center'}">
         <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear()"></button>
-
+        <div *ngIf="!showToolbar">
+          <h4 class="m-auto">{{ title }}</h4>
+        </div>
         <div>
           <span class="p-input-icon-left ml-auto">
             <i class="pi pi-search"></i>
@@ -76,8 +78,9 @@
         <th style="width: 3rem">
           <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
         </th>
+        <th *ngIf="listColumn" style="width: 3rem"></th>
         <th [pSortableColumn]="column.field" *ngFor="let column of columns">
-          <div class="column-header">
+          <div *ngIf="column.type !== ColumnType.List" class="column-header">
             {{ column.header }}
 
             <div [ngSwitch]="column.type">
@@ -120,10 +123,13 @@
       </tr>
     </ng-template>
 
-    <ng-template pTemplate="body" let-rowData let-columns="columns">
+    <ng-template pTemplate="body" let-rowData let-columns="columns" let-expanded="expanded">
       <tr [pContextMenuRow]="rowData">
         <td>
           <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+        </td>
+        <td *ngIf="listColumn">
+          <button type="button" pButton pRipple [pRowToggler]="rowData" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
         </td>
         <td *ngFor="let column of columns">
           <div [ngSwitch]="column.type">
@@ -136,6 +142,7 @@
             <ng-container *ngSwitchCase="ColumnType.Boolean">
               <i class="pi" [ngClass]="{'true-icon pi-check-circle': rowData[column.field], 'false-icon pi-times-circle': !rowData[column.field]}"></i>
             </ng-container>
+            <ng-container *ngSwitchCase="ColumnType.List"></ng-container>
             <ng-container *ngSwitchDefault>
               {{ rowData[column.field]}}
             </ng-container>
@@ -143,6 +150,21 @@
         </td>
       </tr>
     </ng-template>
+
+    <ng-template  pTemplate="rowexpansion" let-rowData>
+      <tr >
+        <td colspan="7">
+          <div *ngIf="listColumn">
+            <clash-grid [showToolbar]="false"
+                        [columns]="listColumn.listColumns || []"
+                        [customData]="getInsideListData(rowData)"
+                        [title]="listColumn.header"
+            ></clash-grid>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+
   </p-table>
 </p-card>
 

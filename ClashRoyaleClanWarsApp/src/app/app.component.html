@@ -1,7 +1,7 @@
 <clash-grid [columns]="columns"
             [adminUser]="true"
             [title]="'Citizens'"
-            [primaryKey]="'id'"
+            [primaryKey]="'stringField'"
             [detailPage]="'citizen'"
-            [customFetchDataFunc]="getData"
+            [customData]="getData()"
 ></clash-grid>

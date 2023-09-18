@@ -47,6 +47,7 @@ export class AppComponent {
         ],
       },
     ];
+
     this.columns = [
       {
         header: "String Column",
@@ -62,7 +63,7 @@ export class AppComponent {
         header: "List Column",
         field: "listField",
         type: ColumnType.List,
-        subColumns: [
+        listColumns: [
           {
             header: "Sub String Column 1",
             field: "subStringField1",
@@ -79,5 +80,5 @@ export class AppComponent {
   }
 
 
-  getData = () => of(this.sampleData)
+  getData = () => Array.from(this.sampleData)
 }

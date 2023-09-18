@@ -6,9 +6,9 @@ import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
 import {CrudService} from "../../services/CrudService";
-import {Observable} from "rxjs";
+import {Observable, of} from "rxjs";
 import {MenuItem, MessageService} from "primeng/api";
-import {Route, Router} from "@angular/router";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'clash-grid',
@@ -21,11 +21,12 @@ export class GridComponent implements OnInit{
   @Input() columns: IColumn[] = [];
   @Input() primaryKey: string = '';
   @Input() detailPage: string = ''
+  @Input() showToolbar: boolean = true;
   @ViewChild('dt') table!: Table;
 
   @Input() dataService!: CrudService<any>;
   @Input() adminUser: boolean = false;
-  @Input() customFetchDataFunc!: () => Observable<any[]>
+  @Input() customData: any[] = []
 
   data: any[] = []
 
@@ -42,6 +43,9 @@ export class GridComponent implements OnInit{
   menuItems: MenuItem[] = [];
   selectedDatum: any;
 
+  @Input() customFetchInsideListFunc!: (rowData: any) => Observable<any[]>
+  listColumn: IColumn | undefined;
+
   protected readonly ColumnType = ColumnType;
 
   constructor(private router: Router, private messageService: MessageService) { }
@@ -51,20 +55,26 @@ export class GridComponent implements OnInit{
     this.createFormModel();
     this.filterFields = this.columns.map(x=>x.field)
 
+
     this.menuItems = [
       { label: 'View ', visible: this.detailPage != '', icon: 'pi pi-fw pi-search', command: () => this.viewContextMenuAction()},
       { label: 'Delete', visible: this.adminUser, icon: 'pi pi-fw pi-times', command: () => this.deleteContextMenuAction()},
       { label: 'Edit', visible: this.adminUser, icon: 'pi pi-fw pi-pencil', command: () => this.editContextMenuAction()},
     ]
+
+    this.listColumn = this.columns.find(x=>x.type === ColumnType.List);
+    console.log(this.listColumn)
   }
 
   private async loadData() {
-    const fetchData = this.customFetchDataFunc ? this.customFetchDataFunc() : this.dataService.getAll();
-    fetchData.subscribe({
+    if(this.customData){
+      this.data = [...this.customData]
+    } else{
+      this.dataService.getAll().subscribe({
         next: (v) => this.data = v,
         error: (e) => console.log(e)
-      }
-    )
+      })
+    }
   }
 
   filterData() {
@@ -225,5 +235,9 @@ export class GridComponent implements OnInit{
 
   onReject() {
     this.messageService.clear('c');
+  }
+
+  getInsideListData(data: any){
+    return this.data.find(x=>x[this.primaryKey] == data[this.primaryKey])[this.listColumn?.field ?? -1];
   }
 }
