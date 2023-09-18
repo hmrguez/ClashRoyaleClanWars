@@ -6,6 +6,7 @@ export interface IColumn {
   type: ColumnType
   enumColors?: Map<string, string>
   enumOptions?: SelectItem[]
+  listColumns?: IColumn[]
 }
 
 export enum ColumnType{
@@ -15,5 +16,6 @@ export enum ColumnType{
   Date,
   Enum,
   Image,
-  Boolean
+  Boolean,
+  List
 }
