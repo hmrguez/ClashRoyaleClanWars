@@ -89,7 +89,7 @@ export class GridComponent implements OnInit{
 
   exportPdf() {
     const doc = new jsPDF()
-    const exportData = this.selectionOnlyExport ? this.selectedData : this.data
+    const exportData = this.selectionOnlyExport ? this.selectedData : this.table.filteredValue as any[]
     const body = exportData.map(item => Object.values(item).map(y=>String(y)))
 
     autoTable(doc, {
@@ -102,7 +102,8 @@ export class GridComponent implements OnInit{
 
   exportExcel() {
     import("xlsx").then(xlsx => {
-      const worksheet = xlsx.utils.json_to_sheet(this.selectionOnlyExport ? this.selectedData : this.data);
+      const data = this.selectionOnlyExport ? this.selectedData : this.table.filteredValue as any[]
+      const worksheet = xlsx.utils.json_to_sheet(data);
       const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
       const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
       this.saveAsExcelFile(excelBuffer, "data");
