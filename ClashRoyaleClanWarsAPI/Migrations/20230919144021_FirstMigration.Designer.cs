@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClashRoyaleClanWarsAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230918042706_FirstMigration")]
+    [Migration("20230919144021_FirstMigration")]
     partial class FirstMigration
     {
         /// <inheritdoc />
@@ -64,6 +64,10 @@ namespace ClashRoyaleClanWarsAPI.Migrations
 
                     b.Property<int>("Elixir")
                         .HasColumnType("int");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("InitialLevel")
                         .HasColumnType("int");
@@ -333,7 +337,9 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("Radius")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("int")
+                        .HasColumnName("Radius");
 
                     b.Property<int>("TowerDamage")
                         .HasColumnType("int");
@@ -349,16 +355,14 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                         .HasColumnType("real");
 
                     b.Property<int>("HitPoints")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("int")
+                        .HasColumnName("HitPoints");
 
                     b.Property<int>("Radius")
-                        .HasColumnType("int");
-
-                    b.ToTable("Cards", t =>
-                        {
-                            t.Property("Radius")
-                                .HasColumnName("StructureModel_Radius");
-                        });
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("int")
+                        .HasColumnName("Radius");
 
                     b.HasDiscriminator().HasValue(2);
                 });
@@ -371,13 +375,9 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("HitPoints")
-                        .HasColumnType("int");
-
-                    b.ToTable("Cards", t =>
-                        {
-                            t.Property("HitPoints")
-                                .HasColumnName("TroopModel_HitPoints");
-                        });
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("int")
+                        .HasColumnName("HitPoints");
 
                     b.HasDiscriminator().HasValue(3);
                 });

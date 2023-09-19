@@ -24,13 +24,12 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                     Quality = table.Column<int>(type: "int", nullable: false),
                     AreaDamage = table.Column<int>(type: "int", nullable: false),
                     InitialLevel = table.Column<int>(type: "int", nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Radius = table.Column<int>(type: "int", nullable: true),
                     TowerDamage = table.Column<int>(type: "int", nullable: true),
                     Duration = table.Column<int>(type: "int", nullable: true),
-                    StructureModel_Radius = table.Column<int>(type: "int", nullable: true),
                     HitPoints = table.Column<int>(type: "int", nullable: true),
                     AttackSpeed = table.Column<float>(type: "real", nullable: true),
-                    TroopModel_HitPoints = table.Column<int>(type: "int", nullable: true),
                     Amount = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>

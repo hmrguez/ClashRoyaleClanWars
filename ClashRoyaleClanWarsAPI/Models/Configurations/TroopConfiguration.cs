@@ -7,7 +7,7 @@ namespace ClashRoyaleClanWarsAPI.Models.Configurations
     {
         public void Configure(EntityTypeBuilder<TroopModel> builder)
         {
-            return;
+            builder.Property(c => c.HitPoints).HasColumnName("HitPoints");
         }
     }
 }

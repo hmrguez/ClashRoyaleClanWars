@@ -25,6 +25,7 @@
         public Quality Quality { get; set; }
         public int AreaDamage { get; set; }
         public int InitialLevel { get; set; }
+        public string ImageUrl { get; set; }
         public List<CollectModel> CardOwners { get; set; }
     }
 }

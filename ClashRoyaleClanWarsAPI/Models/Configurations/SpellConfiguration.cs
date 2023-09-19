@@ -7,7 +7,8 @@ namespace ClashRoyaleClanWarsAPI.Models.Configurations
     {
         public void Configure(EntityTypeBuilder<SpellModel> builder)
         {
-            return;
+            builder.Property(c => c.Radius).HasColumnName("Radius");
+
         }
     }
 }
