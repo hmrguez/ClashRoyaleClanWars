@@ -25,12 +25,18 @@ import {CalendarModule} from "primeng/calendar";
 import {ContextMenuModule} from "primeng/contextmenu";
 import {ToastModule} from "primeng/toast";
 import {MessageService} from "primeng/api";
+import { SideMenuComponent } from './components/side-menu/side-menu.component';
+import { LogInComponent } from './components/log-in/log-in.component';
+import { SignUpComponent } from './components/sign-up/sign-up.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    GridComponent
+    GridComponent,
+    SideMenuComponent,
+    LogInComponent,
+    SignUpComponent
   ],
   imports: [
     BrowserModule,
