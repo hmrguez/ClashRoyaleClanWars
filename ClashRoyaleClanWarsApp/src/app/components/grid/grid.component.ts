@@ -6,7 +6,7 @@ import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
 import {CrudService} from "../../services/CrudService";
-import {Observable, of} from "rxjs";
+import {Observable} from "rxjs";
 import {MenuItem, MessageService} from "primeng/api";
 import {Router} from "@angular/router";
 
@@ -89,7 +89,7 @@ export class GridComponent implements OnInit{
 
   exportPdf() {
     const doc = new jsPDF()
-    const exportData = this.selectionOnlyExport ? this.selectedData : this.table.filteredValue as any[]
+    const exportData = this.getExportData()
     const body = exportData.map(item => Object.values(item).map(y=>String(y)))
 
     autoTable(doc, {
@@ -102,7 +102,7 @@ export class GridComponent implements OnInit{
 
   exportExcel() {
     import("xlsx").then(xlsx => {
-      const data = this.selectionOnlyExport ? this.selectedData : this.table.filteredValue as any[]
+      const data = this.getExportData()
       const worksheet = xlsx.utils.json_to_sheet(data);
       const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
       const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
@@ -117,6 +117,11 @@ export class GridComponent implements OnInit{
       type: EXCEL_TYPE
     });
     FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+  }
+
+  private getExportData(){
+    const tableData = this.table.filteredValue ?? this.table.value
+    return this.selectionOnlyExport ? this.selectedData : tableData;
   }
 
   openNew() {
