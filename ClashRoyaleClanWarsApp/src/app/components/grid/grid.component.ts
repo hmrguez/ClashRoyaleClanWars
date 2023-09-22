@@ -121,7 +121,18 @@ export class GridComponent implements OnInit{
 
   private getExportData(){
     const tableData = this.table.filteredValue ?? this.table.value
-    return this.selectionOnlyExport ? this.selectedData : tableData;
+    const finalValue = this.selectionOnlyExport ? this.selectedData : tableData;
+    return finalValue.map((item) => {
+      const newObj: Record<string, string> = {};
+
+      for (const key in item) {
+        if (Object.prototype.hasOwnProperty.call(item, key)) {
+          newObj[key] = item[key].toString();
+        }
+      }
+
+      return newObj;
+    });
   }
 
   openNew() {
