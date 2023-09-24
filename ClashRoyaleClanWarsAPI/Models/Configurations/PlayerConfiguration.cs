@@ -19,10 +19,13 @@ namespace ClashRoyaleClanWarsAPI.Models.Configurations
                 .HasDefaultValue(0);
             builder.Property(p => p.MaxElo)
                 .HasDefaultValue(0);
+            builder.Property(p => p.Elo)
+                .HasDefaultValue(0);
 
             builder.HasOne(p => p.FavoriteCard)
                 .WithMany()
-                .HasForeignKey("FavoriteCardId");
+                .HasForeignKey("FavoriteCardId")
+                .IsRequired(false);
 
         }
     }
