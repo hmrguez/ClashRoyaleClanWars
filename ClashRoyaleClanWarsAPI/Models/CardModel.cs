@@ -1,4 +1,6 @@
-﻿namespace ClashRoyaleClanWarsAPI.Models
+﻿using ClashRoyaleClanWarsAPI.Interfaces.Abstractions;
+
+namespace ClashRoyaleClanWarsAPI.Models
 {
     public enum DenominationEnum
     {
@@ -37,7 +39,7 @@
         Air
     }
 
-    public abstract class CardModel
+    public abstract class CardModel : IEntity
     {
         public int Id { get; set; }
         public string Name { get;set; }
