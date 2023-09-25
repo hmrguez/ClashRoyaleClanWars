@@ -38,6 +38,9 @@ namespace ClashRoyaleClanWarsAPI.Data
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(PlayerClanConfiguration).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(PlayerConfiguration).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(WarConfiguration).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(TroopConfiguration).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(SpellConfiguration).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(StructureConfiguration).Assembly);
         }
 
     }
