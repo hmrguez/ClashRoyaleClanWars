@@ -25,12 +25,16 @@ import {CalendarModule} from "primeng/calendar";
 import {ContextMenuModule} from "primeng/contextmenu";
 import {ToastModule} from "primeng/toast";
 import {MessageService} from "primeng/api";
+import {SidenavComponent} from "./components/sidenav/sidenav.component";
+import {BodyComponent} from "./components/body/body.component";
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    GridComponent
+    GridComponent,
+    SidenavComponent,
+    BodyComponent
   ],
   imports: [
     BrowserModule,
