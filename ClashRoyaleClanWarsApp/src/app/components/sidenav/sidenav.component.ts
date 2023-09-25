@@ -20,9 +20,19 @@ export class SidenavComponent implements OnInit {
 
   navData: any = [
     {
-      routeLink: "/dashboard",
-      icon: "pi pi-folder",
-      label: "Dashboard",
+      routeLink: "/players",
+      icon: "pi pi-user",
+      label: "Players",
+    },
+    {
+      routeLink: "/cards",
+      icon: "pi pi-id-card",
+      label: "Cards",
+    },
+    {
+      routeLink: "/clans",
+      icon: "pi pi-sitemap",
+      label: "Clans",
     },
   ];
 
