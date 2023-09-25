@@ -28,6 +28,7 @@ import {MessageService} from "primeng/api";
 import {SidenavComponent} from "./components/sidenav/sidenav.component";
 import {BodyComponent} from "./components/body/body.component";
 import { PlayersComponent } from './components/players/players.component';
+import { CardsComponent } from './components/cards/cards.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { PlayersComponent } from './components/players/players.component';
     GridComponent,
     SidenavComponent,
     BodyComponent,
-    PlayersComponent
+    PlayersComponent,
+    CardsComponent
   ],
   imports: [
     BrowserModule,
