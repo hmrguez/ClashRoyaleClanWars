@@ -29,6 +29,8 @@ import {SidenavComponent} from "./components/sidenav/sidenav.component";
 import {BodyComponent} from "./components/body/body.component";
 import { PlayersComponent } from './components/players/players.component';
 import { CardsComponent } from './components/cards/cards.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import {HttpClient, HttpClientModule, HttpHandler} from "@angular/common/http";
 
 
 @NgModule({
@@ -38,7 +40,8 @@ import { CardsComponent } from './components/cards/cards.component';
     SidenavComponent,
     BodyComponent,
     PlayersComponent,
-    CardsComponent
+    CardsComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -64,6 +67,7 @@ import { CardsComponent } from './components/cards/cards.component';
     ReactiveFormsModule,
     ContextMenuModule,
     ToastModule,
+    HttpClientModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

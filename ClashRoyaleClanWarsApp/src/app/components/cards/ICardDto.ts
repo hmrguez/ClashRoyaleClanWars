@@ -1,3 +1,5 @@
+import {DenominationEnum, QualityEnum, TargetEnum} from "./CardEnums";
+
 export interface ICardDto {
   Id: number
   Name: string

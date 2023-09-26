@@ -1,4 +1,4 @@
-enum DenominationEnum
+export enum DenominationEnum
 {
   Unknown,
   Spell,
@@ -6,7 +6,8 @@ enum DenominationEnum
   Troop
 }
 
-enum QualityEnum
+
+export enum QualityEnum
 {
   Common,
   Rare,
@@ -15,7 +16,7 @@ enum QualityEnum
   Champion
 }
 
-enum TargetEnum
+export enum TargetEnum
 {
   Ground,
   Air,
@@ -24,7 +25,7 @@ enum TargetEnum
   Nothing
 }
 
-enum SpeedEnum
+export enum SpeedEnum
 {
   Very_Slow,
   Slow,
@@ -33,7 +34,7 @@ enum SpeedEnum
   Very_Fast
 }
 
-enum TransportEnum
+export enum TransportEnum
 {
   Ground,
   Air

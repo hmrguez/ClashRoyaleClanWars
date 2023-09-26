@@ -1,4 +1,8 @@
-<clash-grid [title]="'Players'" [primaryKey]="'Id'"></clash-grid>
+<clash-grid [title]="'Players'"
+            [primaryKey]="'Id'"
+            [columns]="columns"
+            [dataService]="playerService"
+></clash-grid>
 <!--@Input() title: string = '';-->
 <!--@Input() columns: IColumn[] = [];-->
 <!--@Input() primaryKey: string = '';-->
