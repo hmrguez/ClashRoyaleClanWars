@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClashRoyaleClanWarsAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230919144021_FirstMigration")]
+    [Migration("20230924221752_FirstMigration")]
     partial class FirstMigration
     {
         /// <inheritdoc />
@@ -55,7 +55,10 @@ namespace ClashRoyaleClanWarsAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AreaDamage")
+                    b.Property<bool>("AreaDamage")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Damage")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -74,9 +77,13 @@ namespace ClashRoyaleClanWarsAPI.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(32)
+                        .HasColumnType("nvarchar(32)");
 
                     b.Property<int>("Quality")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Target")
                         .HasColumnType("int");
 
                     b.Property<int>("Type")
@@ -115,12 +122,13 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                     b.Property<int>("LossLimit")
                         .HasColumnType("int");
 
-                    b.Property<int>("MinTrophies")
+                    b.Property<int>("MinLevel")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(32)
+                        .HasColumnType("nvarchar(32)");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
@@ -154,11 +162,13 @@ namespace ClashRoyaleClanWarsAPI.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<string>("Region")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(32)
+                        .HasColumnType("nvarchar(32)");
 
                     b.Property<int>("TrophiesInWar")
                         .ValueGeneratedOnAdd()
@@ -288,7 +298,12 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                         .HasColumnType("int")
                         .HasDefaultValue(0);
 
-                    b.Property<int>("FavoriteCardId")
+                    b.Property<int>("Elo")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
+                    b.Property<int?>("FavoriteCardId")
                         .HasColumnType("int");
 
                     b.Property<int>("Level")
@@ -333,12 +348,14 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                 {
                     b.HasBaseType("ClashRoyaleClanWarsAPI.Models.CardModel");
 
-                    b.Property<int>("Duration")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Radius")
+                    b.Property<int>("LifeTime")
                         .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("int")
+                        .HasColumnName("LifeTime");
+
+                    b.Property<float>("Radius")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("real")
                         .HasColumnName("Radius");
 
                     b.Property<int>("TowerDamage")
@@ -351,18 +368,30 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                 {
                     b.HasBaseType("ClashRoyaleClanWarsAPI.Models.CardModel");
 
-                    b.Property<float>("AttackSpeed")
-                        .HasColumnType("real");
-
                     b.Property<int>("HitPoints")
                         .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("int")
                         .HasColumnName("HitPoints");
 
-                    b.Property<int>("Radius")
+                    b.Property<float>("HitSpeed")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("real")
+                        .HasColumnName("HitSpeed");
+
+                    b.Property<int>("LifeTime")
                         .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("int")
+                        .HasColumnName("LifeTime");
+
+                    b.Property<float>("Radius")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("real")
                         .HasColumnName("Radius");
+
+                    b.Property<float>("Range")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("real")
+                        .HasColumnName("Range");
 
                     b.HasDiscriminator().HasValue(2);
                 });
@@ -378,6 +407,22 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                         .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("int")
                         .HasColumnName("HitPoints");
+
+                    b.Property<float>("HitSpeed")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("real")
+                        .HasColumnName("HitSpeed");
+
+                    b.Property<float>("Range")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("real")
+                        .HasColumnName("Range");
+
+                    b.Property<int>("Speed")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Transport")
+                        .HasColumnType("int");
 
                     b.HasDiscriminator().HasValue(3);
                 });
@@ -500,9 +545,7 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                 {
                     b.HasOne("ClashRoyaleClanWarsAPI.Models.CardModel", "FavoriteCard")
                         .WithMany()
-                        .HasForeignKey("FavoriteCardId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("FavoriteCardId");
 
                     b.Navigation("FavoriteCard");
                 });

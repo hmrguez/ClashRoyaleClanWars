@@ -16,21 +16,26 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                        .Annotation("SqlServer:Identity", "1000, 1"),
+                    Name = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
                     Type = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Elixir = table.Column<int>(type: "int", nullable: false),
                     Quality = table.Column<int>(type: "int", nullable: false),
-                    AreaDamage = table.Column<int>(type: "int", nullable: false),
+                    Damage = table.Column<int>(type: "int", nullable: false),
+                    AreaDamage = table.Column<bool>(type: "bit", nullable: false),
+                    Target = table.Column<int>(type: "int", nullable: false),
                     InitialLevel = table.Column<int>(type: "int", nullable: false),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Radius = table.Column<int>(type: "int", nullable: true),
+                    Radius = table.Column<float>(type: "real", nullable: true),
                     TowerDamage = table.Column<int>(type: "int", nullable: true),
-                    Duration = table.Column<int>(type: "int", nullable: true),
+                    LifeTime = table.Column<int>(type: "int", nullable: true),
                     HitPoints = table.Column<int>(type: "int", nullable: true),
-                    AttackSpeed = table.Column<float>(type: "real", nullable: true),
-                    Amount = table.Column<int>(type: "int", nullable: true)
+                    HitSpeed = table.Column<float>(type: "real", nullable: true),
+                    Range = table.Column<float>(type: "real", nullable: true),
+                    Amount = table.Column<int>(type: "int", nullable: true),
+                    Speed = table.Column<int>(type: "int", nullable: true),
+                    Transport = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -43,13 +48,13 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Cost = table.Column<int>(type: "int", nullable: false),
                     AmountReward = table.Column<int>(type: "int", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DurationInHours = table.Column<int>(type: "int", nullable: false),
-                    MinTrophies = table.Column<int>(type: "int", nullable: false),
+                    MinLevel = table.Column<int>(type: "int", nullable: false),
                     LossLimit = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -63,9 +68,9 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Region = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Region = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
                     TypeOpen = table.Column<bool>(type: "bit", nullable: false),
                     AmountMembers = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
                     TrophiesInWar = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
@@ -96,11 +101,12 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Alias = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Elo = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
                     Level = table.Column<int>(type: "int", nullable: false, defaultValue: 1),
                     Victories = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
                     CardAmount = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
                     MaxElo = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
-                    FavoriteCardId = table.Column<int>(type: "int", nullable: false)
+                    FavoriteCardId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -109,8 +115,7 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                         name: "FK_Players_Cards_FavoriteCardId",
                         column: x => x.FavoriteCardId,
                         principalTable: "Cards",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(

@@ -2,6 +2,7 @@
 {
     public interface ISpellStructure
     {
-        public int Radius { get; set; }
+        public  float Radius { get; set; }
+        public int LifeTime { get; set; }
     }
 }
