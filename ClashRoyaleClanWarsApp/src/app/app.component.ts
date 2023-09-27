@@ -80,5 +80,16 @@ export class AppComponent {
   }
 
 
-  getData = () => Array.from(this.sampleData)
+  isSideNavCollapsed = false;
+  screenWidth: number = 0;
+
+  onToggleSideNav(data: SideNavToggle) {
+    this.screenWidth = data.screenWidth;
+    this.isSideNavCollapsed = data.collapsed;
+  }
+}
+
+interface SideNavToggle{
+  screenWidth: number;
+  collapsed: boolean;
 }

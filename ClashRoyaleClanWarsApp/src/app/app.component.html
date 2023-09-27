@@ -1,7 +1,2 @@
-<clash-grid [columns]="columns"
-            [adminUser]="true"
-            [title]="'Citizens'"
-            [primaryKey]="'stringField'"
-            [detailPage]="'citizen'"
-            [customData]="getData()"
-></clash-grid>
+<app-sidenav (onToggleSideNav)="onToggleSideNav($event)"></app-sidenav>
+<app-body [collapsed]="isSideNavCollapsed" [screenWidth]="screenWidth"></app-body>

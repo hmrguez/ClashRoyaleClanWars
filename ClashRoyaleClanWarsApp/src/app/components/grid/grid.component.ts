@@ -67,12 +67,19 @@ export class GridComponent implements OnInit{
   }
 
   private async loadData() {
-    if(this.customData){
+
+    console.log("Loading data v1")
+    if(this.customData.length > 0){
+      console.log("Loading data v3")
       this.data = [...this.customData]
     } else{
+      console.log("Loading data")
       this.dataService.getAll().subscribe({
-        next: (v) => this.data = v,
-        error: (e) => console.log(e)
+        next: (v) => {
+          console.log("Data: ", v)
+          this.data = v
+        },
+        error: (e) => console.log("Error ", e)
       })
     }
   }
