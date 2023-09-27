@@ -4,7 +4,7 @@ using ClashRoyaleClanWarsAPI.Models;
 using ClashRoyaleClanWarsAPI.Utils;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ClashRoyaleClanWarsAPI.Controllers
+namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
 {
     [Route("api/cards")]
     [ApiController]
@@ -12,7 +12,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers
     {
         private readonly ICardService<CardModel> _cardService;
         // GET: api/cards
-        public CardController(ICardService<CardModel> cardService) 
+        public CardController(ICardService<CardModel> cardService)
         {
             _cardService = cardService;
         }
@@ -30,7 +30,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers
             {
                 NotFound(new RequestResponse<CardModel>(null!, e.Message, false));
             }
-            catch(IdNotFoundException<CardModel> e)
+            catch (IdNotFoundException<CardModel> e)
             {
                 NotFound(new RequestResponse<CardModel>(null!, e.Message, false));
             }
@@ -55,7 +55,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers
             return Ok(new RequestResponse<IEnumerable<CardModel>>(cards!));
         }
         // POST api/cards
-        [HttpPost]
+        [HttpPost("seed")]
         public async Task<ActionResult<RequestResponse<CardModel>>> PostAllCards()
         {
             try
@@ -72,7 +72,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers
 
         // PUT api/cards/5
         [HttpPut("{id:int}")]
-        public async Task<ActionResult> Put(int id, [FromBody]CardModel cardModel)
+        public async Task<ActionResult> Put(int id, [FromBody] CardModel cardModel)
         {
             if (id != cardModel.Id) return BadRequest(new RequestResponse<CardModel>(null!, "Ids do not match", false));
             try

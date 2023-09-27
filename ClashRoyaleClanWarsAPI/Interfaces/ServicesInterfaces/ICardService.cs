@@ -1,9 +1,8 @@
-﻿using ClashRoyaleClanWarsAPI.Interfaces.Abstractions;
-using ClashRoyaleClanWarsAPI.Models;
+﻿using ClashRoyaleClanWarsAPI.Models;
 
 namespace ClashRoyaleClanWarsAPI.Interfaces.ServicesInterfaces
 {
-    public interface ICardService<T> : ICrudService<T> where T : class, IEntity
+    public interface ICardService<T> : IService<T>
     {
         public Task<IEnumerable<T>> GetCardsByNameAsync(string name);
         public Task AddAllCards();
