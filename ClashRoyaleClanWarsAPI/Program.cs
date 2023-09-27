@@ -38,6 +38,7 @@ builder.Services.AddScoped<ICardService<CardModel>, CardService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenCreationService,JwtService>();
 
+builder.Services.AddHostedService<SetupIdentityDataSeeder>();
 
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddEndpointsApiExplorer();

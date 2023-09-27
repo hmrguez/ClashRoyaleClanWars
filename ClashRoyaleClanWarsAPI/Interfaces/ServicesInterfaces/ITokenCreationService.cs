@@ -5,6 +5,6 @@ namespace ClashRoyaleClanWarsAPI.Interfaces.ServicesInterfaces
 {
     public interface ITokenCreationService
     {
-        LoginResponse CreateToken(IdentityUser user);
+        LoginResponse CreateToken(IdentityUser user, IList<string> roles);
     }
 }

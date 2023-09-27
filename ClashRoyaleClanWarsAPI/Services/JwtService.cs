@@ -18,11 +18,11 @@ namespace ClashRoyaleClanWarsAPI.Services
             _configuration = configuration;
         }
 
-        public LoginResponse CreateToken(IdentityUser user)
+        public LoginResponse CreateToken(IdentityUser user, IList<string> roles)
         {
             var expiration = DateTime.UtcNow.AddMinutes(EXPIRATION_MINUTES);
 
-            var token = CreateJwtToken(CreataClaims(user), CreateSigningCredentials(), expiration);
+            var token = CreateJwtToken(CreataClaims(user, roles), CreateSigningCredentials(), expiration);
 
             var tokenHandler = new JwtSecurityTokenHandler();
 
@@ -35,15 +35,19 @@ namespace ClashRoyaleClanWarsAPI.Services
                 expires: expiration,
                 signingCredentials: credentials);
 
-        private Claim[] CreataClaims(IdentityUser user) =>
-            new[]
+        private Claim[] CreataClaims(IdentityUser user, IList<string> roles)
+        {
+            List<Claim> claims = new List<Claim>(roles.Select(r => new Claim(ClaimTypes.Role, r)))
             {
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
-                new Claim(ClaimTypes.Name, user.UserName!),
-
+                new Claim(ClaimTypes.Name, user.UserName!)
             };
+
+            return claims.ToArray();
+        }
+            
 
         private SigningCredentials CreateSigningCredentials() =>
             new SigningCredentials(
