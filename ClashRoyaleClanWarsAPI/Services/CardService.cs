@@ -16,6 +16,7 @@ namespace ClashRoyaleClanWarsAPI.Services
         public async Task<int> Add(CardModel model)
         {
             _context.Cards.Add(model);
+            
             await _context.SaveChangesAsync();
             return model.Id;
 

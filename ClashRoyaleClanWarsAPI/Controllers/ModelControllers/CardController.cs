@@ -11,7 +11,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
     public class CardController : ControllerBase
     {
         private readonly ICardService<CardModel> _cardService;
-        // GET: api/cards
+        
         public CardController(ICardService<CardModel> cardService)
         {
             _cardService = cardService;
@@ -54,6 +54,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
 
             return Ok(new RequestResponse<IEnumerable<CardModel>>(cards!));
         }
+        
         // POST api/cards
         [HttpPost("seed")]
         public async Task<ActionResult<RequestResponse<CardModel>>> PostAllCards()

@@ -38,7 +38,15 @@ builder.Services.AddScoped<ICardService<CardModel>, CardService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenCreationService,JwtService>();
 
-builder.Services.AddHostedService<SetupIdentityDataSeeder>();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("NewPolicy", app =>
+    {
+        app.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost")
+            .AllowAnyHeader().AllowAnyMethod();
+    });
+});
 
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddEndpointsApiExplorer();
@@ -53,6 +61,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("NewPolicy");
 
 app.UseHttpsRedirection();
 

@@ -9,7 +9,12 @@ namespace ClashRoyaleClanWarsAPI.Data
 {
     public class DataContext : IdentityDbContext
     {
-        public DataContext(DbContextOptions<DataContext> options):base(options) { }
+        private readonly IConfiguration _configuration;
+        public DataContext(DbContextOptions<DataContext> options,IConfiguration configuration) 
+            : base(options)
+        {
+            _configuration = configuration;
+        }
 
         public DbSet<BattleModel> Battles => Set<BattleModel>();
         public DbSet<CardModel> Cards => Set<CardModel>();
@@ -38,6 +43,7 @@ namespace ClashRoyaleClanWarsAPI.Data
             modelBuilder.Entity<IdentityUserRole<string>>(m => m.ToTable("UserRoles"));
             modelBuilder.Entity<IdentityUserToken<string>>(m => m.ToTable("UserTokens"));
 
+            modelBuilder.SeedRoles(_configuration["SuperAdmin:Psw"]!);
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(BattleConfiguration).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(CardConfiguration).Assembly);
