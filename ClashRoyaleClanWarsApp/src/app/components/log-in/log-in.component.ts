@@ -5,7 +5,6 @@ import { LogInService } from './log-in.service';
   selector: 'app-log-in',
   templateUrl: './log-in.component.html',
   styleUrls: ['./log-in.component.scss'],
-  providers: [LogInService],
 })
 export class LogInComponent implements OnInit {
     ImagePath: string;
@@ -21,7 +20,7 @@ export class LogInComponent implements OnInit {
       ConfirmPassword: '',
     };
 
-    constructor(){
+    constructor(public logInService: LogInService){
       this.ImagePath = '/assets/pic.jpg'
     }
     ngOnInit(): void {

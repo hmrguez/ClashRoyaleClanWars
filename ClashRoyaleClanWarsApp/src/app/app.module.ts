@@ -25,7 +25,7 @@ import {CalendarModule} from "primeng/calendar";
 import {ContextMenuModule} from "primeng/contextmenu";
 import {ToastModule} from "primeng/toast";
 import {MessageService} from "primeng/api";
-import { LogInComponent } from './components/log-in/log-in.component';
+import {LogInComponent } from './components/log-in/log-in.component';
 import {SidenavComponent} from "./components/sidenav/sidenav.component";
 import {BodyComponent} from "./components/body/body.component";
 import { PlayersComponent } from './components/players/players.component';
