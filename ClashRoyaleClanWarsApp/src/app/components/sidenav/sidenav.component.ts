@@ -34,6 +34,12 @@ export class SidenavComponent implements OnInit {
       icon: "pi pi-sitemap",
       label: "Clans",
     },
+    {
+      routelink: "/log-in",
+      icon: "pi pi-user-plus",
+      label: "Sign Up",
+    }
+
   ];
 
   @HostListener('window:resize', ['$event'])
