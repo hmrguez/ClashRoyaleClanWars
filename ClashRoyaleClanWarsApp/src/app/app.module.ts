@@ -25,18 +25,27 @@ import {CalendarModule} from "primeng/calendar";
 import {ContextMenuModule} from "primeng/contextmenu";
 import {ToastModule} from "primeng/toast";
 import {MessageService} from "primeng/api";
-import { SideMenuComponent } from './components/side-menu/side-menu.component';
 import { LogInComponent } from './components/log-in/log-in.component';
-import { SignUpComponent } from './components/sign-up/sign-up.component';
+import {SidenavComponent} from "./components/sidenav/sidenav.component";
+import {BodyComponent} from "./components/body/body.component";
+import { PlayersComponent } from './components/players/players.component';
+import { CardsComponent } from './components/cards/cards.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import {HttpClient, HttpClientModule, HttpHandler} from "@angular/common/http";
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
     GridComponent,
-    SideMenuComponent,
     LogInComponent,
-    SignUpComponent
+    SidenavComponent,
+    BodyComponent,
+    PlayersComponent,
+    CardsComponent,
+    DashboardComponent
+
   ],
   imports: [
     BrowserModule,
@@ -62,6 +71,7 @@ import { SignUpComponent } from './components/sign-up/sign-up.component';
     ReactiveFormsModule,
     ContextMenuModule,
     ToastModule,
+    HttpClientModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

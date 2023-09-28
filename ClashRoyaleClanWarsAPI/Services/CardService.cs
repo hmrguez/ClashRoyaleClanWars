@@ -16,6 +16,7 @@ namespace ClashRoyaleClanWarsAPI.Services
         public async Task<int> Add(CardModel model)
         {
             _context.Cards.Add(model);
+            
             await _context.SaveChangesAsync();
             return model.Id;
 
@@ -23,6 +24,8 @@ namespace ClashRoyaleClanWarsAPI.Services
 
         public async Task AddAllCards()
         {
+            if (_context.Cards.Any()) return;
+
             _context.Structures.AddRange(CardsUpload.StructureCards.ToArray());
             _context.Troops.AddRange(CardsUpload.TroopsCards.ToArray());
             _context.Spells.AddRange(CardsUpload.SpellCards.ToArray());

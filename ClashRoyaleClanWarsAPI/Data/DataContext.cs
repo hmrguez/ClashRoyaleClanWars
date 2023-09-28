@@ -1,12 +1,20 @@
-﻿using ClashRoyaleClanWarsAPI.Models;
+﻿using ClashRoyaleClanWarsAPI.Dtos;
+using ClashRoyaleClanWarsAPI.Models;
 using ClashRoyaleClanWarsAPI.Models.Configurations;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace ClashRoyaleClanWarsAPI.Data
 {
-    public class DataContext : DbContext
+    public class DataContext : IdentityDbContext
     {
-        public DataContext(DbContextOptions<DataContext> options):base(options) { }
+        private readonly IConfiguration _configuration;
+        public DataContext(DbContextOptions<DataContext> options,IConfiguration configuration) 
+            : base(options)
+        {
+            _configuration = configuration;
+        }
 
         public DbSet<BattleModel> Battles => Set<BattleModel>();
         public DbSet<CardModel> Cards => Set<CardModel>();
@@ -27,6 +35,16 @@ namespace ClashRoyaleClanWarsAPI.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<IdentityUser>(m => m.ToTable("Users"));
+            modelBuilder.Entity<IdentityRole>(m => m.ToTable("Roles"));
+            modelBuilder.Entity<IdentityRoleClaim<string>>(m => m.ToTable("RoleClaims"));
+            modelBuilder.Entity<IdentityUserClaim<string>>(m => m.ToTable("UserClaims"));
+            modelBuilder.Entity<IdentityUserLogin<string>>(m => m.ToTable("UserLogins"));
+            modelBuilder.Entity<IdentityUserRole<string>>(m => m.ToTable("UserRoles"));
+            modelBuilder.Entity<IdentityUserToken<string>>(m => m.ToTable("UserTokens"));
+
+            modelBuilder.SeedRoles(_configuration["SuperAdmin:Psw"]!);
+
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(BattleConfiguration).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(CardConfiguration).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ChallengeConfiguration).Assembly);
@@ -41,6 +59,8 @@ namespace ClashRoyaleClanWarsAPI.Data
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(TroopConfiguration).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(SpellConfiguration).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(StructureConfiguration).Assembly);
+
+
         }
 
     }

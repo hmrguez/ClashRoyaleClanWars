@@ -2,28 +2,34 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 
 export abstract class CrudService<T> {
-    protected constructor(protected http: HttpClient, protected baseUrl: string) {}
 
-    getAll(): Observable<T[]> {
-        return this.http.get<T[]>(this.baseUrl);
-    }
+  abstract baseUrl: string
+  protected http: HttpClient;
 
-    getSingle(id: string | number): Observable<T> {
-        const url = `${this.baseUrl}/${id}`;
-        return this.http.get<T>(url);
-    }
+  protected constructor(http: HttpClient) {
+    this.http = http;
+  }
 
-    create(item: T): Observable<T> {
-        return this.http.post<T>(this.baseUrl, item);
-    }
+  getAll(): Observable<T[]> {
+    return this.http.get<T[]>(this.baseUrl);
+  }
 
-    update(id: string | number, item: T): Observable<T> {
-        const url = `${this.baseUrl}/${id}`;
-        return this.http.put<T>(url, item);
-    }
+  getSingle(id: string | number): Observable<T> {
+    const url = `${this.baseUrl}/${id}`;
+    return this.http.get<T>(url);
+  }
 
-    delete(id: string | number): Observable<void> {
-        const url = `${this.baseUrl}/${id}`;
-        return this.http.delete<void>(url);
-    }
+  create(item: T): Observable<T> {
+    return this.http.post<T>(this.baseUrl, item);
+  }
+
+  update(id: string | number, item: T): Observable<T> {
+    const url = `${this.baseUrl}/${id}`;
+    return this.http.put<T>(url, item);
+  }
+
+  delete(id: string | number): Observable<void> {
+    const url = `${this.baseUrl}/${id}`;
+    return this.http.delete<void>(url);
+  }
 }
