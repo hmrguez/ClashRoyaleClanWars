@@ -52,7 +52,7 @@ namespace ClashRoyaleClanWarsAPI.Services
         private SigningCredentials CreateSigningCredentials() =>
             new SigningCredentials(
                 new SymmetricSecurityKey(
-                    Encoding.UTF8.GetBytes(_configuration["JWT:Secret"])
+                    Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]!)
                     ),
                 SecurityAlgorithms.HmacSha256);
     }

@@ -71,10 +71,19 @@ namespace ClashRoyaleClanWarsAPI.Services
             var user = await _userManager.FindByNameAsync(loginUser.Username)
                 ?? throw new UserNotFoundException();
 
-            if (await _userManager.CheckPasswordAsync(user, loginUser.Password))
+            var roles = await _userManager.GetRolesAsync(user);
+            
+            if (roles.First() == UserRoles.SUPERADMIN)
+            {
+                var pswHasher = new PasswordHasher<IdentityUser>();
+                var result = pswHasher.VerifyHashedPassword(user, user.PasswordHash!, loginUser.Password);
+
+                if (result == 0)
+                    throw new InvalidPasswordException();
+            }
+            else if (await _userManager.CheckPasswordAsync(user, loginUser.Password))
                 throw new InvalidPasswordException();
 
-            var roles = await _userManager.GetRolesAsync(user);
 
             return _jwtService.CreateToken(user, roles);
 

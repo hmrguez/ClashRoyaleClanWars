@@ -2,6 +2,7 @@
 using ClashRoyaleClanWarsAPI.Interfaces.ServicesInterfaces;
 using ClashRoyaleClanWarsAPI.Models;
 using ClashRoyaleClanWarsAPI.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
