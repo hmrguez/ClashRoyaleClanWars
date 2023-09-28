@@ -4,7 +4,7 @@
   padding: 0;
   box-sizing: border-box;
   font-family: sans-serif;
-  display: flex;
+  
   justify-content: center;
   align-items: center;
 
@@ -25,6 +25,8 @@ body{
   padding: 40px 30px;
   box-shadow: 0 5px 10px rgba(0,0,0,0.2);
   perspective: 2700px;
+  left: 25%;
+  
 }
 .container .cover{
   position: absolute;
