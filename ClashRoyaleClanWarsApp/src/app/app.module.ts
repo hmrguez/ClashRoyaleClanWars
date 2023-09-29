@@ -33,6 +33,7 @@ import { CardsComponent } from './components/cards/cards.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import {HttpClient, HttpClientModule, HttpHandler} from "@angular/common/http";
 import { ProfileComponent } from './components/profile/profile.component';
+import { ClansComponent } from './components/clans/clans.component';
 
 
 
@@ -46,7 +47,8 @@ import { ProfileComponent } from './components/profile/profile.component';
     PlayersComponent,
     CardsComponent,
     DashboardComponent,
-    ProfileComponent
+    ProfileComponent,
+    ClansComponent
 
   ],
   imports: [
