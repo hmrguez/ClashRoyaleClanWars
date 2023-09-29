@@ -3,6 +3,7 @@ import {ColumnType, IColumn} from "../grid/IColumn";
 import {DenominationEnum, QualityEnum, TargetEnum} from "./CardEnums";
 import {SelectItem} from "primeng/api";
 import {CardService} from "./card.service";
+import {ICardDto} from "./ICardDto";
 
 @Component({
   selector: 'app-cards',
@@ -36,17 +37,17 @@ export class CardsComponent {
   cardColumns: IColumn[] = [
     {
       header: 'ID',
-      field: 'Id',
+      field: 'id',
       type: ColumnType.Number,
     },
     {
       header: 'Name',
-      field: 'Name',
+      field: 'name',
       type: ColumnType.String,
     },
     {
       header: 'Type',
-      field: 'Type',
+      field: 'type',
       type: ColumnType.Enum,
       enumOptions: Object.values(DenominationEnum).map((value) => (<SelectItem>{
         label: value,
@@ -56,37 +57,40 @@ export class CardsComponent {
     },
     {
       header: 'Description',
-      field: 'Description',
+      field: 'description',
       type: ColumnType.String,
     },
     {
       header: 'Elixir',
-      field: 'Elixir',
+      field: 'elixir',
       type: ColumnType.Number,
     },
     {
       header: 'Quality',
-      field: 'Quality',
+      field: 'quality',
       type: ColumnType.Enum,
-      enumOptions: Object.values(QualityEnum).map((value) => (<SelectItem>{
-        label: value,
-        value: value,
-      })),
+      enumOptions: [
+        <SelectItem>{label: 'Rare', value: 'Rare' },
+        <SelectItem>{label: 'Common', value: 'Common'},
+        <SelectItem>{label: 'Legendary', value: 'Legendary'},
+        <SelectItem>{label: 'Epic', value: 'Epic'},
+        <SelectItem>{label: 'Champion', value: 'Champion'}
+      ],
       enumColors: new Map(Object.entries(this.enumColors.QualityEnum)),
     },
     {
       header: 'Damage',
-      field: 'Damage',
+      field: 'damage',
       type: ColumnType.Number,
     },
     {
       header: 'Area Damage',
-      field: 'AreaDamage',
+      field: 'areaDamage',
       type: ColumnType.Boolean,
     },
     {
       header: 'Target',
-      field: 'Target',
+      field: 'target',
       type: ColumnType.Enum,
       enumOptions: Object.values(TargetEnum).map((value) => (<SelectItem>{
         label: value,
@@ -96,15 +100,35 @@ export class CardsComponent {
     },
     {
       header: 'Initial Level',
-      field: 'InitialLevel',
+      field: 'initialLevel',
       type: ColumnType.Number,
     },
     {
       header: 'Image URL',
-      field: 'ImageUrl',
+      field: 'imageUrl',
       type: ColumnType.String,
     },
   ];
 
-  constructor(public cardService: CardService) { }
+
+  constructor(public cardService: CardService) {
+    console.log(this.cardColumns)
+  }
+
+  itemParsingFunction(data: any): ICardDto{
+    return {
+      areaDamage: data.areaDamage,
+      damage: data.damage,
+      description: data.description,
+      elixir: data.elixir,
+      id: data.id,
+      imageUrl: data.imageUrl,
+      initialLevel: data.initialLevel,
+      name: data.name,
+      quality: QualityEnum[data.quality],
+      target: TargetEnum[data.target],
+      type: DenominationEnum[data.type]
+    }
+  }
+
 }

@@ -7,7 +7,7 @@ import {HttpClient} from "@angular/common/http";
   providedIn: 'root'
 })
 export class CardService extends CrudService<ICardDto>{
-  baseUrl: string = `http://localhost:5123/card`;
+  baseUrl: string = `http://localhost:5123/api/cards`;
   constructor(http: HttpClient) {
     super(http);
   }

@@ -28,6 +28,8 @@ export class GridComponent implements OnInit{
   @Input() adminUser: boolean = false;
   @Input() customData: any[] = []
 
+  @Input() itemParsingFunction!: (data: any) => any
+
   data: any[] = []
 
   filterFields: string[] = [];
@@ -63,21 +65,18 @@ export class GridComponent implements OnInit{
     ]
 
     this.listColumn = this.columns.find(x=>x.type === ColumnType.List);
-    console.log(this.listColumn)
   }
 
   private async loadData() {
 
-    console.log("Loading data v1")
     if(this.customData.length > 0){
-      console.log("Loading data v3")
       this.data = [...this.customData]
     } else{
-      console.log("Loading data")
       this.dataService.getAll().subscribe({
         next: (v) => {
-          console.log("Data: ", v)
-          this.data = v
+          console.log("Data before: ", v)
+          this.data = this.itemParsingFunction ? v.data.map(this.itemParsingFunction) : v.data
+          console.log("Data after: ", this.data)
         },
         error: (e) => console.log("Error ", e)
       })
