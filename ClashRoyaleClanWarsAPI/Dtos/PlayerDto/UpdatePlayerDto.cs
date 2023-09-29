@@ -1,8 +1,6 @@
-﻿using ClashRoyaleClanWarsAPI.Interfaces.ServicesInterfaces;
-
-namespace ClashRoyaleClanWarsAPI.Models
+﻿namespace ClashRoyaleClanWarsAPI.Dtos.PlayerDto
 {
-    public class PlayerModel : IEntity
+    public class UpdatePlayerDto
     {
         public int Id { get; set; }
         public string Alias { get; set; }
@@ -11,8 +9,6 @@ namespace ClashRoyaleClanWarsAPI.Models
         public int Victories { get; set; }
         public int CardAmount { get; set; }
         public int MaxElo { get; set; }
-        public CardModel FavoriteCard { get; set; }
-        public List<CollectModel> Cards { get; set; }
-
+        public int FavoriteCardId { get; set; }
     }
 }

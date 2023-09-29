@@ -16,7 +16,7 @@ namespace ClashRoyaleClanWarsAPI.Models.Configurations
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(c => c.Card)
-                .WithMany(p => p.CardOwners)
+                .WithMany()
                 .HasForeignKey("CardId");
 
             builder.HasKey("PlayerId", "CardId");
