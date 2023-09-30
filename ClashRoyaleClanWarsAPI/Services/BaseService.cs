@@ -40,13 +40,13 @@ namespace ClashRoyaleClanWarsAPI.Services
         {
             if (_context.Set<T>() == null) throw new ModelNotFoundException<T>();
 
-            T entity;
+            T entity = null!;
 
             try
             {
                 entity = await GetSingleByIdAsync(id);
             }
-            catch (IdNotFoundException<CardModel>)
+            catch (IdNotFoundException<T>)
             {
                 throw;
             }

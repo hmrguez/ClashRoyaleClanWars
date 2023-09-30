@@ -13,11 +13,13 @@ namespace ClashRoyaleClanWarsAPI.Models.Configurations
             builder.HasOne(c => c.Player)
                 .WithMany(p => p.Cards)
                 .HasForeignKey("PlayerId")
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(c => c.Card)
                 .WithMany()
-                .HasForeignKey("CardId");
+                .HasForeignKey("CardId")
+                .OnDelete(DeleteBehavior.NoAction);
+
 
             builder.HasKey("PlayerId", "CardId");
 

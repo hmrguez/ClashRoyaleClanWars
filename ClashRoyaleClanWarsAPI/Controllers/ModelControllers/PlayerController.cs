@@ -49,7 +49,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
 
             try
             {
-                player = await _playerService.GetSingleByIdAsync(id);
+                player = await _playerService.GetSingleByIdAsync(id, true);
             }
             catch (ModelNotFoundException<PlayerModel> e)
             {
@@ -141,7 +141,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             return NoContent();
         }
 
-        // GET api/players/{id:int}/cards !!!!!!!!!!!!!!!!!FIX WITH COLLECTMOdel
+        // GET api/players/{id:int}/cards
         [HttpGet("{id:int}/cards")]
         public async Task<IActionResult> GetCards(int id)
         {
@@ -181,6 +181,28 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             }
 
             return NoContent();
+        }
+
+        //PATCH api/players/{playerId:int}/{alias}
+        [HttpPatch("{playerId:int}/{alias}")]
+        public async Task<IActionResult> UpdateAlias(int playerId, string alias)
+        {
+            PlayerModel player = null!;
+            try
+            {
+                player = await _playerService.UpdateAlias(playerId, alias);
+            }
+            catch (ModelNotFoundException<PlayerModel> e)
+            {
+                NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
+            }
+            catch (IdNotFoundException<PlayerModel> e)
+            {
+                NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
+            }
+
+            return Ok(new RequestResponse<PlayerModel>(data: player!, message: "Alias Updated", success: true));
+
         }
     }
 }

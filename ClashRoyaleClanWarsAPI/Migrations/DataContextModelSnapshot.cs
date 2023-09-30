@@ -300,7 +300,7 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                         .HasColumnType("int")
                         .HasDefaultValue(0);
 
-                    b.Property<int?>("FavoriteCardId")
+                    b.Property<int>("FavoriteCardId")
                         .HasColumnType("int");
 
                     b.Property<int>("Level")
@@ -370,22 +370,22 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "4b09bf94-7d1e-4ffb-b6b2-9c42f545769e",
-                            ConcurrencyStamp = "1e457438-68c8-4cb0-8278-a77f2743550a",
+                            Id = "8e29a83a-d2ca-4cdb-9954-fa21cef37945",
+                            ConcurrencyStamp = "6bda4c08-8853-47e1-873c-457cf129d3ec",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "ca31dbee-5cbc-4f02-9833-e31676116d50",
-                            ConcurrencyStamp = "4c13dc8a-3d91-4238-bbec-4fd27f27d9e0",
+                            Id = "5d3f2933-a621-41ec-b84b-6eedc0e78f29",
+                            ConcurrencyStamp = "3106cb33-8130-46b3-93c2-ed88e9c08bbd",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "a69bf1f3-9dd2-479f-ad5f-77a2039640f2",
-                            ConcurrencyStamp = "4a037a90-bc6f-482f-9de1-c1a223661251",
+                            Id = "752a6e39-4e64-45da-9d8e-d8c74984cccd",
+                            ConcurrencyStamp = "27f4749d-1fff-4dcf-b2fe-54612e3a8fbd",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         });
@@ -483,15 +483,15 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b948e02e-b956-4acc-a40a-3db1ce6b12cd",
+                            Id = "5104f232-fbc9-4907-86af-7280f04352aa",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "77186ffc-2131-4f6a-b5e9-84dccd6dfe8f",
+                            ConcurrencyStamp = "4175bd83-b8ad-4aaa-a1d3-82c8d280aa0f",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "SUPERADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGzex/WLdK7HHIzl0d2AEjGm/8bHRplUB1pDfPk6pyzZ1irKlyeM58f4LK7q9B8Tyg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEO9IJwtJfmCHAnIRNekWYE2bh40tPIdlkFj21LPbtvBtR4yoAiSOQOYOzrYzGBu7NA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "32170bb2-32ee-4179-94f1-06bf285209bb",
+                            SecurityStamp = "59fa99c1-3864-4810-a798-9267c1da1f68",
                             TwoFactorEnabled = false,
                             UserName = "superadmin"
                         });
@@ -561,8 +561,8 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "b948e02e-b956-4acc-a40a-3db1ce6b12cd",
-                            RoleId = "a69bf1f3-9dd2-479f-ad5f-77a2039640f2"
+                            UserId = "5104f232-fbc9-4907-86af-7280f04352aa",
+                            RoleId = "752a6e39-4e64-45da-9d8e-d8c74984cccd"
                         });
                 });
 
@@ -703,13 +703,13 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                     b.HasOne("ClashRoyaleClanWarsAPI.Models.CardModel", "Card")
                         .WithMany()
                         .HasForeignKey("CardId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("ClashRoyaleClanWarsAPI.Models.PlayerModel", "Player")
                         .WithMany("Cards")
                         .HasForeignKey("PlayerId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Card");
@@ -786,7 +786,9 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                 {
                     b.HasOne("ClashRoyaleClanWarsAPI.Models.CardModel", "FavoriteCard")
                         .WithMany()
-                        .HasForeignKey("FavoriteCardId");
+                        .HasForeignKey("FavoriteCardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("FavoriteCard");
                 });
