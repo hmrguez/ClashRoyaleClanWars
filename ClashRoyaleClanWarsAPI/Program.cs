@@ -1,4 +1,5 @@
 using ClashRoyaleClanWarsAPI.Data;
+using ClashRoyaleClanWarsAPI.Data.Triggers;
 using ClashRoyaleClanWarsAPI.Interfaces.ServicesInterfaces;
 using ClashRoyaleClanWarsAPI.Models;
 using ClashRoyaleClanWarsAPI.Services;
@@ -17,8 +18,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddDbContext<DataContext>(options=>
-       options.UseSqlServer(builder.Configuration.GetConnectionString("ClashRoyaleDb_Conn")));
+builder.Services.AddDbContext<DataContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ClashRoyaleDb_Conn"));
+    options.UseTriggers(triggerOpt =>
+    {
+        triggerOpt.AddTrigger<UpdateAmountCardTrigger>();
+    });
+});
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
     {

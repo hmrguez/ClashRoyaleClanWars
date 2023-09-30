@@ -12,6 +12,7 @@ namespace ClashRoyaleClanWarsAPI.Interfaces.ServicesInterfaces
         public Task<int> Add(T model);
         public Task Update(T model);
         public Task Delete(int id);
+        public Task Save();
 
     }
 }

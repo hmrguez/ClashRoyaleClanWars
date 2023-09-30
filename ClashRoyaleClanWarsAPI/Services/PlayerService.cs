@@ -57,6 +57,7 @@ namespace ClashRoyaleClanWarsAPI.Services
             await _context.SaveChangesAsync();
 
         }
+        
         public async Task AddCard(int playerId, int cardId)
         {
             if (_context.Players == null) throw new ModelNotFoundException<PlayerModel>();
@@ -74,8 +75,7 @@ namespace ClashRoyaleClanWarsAPI.Services
                 Level = card.InitialLevel,
                 Date = DateTime.UtcNow
             };
-
-            player.Cards.Add(collect);
+            _context.Collection.Add(collect);
 
             await _context.SaveChangesAsync();
         }

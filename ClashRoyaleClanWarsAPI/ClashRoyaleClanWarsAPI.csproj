@@ -27,8 +27,4 @@
         <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="7.0.11" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Data\Triggers\" />
-    </ItemGroup>
-
 </Project>

@@ -61,6 +61,7 @@ namespace ClashRoyaleClanWarsAPI.Services
             _context.Entry(model).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
+        public virtual async Task Save() => await _context.SaveChangesAsync();
         public virtual async Task<bool> ExistsId(int id)
         {
             return await _context.Set<T>().AnyAsync(e => e.Id == id);
