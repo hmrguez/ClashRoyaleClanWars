@@ -29,11 +29,11 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             }
             catch (ModelNotFoundException<CardModel> e)
             {
-                NotFound(new RequestResponse<CardModel>(message: e.Message, success: false));
+                return NotFound(new RequestResponse<CardModel>(message: e.Message, success: false));
             }
             catch (IdNotFoundException<CardModel> e)
             {
-                NotFound(new RequestResponse<CardModel>(message: e.Message, success: false));
+                return NotFound(new RequestResponse<CardModel>(message: e.Message, success: false));
             }
 
             return Ok(new RequestResponse<CardModel>(card!));
@@ -50,7 +50,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             }
             catch (ModelNotFoundException<CardModel> e)
             {
-                NotFound(new RequestResponse<CardModel>(message: e.Message, success: false));
+                return NotFound(new RequestResponse<CardModel>(message: e.Message, success: false));
             }
 
             return Ok(new RequestResponse<IEnumerable<CardModel>>(cards!));
@@ -67,7 +67,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             }
             catch (ModelNotFoundException<CardModel> e)
             {
-                NotFound(new RequestResponse<CardModel>(message: e.Message, success: false));
+                return NotFound(new RequestResponse<CardModel>(message: e.Message, success: false));
             }
 
             return Created("api/cards", new RequestResponse<IEnumerable<CardModel>>());
@@ -85,11 +85,11 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             }
             catch (ModelNotFoundException<CardModel> e)
             {
-                NotFound(new RequestResponse<CardModel>(message: e.Message, success: false));
+                return NotFound(new RequestResponse<CardModel>(message: e.Message, success: false));
             }
             catch (IdNotFoundException<CardModel> e)
             {
-                NotFound(new RequestResponse<CardModel>(message: e.Message, success: false));
+                return NotFound(new RequestResponse<CardModel>(message: e.Message, success: false));
             }
 
             return NoContent();
@@ -106,11 +106,11 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             }
             catch (ModelNotFoundException<CardModel> e)
             {
-                NotFound(new RequestResponse<CardModel>(message: e.Message, success: false));
+                return NotFound(new RequestResponse<CardModel>(message: e.Message, success: false));
             }
             catch (IdNotFoundException<CardModel> e)
             {
-                NotFound(new RequestResponse<CardModel>(message: e.Message, success: false));
+                return NotFound(new RequestResponse<CardModel>(message: e.Message, success: false));
             }
 
             return NoContent();

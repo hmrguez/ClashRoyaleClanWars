@@ -6,8 +6,6 @@
         public int Elo { get; set; }
         public int Level { get; set; }
         public int Victories { get; set; }
-        public int CardAmount { get; set; }
         public int MaxElo { get; set; }
-        public int FavoriteCardId { get; set; }
     }
 }

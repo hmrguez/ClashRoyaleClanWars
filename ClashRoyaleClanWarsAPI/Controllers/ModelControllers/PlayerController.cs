@@ -53,11 +53,11 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             }
             catch (ModelNotFoundException<PlayerModel> e)
             {
-                NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
+                return NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
             }
             catch (IdNotFoundException<PlayerModel> e)
             {
-                NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
+                return NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
             }
 
             return Ok(new RequestResponse<PlayerModel>(player!));
@@ -74,7 +74,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             }
             catch (ModelNotFoundException<PlayerModel> e)
             {
-                NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
+                return NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
             }
 
             return Ok(new RequestResponse<IEnumerable<PlayerModel>>(players!));
@@ -111,11 +111,11 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             }
             catch (ModelNotFoundException<PlayerModel> e)
             {
-                NotFound(new RequestResponse<PlayerModel>(message:e.Message, success: false));
+                return NotFound(new RequestResponse<PlayerModel>(message:e.Message, success: false));
             }
             catch (IdNotFoundException<PlayerModel> e)
             {
-                NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
+                return NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
             }
 
             return NoContent();
@@ -131,11 +131,11 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             }
             catch (ModelNotFoundException<PlayerModel> e)
             {
-                NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
+                return NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
             }
             catch (IdNotFoundException<PlayerModel> e)
             {
-                NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
+                return NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
             }
 
             return NoContent();
@@ -153,11 +153,11 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             }
             catch (ModelNotFoundException<PlayerModel> e)
             {
-                NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
+                return NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
             }
             catch (IdNotFoundException<PlayerModel> e)
             {
-                NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
+                return NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
             }
 
             return Ok(new RequestResponse<IEnumerable<CardModel>>(cards!));
@@ -173,11 +173,11 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             }
             catch (ModelNotFoundException<PlayerModel> e)
             {
-                NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
+                return NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
             }
             catch (ModelNotFoundException<CardModel> e)
             {
-                NotFound(new RequestResponse<CardModel>(message: e.Message, success: false));
+                return NotFound(new RequestResponse<CardModel>(message: e.Message, success: false));
             }
 
             return NoContent();
@@ -194,11 +194,11 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             }
             catch (ModelNotFoundException<PlayerModel> e)
             {
-                NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
+                return NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
             }
             catch (IdNotFoundException<PlayerModel> e)
             {
-                NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
+                return NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
             }
 
             return Ok(new RequestResponse<PlayerModel>(data: player!, message: "Alias Updated", success: true));

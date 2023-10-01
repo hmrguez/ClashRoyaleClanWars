@@ -24,7 +24,8 @@ namespace ClashRoyaleClanWarsAPI.Models.Configurations
 
             builder.HasOne(p => p.FavoriteCard)
                 .WithMany()
-                .HasForeignKey(p => p.FavoriteCardId);
+                .HasForeignKey("FavoriteCardId")
+                .IsRequired(false);
 
         }
     }

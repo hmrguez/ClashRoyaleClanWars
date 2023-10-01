@@ -59,6 +59,7 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddScoped<ICardService, CardService>();
 builder.Services.AddScoped<IPlayerService, PlayerService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IClanService, ClanService>();
 builder.Services.AddScoped<ITokenCreationService,JwtService>();
 
 

@@ -33,7 +33,7 @@ namespace ClashRoyaleClanWarsAPI.Services
 
             _context.Set<T>().Add(model);
 
-            await _context.SaveChangesAsync();
+            await Save();
             return model.Id;
         }
         public virtual async Task Delete(int id)
@@ -51,15 +51,15 @@ namespace ClashRoyaleClanWarsAPI.Services
                 throw;
             }
             _context.Set<T>().Remove(entity);
-            await _context.SaveChangesAsync();
+            await Save();
         }
         public virtual async Task Update(T model)
         {
             if (_context.Set<T>() == null) throw new ModelNotFoundException<T>();
-            if (!await ExistsId(model.Id)) throw new IdNotFoundException<T>(model.Id);
+            if (!(await ExistsId(model.Id))) throw new IdNotFoundException<T>(model.Id);
 
             _context.Entry(model).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+            await Save();
         }
         public virtual async Task Save() => await _context.SaveChangesAsync();
         public virtual async Task<bool> ExistsId(int id)

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ClashRoyaleClanWarsAPI.Dtos.ClanDto;
 using ClashRoyaleClanWarsAPI.Dtos.CollectDto;
 using ClashRoyaleClanWarsAPI.Dtos.PlayerDto;
 using ClashRoyaleClanWarsAPI.Interfaces.ServicesInterfaces;
@@ -16,6 +17,9 @@ namespace ClashRoyaleClanWarsAPI.Dtos
 
             CreateMap<UpdatePlayerDto, PlayerModel>();
             CreateMap<AddPlayerDto, PlayerModel>();
+
+            CreateMap<AddClanDto, ClanModel>();
+            CreateMap<UpdateClanDto, ClanModel>();
 
         }
 

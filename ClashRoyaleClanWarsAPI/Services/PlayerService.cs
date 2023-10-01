@@ -54,7 +54,7 @@ namespace ClashRoyaleClanWarsAPI.Services
             }
             player.Cards.Clear();
             _context.Players.Remove(player);
-            await _context.SaveChangesAsync();
+            await Save();
 
         }
         
@@ -77,7 +77,7 @@ namespace ClashRoyaleClanWarsAPI.Services
             };
             _context.Collection.Add(collect);
 
-            await _context.SaveChangesAsync();
+            await Save();
         }
 
         public async Task<IEnumerable<CardModel>> GetAllCardsOfPlayerAsync(int id)
@@ -107,7 +107,7 @@ namespace ClashRoyaleClanWarsAPI.Services
             var player = await GetSingleByIdAsync(playerId);
             player.Alias = alias;
 
-            await _context.SaveChangesAsync();
+            await Save();
 
             return player;
         }
