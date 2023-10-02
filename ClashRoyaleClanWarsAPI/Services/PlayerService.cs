@@ -75,7 +75,7 @@ namespace ClashRoyaleClanWarsAPI.Services
                 Level = card.InitialLevel,
                 Date = DateTime.UtcNow
             };
-            _context.Collection.Add(collect);
+            await _context.Collection.AddAsync(collect);
 
             await Save();
         }

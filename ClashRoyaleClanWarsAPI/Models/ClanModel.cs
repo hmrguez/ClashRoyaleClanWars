@@ -13,5 +13,6 @@ namespace ClashRoyaleClanWarsAPI.Models
         public int AmountMembers { get; set; }
         public int TrophiesInWar { get; set; }
         public int MinTrophies { get; set; }
+        public List<PlayerClansModel> Players { get; set; }
     }
 }

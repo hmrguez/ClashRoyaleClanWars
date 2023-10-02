@@ -40,15 +40,15 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             return Ok(new RequestResponse<IEnumerable<ClanModel>>(clans!));
         }
 
-        // GET api/clans/{id:int}
-        [HttpGet("{id:int}")]
-        public async Task<IActionResult> Get(int id)
+        // GET api/clans/{clanId:int}
+        [HttpGet("{clanId:int}")]
+        public async Task<IActionResult> Get(int clanId)
         {
             ClanModel? clan = null;
 
             try
             {
-                clan = await _clanService.GetSingleByIdAsync(id);
+                clan = await _clanService.GetSingleByIdAsync(clanId, true);
             }
             catch (ModelNotFoundException<ClanModel> e)
             {
@@ -66,12 +66,11 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
         [HttpPost("{playerId:int}")]
         public async Task<IActionResult> Post(int playerId, [FromBody] AddClanDto clanDto)
         {
-            ClanModel clan = null!;
-
+            ClanModel clan;
             try
             {
                 clan = _mapper.Map<ClanModel>(clanDto);
-                await _clanService.Add(clan);
+                await _clanService.Add(playerId, clan);
             }
             catch (ModelNotFoundException<ClanModel> e)
             {
@@ -82,16 +81,17 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
                 return NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
             }
 
-            return Created($"api/clans/{clan.Id}", clan);
+
+            return Created($"api/clans/{clan.Id}", new RequestResponse<ClanModel>(message: "Clan created", success: true));
 
             
         }
 
-        // PUT api/clans/{id:int}
-        [HttpPut("{id:int}")]
-        public async Task<IActionResult> Put(int id, [FromBody] UpdateClanDto clanDto)
+        // PUT api/clans/{clanId:int}
+        [HttpPut("{clanId:int}")]
+        public async Task<IActionResult> Put(int clanId, [FromBody] UpdateClanDto clanDto)
         {
-            if (id != clanDto.Id)
+            if (clanId != clanDto.Id)
                 return BadRequest(new RequestResponse<ClanModel>(message: "Ids do not match", success: false));
 
             try
@@ -110,13 +110,13 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             return NoContent();
         }
 
-        // DELETE api/clans/{id:int}
-        [HttpDelete("{id:int}")]
-        public async Task<IActionResult> Delete(int id)
+        // DELETE api/clans/{clanId:int}
+        [HttpDelete("{clanId:int}")]
+        public async Task<IActionResult> Delete(int clanId)
         {
             try
             {
-                await _clanService.Delete(id);
+                await _clanService.Delete(clanId);
             }
             catch (ModelNotFoundException<ClanModel> e)
             {
@@ -162,6 +162,108 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             }
 
             return Ok(new RequestResponse<IEnumerable<ClanModel>>(clansByName!));
+        }
+
+        [HttpGet("{clanId:int}/players")]
+        public async Task<IActionResult> GetPlayers(int clanId)
+        {
+            IEnumerable<PlayerClansModel>? playerClan;
+            try
+            {
+                playerClan = await _clanService.GetPlayers(clanId);
+
+            }
+            catch (ModelNotFoundException<ClanModel> e)
+            {
+                return NotFound(new RequestResponse<ClanModel>(message: e.Message, success: false));
+            }
+            catch (IdNotFoundException<ClanModel> e)
+            {
+                return NotFound(new RequestResponse<ClanModel>(message: e.Message, success: false));
+            }
+
+            return Ok(new RequestResponse<IEnumerable<PlayerClansModel>>(data: playerClan, message: "Ok", success: true));
+        }
+
+        [HttpPost("{clanId:int}/players/{playerId}")]
+        public async Task<IActionResult> AddPlayer(int clanId, int playerId)
+        {
+            try
+            {
+                await _clanService.AddPlayer(clanId, playerId);
+            }
+            catch (ModelNotFoundException<ClanModel> e)
+            {
+                return NotFound(new RequestResponse<ClanModel>(message: e.Message, success: false));
+            }
+            catch (ModelNotFoundException<PlayerModel> e)
+            {
+                return NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
+            }
+            catch (IdNotFoundException<ClanModel> e)
+            {
+                return NotFound(new RequestResponse<ClanModel>(message: e.Message, success: false));
+            }
+            catch (IdNotFoundException<PlayerModel> e)
+            {
+                return NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
+            }
+
+            return Created($"api/clans/{clanId}",  new RequestResponse<ClanModel>(message: "Player Added", success: true));
+        }
+
+        [HttpDelete("{clanId:int}/players/{playerId}")]
+        public async Task<IActionResult> RemovePlayer(int clanId, int playerId)
+        {
+            try
+            {
+                await _clanService.RemovePlayer(clanId, playerId);
+            }
+            catch (ModelNotFoundException<ClanModel> e)
+            {
+                return NotFound(new RequestResponse<ClanModel>(message: e.Message, success: false));
+            }
+            catch (ModelNotFoundException<PlayerModel> e)
+            {
+                return NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
+            }
+            catch (IdNotFoundException<ClanModel> e)
+            {
+                return NotFound(new RequestResponse<ClanModel>(message: e.Message, success: false));
+            }
+            catch (IdNotFoundException<PlayerModel> e)
+            {
+                return NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
+            }
+
+            return NoContent();
+        }
+
+        [HttpPatch("{clanId:int}/players/{playerId}/rank/{rank:int}")]
+        public async Task<IActionResult> UpdatePlayerRank(int clanId, int playerId, RankClan rank)
+        {
+            try
+            {
+                await _clanService.UpdatePlayerRank(clanId, playerId, rank);
+            }
+            catch (ModelNotFoundException<ClanModel> e)
+            {
+                return NotFound(new RequestResponse<ClanModel>(message: e.Message, success: false));
+            }
+            catch (ModelNotFoundException<PlayerModel> e)
+            {
+                return NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
+            }
+            catch (IdNotFoundException<ClanModel> e)
+            {
+                return NotFound(new RequestResponse<ClanModel>(message: e.Message, success: false));
+            }
+            catch (IdNotFoundException<PlayerModel> e)
+            {
+                return NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
+            }
+
+            return Ok();
         }
     }
 }

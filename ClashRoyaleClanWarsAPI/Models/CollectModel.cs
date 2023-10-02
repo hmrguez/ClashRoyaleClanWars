@@ -1,6 +1,4 @@
-﻿using ClashRoyaleClanWarsAPI.Interfaces.ServicesInterfaces;
-
-namespace ClashRoyaleClanWarsAPI.Models
+﻿namespace ClashRoyaleClanWarsAPI.Models
 {
     public class CollectModel
     {

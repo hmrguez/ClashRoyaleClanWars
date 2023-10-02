@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClashRoyaleClanWarsAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230930030936_CollectCascade")]
-    partial class CollectCascade
+    [Migration("20231002023118_SeddRoles-SuperAdmin")]
+    partial class SeddRolesSuperAdmin
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -149,7 +149,7 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                     b.Property<int>("AmountMembers")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasDefaultValue(0);
+                        .HasDefaultValue(1);
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -303,7 +303,7 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                         .HasColumnType("int")
                         .HasDefaultValue(0);
 
-                    b.Property<int>("FavoriteCardId")
+                    b.Property<int?>("FavoriteCardId")
                         .HasColumnType("int");
 
                     b.Property<int>("Level")
@@ -373,22 +373,22 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "8e29a83a-d2ca-4cdb-9954-fa21cef37945",
-                            ConcurrencyStamp = "6bda4c08-8853-47e1-873c-457cf129d3ec",
+                            Id = "6b592a98-7029-4bc8-b4c2-34ab85f94c0c",
+                            ConcurrencyStamp = "a1c8abe5-469d-4848-9473-56ba8f63a8a3",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "5d3f2933-a621-41ec-b84b-6eedc0e78f29",
-                            ConcurrencyStamp = "3106cb33-8130-46b3-93c2-ed88e9c08bbd",
+                            Id = "ba8e5c4e-b190-4bc9-bf7f-0b800d6d86f1",
+                            ConcurrencyStamp = "bd48ad22-bbf0-44df-ae6c-3a47da163e0f",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "752a6e39-4e64-45da-9d8e-d8c74984cccd",
-                            ConcurrencyStamp = "27f4749d-1fff-4dcf-b2fe-54612e3a8fbd",
+                            Id = "0add7f67-8df7-4c74-bf21-1a05f44ad0c9",
+                            ConcurrencyStamp = "6c1dc17e-13e9-4a29-aca7-4505e493f1c2",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         });
@@ -486,15 +486,15 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "5104f232-fbc9-4907-86af-7280f04352aa",
+                            Id = "1ba5161d-a461-4537-9556-ee9756fde0b6",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4175bd83-b8ad-4aaa-a1d3-82c8d280aa0f",
+                            ConcurrencyStamp = "539c8261-c4c0-4064-8347-6f36763cef65",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "SUPERADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEO9IJwtJfmCHAnIRNekWYE2bh40tPIdlkFj21LPbtvBtR4yoAiSOQOYOzrYzGBu7NA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGGFpqnRFZK2TDVt/gJO/QwDVDIsYtfkzvRV5Ecj7VqrEfmJ6gGBOe2/hfwd5qLUqg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "59fa99c1-3864-4810-a798-9267c1da1f68",
+                            SecurityStamp = "5888b277-3674-4f09-bfee-8cd0e40c252e",
                             TwoFactorEnabled = false,
                             UserName = "superadmin"
                         });
@@ -564,8 +564,8 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "5104f232-fbc9-4907-86af-7280f04352aa",
-                            RoleId = "752a6e39-4e64-45da-9d8e-d8c74984cccd"
+                            UserId = "1ba5161d-a461-4537-9556-ee9756fde0b6",
+                            RoleId = "0add7f67-8df7-4c74-bf21-1a05f44ad0c9"
                         });
                 });
 
@@ -769,7 +769,7 @@ namespace ClashRoyaleClanWarsAPI.Migrations
             modelBuilder.Entity("ClashRoyaleClanWarsAPI.Models.PlayerClansModel", b =>
                 {
                     b.HasOne("ClashRoyaleClanWarsAPI.Models.ClanModel", "Clan")
-                        .WithMany()
+                        .WithMany("Players")
                         .HasForeignKey("ClanId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -789,9 +789,7 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                 {
                     b.HasOne("ClashRoyaleClanWarsAPI.Models.CardModel", "FavoriteCard")
                         .WithMany()
-                        .HasForeignKey("FavoriteCardId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("FavoriteCardId");
 
                     b.Navigation("FavoriteCard");
                 });
@@ -845,6 +843,11 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("ClashRoyaleClanWarsAPI.Models.ClanModel", b =>
+                {
+                    b.Navigation("Players");
                 });
 
             modelBuilder.Entity("ClashRoyaleClanWarsAPI.Models.PlayerModel", b =>

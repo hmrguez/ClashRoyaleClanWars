@@ -370,22 +370,22 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "9c892de0-0c28-4d8e-977d-920f78516d4b",
-                            ConcurrencyStamp = "f81816fe-38c1-444c-8c6e-a94cc98d1181",
+                            Id = "6b592a98-7029-4bc8-b4c2-34ab85f94c0c",
+                            ConcurrencyStamp = "a1c8abe5-469d-4848-9473-56ba8f63a8a3",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "697f1925-86eb-43da-8176-37b572fad0c4",
-                            ConcurrencyStamp = "c629d09c-b55a-4198-b0d1-9a74793153dd",
+                            Id = "ba8e5c4e-b190-4bc9-bf7f-0b800d6d86f1",
+                            ConcurrencyStamp = "bd48ad22-bbf0-44df-ae6c-3a47da163e0f",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "8fb28309-0ca1-4685-b0a5-9fe3c9f7d5c3",
-                            ConcurrencyStamp = "78125589-f9b6-4445-87b0-43371836c475",
+                            Id = "0add7f67-8df7-4c74-bf21-1a05f44ad0c9",
+                            ConcurrencyStamp = "6c1dc17e-13e9-4a29-aca7-4505e493f1c2",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         });
@@ -483,15 +483,15 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "e429fd44-326c-4164-b60a-5c110136093f",
+                            Id = "1ba5161d-a461-4537-9556-ee9756fde0b6",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7a648fb9-72cf-4eab-9ae2-8f3b6d1188b4",
+                            ConcurrencyStamp = "539c8261-c4c0-4064-8347-6f36763cef65",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "SUPERADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEMsnWf1Epd8g5k988OaNBS5WWx4l0H6J5VD90RX9VnlZTZSfrhUcI4GP6APgejgAFw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGGFpqnRFZK2TDVt/gJO/QwDVDIsYtfkzvRV5Ecj7VqrEfmJ6gGBOe2/hfwd5qLUqg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "41f4d935-5997-429d-a494-c481289e5341",
+                            SecurityStamp = "5888b277-3674-4f09-bfee-8cd0e40c252e",
                             TwoFactorEnabled = false,
                             UserName = "superadmin"
                         });
@@ -561,8 +561,8 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "e429fd44-326c-4164-b60a-5c110136093f",
-                            RoleId = "8fb28309-0ca1-4685-b0a5-9fe3c9f7d5c3"
+                            UserId = "1ba5161d-a461-4537-9556-ee9756fde0b6",
+                            RoleId = "0add7f67-8df7-4c74-bf21-1a05f44ad0c9"
                         });
                 });
 
@@ -766,7 +766,7 @@ namespace ClashRoyaleClanWarsAPI.Migrations
             modelBuilder.Entity("ClashRoyaleClanWarsAPI.Models.PlayerClansModel", b =>
                 {
                     b.HasOne("ClashRoyaleClanWarsAPI.Models.ClanModel", "Clan")
-                        .WithMany()
+                        .WithMany("Players")
                         .HasForeignKey("ClanId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -840,6 +840,11 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("ClashRoyaleClanWarsAPI.Models.ClanModel", b =>
+                {
+                    b.Navigation("Players");
                 });
 
             modelBuilder.Entity("ClashRoyaleClanWarsAPI.Models.PlayerModel", b =>
