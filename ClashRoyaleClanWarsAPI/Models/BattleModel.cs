@@ -1,4 +1,6 @@
-﻿namespace ClashRoyaleClanWarsAPI.Models
+﻿using ClashRoyaleClanWarsAPI.Interfaces.ServicesInterfaces;
+
+namespace ClashRoyaleClanWarsAPI.Models
 {
     public class BattleModel
     {

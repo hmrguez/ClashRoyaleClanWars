@@ -60,6 +60,8 @@ builder.Services.AddScoped<ICardService, CardService>();
 builder.Services.AddScoped<IPlayerService, PlayerService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IClanService, ClanService>();
+builder.Services.AddScoped<IBattleService, BattleService>();
+builder.Services.AddScoped<IWarService, WarService>();
 builder.Services.AddScoped<ITokenCreationService,JwtService>();
 
 

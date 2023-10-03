@@ -2,7 +2,7 @@
 
 namespace ClashRoyaleClanWarsAPI.Models
 {
-    public class WarModel
+    public class WarModel : IEntity
     {
         public int Id { get; set; }
         public DateTime StartDate { get; set; }

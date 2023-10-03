@@ -10,7 +10,7 @@ namespace ClashRoyaleClanWarsAPI.Services
 {
     public class JwtService :ITokenCreationService
     {
-        private const int EXPIRATION_MINUTES = 1;
+        private const int EXPIRATION_HOURS = 1;
         private readonly IConfiguration _configuration;
 
         public JwtService(IConfiguration configuration)
@@ -20,7 +20,7 @@ namespace ClashRoyaleClanWarsAPI.Services
 
         public LoginResponse CreateToken(IdentityUser user, IList<string> roles)
         {
-            var expiration = DateTime.UtcNow.AddMinutes(EXPIRATION_MINUTES);
+            var expiration = DateTime.UtcNow.AddHours(EXPIRATION_HOURS);
 
             var token = CreateJwtToken(CreataClaims(user, roles), CreateSigningCredentials(), expiration);
 
