@@ -1,4 +1,6 @@
-﻿namespace ClashRoyaleClanWarsAPI.Models
+﻿using ClashRoyaleClanWarsAPI.Interfaces.ServicesInterfaces;
+
+namespace ClashRoyaleClanWarsAPI.Models
 {
     public enum DenominationEnum
     {
@@ -37,7 +39,7 @@
         Air
     }
 
-    public abstract class CardModel
+    public abstract class CardModel : IEntity
     {
         public int Id { get; set; }
         public string Name { get;set; }
@@ -50,6 +52,5 @@
         public TargetEnum Target { get; set; }
         public int InitialLevel { get; set; }
         public string ImageUrl { get; set; }
-        public List<CollectModel> CardOwners { get; set; }
     }
 }

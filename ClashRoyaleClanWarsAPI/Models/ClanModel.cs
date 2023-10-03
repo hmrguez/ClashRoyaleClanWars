@@ -1,7 +1,9 @@
-﻿namespace ClashRoyaleClanWarsAPI.Models
+﻿using ClashRoyaleClanWarsAPI.Interfaces.ServicesInterfaces;
+
+namespace ClashRoyaleClanWarsAPI.Models
 {
     
-    public class ClanModel
+    public class ClanModel : IEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -11,5 +13,6 @@
         public int AmountMembers { get; set; }
         public int TrophiesInWar { get; set; }
         public int MinTrophies { get; set; }
+        public List<PlayerClansModel> Players { get; set; }
     }
 }

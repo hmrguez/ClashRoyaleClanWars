@@ -11,10 +11,12 @@ namespace ClashRoyaleClanWarsAPI.Models.Configurations
             builder.Property<int>("ClanId");
 
             builder.HasOne(d => d.Clan)
-                .WithMany()
+                .WithMany(d=> d.Players)
                 .HasForeignKey("ClanId");
+
             builder.HasOne(d => d.Player)
                 .WithMany()
+                .HasForeignKey("PlayerId")
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasKey("PlayerId", "ClanId");
