@@ -1,15 +1,15 @@
 import {DenominationEnum, QualityEnum, TargetEnum} from "./CardEnums";
 
 export interface ICardDto {
-  Id: number
-  Name: string
-  Type: DenominationEnum
-  Description: string
-  Elixir: number
-  Quality: QualityEnum
-  Damage: number
-  AreaDamage: boolean
-  Target: TargetEnum
-  InitialLevel: number
-  ImageUrl: string
+  id: number
+  name: string
+  type: string
+  description: string
+  elixir: number
+  quality: string
+  damage: number
+  areaDamage: boolean
+  target: string
+  initialLevel: number
+  imageUrl: string
 }

@@ -11,9 +11,9 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
     [ApiController]
     public class CardController : ControllerBase
     {
-        private readonly ICardService<CardModel> _cardService;
+        private readonly ICardService _cardService;
         
-        public CardController(ICardService<CardModel> cardService)
+        public CardController(ICardService cardService)
         {
             _cardService = cardService;
         }
@@ -29,11 +29,11 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             }
             catch (ModelNotFoundException<CardModel> e)
             {
-                NotFound(new RequestResponse<CardModel>(null!, e.Message, false));
+                return NotFound(new RequestResponse<CardModel>(message: e.Message, success: false));
             }
             catch (IdNotFoundException<CardModel> e)
             {
-                NotFound(new RequestResponse<CardModel>(null!, e.Message, false));
+                return NotFound(new RequestResponse<CardModel>(message: e.Message, success: false));
             }
 
             return Ok(new RequestResponse<CardModel>(card!));
@@ -50,13 +50,14 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             }
             catch (ModelNotFoundException<CardModel> e)
             {
-                NotFound(new RequestResponse<CardModel>(null!, e.Message, false));
+                return NotFound(new RequestResponse<CardModel>(message: e.Message, success: false));
             }
 
             return Ok(new RequestResponse<IEnumerable<CardModel>>(cards!));
         }
-        
+
         // POST api/cards
+        [Authorize(Roles = UserRoles.SUPERADMIN)]
         [HttpPost("seed")]
         public async Task<ActionResult<RequestResponse<CardModel>>> PostAllCards()
         {
@@ -66,34 +67,36 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             }
             catch (ModelNotFoundException<CardModel> e)
             {
-                NotFound(new RequestResponse<CardModel>(null!, e.Message, false));
+                return NotFound(new RequestResponse<CardModel>(message: e.Message, success: false));
             }
 
-            return Created("api/cards", new RequestResponse<IEnumerable<CardModel>>(null!));
+            return Created("api/cards", new RequestResponse<IEnumerable<CardModel>>());
         }
 
         // PUT api/cards/5
         [HttpPut("{id:int}")]
         public async Task<ActionResult> Put(int id, [FromBody] CardModel cardModel)
         {
-            if (id != cardModel.Id) return BadRequest(new RequestResponse<CardModel>(null!, "Ids do not match", false));
+            if (id != cardModel.Id) 
+                return BadRequest(new RequestResponse<CardModel>(message: "Ids do not match", success: false));
             try
             {
                 await _cardService.Update(cardModel);
             }
             catch (ModelNotFoundException<CardModel> e)
             {
-                NotFound(new RequestResponse<CardModel>(null!, e.Message, false));
+                return NotFound(new RequestResponse<CardModel>(message: e.Message, success: false));
             }
             catch (IdNotFoundException<CardModel> e)
             {
-                NotFound(new RequestResponse<CardModel>(null!, e.Message, false));
+                return NotFound(new RequestResponse<CardModel>(message: e.Message, success: false));
             }
 
             return NoContent();
         }
 
         // DELETE api/cards/5
+        [Authorize(Roles = UserRoles.SUPERADMIN)]
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
@@ -103,11 +106,11 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             }
             catch (ModelNotFoundException<CardModel> e)
             {
-                NotFound(new RequestResponse<CardModel>(null!, e.Message, false));
+                return NotFound(new RequestResponse<CardModel>(message: e.Message, success: false));
             }
             catch (IdNotFoundException<CardModel> e)
             {
-                NotFound(new RequestResponse<CardModel>(null!, e.Message, false));
+                return NotFound(new RequestResponse<CardModel>(message: e.Message, success: false));
             }
 
             return NoContent();

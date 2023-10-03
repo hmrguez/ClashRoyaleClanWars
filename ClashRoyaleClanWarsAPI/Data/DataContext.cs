@@ -43,6 +43,7 @@ namespace ClashRoyaleClanWarsAPI.Data
             modelBuilder.Entity<IdentityUserRole<string>>(m => m.ToTable("UserRoles"));
             modelBuilder.Entity<IdentityUserToken<string>>(m => m.ToTable("UserTokens"));
 
+            
             modelBuilder.SeedRoles(_configuration["SuperAdmin:Psw"]!);
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(BattleConfiguration).Assembly);

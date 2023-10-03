@@ -1,6 +1,8 @@
-﻿namespace ClashRoyaleClanWarsAPI.Models
+﻿using ClashRoyaleClanWarsAPI.Interfaces.ServicesInterfaces;
+
+namespace ClashRoyaleClanWarsAPI.Models
 {
-    public class PlayerModel
+    public class PlayerModel : IEntity
     {
         public int Id { get; set; }
         public string Alias { get; set; }

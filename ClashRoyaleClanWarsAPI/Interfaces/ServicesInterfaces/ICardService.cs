@@ -2,9 +2,9 @@
 
 namespace ClashRoyaleClanWarsAPI.Interfaces.ServicesInterfaces
 {
-    public interface ICardService<T> : IService<T>
+    public interface ICardService : IBaseService<CardModel>
     {
-        public Task<IEnumerable<T>> GetCardsByNameAsync(string name);
+        public Task<IEnumerable<CardModel>> GetCardsByNameAsync(string name);
         public Task AddAllCards();
     }
 }

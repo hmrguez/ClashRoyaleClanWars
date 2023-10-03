@@ -6,7 +6,6 @@ export enum DenominationEnum
   Troop
 }
 
-
 export enum QualityEnum
 {
   Common,
