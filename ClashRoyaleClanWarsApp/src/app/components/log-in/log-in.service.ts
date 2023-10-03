@@ -11,4 +11,6 @@ export class LogInService extends CrudService<any> {
   constructor(http: HttpClient) {
     super(http);
   }
+
+  
 }
