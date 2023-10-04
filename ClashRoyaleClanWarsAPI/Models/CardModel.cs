@@ -39,7 +39,7 @@ namespace ClashRoyaleClanWarsAPI.Models
         Air
     }
 
-    public abstract class CardModel : IEntity
+    public abstract class CardModel : IEntity<int>
     {
         public int Id { get; set; }
         public string Name { get;set; }

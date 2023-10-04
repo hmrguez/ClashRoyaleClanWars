@@ -3,7 +3,7 @@
 namespace ClashRoyaleClanWarsAPI.Models
 {
     
-    public class ClanModel : IEntity
+    public class ClanModel : IEntity<int>
     {
         public int Id { get; set; }
         public string Name { get; set; }

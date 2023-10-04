@@ -6,20 +6,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ClashRoyaleClanWarsAPI.Services
 {
-    public class BaseService<T> : IBaseService<T> where T : class, IEntity
+    public class BaseService<T, U> : IBaseService<T, U> where T : class, IEntity<U>
     {
         protected readonly DataContext _context;
         public BaseService(DataContext context)
         {
             _context = context;
         }
-        public virtual async Task<T> GetSingleByIdAsync(int id)
+        public virtual async Task<T> GetSingleByIdAsync(U id)
         {
             if (_context.Set<T>() == null) throw new ModelNotFoundException<T>();
 
             var entity = await _context.Set<T>().FindAsync(id);
 
-            return entity ?? throw new IdNotFoundException<T>(id);
+            return entity ?? throw new IdNotFoundException<T, U>(id);
         }
         public virtual async Task<IEnumerable<T>> GetAllAsync()
         {
@@ -27,7 +27,7 @@ namespace ClashRoyaleClanWarsAPI.Services
 
             return await _context.Set<T>().ToListAsync();
         }
-        public virtual async Task<int> Add(T model)
+        public virtual async Task<U> Add(T model)
         {
             if (_context.Set<T>() == null) throw new ModelNotFoundException<T>();
 
@@ -36,7 +36,7 @@ namespace ClashRoyaleClanWarsAPI.Services
             await Save();
             return model.Id;
         }
-        public virtual async Task Delete(int id)
+        public virtual async Task Delete(U id)
         {
             if (_context.Set<T>() == null) throw new ModelNotFoundException<T>();
 
@@ -46,7 +46,7 @@ namespace ClashRoyaleClanWarsAPI.Services
             {
                 entity = await GetSingleByIdAsync(id);
             }
-            catch (IdNotFoundException<T>)
+            catch (IdNotFoundException<T, U>)
             {
                 throw;
             }
@@ -56,15 +56,15 @@ namespace ClashRoyaleClanWarsAPI.Services
         public virtual async Task Update(T model)
         {
             if (_context.Set<T>() == null) throw new ModelNotFoundException<T>();
-            if (!(await ExistsId(model.Id))) throw new IdNotFoundException<T>(model.Id);
+            if (!(await ExistsId(model.Id))) throw new IdNotFoundException<T, U>(model.Id);
 
             _context.Entry(model).State = EntityState.Modified;
             await Save();
         }
         public virtual async Task Save() => await _context.SaveChangesAsync();
-        public virtual async Task<bool> ExistsId(int id)
+        public virtual async Task<bool> ExistsId(U id)
         {
-            return await _context.Set<T>().AnyAsync(e => e.Id == id);
+            return await _context.Set<T>().AnyAsync(e => e.Id.Equals(id));
         }
     }
 }

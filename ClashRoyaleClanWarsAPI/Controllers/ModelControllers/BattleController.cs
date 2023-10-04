@@ -55,7 +55,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             {
                 return NotFound(new RequestResponse<BattleModel>(message: e.Message, success: false));
             }
-            catch (IdNotFoundException<BattleModel> e)
+            catch (IdNotFoundException<BattleModel, Guid> e)
             {
                 return NotFound(new RequestResponse<BattleModel>(message: e.Message, success: false));
             }
@@ -71,7 +71,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
 
             try
             {
-                await _battleService.AddAsync(battle, warDto.WinnerId);
+                await _battleService.Add(battle, warDto.WinnerId);
             }
             catch (ModelNotFoundException<BattleModel> e)
             {

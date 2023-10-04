@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ClashRoyaleClanWarsAPI.Services
 {
-    public class PlayerService : BaseService<PlayerModel>, IPlayerService
+    public class PlayerService : BaseService<PlayerModel, int>, IPlayerService
     {
         private readonly ICardService _cardService;
         private readonly IMapper _mapper;
@@ -21,7 +21,7 @@ namespace ClashRoyaleClanWarsAPI.Services
             _mapper = mapper;
         }
 
-        public async Task<PlayerModel> GetSingleByIdAsync(int id, bool fullLoad)
+        public async Task<PlayerModel> GetSingleByIdAsync(int id, bool fullLoad= false)
         {
             if (_context.Players == null) throw new ModelNotFoundException<PlayerModel>();
 
@@ -35,7 +35,7 @@ namespace ClashRoyaleClanWarsAPI.Services
                                             : 
                                              await base.GetSingleByIdAsync(id);
 
-            return player ?? throw new IdNotFoundException<PlayerModel>(id);
+            return player ?? throw new IdNotFoundException<PlayerModel, int>(id);
         }
 
         public override async Task Delete(int id)
@@ -48,7 +48,7 @@ namespace ClashRoyaleClanWarsAPI.Services
             {
                 player = await GetSingleByIdAsync(id, true);
             }
-            catch (IdNotFoundException<PlayerModel>)
+            catch (IdNotFoundException<PlayerModel, int>)
             {
                 throw;
             }

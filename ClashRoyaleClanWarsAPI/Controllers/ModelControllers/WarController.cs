@@ -54,7 +54,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             {
                 return NotFound(new RequestResponse<WarModel>(message: e.Message, success: false));
             }
-            catch (IdNotFoundException<WarModel> e)
+            catch (IdNotFoundException<WarModel, int> e)
             {
                 return NotFound(new RequestResponse<WarModel>(message: e.Message, success: false));
             }
@@ -92,7 +92,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             {
                 return NotFound(new RequestResponse<WarModel>(message: e.Message, success: false));
             }
-            catch (IdNotFoundException<WarModel> e)
+            catch (IdNotFoundException<WarModel, int> e)
             {
                 return NotFound(new RequestResponse<WarModel>(message: e.Message, success: false));
             }

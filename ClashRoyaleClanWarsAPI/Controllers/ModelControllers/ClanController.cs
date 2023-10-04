@@ -54,7 +54,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             {
                 return NotFound(new RequestResponse<ClanModel>(message: e.Message, success: false));
             }
-            catch (IdNotFoundException<ClanModel> e)
+            catch (IdNotFoundException<ClanModel, int> e)
             {
                 return NotFound(new RequestResponse<ClanModel>(message: e.Message, success: false));
             }
@@ -76,7 +76,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             {
                 return NotFound(new RequestResponse<ClanModel>(message: e.Message, success: false));
             }
-            catch (IdNotFoundException<PlayerModel> e)
+            catch (IdNotFoundException<PlayerModel, int> e)
             {
                 return NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
             }
@@ -102,7 +102,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             {
                 return NotFound(new RequestResponse<ClanModel>(message: e.Message, success: false));
             }
-            catch (IdNotFoundException<PlayerModel> e)
+            catch (IdNotFoundException<PlayerModel, int> e)
             {
                 return NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
             }
@@ -122,7 +122,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             {
                 return NotFound(new RequestResponse<ClanModel>(message: e.Message, success: false));
             }
-            catch (IdNotFoundException<ClanModel> e)
+            catch (IdNotFoundException<ClanModel, int> e)
             {
                 return NotFound(new RequestResponse<ClanModel>(message: e.Message, success: false));
             }
@@ -177,7 +177,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             {
                 return NotFound(new RequestResponse<ClanModel>(message: e.Message, success: false));
             }
-            catch (IdNotFoundException<ClanModel> e)
+            catch (IdNotFoundException<ClanModel, int> e)
             {
                 return NotFound(new RequestResponse<ClanModel>(message: e.Message, success: false));
             }
@@ -200,11 +200,11 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             {
                 return NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
             }
-            catch (IdNotFoundException<ClanModel> e)
+            catch (IdNotFoundException<ClanModel, int> e)
             {
                 return NotFound(new RequestResponse<ClanModel>(message: e.Message, success: false));
             }
-            catch (IdNotFoundException<PlayerModel> e)
+            catch (IdNotFoundException<PlayerModel, int> e)
             {
                 return NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
             }
@@ -227,11 +227,11 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             {
                 return NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
             }
-            catch (IdNotFoundException<ClanModel> e)
+            catch (IdNotFoundException<ClanModel, int> e)
             {
                 return NotFound(new RequestResponse<ClanModel>(message: e.Message, success: false));
             }
-            catch (IdNotFoundException<PlayerModel> e)
+            catch (IdNotFoundException<PlayerModel, int> e)
             {
                 return NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
             }
@@ -254,11 +254,11 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             {
                 return NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
             }
-            catch (IdNotFoundException<ClanModel> e)
+            catch (IdNotFoundException<ClanModel, int> e)
             {
                 return NotFound(new RequestResponse<ClanModel>(message: e.Message, success: false));
             }
-            catch (IdNotFoundException<PlayerModel> e)
+            catch (IdNotFoundException<PlayerModel, int> e)
             {
                 return NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
             }

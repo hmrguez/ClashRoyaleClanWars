@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ClashRoyaleClanWarsAPI.Services
 {
-    public class CardService : BaseService<CardModel>, ICardService
+    public class CardService : BaseService<CardModel, int>, ICardService
     {
         public CardService(DataContext context) : base(context)
         {

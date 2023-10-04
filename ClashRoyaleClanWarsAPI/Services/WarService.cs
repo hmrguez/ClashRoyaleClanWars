@@ -4,7 +4,7 @@ using ClashRoyaleClanWarsAPI.Models;
 
 namespace ClashRoyaleClanWarsAPI.Services
 {
-    public class WarService : BaseService<WarModel>, IWarService
+    public class WarService : BaseService<WarModel, int>, IWarService
     {
         public WarService(DataContext context) : base(context)
         {

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ClashRoyaleClanWarsAPI.Services
 {
-    public class ClanService : BaseService<ClanModel>, IClanService
+    public class ClanService : BaseService<ClanModel, int>, IClanService
     {
         private readonly IPlayerService _playerService;
         private readonly IMapper _mapper;
@@ -111,7 +111,7 @@ namespace ClashRoyaleClanWarsAPI.Services
             {
                 clan = await GetSingleByIdAsync(id, true);
             }
-            catch (IdNotFoundException<ClanModel>)
+            catch (IdNotFoundException<ClanModel, int>)
             {
                 throw;
             }
@@ -140,7 +140,7 @@ namespace ClashRoyaleClanWarsAPI.Services
                                             :
                                              await base.GetSingleByIdAsync(id);
 
-            return clan ?? throw new IdNotFoundException<ClanModel>(id);
+            return clan ?? throw new IdNotFoundException<ClanModel, int>(id);
         }
     }
 }

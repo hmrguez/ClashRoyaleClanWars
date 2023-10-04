@@ -2,7 +2,7 @@
 
 namespace ClashRoyaleClanWarsAPI.Interfaces.ServicesInterfaces
 {
-    public interface IClanService : IBaseService<ClanModel>
+    public interface IClanService : IBaseService<ClanModel, int>
     {
         public Task<ClanModel> GetSingleByIdAsync(int id, bool fullLoad = false);
         public Task<IEnumerable<ClanModel>> GetAllByName(string name);
