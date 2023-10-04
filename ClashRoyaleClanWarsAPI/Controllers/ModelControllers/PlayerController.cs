@@ -35,7 +35,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             }
             catch (ModelNotFoundException<PlayerModel> e)
             {
-                NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
+                return NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
             }
 
             return Ok(new RequestResponse<IEnumerable<PlayerModel>>(players!));

@@ -17,7 +17,7 @@ namespace ClashRoyaleClanWarsAPI.Models.Configurations
             builder.Property(c => c.TrophiesInWar)
                 .HasDefaultValue(0);
             builder.Property(c => c.AmountMembers)
-                .HasDefaultValue(1);
+                .HasDefaultValue(0);
             builder.Property(c => c.MinTrophies)
                 .HasDefaultValue(0);
         }

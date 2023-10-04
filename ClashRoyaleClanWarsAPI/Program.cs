@@ -24,6 +24,7 @@ builder.Services.AddDbContext<DataContext>(options =>
     options.UseTriggers(triggerOpt =>
     {
         triggerOpt.AddTrigger<UpdateAmountCardTrigger>();
+        triggerOpt.AddTrigger<UpdateAmountClanMembers>();
     });
 });
 
@@ -62,6 +63,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IClanService, ClanService>();
 builder.Services.AddScoped<IBattleService, BattleService>();
 builder.Services.AddScoped<IWarService, WarService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<ITokenCreationService,JwtService>();
 
 
