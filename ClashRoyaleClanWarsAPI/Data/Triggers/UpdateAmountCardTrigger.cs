@@ -18,7 +18,7 @@ namespace ClashRoyaleClanWarsAPI.Data.Triggers
             if(context.ChangeType == ChangeType.Added)
             {
                 var player = await _playerService.GetSingleByIdAsync(context.Entity.Player.Id);
-                player.CardAmount = player.CardAmount + 1;
+                player.CardAmount +=1;
                 await _playerService.Save();
                 
             }

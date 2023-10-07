@@ -24,7 +24,8 @@ builder.Services.AddDbContext<DataContext>(options =>
     options.UseTriggers(triggerOpt =>
     {
         triggerOpt.AddTrigger<UpdateAmountCardTrigger>();
-        triggerOpt.AddTrigger<UpdateAmountClanMembers>();
+        triggerOpt.AddTrigger<UpdateAmountClanMembersTrigger>();
+        triggerOpt.AddTrigger<UpdateBattleDateTrigger>();
     });
 });
 

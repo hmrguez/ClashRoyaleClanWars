@@ -6,6 +6,7 @@ using ClashRoyaleClanWarsAPI.Models;
 using ClashRoyaleClanWarsAPI.Services;
 using ClashRoyaleClanWarsAPI.Utils;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -208,6 +209,10 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             {
                 return NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
             }
+            catch(DbUpdateException e)
+            {
+                return BadRequest(new RequestResponse<ClanModel>(message: e.InnerException.Message, success: false));
+            }
 
             return Created($"api/clans/{clanId}",  new RequestResponse<ClanModel>(message: "Player Added", success: true));
         }
@@ -219,21 +224,9 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             {
                 await _clanService.RemovePlayer(clanId, playerId);
             }
-            catch (ModelNotFoundException<ClanModel> e)
+            catch (IdNotFoundException<PlayerClansModel, int> e)
             {
-                return NotFound(new RequestResponse<ClanModel>(message: e.Message, success: false));
-            }
-            catch (ModelNotFoundException<PlayerModel> e)
-            {
-                return NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
-            }
-            catch (IdNotFoundException<ClanModel, int> e)
-            {
-                return NotFound(new RequestResponse<ClanModel>(message: e.Message, success: false));
-            }
-            catch (IdNotFoundException<PlayerModel, int> e)
-            {
-                return NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
+                return NotFound(new RequestResponse<PlayerClansModel>(message: e.Message, success: false));
             }
 
             return NoContent();
@@ -246,21 +239,9 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             {
                 await _clanService.UpdatePlayerRank(clanId, playerId, rank);
             }
-            catch (ModelNotFoundException<ClanModel> e)
+            catch (IdNotFoundException<PlayerClansModel, int> e)
             {
-                return NotFound(new RequestResponse<ClanModel>(message: e.Message, success: false));
-            }
-            catch (ModelNotFoundException<PlayerModel> e)
-            {
-                return NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
-            }
-            catch (IdNotFoundException<ClanModel, int> e)
-            {
-                return NotFound(new RequestResponse<ClanModel>(message: e.Message, success: false));
-            }
-            catch (IdNotFoundException<PlayerModel, int> e)
-            {
-                return NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
+                return NotFound(new RequestResponse<PlayerClansModel>(message: e.Message, success: false));
             }
 
             return Ok();

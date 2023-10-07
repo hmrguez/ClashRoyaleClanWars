@@ -4,6 +4,7 @@ using ClashRoyaleClanWarsAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClashRoyaleClanWarsAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20231007021758_PlayerClansCascade")]
+    partial class PlayerClansCascade
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,9 +33,6 @@ namespace ClashRoyaleClanWarsAPI.Migrations
 
                     b.Property<int>("AmountTrophies")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("DurationInSeconds")
                         .HasColumnType("int");
@@ -373,22 +373,22 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "83b72a42-6b95-477a-8637-1626a8b6a979",
-                            ConcurrencyStamp = "857bf47c-cbf0-44f2-b3b7-9c053cf44870",
+                            Id = "e1977a15-60d3-4145-a0e3-11747dc932bf",
+                            ConcurrencyStamp = "365e5bb1-5f58-400f-9a9e-82f66b2ce8fe",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "4e24c939-1bab-42a3-b6da-2b63ba90f254",
-                            ConcurrencyStamp = "5112b2df-c7ab-48ef-9b0c-0f72d623b9d2",
+                            Id = "816b888b-4e24-47ab-bd69-fd9fdaa11c26",
+                            ConcurrencyStamp = "de76c547-b405-4f01-8236-db3c01e1d429",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "c1602929-02c2-4b1e-b946-44da7a758587",
-                            ConcurrencyStamp = "db69c8c8-d9d3-41fb-b2a5-8cc9391025a4",
+                            Id = "94863767-4e81-42c9-a81a-0d4133719815",
+                            ConcurrencyStamp = "9cda8b1f-1ea2-474f-9ea7-94b62f3cb6e0",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         });
@@ -486,15 +486,15 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "157e61fe-8baa-49b4-8936-2e1e8b8148d9",
+                            Id = "ea2820cf-4219-483b-97b6-4dcc131cb3cf",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7b383a12-c3e8-43f2-8434-4b0b18461c9d",
+                            ConcurrencyStamp = "5eda29fc-6a43-41f5-8fbe-ce706ca2babb",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "SUPERADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOai7L4w0DBwJqGdehw3Y9/MY1HvaTrmy+ifn2MYq4tPdr6wrgo2wmOk45n5n6HZIw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHPCA7GzoLYGGhIEs/+qj8+O93y/U2gG/ZwQD31hKyXCCsnrOrmIBrTqvhkEZ4F2IA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "1b0fc554-02bf-4b05-990d-ece66db6ae2f",
+                            SecurityStamp = "71dc5432-e063-48cb-904b-0d09eb7f779e",
                             TwoFactorEnabled = false,
                             UserName = "superadmin"
                         });
@@ -564,8 +564,8 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "157e61fe-8baa-49b4-8936-2e1e8b8148d9",
-                            RoleId = "c1602929-02c2-4b1e-b946-44da7a758587"
+                            UserId = "ea2820cf-4219-483b-97b6-4dcc131cb3cf",
+                            RoleId = "94863767-4e81-42c9-a81a-0d4133719815"
                         });
                 });
 

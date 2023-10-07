@@ -8,5 +8,6 @@ namespace ClashRoyaleClanWarsAPI.Models
         public int AmountTrophies { get; set; }
         public PlayerModel Winner {  get; set; }
         public int DurationInSeconds { get; set; }
+        public DateTime Date { get; set; }
     }
 }

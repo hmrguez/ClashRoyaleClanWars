@@ -72,10 +72,16 @@ namespace ClashRoyaleClanWarsAPI.Services
 
         public async Task RemovePlayer(int clanId, int playerId)
         {
-            var playerClan = await _context.PlayerClans.FindAsync(playerId, clanId);
-            _context.PlayerClans.Remove(playerClan!);
+            PlayerClansModel? playerClan = await _context.PlayerClans
+                                        .Include(pc=>pc.Clan)
+                                        .Include(pc=> pc.Player)
+                                        .Where(pc=> (pc.Player.Id == playerId) && (pc.Clan.Id == clanId))
+                                        .FirstOrDefaultAsync()
+                                        ?? throw new IdNotFoundException<PlayerClansModel, int>();
+            
 
-            await Save();
+            _context.PlayerClans.Remove(playerClan!);
+            await _context.SaveChangesAsync();
         }
 
         public PlayerClansModel CreatePlayerClan(PlayerModel player, ClanModel clan, RankClan rank)
@@ -92,7 +98,8 @@ namespace ClashRoyaleClanWarsAPI.Services
 
         public async Task UpdatePlayerRank(int clanId, int playerId, RankClan rank)
         {
-            var playerClan = await _context.PlayerClans.FindAsync(playerId, clanId);
+            var playerClan = await _context.PlayerClans.FindAsync(playerId, clanId)
+                 ?? throw new IdNotFoundException<PlayerClansModel, int>();
 
             playerClan.Rank = rank;
 
@@ -139,6 +146,7 @@ namespace ClashRoyaleClanWarsAPI.Services
                                                 .First()
                                             :
                                              await base.GetSingleByIdAsync(id);
+
 
             return clan ?? throw new IdNotFoundException<ClanModel, int>(id);
         }
