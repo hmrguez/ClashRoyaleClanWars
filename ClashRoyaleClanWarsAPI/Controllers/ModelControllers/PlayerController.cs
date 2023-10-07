@@ -82,7 +82,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
         
         // POST api/players
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] AddPlayerDto playerDto)
+        public async Task<IActionResult> Post(AddPlayerDto playerDto)
         {
             int playerId;
             PlayerModel player;
@@ -162,6 +162,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
 
             return Ok(new RequestResponse<IEnumerable<CardModel>>(cards!));
         }
+        
         // GET api/players/{playerId:int}/cards/{cardId:int}
         [HttpPost("{playerId:int}/cards/{cardId:int}")]
         public async Task<IActionResult> AddCard(int playerId, int cardId)

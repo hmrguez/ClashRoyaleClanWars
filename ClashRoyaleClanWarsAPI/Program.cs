@@ -1,8 +1,12 @@
 using ClashRoyaleClanWarsAPI.Data;
 using ClashRoyaleClanWarsAPI.Data.Triggers;
+using ClashRoyaleClanWarsAPI.Dtos.PlayerDto;
 using ClashRoyaleClanWarsAPI.Interfaces.ServicesInterfaces;
 using ClashRoyaleClanWarsAPI.Models;
 using ClashRoyaleClanWarsAPI.Services;
+using ClashRoyaleClanWarsAPI.Validators;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +30,9 @@ builder.Services.AddDbContext<DataContext>(options =>
         triggerOpt.AddTrigger<UpdateAmountCardTrigger>();
         triggerOpt.AddTrigger<UpdateAmountClanMembersTrigger>();
         triggerOpt.AddTrigger<UpdateBattleDateTrigger>();
+        triggerOpt.AddTrigger<UpdateVictoriesTrigger>();
+        triggerOpt.AddTrigger<UpdateMaxEloInBattleTrigger>();
+        triggerOpt.AddTrigger<UpdateMaxEloAddPlayerDto>();
     });
 });
 
@@ -54,9 +61,14 @@ builder.Services.AddAuthentication(options =>
             ValidateAudience = false,
             RequireExpirationTime = true,
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"])) // Jwt:Key - config value 
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]!)) // Jwt:Key - config value 
         };
     });
+
+builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
+builder.Services.AddValidatorsFromAssemblyContaining<AddPlayerDtoValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<UpdatePlayerDtoValidator>();
+
 
 builder.Services.AddScoped<ICardService, CardService>();
 builder.Services.AddScoped<IPlayerService, PlayerService>();
