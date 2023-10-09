@@ -11,12 +11,10 @@ namespace ClashRoyaleClanWarsAPI.Services
     public class BattleService : BaseService<BattleModel,Guid>, IBattleService
     {
         private readonly IPlayerService _playerService;
-        private readonly IMapper _mapper;
 
-        public BattleService(DataContext context, IPlayerService playerService, IMapper mapper) : base(context)
+        public BattleService(DataContext context, IPlayerService playerService) : base(context)
         {
             _playerService = playerService;
-            _mapper = mapper;
         }
         public async Task<Guid> Add(BattleModel battle, int winnerId, int loserId)
         {
@@ -27,6 +25,7 @@ namespace ClashRoyaleClanWarsAPI.Services
 
             battle.Winner = winner;
             battle.Loser = loser;
+
             _context.Battles.Add(battle);
 
             await Save();
@@ -40,6 +39,7 @@ namespace ClashRoyaleClanWarsAPI.Services
 
             return await _context.Battles
                             .Include(b=> b.Winner)
+                            .Include(b=>b.Loser)
                             .ToListAsync();
         }
 

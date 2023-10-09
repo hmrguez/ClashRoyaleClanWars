@@ -28,7 +28,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            IEnumerable<BattleModel>? battles = null;
+            IEnumerable<BattleModel>? battles;
             try
             {
                 battles = await _battleService.GetAllAsync();
@@ -45,8 +45,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
         [HttpGet("{battleId:Guid}")]
         public async Task<IActionResult> Get(Guid battleId)
         {
-            BattleModel? battle = null;
-
+            BattleModel? battle;
             try
             {
                 battle = await _battleService.GetSingleByIdAsync(battleId, true);
@@ -67,6 +66,9 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] AddBattleDto battleDto)
         {
+            if(battleDto.WinnerId == battleDto.LoserId)
+                return BadRequest(new RequestResponse<BattleModel>(message: "WinnerId and LoserId must be different", success: false));
+            
             BattleModel battle = _mapper.Map<BattleModel>(battleDto);
 
             try
