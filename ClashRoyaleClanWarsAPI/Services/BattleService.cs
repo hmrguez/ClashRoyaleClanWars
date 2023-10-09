@@ -18,13 +18,15 @@ namespace ClashRoyaleClanWarsAPI.Services
             _playerService = playerService;
             _mapper = mapper;
         }
-        public async Task<Guid> Add(BattleModel battle, int winnerId)
+        public async Task<Guid> Add(BattleModel battle, int winnerId, int loserId)
         {
             if (_context.Battles == null) throw new ModelNotFoundException<BattleModel>();
 
-            var player = await _playerService.GetSingleByIdAsync(winnerId);
+            var winner = await _playerService.GetSingleByIdAsync(winnerId);
+            var loser = await _playerService.GetSingleByIdAsync(loserId);
 
-            battle.Winner = player;
+            battle.Winner = winner;
+            battle.Loser = loser;
             _context.Battles.Add(battle);
 
             await Save();

@@ -6,7 +6,8 @@ namespace ClashRoyaleClanWarsAPI.Models
     {
         public Guid Id { get; set; }
         public int AmountTrophies { get; set; }
-        public PlayerModel Winner {  get; set; }
+        public PlayerModel? Winner {  get; set; }
+        public PlayerModel? Loser { get; set; }
         public int DurationInSeconds { get; set; }
         public DateTime Date { get; set; }
     }

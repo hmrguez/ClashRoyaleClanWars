@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClashRoyaleClanWarsAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230927053340_ChangeNameIdentityTables")]
-    partial class ChangeNameIdentityTables
+    [Migration("20231009162434_EntitiesAndIdentity")]
+    partial class EntitiesAndIdentity
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,13 +34,21 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                     b.Property<int>("AmountTrophies")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("DurationInSeconds")
                         .HasColumnType("int");
 
-                    b.Property<int>("WinnerId")
+                    b.Property<int?>("LoserId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("WinnerId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LoserId");
 
                     b.HasIndex("WinnerId");
 
@@ -291,7 +299,8 @@ namespace ClashRoyaleClanWarsAPI.Migrations
 
                     b.Property<string>("Alias")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<int>("CardAmount")
                         .ValueGeneratedOnAdd()
@@ -627,11 +636,17 @@ namespace ClashRoyaleClanWarsAPI.Migrations
 
             modelBuilder.Entity("ClashRoyaleClanWarsAPI.Models.BattleModel", b =>
                 {
+                    b.HasOne("ClashRoyaleClanWarsAPI.Models.PlayerModel", "Loser")
+                        .WithMany()
+                        .HasForeignKey("LoserId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
                     b.HasOne("ClashRoyaleClanWarsAPI.Models.PlayerModel", "Winner")
                         .WithMany()
                         .HasForeignKey("WinnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Loser");
 
                     b.Navigation("Winner");
                 });
@@ -658,15 +673,15 @@ namespace ClashRoyaleClanWarsAPI.Migrations
             modelBuilder.Entity("ClashRoyaleClanWarsAPI.Models.CollectModel", b =>
                 {
                     b.HasOne("ClashRoyaleClanWarsAPI.Models.CardModel", "Card")
-                        .WithMany("CardOwners")
+                        .WithMany()
                         .HasForeignKey("CardId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("ClashRoyaleClanWarsAPI.Models.PlayerModel", "Player")
                         .WithMany("Cards")
                         .HasForeignKey("PlayerId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Card");
@@ -723,7 +738,7 @@ namespace ClashRoyaleClanWarsAPI.Migrations
             modelBuilder.Entity("ClashRoyaleClanWarsAPI.Models.PlayerClansModel", b =>
                 {
                     b.HasOne("ClashRoyaleClanWarsAPI.Models.ClanModel", "Clan")
-                        .WithMany()
+                        .WithMany("Players")
                         .HasForeignKey("ClanId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -731,7 +746,7 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                     b.HasOne("ClashRoyaleClanWarsAPI.Models.PlayerModel", "Player")
                         .WithMany()
                         .HasForeignKey("PlayerId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Clan");
@@ -799,9 +814,9 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ClashRoyaleClanWarsAPI.Models.CardModel", b =>
+            modelBuilder.Entity("ClashRoyaleClanWarsAPI.Models.ClanModel", b =>
                 {
-                    b.Navigation("CardOwners");
+                    b.Navigation("Players");
                 });
 
             modelBuilder.Entity("ClashRoyaleClanWarsAPI.Models.PlayerModel", b =>

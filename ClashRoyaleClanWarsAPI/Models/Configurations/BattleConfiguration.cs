@@ -9,7 +9,16 @@ namespace ClashRoyaleClanWarsAPI.Models.Configurations
         {
             builder.HasOne(b => b.Winner)
                 .WithMany()
-                .HasForeignKey("WinnerId");
+                .HasForeignKey("WinnerId")
+                .OnDelete(DeleteBehavior.NoAction);
+
+
+            builder.HasOne(b => b.Loser)
+                .WithMany()
+                .HasForeignKey("LoserId")
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasIndex("WinnerId", "LoserId", "Date").IsUnique();
         }
     }
 }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClashRoyaleClanWarsAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231007024327_PlayerClansClanCascade")]
-    partial class PlayerClansClanCascade
+    [Migration("20231009163955_IndexBattle")]
+    partial class IndexBattle
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,15 +34,25 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                     b.Property<int>("AmountTrophies")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("DurationInSeconds")
                         .HasColumnType("int");
 
-                    b.Property<int>("WinnerId")
+                    b.Property<int?>("LoserId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("WinnerId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("WinnerId");
+                    b.HasIndex("LoserId");
+
+                    b.HasIndex("WinnerId", "LoserId", "Date")
+                        .IsUnique()
+                        .HasFilter("[WinnerId] IS NOT NULL AND [LoserId] IS NOT NULL");
 
                     b.ToTable("Battles");
                 });
@@ -291,7 +301,8 @@ namespace ClashRoyaleClanWarsAPI.Migrations
 
                     b.Property<string>("Alias")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<int>("CardAmount")
                         .ValueGeneratedOnAdd()
@@ -369,29 +380,6 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("Roles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "e2fef422-0426-4a3b-a5ea-c214c8c0e009",
-                            ConcurrencyStamp = "cb254aba-0cd8-4b25-86b3-fba273c647a7",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = "072a4d39-436e-4b60-8b9c-4f58a28e198b",
-                            ConcurrencyStamp = "69a72004-a301-4797-a3f4-5cf6ae9c17e9",
-                            Name = "User",
-                            NormalizedName = "USER"
-                        },
-                        new
-                        {
-                            Id = "c90c3dca-3b1a-4fe5-96fb-d3585249dbea",
-                            ConcurrencyStamp = "58bf3f72-2f36-46c7-bcf6-adf4fecd1223",
-                            Name = "SuperAdmin",
-                            NormalizedName = "SUPERADMIN"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -482,22 +470,6 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("Users", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "60ee5684-e1f8-42b5-b5f2-4a944cd98929",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "9efa28d8-a9bb-4ea5-b7dc-d064a5d6b3de",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            NormalizedUserName = "SUPERADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAENXnSV0XHQuzgM5wvy0BRjkYDr7p0uoDKGIzyLppLtQCRxjHPKbIyYtfUphmd0lSYw==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "ba78f21c-adca-4491-b77a-fc45f909b2b4",
-                            TwoFactorEnabled = false,
-                            UserName = "superadmin"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -560,13 +532,6 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("UserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "60ee5684-e1f8-42b5-b5f2-4a944cd98929",
-                            RoleId = "c90c3dca-3b1a-4fe5-96fb-d3585249dbea"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -673,11 +638,17 @@ namespace ClashRoyaleClanWarsAPI.Migrations
 
             modelBuilder.Entity("ClashRoyaleClanWarsAPI.Models.BattleModel", b =>
                 {
+                    b.HasOne("ClashRoyaleClanWarsAPI.Models.PlayerModel", "Loser")
+                        .WithMany()
+                        .HasForeignKey("LoserId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
                     b.HasOne("ClashRoyaleClanWarsAPI.Models.PlayerModel", "Winner")
                         .WithMany()
                         .HasForeignKey("WinnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Loser");
 
                     b.Navigation("Winner");
                 });

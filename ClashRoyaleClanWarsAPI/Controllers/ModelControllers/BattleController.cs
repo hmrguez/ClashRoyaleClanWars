@@ -65,13 +65,13 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
 
         // POST api/battles
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] AddBattleDto warDto)
+        public async Task<IActionResult> Post([FromBody] AddBattleDto battleDto)
         {
-            BattleModel battle = _mapper.Map<BattleModel>(warDto);
+            BattleModel battle = _mapper.Map<BattleModel>(battleDto);
 
             try
             {
-                await _battleService.Add(battle, warDto.WinnerId);
+                await _battleService.Add(battle, battleDto.WinnerId, battleDto.LoserId);
             }
             catch (ModelNotFoundException<BattleModel> e)
             {
