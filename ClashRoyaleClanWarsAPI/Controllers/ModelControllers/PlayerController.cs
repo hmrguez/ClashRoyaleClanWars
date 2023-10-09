@@ -170,7 +170,6 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             try
             {
                 await _playerService.AddCard(playerId, cardId);
-
             }
             catch (ModelNotFoundException<PlayerModel> e)
             {
@@ -179,6 +178,10 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             catch (ModelNotFoundException<CardModel> e)
             {
                 return NotFound(new RequestResponse<CardModel>(message: e.Message, success: false));
+            }
+            catch(DuplicationIdException e)
+            {
+                return BadRequest(new RequestResponse<CollectModel>(message: e.Message, success: false));
             }
 
             return NoContent();

@@ -62,6 +62,7 @@ namespace ClashRoyaleClanWarsAPI.Services
         {
             if (_context.Players == null) throw new ModelNotFoundException<PlayerModel>();
             if (_context.Cards == null) throw new ModelNotFoundException<CardModel>();
+            if (await ExistsCollection(playerId, cardId)) throw new DuplicationIdException();
 
             var player = await GetSingleByIdAsync(playerId);
             var card = await _cardService.GetSingleByIdAsync(cardId);
@@ -110,6 +111,11 @@ namespace ClashRoyaleClanWarsAPI.Services
             await Save();
 
             return player;
+        }
+
+        public async Task<bool> ExistsCollection(int playerId, int cardId)
+        {
+            return (await _context.Collection.FindAsync(playerId, cardId)) is not null;
         }
     }
 }

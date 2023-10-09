@@ -11,6 +11,16 @@ namespace ClashRoyaleClanWarsAPI.Validators
                 .NotEmpty()
                 .NotNull()
                 .InclusiveBetween(10, 50);
+
+            RuleFor(abdto => abdto.DurationInSeconds)
+                .NotEmpty()
+                .NotNull()
+                .GreaterThan(30);
+
+            RuleFor(abdto => abdto.WinnerId)
+                .NotNull();
+            RuleFor(abdto => abdto.LoserId)
+                .NotNull();
         }
     }
 }

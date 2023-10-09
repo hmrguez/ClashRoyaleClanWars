@@ -19,6 +19,8 @@ namespace ClashRoyaleClanWarsAPI.Services
         public async Task<Guid> Add(BattleModel battle, int winnerId, int loserId)
         {
             if (_context.Battles == null) throw new ModelNotFoundException<BattleModel>();
+            if (await _playerService.ExistsId(winnerId)) throw new IdNotFoundException<PlayerModel, int>(winnerId);
+            if (await _playerService.ExistsId(loserId)) throw new IdNotFoundException<PlayerModel, int>(loserId);
 
             var winner = await _playerService.GetSingleByIdAsync(winnerId);
             var loser = await _playerService.GetSingleByIdAsync(loserId);
