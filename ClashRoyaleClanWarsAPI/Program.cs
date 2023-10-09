@@ -68,6 +68,9 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
 builder.Services.AddValidatorsFromAssemblyContaining<AddPlayerDtoValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<UpdatePlayerDtoValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<AddClanDtoValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<UpdateClanDtoValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<AddWarDtoValidator>();
 
 
 builder.Services.AddScoped<ICardService, CardService>();

@@ -27,7 +27,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            IEnumerable<WarModel>? wars = null;
+            IEnumerable<WarModel>? wars;
             try
             {
                 wars = await _warService.GetAllAsync();
@@ -44,8 +44,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
         [HttpGet("{warId:int}")]
         public async Task<IActionResult> Get(int warId)
         {
-            WarModel? war = null;
-
+            WarModel? war;
             try
             {
                 war = await _warService.GetSingleByIdAsync(warId);
@@ -104,7 +103,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
         [HttpGet("date/{date:DateTime}")]
         public async Task<IActionResult> GetUpCommingWars(DateTime date)
         {
-            IEnumerable<WarModel>? wars = null;
+            IEnumerable<WarModel>? wars;
             try
             {
                 wars = await _warService.GetWarsByDate(date);

@@ -28,7 +28,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            IEnumerable<ClanModel>? clans = null;
+            IEnumerable<ClanModel>? clans;
             try
             {
                 clans = await _clanService.GetAllAsync();
@@ -45,8 +45,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
         [HttpGet("{clanId:int}")]
         public async Task<IActionResult> Get(int clanId)
         {
-            ClanModel? clan = null;
-
+            ClanModel? clan;
             try
             {
                 clan = await _clanService.GetSingleByIdAsync(clanId, true);
