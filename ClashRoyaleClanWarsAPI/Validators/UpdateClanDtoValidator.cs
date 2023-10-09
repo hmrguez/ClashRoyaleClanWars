@@ -22,8 +22,7 @@ namespace ClashRoyaleClanWarsAPI.Validators
             RuleFor(acdto => acdto.MinTrophies)
                 .NotEmpty()
                 .NotNull()
-                .LessThanOrEqualTo(0)
-                .GreaterThanOrEqualTo(9999);
+                .InclusiveBetween(0, 9999);
         }
     }
 }

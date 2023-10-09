@@ -19,7 +19,7 @@ namespace ClashRoyaleClanWarsAPI.Validators
                 .InclusiveBetween(1, 14);
 
             RuleFor(apdto => apdto.Elo)
-                .GreaterThanOrEqualTo(0);
+                .InclusiveBetween(0, 9999);
 
             RuleFor(apdto => apdto.Victories)
                 .GreaterThanOrEqualTo(0);
