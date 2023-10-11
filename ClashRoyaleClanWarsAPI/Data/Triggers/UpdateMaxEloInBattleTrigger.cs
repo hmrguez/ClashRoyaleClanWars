@@ -14,7 +14,7 @@ namespace ClashRoyaleClanWarsAPI.Data.Triggers
         }
         public async Task BeforeSave(ITriggerContext<BattleModel> context, CancellationToken cancellationToken)
         {
-            if (context.ChangeType == ChangeType.Added)
+            if (context.ChangeType == ChangeType.Added && context.Entity.Winner is not null)
             {
                 var player = await _playerService.GetSingleByIdAsync(context.Entity.Winner.Id);
                 player.Elo += context.Entity.AmountTrophies;

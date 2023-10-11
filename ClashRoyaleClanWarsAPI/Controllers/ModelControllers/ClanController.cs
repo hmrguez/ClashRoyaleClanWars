@@ -1,14 +1,13 @@
 ﻿using AutoMapper;
+using ClashRoyaleClanWarsAPI.Dtos.BattleDto;
 using ClashRoyaleClanWarsAPI.Dtos.ClanDto;
 using ClashRoyaleClanWarsAPI.Exceptions;
 using ClashRoyaleClanWarsAPI.Interfaces.ServicesInterfaces;
 using ClashRoyaleClanWarsAPI.Models;
-using ClashRoyaleClanWarsAPI.Services;
 using ClashRoyaleClanWarsAPI.Utils;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
 {
@@ -18,11 +17,13 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
     {
         private readonly IClanService _clanService;
         private readonly IMapper _mapper;
+        private readonly IValidator<AddClanDto> _validator;
 
-        public ClanController(IClanService clanService, IMapper mapper) 
+        public ClanController(IClanService clanService, IMapper mapper, IValidator<AddClanDto> validator)
         {
             _clanService = clanService;
             _mapper = mapper;
+            _validator = validator;
         }
         // GET: api/clans
         [HttpGet]
@@ -66,6 +67,11 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
         [HttpPost("{playerId:int}")]
         public async Task<IActionResult> Post(int playerId, [FromBody] AddClanDto clanDto)
         {
+            var result = await _validator.ValidateAsync(clanDto);
+
+            if (!result.IsValid)
+                return BadRequest(new RequestResponse<BattleModel>(message: result.ToString("~"), success: false));
+
             ClanModel clan;
             try
             {
@@ -91,6 +97,11 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
         [HttpPut("{clanId:int}")]
         public async Task<IActionResult> Put(int clanId, [FromBody] UpdateClanDto clanDto)
         {
+            var result = await _validator.ValidateAsync(clanDto);
+
+            if (!result.IsValid)
+                return BadRequest(new RequestResponse<BattleModel>(message: result.ToString("~"), success: false));
+
             if (clanId != clanDto.Id)
                 return BadRequest(new RequestResponse<ClanModel>(message: "Ids do not match", success: false));
 
@@ -210,7 +221,9 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             }
             catch(DbUpdateException e)
             {
-                return BadRequest(new RequestResponse<ClanModel>(message: e.InnerException.Message, success: false));
+                string message = e.InnerException?.Message ?? e.Message;
+
+                return BadRequest(new RequestResponse<ClanModel>(message: message, success: false));
             }
 
             return Created($"api/clans/{clanId}",  new RequestResponse<ClanModel>(message: "Player Added", success: true));

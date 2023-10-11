@@ -40,16 +40,8 @@ namespace ClashRoyaleClanWarsAPI.Services
         {
             if (_context.Set<T>() == null) throw new ModelNotFoundException<T>();
 
-            T entity = null!;
+            T entity = await GetSingleByIdAsync(id);
 
-            try
-            {
-                entity = await GetSingleByIdAsync(id);
-            }
-            catch (IdNotFoundException<T, U>)
-            {
-                throw;
-            }
             _context.Set<T>().Remove(entity);
             await Save();
         }
@@ -64,7 +56,7 @@ namespace ClashRoyaleClanWarsAPI.Services
         public virtual async Task Save() => await _context.SaveChangesAsync();
         public virtual async Task<bool> ExistsId(U id)
         {
-            return await _context.Set<T>().AnyAsync(e => e.Id.Equals(id));
+            return await _context.Set<T>().AnyAsync(e => e.Id!.Equals(id));
         }
     }
 }

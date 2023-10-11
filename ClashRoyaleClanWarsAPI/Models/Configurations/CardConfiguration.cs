@@ -1,4 +1,5 @@
 ﻿using ClashRoyaleClanWarsAPI.Data;
+using ClashRoyaleClanWarsAPI.Enum;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -20,11 +21,11 @@ namespace ClashRoyaleClanWarsAPI.Models.Configurations
                 .IsRequired();
 
 
-            builder.HasDiscriminator<DenominationEnum>("Type")
-                .HasValue<CardModel>(DenominationEnum.Unknown)
-                .HasValue<SpellModel>(DenominationEnum.Spell)
-                .HasValue<StructureModel>(DenominationEnum.Structure)
-                .HasValue<TroopModel>(DenominationEnum.Troop);
+            builder.HasDiscriminator<TypeCardEnum>("Type")
+                .HasValue<CardModel>(TypeCardEnum.Unknown)
+                .HasValue<SpellModel>(TypeCardEnum.Spell)
+                .HasValue<StructureModel>(TypeCardEnum.Structure)
+                .HasValue<TroopModel>(TypeCardEnum.Troop);
         }
     }
 }

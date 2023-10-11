@@ -6,6 +6,7 @@ using ClashRoyaleClanWarsAPI.Interfaces.ServicesInterfaces;
 using ClashRoyaleClanWarsAPI.Models;
 using ClashRoyaleClanWarsAPI.Services;
 using ClashRoyaleClanWarsAPI.Utils;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -18,11 +19,13 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
     {
         private readonly IBattleService _battleService;
         private readonly IMapper _mapper;
+        private readonly IValidator<AddBattleDto> _validator;
 
-        public BattleController(IBattleService battleService, IMapper mapper)
+        public BattleController(IBattleService battleService, IMapper mapper, IValidator<AddBattleDto> validator)
         {
             _battleService = battleService;
             _mapper = mapper;
+            _validator = validator;
         }
         // GET: api/battles
         [HttpGet]
@@ -66,9 +69,11 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] AddBattleDto battleDto)
         {
-            if(battleDto.WinnerId == battleDto.LoserId)
-                return BadRequest(new RequestResponse<BattleModel>(message: "WinnerId and LoserId must be different", success: false));
-            
+            var result = await _validator.ValidateAsync(battleDto);
+
+            if (!result.IsValid)
+                return BadRequest(new RequestResponse<BattleModel>(message: result.ToString("~"), success: false));
+
             BattleModel battle = _mapper.Map<BattleModel>(battleDto);
 
             try

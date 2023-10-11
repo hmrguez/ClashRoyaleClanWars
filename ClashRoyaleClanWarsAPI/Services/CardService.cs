@@ -27,7 +27,7 @@ namespace ClashRoyaleClanWarsAPI.Services
         {
             if (_context.Cards == null) throw new ModelNotFoundException<CardModel>();
 
-            return await _context.Cards.Where(c => c.Name.Contains(name)).ToListAsync();
+            return await _context.Cards.Where(c => c.Name!.Contains(name)).ToListAsync();
         }
     }
 }

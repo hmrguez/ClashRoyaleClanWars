@@ -15,7 +15,7 @@ namespace ClashRoyaleClanWarsAPI.Data.Triggers
         public async Task AfterSave(ITriggerContext<CollectModel> context, CancellationToken cancellationToken)
         {
 
-            if(context.ChangeType == ChangeType.Added)
+            if(context.ChangeType == ChangeType.Added && context.Entity.Player is not null)
             {
                 var player = await _playerService.GetSingleByIdAsync(context.Entity.Player.Id);
                 player.CardAmount +=1;

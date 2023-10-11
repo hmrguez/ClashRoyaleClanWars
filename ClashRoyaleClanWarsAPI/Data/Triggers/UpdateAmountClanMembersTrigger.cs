@@ -14,6 +14,9 @@ namespace ClashRoyaleClanWarsAPI.Data.Triggers
         }
         public async Task BeforeSave(ITriggerContext<PlayerClansModel> context, CancellationToken cancellationToken)
         {
+            if (context.Entity.Clan is null)
+                return;
+
             var clan = await _clanService.GetSingleByIdAsync(context.Entity.Clan.Id);
             
             if(context.ChangeType == ChangeType.Added)

@@ -1,6 +1,9 @@
 using ClashRoyaleClanWarsAPI.Data;
 using ClashRoyaleClanWarsAPI.Data.Triggers;
+using ClashRoyaleClanWarsAPI.Dtos.BattleDto;
+using ClashRoyaleClanWarsAPI.Dtos.ClanDto;
 using ClashRoyaleClanWarsAPI.Dtos.PlayerDto;
+using ClashRoyaleClanWarsAPI.Dtos.WarDto;
 using ClashRoyaleClanWarsAPI.Interfaces.ServicesInterfaces;
 using ClashRoyaleClanWarsAPI.Models;
 using ClashRoyaleClanWarsAPI.Services;
@@ -65,13 +68,11 @@ builder.Services.AddAuthentication(options =>
         };
     });
 
-builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
-builder.Services.AddValidatorsFromAssemblyContaining<AddPlayerDtoValidator>();
-builder.Services.AddValidatorsFromAssemblyContaining<UpdatePlayerDtoValidator>();
-builder.Services.AddValidatorsFromAssemblyContaining<AddClanDtoValidator>();
-builder.Services.AddValidatorsFromAssemblyContaining<UpdateClanDtoValidator>();
-builder.Services.AddValidatorsFromAssemblyContaining<AddWarDtoValidator>();
 
+builder.Services.AddScoped<IValidator<AddBattleDto>, AddBattleDtoValidator>();
+builder.Services.AddScoped<IValidator<AddWarDto>, AddWarDtoValidator>();
+builder.Services.AddScoped<IValidator<AddPlayerDto>, AddPlayerDtoValidator>();
+builder.Services.AddScoped<IValidator<AddClanDto>, AddClanDtoValidator>();
 
 builder.Services.AddScoped<ICardService, CardService>();
 builder.Services.AddScoped<IPlayerService, PlayerService>();

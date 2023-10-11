@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using ClashRoyaleClanWarsAPI.Dtos.BattleDto;
 using ClashRoyaleClanWarsAPI.Dtos.PlayerDto;
 using ClashRoyaleClanWarsAPI.Exceptions;
 using ClashRoyaleClanWarsAPI.Interfaces.ServicesInterfaces;
 using ClashRoyaleClanWarsAPI.Models;
 using ClashRoyaleClanWarsAPI.Services;
 using ClashRoyaleClanWarsAPI.Utils;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -17,11 +19,13 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
     {
         private readonly IPlayerService _playerService;
         private readonly IMapper _mapper;
+        private readonly IValidator<AddPlayerDto> _validator;
 
-        public PlayerController(IPlayerService playerService, IMapper mapper)
+        public PlayerController(IPlayerService playerService, IMapper mapper, IValidator<AddPlayerDto> validator)
         {
             _playerService = playerService;
             _mapper = mapper;
+            _validator = validator;
         }
 
         // GET: api/players
@@ -84,6 +88,11 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
         [HttpPost]
         public async Task<IActionResult> Post(AddPlayerDto playerDto)
         {
+            var result = await _validator.ValidateAsync(playerDto);
+
+            if (!result.IsValid)
+                return BadRequest(new RequestResponse<PlayerModel>(message: result.ToString("~"), success: false));
+
             int playerId;
             PlayerModel player;
             try
@@ -101,13 +110,18 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
 
         // PUT api/players/{id:int}
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> Put(int id, [FromBody] UpdatePlayerDto playerModel)
+        public async Task<IActionResult> Put(int id, [FromBody] UpdatePlayerDto playerDto)
         {
-            if (id != playerModel.Id) 
+            var result = await _validator.ValidateAsync(playerDto);
+
+            if (!result.IsValid)
+                return BadRequest(new RequestResponse<PlayerModel>(message: result.ToString("~"), success: false));
+
+            if (id != playerDto.Id) 
                 return BadRequest(new RequestResponse<PlayerModel>(message:"Ids do not match", success: false));
             try
             {
-                await _playerService.Update(_mapper.Map<PlayerModel>(playerModel));
+                await _playerService.Update(_mapper.Map<PlayerModel>(playerDto));
             }
             catch (ModelNotFoundException<PlayerModel> e)
             {

@@ -25,9 +25,9 @@ namespace ClashRoyaleClanWarsAPI.Services
         {
             if (_context.Players == null) throw new ModelNotFoundException<PlayerModel>();
 
-            PlayerModel? player = fullLoad? _context.Players
-                                                .Include(p=>p.FavoriteCard)
-                                                .Include(p => p.Cards)
+            PlayerModel? player = fullLoad? _context.Players?
+                                                .Include(p => p.FavoriteCard)?
+                                                .Include(p => p.Cards)!
                                                 .ThenInclude(c => c.Card)
                                                 .ProjectTo<PlayerModel>(_mapper.ConfigurationProvider)
                                                 .Where(p => p.Id == id)
@@ -42,8 +42,7 @@ namespace ClashRoyaleClanWarsAPI.Services
         {
             if (_context.Players == null) throw new ModelNotFoundException<PlayerModel>();
 
-            PlayerModel player = null!;
-
+            PlayerModel player;
             try
             {
                 player = await GetSingleByIdAsync(id, true);
@@ -52,7 +51,7 @@ namespace ClashRoyaleClanWarsAPI.Services
             {
                 throw;
             }
-            player.Cards.Clear();
+            player.Cards?.Clear();
             _context.Players.Remove(player);
             await Save();
 
@@ -89,7 +88,7 @@ namespace ClashRoyaleClanWarsAPI.Services
             PlayerModel player = await GetSingleByIdAsync(id, true);
 
             
-            return player.Cards.Select(c=>c.Card);
+            return player.Cards?.Select(c=>c.Card)!;
 
         }
 

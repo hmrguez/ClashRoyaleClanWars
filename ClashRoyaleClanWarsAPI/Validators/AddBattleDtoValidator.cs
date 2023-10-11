@@ -18,9 +18,12 @@ namespace ClashRoyaleClanWarsAPI.Validators
                 .GreaterThan(30);
 
             RuleFor(abdto => abdto.WinnerId)
-                .NotNull();
+                .NotNull()
+                .NotEqual(dto=> dto.LoserId);
+
             RuleFor(abdto => abdto.LoserId)
-                .NotNull();
+                .NotNull()
+                .NotEqual(dto => dto.WinnerId);
         }
     }
 }
