@@ -1,8 +1,15 @@
 using ClashRoyaleClanWarsAPI.Data;
 using ClashRoyaleClanWarsAPI.Data.Triggers;
+using ClashRoyaleClanWarsAPI.Dtos.BattleDto;
+using ClashRoyaleClanWarsAPI.Dtos.ClanDto;
+using ClashRoyaleClanWarsAPI.Dtos.PlayerDto;
+using ClashRoyaleClanWarsAPI.Dtos.WarDto;
 using ClashRoyaleClanWarsAPI.Interfaces.ServicesInterfaces;
 using ClashRoyaleClanWarsAPI.Models;
 using ClashRoyaleClanWarsAPI.Services;
+using ClashRoyaleClanWarsAPI.Validators;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -24,6 +31,11 @@ builder.Services.AddDbContext<DataContext>(options =>
     options.UseTriggers(triggerOpt =>
     {
         triggerOpt.AddTrigger<UpdateAmountCardTrigger>();
+        triggerOpt.AddTrigger<UpdateAmountClanMembersTrigger>();
+        triggerOpt.AddTrigger<UpdateBattleDateTrigger>();
+        triggerOpt.AddTrigger<UpdateVictoriesTrigger>();
+        triggerOpt.AddTrigger<UpdateMaxEloInBattleTrigger>();
+        triggerOpt.AddTrigger<UpdateMaxEloAddPlayerDto>();
     });
 });
 
@@ -52,9 +64,15 @@ builder.Services.AddAuthentication(options =>
             ValidateAudience = false,
             RequireExpirationTime = true,
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"])) // Jwt:Key - config value 
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]!)) // Jwt:Key - config value 
         };
     });
+
+
+builder.Services.AddScoped<IValidator<AddBattleDto>, AddBattleDtoValidator>();
+builder.Services.AddScoped<IValidator<AddWarDto>, AddWarDtoValidator>();
+builder.Services.AddScoped<IValidator<AddPlayerDto>, AddPlayerDtoValidator>();
+builder.Services.AddScoped<IValidator<AddClanDto>, AddClanDtoValidator>();
 
 builder.Services.AddScoped<ICardService, CardService>();
 builder.Services.AddScoped<IPlayerService, PlayerService>();
@@ -62,6 +80,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IClanService, ClanService>();
 builder.Services.AddScoped<IBattleService, BattleService>();
 builder.Services.AddScoped<IWarService, WarService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<ITokenCreationService,JwtService>();
 
 

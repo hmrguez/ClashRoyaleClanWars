@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ClashRoyaleClanWarsAPI.Services
 {
-    public class CardService : BaseService<CardModel>, ICardService
+    public class CardService : BaseService<CardModel, int>, ICardService
     {
         public CardService(DataContext context) : base(context)
         {
@@ -27,7 +27,7 @@ namespace ClashRoyaleClanWarsAPI.Services
         {
             if (_context.Cards == null) throw new ModelNotFoundException<CardModel>();
 
-            return await _context.Cards.Where(c => c.Name.Contains(name)).ToListAsync();
+            return await _context.Cards.Where(c => c.Name!.Contains(name)).ToListAsync();
         }
     }
 }

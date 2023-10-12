@@ -5,13 +5,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ClashRoyaleClanWarsAPI.Interfaces.ServicesInterfaces
 {
-    public interface IBaseService<T>
+    public interface IBaseService<T, U>
     {
-        public Task<T> GetSingleByIdAsync(int id);
+        public Task<T> GetSingleByIdAsync(U id);
         public Task<IEnumerable<T>> GetAllAsync();
-        public Task<int> Add(T model);
+        public Task<U> Add(T model);
         public Task Update(T model);
-        public Task Delete(int id);
+        public Task Delete(U id);
+        public Task<bool> ExistsId(U id);
         public Task Save();
 
     }

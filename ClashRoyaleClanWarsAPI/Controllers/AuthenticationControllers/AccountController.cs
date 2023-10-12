@@ -10,25 +10,25 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ClashRoyaleClanWarsAPI.Controllers.AuthenticationControllers
 {
-    [Route("api/auth")]
+    [Route("api/account")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class AccountController : ControllerBase
     {
-        private readonly IUserService _userService;
+        private readonly IAccountService _accountService;
 
-        public UsersController(IUserService userService) 
+        public AccountController(IAccountService accountService) 
         {
-            _userService = userService;
+            _accountService = accountService;
         }
 
-        // POST api/auth/register/user
+        // POST api/account/register/user
         [HttpPost("register/user")]
         public async Task<IActionResult> RegisterUser(RegisterModel user)
         {
             if(!ModelState.IsValid) 
                 return BadRequest(ModelState);
 
-            var result = await _userService.RegisterUserAsync(user);
+            var result = await _accountService.RegisterUserAsync(user);
 
             if(!result.Success) 
                 return BadRequest(result);
@@ -37,25 +37,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers.AuthenticationControllers
 
         }
 
-        // GET api/auth/{username}
-        [HttpGet("{username}")]
-        public async Task<IActionResult> GetUser(string username)
-        {
-            User user;
-
-            try
-            {
-                user = await _userService.GetUserAsync(username);
-            }
-            catch (UserNotFoundException e)
-            {
-                return NotFound(new RequestResponse<User>(success: false, message: e.Message));
-            }
-
-            return Ok(user);
-        }
-
-        // POST api/auth/login/user
+        // POST api/account/login/user
         [HttpPost("login/user")]
         public async Task<IActionResult> Login(LoginUserModel loginUser)
         {
@@ -63,7 +45,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers.AuthenticationControllers
             LoginResponse response;
             try
             {
-                response = await _userService.LoginUserAsync(loginUser);
+                response = await _accountService.LoginUserAsync(loginUser);
 
             }
             catch (UserNotFoundException e)
@@ -78,7 +60,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers.AuthenticationControllers
             return Ok(new RequestResponse<LoginResponse>(response, success:true));
         }
 
-        // POST api/auth/register/admin
+        // POST api/account/register/admin
         [Authorize(Roles =UserRoles.SUPERADMIN)]
         [Authorize(Roles =UserRoles.ADMIN)]
         [HttpPost("register/admin")]
@@ -87,7 +69,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers.AuthenticationControllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var result = await _userService.RegisterAdminAsync(model);
+            var result = await _accountService.RegisterAdminAsync(model);
 
             if (!result.Success)
                 return BadRequest(result);

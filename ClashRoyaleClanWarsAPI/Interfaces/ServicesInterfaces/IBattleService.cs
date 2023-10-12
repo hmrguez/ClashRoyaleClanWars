@@ -2,12 +2,9 @@
 
 namespace ClashRoyaleClanWarsAPI.Interfaces.ServicesInterfaces
 {
-    public interface IBattleService
+    public interface IBattleService : IBaseService<BattleModel, Guid>
     {
-        public Task<IEnumerable<BattleModel>> GetAllAsync();
-        public Task<BattleModel> GetSingleByIdAsync(Guid id);
         public Task<BattleModel> GetSingleByIdAsync(Guid id, bool fullLoad = false);
-        public Task<Guid> AddAsync(BattleModel battle, int winnerId);
-        public Task Save();
+        public Task<Guid> Add(BattleModel battle, int winnerId, int loserId);
     }
 }

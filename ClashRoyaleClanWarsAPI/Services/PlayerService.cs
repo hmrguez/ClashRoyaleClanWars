@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ClashRoyaleClanWarsAPI.Services
 {
-    public class PlayerService : BaseService<PlayerModel>, IPlayerService
+    public class PlayerService : BaseService<PlayerModel, int>, IPlayerService
     {
         private readonly ICardService _cardService;
         private readonly IMapper _mapper;
@@ -21,13 +21,13 @@ namespace ClashRoyaleClanWarsAPI.Services
             _mapper = mapper;
         }
 
-        public async Task<PlayerModel> GetSingleByIdAsync(int id, bool fullLoad)
+        public async Task<PlayerModel> GetSingleByIdAsync(int id, bool fullLoad= false)
         {
             if (_context.Players == null) throw new ModelNotFoundException<PlayerModel>();
 
-            PlayerModel? player = fullLoad? _context.Players
-                                                .Include(p=>p.FavoriteCard)
-                                                .Include(p => p.Cards)
+            PlayerModel? player = fullLoad? _context.Players?
+                                                .Include(p => p.FavoriteCard)?
+                                                .Include(p => p.Cards)!
                                                 .ThenInclude(c => c.Card)
                                                 .ProjectTo<PlayerModel>(_mapper.ConfigurationProvider)
                                                 .Where(p => p.Id == id)
@@ -35,24 +35,23 @@ namespace ClashRoyaleClanWarsAPI.Services
                                             : 
                                              await base.GetSingleByIdAsync(id);
 
-            return player ?? throw new IdNotFoundException<PlayerModel>(id);
+            return player ?? throw new IdNotFoundException<PlayerModel, int>(id);
         }
 
         public override async Task Delete(int id)
         {
             if (_context.Players == null) throw new ModelNotFoundException<PlayerModel>();
 
-            PlayerModel player = null!;
-
+            PlayerModel player;
             try
             {
                 player = await GetSingleByIdAsync(id, true);
             }
-            catch (IdNotFoundException<PlayerModel>)
+            catch (IdNotFoundException<PlayerModel, int>)
             {
                 throw;
             }
-            player.Cards.Clear();
+            player.Cards?.Clear();
             _context.Players.Remove(player);
             await Save();
 
@@ -62,6 +61,7 @@ namespace ClashRoyaleClanWarsAPI.Services
         {
             if (_context.Players == null) throw new ModelNotFoundException<PlayerModel>();
             if (_context.Cards == null) throw new ModelNotFoundException<CardModel>();
+            if (await ExistsCollection(playerId, cardId)) throw new DuplicationIdException();
 
             var player = await GetSingleByIdAsync(playerId);
             var card = await _cardService.GetSingleByIdAsync(cardId);
@@ -88,7 +88,7 @@ namespace ClashRoyaleClanWarsAPI.Services
             PlayerModel player = await GetSingleByIdAsync(id, true);
 
             
-            return player.Cards.Select(c=>c.Card);
+            return player.Cards?.Select(c=>c.Card)!;
 
         }
 
@@ -110,6 +110,11 @@ namespace ClashRoyaleClanWarsAPI.Services
             await Save();
 
             return player;
+        }
+
+        public async Task<bool> ExistsCollection(int playerId, int cardId)
+        {
+            return (await _context.Collection.FindAsync(playerId, cardId)) is not null;
         }
     }
 }

@@ -6,6 +6,7 @@ namespace ClashRoyaleClanWarsAPI.Dtos.BattleDto
     {
         public int AmountTrophies { get; set; }
         public int WinnerId { get; set; }
+        public int LoserId { get; set; }
         public int DurationInSeconds { get; set; }
     }
 }

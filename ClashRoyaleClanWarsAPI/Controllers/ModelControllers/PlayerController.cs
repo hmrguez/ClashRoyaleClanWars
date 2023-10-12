@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using ClashRoyaleClanWarsAPI.Dtos.BattleDto;
 using ClashRoyaleClanWarsAPI.Dtos.PlayerDto;
 using ClashRoyaleClanWarsAPI.Exceptions;
 using ClashRoyaleClanWarsAPI.Interfaces.ServicesInterfaces;
 using ClashRoyaleClanWarsAPI.Models;
 using ClashRoyaleClanWarsAPI.Services;
 using ClashRoyaleClanWarsAPI.Utils;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -17,11 +19,13 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
     {
         private readonly IPlayerService _playerService;
         private readonly IMapper _mapper;
+        private readonly IValidator<AddPlayerDto> _validator;
 
-        public PlayerController(IPlayerService playerService, IMapper mapper)
+        public PlayerController(IPlayerService playerService, IMapper mapper, IValidator<AddPlayerDto> validator)
         {
             _playerService = playerService;
             _mapper = mapper;
+            _validator = validator;
         }
 
         // GET: api/players
@@ -35,7 +39,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             }
             catch (ModelNotFoundException<PlayerModel> e)
             {
-                NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
+                return NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
             }
 
             return Ok(new RequestResponse<IEnumerable<PlayerModel>>(players!));
@@ -55,7 +59,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             {
                 return NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
             }
-            catch (IdNotFoundException<PlayerModel> e)
+            catch (IdNotFoundException<PlayerModel, int> e)
             {
                 return NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
             }
@@ -67,7 +71,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
         [HttpGet("{alias}")]
         public async Task<IActionResult> GetAllByAlias(string alias)
         {
-            IEnumerable<PlayerModel>? players = null;
+            IEnumerable<PlayerModel>? players;
             try
             {
                 players = await _playerService.GetPlayersByAliasAsync(alias);
@@ -82,8 +86,13 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
         
         // POST api/players
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] AddPlayerDto playerDto)
+        public async Task<IActionResult> Post(AddPlayerDto playerDto)
         {
+            var result = await _validator.ValidateAsync(playerDto);
+
+            if (!result.IsValid)
+                return BadRequest(new RequestResponse<PlayerModel>(message: result.ToString("~"), success: false));
+
             int playerId;
             PlayerModel player;
             try
@@ -101,19 +110,24 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
 
         // PUT api/players/{id:int}
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> Put(int id, [FromBody] UpdatePlayerDto playerModel)
+        public async Task<IActionResult> Put(int id, [FromBody] UpdatePlayerDto playerDto)
         {
-            if (id != playerModel.Id) 
+            var result = await _validator.ValidateAsync(playerDto);
+
+            if (!result.IsValid)
+                return BadRequest(new RequestResponse<PlayerModel>(message: result.ToString("~"), success: false));
+
+            if (id != playerDto.Id) 
                 return BadRequest(new RequestResponse<PlayerModel>(message:"Ids do not match", success: false));
             try
             {
-                await _playerService.Update(_mapper.Map<PlayerModel>(playerModel));
+                await _playerService.Update(_mapper.Map<PlayerModel>(playerDto));
             }
             catch (ModelNotFoundException<PlayerModel> e)
             {
                 return NotFound(new RequestResponse<PlayerModel>(message:e.Message, success: false));
             }
-            catch (IdNotFoundException<PlayerModel> e)
+            catch (IdNotFoundException<PlayerModel, int> e)
             {
                 return NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
             }
@@ -133,7 +147,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             {
                 return NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
             }
-            catch (IdNotFoundException<PlayerModel> e)
+            catch (IdNotFoundException<PlayerModel, int> e)
             {
                 return NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
             }
@@ -155,13 +169,14 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             {
                 return NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
             }
-            catch (IdNotFoundException<PlayerModel> e)
+            catch (IdNotFoundException<PlayerModel, int> e)
             {
                 return NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
             }
 
             return Ok(new RequestResponse<IEnumerable<CardModel>>(cards!));
         }
+        
         // GET api/players/{playerId:int}/cards/{cardId:int}
         [HttpPost("{playerId:int}/cards/{cardId:int}")]
         public async Task<IActionResult> AddCard(int playerId, int cardId)
@@ -169,7 +184,6 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             try
             {
                 await _playerService.AddCard(playerId, cardId);
-
             }
             catch (ModelNotFoundException<PlayerModel> e)
             {
@@ -178,6 +192,10 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             catch (ModelNotFoundException<CardModel> e)
             {
                 return NotFound(new RequestResponse<CardModel>(message: e.Message, success: false));
+            }
+            catch(DuplicationIdException e)
+            {
+                return BadRequest(new RequestResponse<CollectModel>(message: e.Message, success: false));
             }
 
             return NoContent();
@@ -196,7 +214,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             {
                 return NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
             }
-            catch (IdNotFoundException<PlayerModel> e)
+            catch (IdNotFoundException<PlayerModel, int> e)
             {
                 return NotFound(new RequestResponse<PlayerModel>(message: e.Message, success: false));
             }

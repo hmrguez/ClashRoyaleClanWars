@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClashRoyaleClanWarsAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231002023118_SeddRoles-SuperAdmin")]
-    partial class SeddRolesSuperAdmin
+    [Migration("20231009162434_EntitiesAndIdentity")]
+    partial class EntitiesAndIdentity
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,13 +34,21 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                     b.Property<int>("AmountTrophies")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("DurationInSeconds")
                         .HasColumnType("int");
 
-                    b.Property<int>("WinnerId")
+                    b.Property<int?>("LoserId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("WinnerId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LoserId");
 
                     b.HasIndex("WinnerId");
 
@@ -149,7 +157,7 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                     b.Property<int>("AmountMembers")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasDefaultValue(1);
+                        .HasDefaultValue(0);
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -291,7 +299,8 @@ namespace ClashRoyaleClanWarsAPI.Migrations
 
                     b.Property<string>("Alias")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<int>("CardAmount")
                         .ValueGeneratedOnAdd()
@@ -369,29 +378,6 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("Roles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "6b592a98-7029-4bc8-b4c2-34ab85f94c0c",
-                            ConcurrencyStamp = "a1c8abe5-469d-4848-9473-56ba8f63a8a3",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = "ba8e5c4e-b190-4bc9-bf7f-0b800d6d86f1",
-                            ConcurrencyStamp = "bd48ad22-bbf0-44df-ae6c-3a47da163e0f",
-                            Name = "User",
-                            NormalizedName = "USER"
-                        },
-                        new
-                        {
-                            Id = "0add7f67-8df7-4c74-bf21-1a05f44ad0c9",
-                            ConcurrencyStamp = "6c1dc17e-13e9-4a29-aca7-4505e493f1c2",
-                            Name = "SuperAdmin",
-                            NormalizedName = "SUPERADMIN"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -482,22 +468,6 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("Users", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "1ba5161d-a461-4537-9556-ee9756fde0b6",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "539c8261-c4c0-4064-8347-6f36763cef65",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            NormalizedUserName = "SUPERADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGGFpqnRFZK2TDVt/gJO/QwDVDIsYtfkzvRV5Ecj7VqrEfmJ6gGBOe2/hfwd5qLUqg==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "5888b277-3674-4f09-bfee-8cd0e40c252e",
-                            TwoFactorEnabled = false,
-                            UserName = "superadmin"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -560,13 +530,6 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("UserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "1ba5161d-a461-4537-9556-ee9756fde0b6",
-                            RoleId = "0add7f67-8df7-4c74-bf21-1a05f44ad0c9"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -673,11 +636,17 @@ namespace ClashRoyaleClanWarsAPI.Migrations
 
             modelBuilder.Entity("ClashRoyaleClanWarsAPI.Models.BattleModel", b =>
                 {
+                    b.HasOne("ClashRoyaleClanWarsAPI.Models.PlayerModel", "Loser")
+                        .WithMany()
+                        .HasForeignKey("LoserId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
                     b.HasOne("ClashRoyaleClanWarsAPI.Models.PlayerModel", "Winner")
                         .WithMany()
                         .HasForeignKey("WinnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Loser");
 
                     b.Navigation("Winner");
                 });
@@ -777,7 +746,7 @@ namespace ClashRoyaleClanWarsAPI.Migrations
                     b.HasOne("ClashRoyaleClanWarsAPI.Models.PlayerModel", "Player")
                         .WithMany()
                         .HasForeignKey("PlayerId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Clan");
