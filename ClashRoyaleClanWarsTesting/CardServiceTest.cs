@@ -1,43 +1,61 @@
- using Xunit;
-using Moq;
+using Xunit;
 using ClashRoyaleClanWarsAPI.Data;
-using ClashRoyaleClanWarsAPI.Models;
 using ClashRoyaleClanWarsAPI.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.InMemory;
+using Microsoft.Extensions.Configuration;
 
 namespace ClashRoyaleClanWarsAPI.Tests
 {
-    public class CardServiceTests
+    public class CardServiceTest : IClassFixture<CardServiceTest>
     {
-        // Clase derivada que hereda de CardModel
-        public class Goblin : CardModel
-        {
-            public Goblin()
-            {
-                
-            }
+        private readonly CardService _cardService;
+        private readonly DataContext _context;
 
-            // Otras propiedades específicas de la carta Goblin
+        public CardServiceTest()
+        {
+            // Create an in-memory database for testing
+            var options = new DbContextOptionsBuilder<DataContext>()
+                .UseInMemoryDatabase(databaseName: "TestDatabase")
+                .Options;
+
+            var configuration = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.json")
+            .Build();
+
+            // Initialize the database context and the service
+            _context = new DataContext(options, configuration);
+            _cardService = new CardService(_context);
         }
 
         [Fact]
-        public async Task Add_ShouldReturnId_WhenModelIsValid()
+        public async Task AddAllCards_ShouldAddCardsToDatabase()
         {
             // Arrange
-            var mockContext = new Mock<DataContext>();
-            var mockSet = new Mock<DbSet<CardModel>>();
-            mockContext.Setup(c => c.Cards).Returns(mockSet.Object);
-            var service = new CardService(mockContext.Object);
-            // Usar la clase Goblin para crear el modelo
-            var model = new Goblin();
+            _context.Cards.RemoveRange(_context.Cards);
+            await _context.SaveChangesAsync();
 
             // Act
-            var result = await service.Add(model);
+            await _cardService.AddAllCards();
 
             // Assert
-            Assert.Equal(model.Id, result);
-            mockSet.Verify(s => s.Add(model), Times.Once());
-            mockContext.Verify(c => c.SaveChangesAsync(new CancellationToken()), Times.Once());
+            Assert.Equal(109, await _context.Cards.CountAsync());
+        }
+
+        [Fact]
+        public async Task GetCardsByNameAsync_ShouldReturnCardsWithName()
+        {
+            // Arrange
+            await _cardService.AddAllCards(); // Add all cards to the database
+            var name = "P.E.K.K.A"; // The name to search for
+
+            // Act
+            var cards = await _cardService.GetCardsByNameAsync(name); // Get the cards with the name
+
+            // Assert
+            Assert.NotEmpty(cards); // Check that the cards are not empty
+            Assert.All(cards, c => c.Name.Contains(name)); // Check that all cards contain the name
+            Assert.Equal(cards.Count(), 2);
         }
     }
 }

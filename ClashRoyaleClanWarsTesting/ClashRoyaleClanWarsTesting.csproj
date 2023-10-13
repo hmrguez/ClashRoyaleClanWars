@@ -23,6 +23,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5"/>
     <PackageReference Include="EntityFramework" Version="6.2.0"/>
     <PackageReference Include="System.Data.Entity.Repository" Version="2.0.0.1"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.0"/>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ClashRoyaleClanWarsAPI\ClashRoyaleClanWarsAPI.csproj"/>
