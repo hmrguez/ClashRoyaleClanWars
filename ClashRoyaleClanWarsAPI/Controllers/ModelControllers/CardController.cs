@@ -17,9 +17,9 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
         {
             _cardService = cardService;
         }
-        // GET api/cards/5
+        // GET api/cards/{id:int}
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<RequestResponse<object>>> Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
             CardModel? card = null;
 
@@ -31,7 +31,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             {
                 return NotFound(new RequestResponse<CardModel>(message: e.Message, success: false));
             }
-            catch (IdNotFoundException<CardModel> e)
+            catch (IdNotFoundException<CardModel, int> e)
             {
                 return NotFound(new RequestResponse<CardModel>(message: e.Message, success: false));
             }
@@ -41,7 +41,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
 
         // GET api/cards
         [HttpGet]
-        public async Task<ActionResult<RequestResponse<CardModel>>> GetAll()
+        public async Task<IActionResult> GetAll()
         {
             IEnumerable<CardModel>? cards = null;
             try
@@ -59,7 +59,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
         // POST api/cards
         [Authorize(Roles = UserRoles.SUPERADMIN)]
         [HttpPost("seed")]
-        public async Task<ActionResult<RequestResponse<CardModel>>> PostAllCards()
+        public async Task<IActionResult> PostAllCards()
         {
             try
             {
@@ -73,9 +73,9 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             return Created("api/cards", new RequestResponse<IEnumerable<CardModel>>());
         }
 
-        // PUT api/cards/5
+        // PUT api/cards/{id:int}
         [HttpPut("{id:int}")]
-        public async Task<ActionResult> Put(int id, [FromBody] CardModel cardModel)
+        public async Task<IActionResult> Put(int id, [FromBody] CardModel cardModel)
         {
             if (id != cardModel.Id) 
                 return BadRequest(new RequestResponse<CardModel>(message: "Ids do not match", success: false));
@@ -87,7 +87,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             {
                 return NotFound(new RequestResponse<CardModel>(message: e.Message, success: false));
             }
-            catch (IdNotFoundException<CardModel> e)
+            catch (IdNotFoundException<CardModel, int> e)
             {
                 return NotFound(new RequestResponse<CardModel>(message: e.Message, success: false));
             }
@@ -95,9 +95,9 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             return NoContent();
         }
 
-        // DELETE api/cards/5
+        // DELETE api/cards/{id:int}
         [Authorize(Roles = UserRoles.SUPERADMIN)]
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
             try
@@ -108,7 +108,7 @@ namespace ClashRoyaleClanWarsAPI.Controllers.ModelControllers
             {
                 return NotFound(new RequestResponse<CardModel>(message: e.Message, success: false));
             }
-            catch (IdNotFoundException<CardModel> e)
+            catch (IdNotFoundException<CardModel, int> e)
             {
                 return NotFound(new RequestResponse<CardModel>(message: e.Message, success: false));
             }

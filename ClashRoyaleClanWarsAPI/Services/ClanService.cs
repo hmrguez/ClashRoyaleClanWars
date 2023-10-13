@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ClashRoyaleClanWarsAPI.Services
 {
-    public class ClanService : BaseService<ClanModel>, IClanService
+    public class ClanService : BaseService<ClanModel, int>, IClanService
     {
         private readonly IPlayerService _playerService;
         private readonly IMapper _mapper;
@@ -60,7 +60,7 @@ namespace ClashRoyaleClanWarsAPI.Services
         {
             if (_context.Clans == null) throw new ModelNotFoundException<ClanModel>();
 
-            return (await GetAllAsync()).Where(x => x.Name.Contains(name));
+            return (await GetAllAsync()).Where(x => x.Name!.Contains(name));
         }
 
         public async Task<IEnumerable<ClanModel>> GetAllByTrophies(int trophies)
@@ -72,10 +72,16 @@ namespace ClashRoyaleClanWarsAPI.Services
 
         public async Task RemovePlayer(int clanId, int playerId)
         {
-            var playerClan = await _context.PlayerClans.FindAsync(playerId, clanId);
-            _context.PlayerClans.Remove(playerClan!);
+            PlayerClansModel? playerClan = await _context.PlayerClans
+                                        .Include(pc=>pc.Clan)
+                                        .Include(pc=> pc.Player)
+                                        .Where(pc=> (pc.Player!.Id == playerId) && (pc.Clan!.Id == clanId))
+                                        .FirstOrDefaultAsync()
+                                        ?? throw new IdNotFoundException<PlayerClansModel, int>();
+            
 
-            await Save();
+            _context.PlayerClans.Remove(playerClan!);
+            await _context.SaveChangesAsync();
         }
 
         public PlayerClansModel CreatePlayerClan(PlayerModel player, ClanModel clan, RankClan rank)
@@ -92,7 +98,8 @@ namespace ClashRoyaleClanWarsAPI.Services
 
         public async Task UpdatePlayerRank(int clanId, int playerId, RankClan rank)
         {
-            var playerClan = await _context.PlayerClans.FindAsync(playerId, clanId);
+            var playerClan = await _context.PlayerClans.FindAsync(playerId, clanId)
+                 ?? throw new IdNotFoundException<PlayerClansModel, int>();
 
             playerClan.Rank = rank;
 
@@ -105,18 +112,12 @@ namespace ClashRoyaleClanWarsAPI.Services
         {
             if (_context.Clans == null) throw new ModelNotFoundException<ClanModel>();
 
-            ClanModel clan = null!;
+            ClanModel clan = await GetSingleByIdAsync(id, true);
 
-            try
-            {
-                clan = await GetSingleByIdAsync(id, true);
-            }
-            catch (IdNotFoundException<ClanModel>)
-            {
-                throw;
-            }
-            clan.Players.Clear();
+            clan.Players!.Clear();
+
             _context.Clans.Remove(clan);
+
             await Save();
         }
         
@@ -124,15 +125,15 @@ namespace ClashRoyaleClanWarsAPI.Services
         {
             var clan = await GetSingleByIdAsync(clanId, true);
 
-            return clan.Players.ToList();
+            return clan.Players!.ToList();
         }
 
         public async Task<ClanModel> GetSingleByIdAsync(int id, bool fullLoad=false)
         {
             if (_context.Clans == null) throw new ModelNotFoundException<ClanModel>();
 
-            ClanModel? clan = fullLoad ? _context.Clans
-                                                .Include(c=> c.Players)
+            ClanModel? clan = fullLoad ? _context.Clans?
+                                                .Include(c => c.Players)!
                                                 .ThenInclude(p=> p.Player)
                                                 .ProjectTo<ClanModel>(_mapper.ConfigurationProvider)
                                                 .Where(c => c.Id == id)
@@ -140,7 +141,8 @@ namespace ClashRoyaleClanWarsAPI.Services
                                             :
                                              await base.GetSingleByIdAsync(id);
 
-            return clan ?? throw new IdNotFoundException<ClanModel>(id);
+
+            return clan ?? throw new IdNotFoundException<ClanModel, int>(id);
         }
     }
 }
