@@ -54,7 +54,7 @@ namespace ClashRoyaleClanWarsAPI.Tests
 
             // Assert
             Assert.NotEmpty(cards); // Check that the cards are not empty
-            Assert.All(cards, c => c.Name.Contains(name)); // Check that all cards contain the name
+            Assert.All(cards, c => c.Name!.Contains(name)); // Check that all cards contain the name
             Assert.Equal(cards.Count(), 2);
         }
     }

@@ -47,7 +47,7 @@ namespace ClashRoyaleClanWarsAPI.Test.Controllers.ModelControllers
             var result = await controller.Get(id);
 
             // Assert
-            Assert.IsType<OkObjectResult>(result.Result);
+            Assert.IsType<OkObjectResult>(result);
         }
 
         [Fact]
@@ -64,7 +64,7 @@ namespace ClashRoyaleClanWarsAPI.Test.Controllers.ModelControllers
             var result = await controller.Get(id);
 
             // Assert
-            Assert.IsType<NotFoundObjectResult>(result.Result);
+            Assert.IsType<NotFoundObjectResult>(result);
         }
 
         [Fact]
@@ -73,7 +73,7 @@ namespace ClashRoyaleClanWarsAPI.Test.Controllers.ModelControllers
             // Arrange
             int id = 5;
             var cardServiceMock = new Mock<ICardService>();
-            cardServiceMock.Setup(x => x.GetSingleByIdAsync(id)).ThrowsAsync(new IdNotFoundException<CardModel>(id));
+            cardServiceMock.Setup(x => x.GetSingleByIdAsync(id)).ThrowsAsync(new IdNotFoundException<CardModel, int>(id));
 
             var controller = new CardController(cardServiceMock.Object);
 
@@ -81,7 +81,7 @@ namespace ClashRoyaleClanWarsAPI.Test.Controllers.ModelControllers
             var result = await controller.Get(id);
 
             // Assert
-            Assert.IsType<NotFoundObjectResult>(result.Result);
+            Assert.IsType<NotFoundObjectResult>(result);
         }
 
         [Fact]
@@ -97,7 +97,7 @@ namespace ClashRoyaleClanWarsAPI.Test.Controllers.ModelControllers
             var result = await controller.GetAll();
 
             // Assert
-            Assert.IsType<OkObjectResult>(result.Result);
+            Assert.IsType<OkObjectResult>(result);
         }
 
         [Fact]
@@ -113,7 +113,7 @@ namespace ClashRoyaleClanWarsAPI.Test.Controllers.ModelControllers
             var result = await controller.GetAll();
 
             // Assert
-            Assert.IsType<NotFoundObjectResult>(result.Result);
+            Assert.IsType<NotFoundObjectResult>(result);
         }
 
         [Fact]
@@ -134,7 +134,7 @@ namespace ClashRoyaleClanWarsAPI.Test.Controllers.ModelControllers
             var result = await cardController.PostAllCards();
 
             // Assert
-            Assert.IsType<CreatedResult>(result.Result);
+            Assert.IsType<CreatedResult>(result);
         }
 
         [Fact]
