@@ -43,9 +43,9 @@ export class LogInComponent implements OnInit {
     }
 
     LogIn(){
-      const { username, password } = this.LogInForm;
+      
 
-    this.authService.login(username, password).subscribe(
+    this.authService.login(this.LogInForm.Username , this.LogInForm.Password).subscribe(
       data => {
         this.tokenStorage.saveToken(data.accessToken);
         this.tokenStorage.saveUser(data);
@@ -67,18 +67,23 @@ export class LogInComponent implements OnInit {
         alert("Passwords do not match");
         return;
       }
-      const { username, password, pass1 } = this.SignUpForm;
+      
     
-    
-      this.authService.register(username, password).subscribe(
+      // const x = this.authService.register(this.SignUpForm.Username , this.SignUpForm.Password, this.SignUpForm.ConfirmPassword);
+      
+      // sessionStorage.setItem('token', x.toString());
+
+      this.authService.register(this.SignUpForm.Username , this.SignUpForm.Password, this.SignUpForm.ConfirmPassword).subscribe(
         data => {
-          console.log(data);
           this.isSuccessful = true;
+          sessionStorage.setItem('token', "ok");
+
           this.isSignUpFailed = false;
         },
         err => {
           this.errorMessage = err.error.message;
           this.isSignUpFailed = true;
+          sessionStorage.setItem('error', err.error.message);
         }
       );
       

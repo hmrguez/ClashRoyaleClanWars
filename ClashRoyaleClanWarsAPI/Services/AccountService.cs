@@ -24,7 +24,7 @@ namespace ClashRoyaleClanWarsAPI.Services
             if (model is null)
                 throw new NullReferenceException($"{nameof(RegisterModel)} is null");
 
-            if (await _userManager.FindByNameAsync(model.Username) is null)
+            if (await _userManager.FindByNameAsync(model.Username) is not null)
                 return new RequestResponse<User>(message: "Username already exists", success: false);
 
             if (model.Password != model.ConfirmPassword)
