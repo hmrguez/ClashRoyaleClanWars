@@ -47,13 +47,14 @@ export class LogInComponent implements OnInit {
 
     this.authService.login(this.LogInForm.Username , this.LogInForm.Password).subscribe(
       data => {
+        sessionStorage.setItem('token', data.accessToken);
         this.tokenStorage.saveToken(data.accessToken);
         this.tokenStorage.saveUser(data);
 
         this.isLoginFailed = false;
         this.isLoggedIn = true;
         this.roles = this.tokenStorage.getUser().roles;
-        this.reloadPage();
+        
       },
       err => {
         this.errorMessage = err.error.message;
@@ -68,15 +69,11 @@ export class LogInComponent implements OnInit {
         return;
       }
       
-    
-      // const x = this.authService.register(this.SignUpForm.Username , this.SignUpForm.Password, this.SignUpForm.ConfirmPassword);
-      
-      // sessionStorage.setItem('token', x.toString());
 
       this.authService.register(this.SignUpForm.Username , this.SignUpForm.Password, this.SignUpForm.ConfirmPassword).subscribe(
         data => {
-          this.isSuccessful = true;
-          sessionStorage.setItem('token', "ok");
+          this.isSuccessful = true;       
+          sessionStorage.setItem('user', data.Username);
 
           this.isSignUpFailed = false;
         },
@@ -86,6 +83,10 @@ export class LogInComponent implements OnInit {
           sessionStorage.setItem('error', err.error.message);
         }
       );
+
+      
+
+    
       
     }
 
