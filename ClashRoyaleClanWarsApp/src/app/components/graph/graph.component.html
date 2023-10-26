@@ -1,4 +1,7 @@
-<h5 class="title">Popularidad del juego</h5>
+<div class="header">
+    <h5 class="title">Popularidad del juego</h5>
+    <i class="pi pi-download" id="icon" (click)="Export()"></i>
+</div>
 
 <div class="graph">
 <p-chart type="line"
@@ -6,5 +9,3 @@
 		[options]="basicOptions"> 
 </p-chart>
 </div>
-
-<i class="pi pi-download" id="icon"></i>

@@ -1,15 +1,15 @@
-.title{
-    text-align: center;
+.header{
+    .title{text-align: center;
     font-size: 30px;
     font-weight: 600;
     color: #333;
-    margin-bottom: 20px;
-    padding-bottom: 20px;
-    position: relative;
+   
+    position: relative;}
     padding-top: 10px;
 }
 
 .graph{
+    padding: auto;
     width: 900px;
     margin-left: auto;
     margin-right: auto;
@@ -17,6 +17,19 @@
 }
 
 #icon{
-   
-   
+   position: relative;
+   margin-left: 90%;
+   margin-right: 10%;
+  
+    font-size: 30px;
+    border-radius: 10%;
+    border-color: #333;
+}
+
+#icon:hover{
+  
+        
+        cursor: pointer;
+        color: #7d2ae8;
+    
 }

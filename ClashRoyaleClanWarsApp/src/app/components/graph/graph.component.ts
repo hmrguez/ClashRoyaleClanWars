@@ -17,6 +17,10 @@ export class GraphComponent {
       private messageService: MessageService, 
       private primengConfig: PrimeNGConfig 
   ) { } 
+
+  Export(){
+    console.log("Exporting")
+  }
   ngOnInit() { 
       this.basicData = { 
           labels: ['January', 'February', 'March',  
