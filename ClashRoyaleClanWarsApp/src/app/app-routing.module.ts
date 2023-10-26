@@ -6,6 +6,7 @@ import {DashboardComponent} from "./components/dashboard/dashboard.component";
 import {LogInComponent} from './components/log-in/log-in.component';
 import {ClansComponent} from "./components/clans/clans.component";
 import {FAQComponent} from "./components/faq/faq.component";
+import {GraphComponent} from "./components/graph/graph.component";
 
 const routes: Routes = [
   {path: '', component: DashboardComponent},
@@ -14,6 +15,7 @@ const routes: Routes = [
   {path: 'login', component: LogInComponent},
   {path: 'clans', component: ClansComponent},
   {path: 'faq', component: FAQComponent},
+  {path: 'graph', component: GraphComponent},
 ];
 
 @NgModule({
