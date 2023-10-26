@@ -1,11 +1,22 @@
-h5{
-    display: block;
-    // center it
+.title{
+    text-align: center;
+    font-size: 30px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    position: relative;
+    padding-top: 10px;
+}
+
+.graph{
+    width: 900px;
     margin-left: auto;
     margin-right: auto;
 
 }
 
-.graph{
-    width: 50%;
+#icon{
+   
+   
 }
