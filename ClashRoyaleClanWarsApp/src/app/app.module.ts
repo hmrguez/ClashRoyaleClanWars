@@ -38,6 +38,7 @@ import { FAQComponent } from './components/faq/faq.component';
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,7 +51,8 @@ import { FAQComponent } from './components/faq/faq.component';
     DashboardComponent,
     ProfileComponent,
     ClansComponent,
-    FAQComponent
+    FAQComponent,
+   
 
   ],
   imports: [
