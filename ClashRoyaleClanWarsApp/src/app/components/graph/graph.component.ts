@@ -2,6 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { PrimeNGConfig } from 'primeng/api';
+import jsPDF from 'jspdf';
 
 @Component({
   selector: 'app-root',
@@ -18,9 +19,7 @@ export class GraphComponent {
       private primengConfig: PrimeNGConfig 
   ) { } 
 
-  Export(){
-    console.log("Exporting")
-  }
+ 
   ngOnInit() { 
       this.basicData = { 
           labels: ['January', 'February', 'March',  
@@ -69,4 +68,12 @@ export class GraphComponent {
           }, 
       }; 
   } 
+  Export(){
+    var canvas = document.querySelector("canvas");
+    var canvas_img = canvas!.toDataURL("image/png",1.0);
+    var pdf = new jsPDF('landscape','in', 'letter');
+    pdf.addImage(canvas_img, 'PNG', 0, 0, 11, 8.5);
+    pdf.save('test.pdf');
+    
+  }
 }
