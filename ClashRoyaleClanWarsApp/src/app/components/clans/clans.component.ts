@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {ClanService} from "./clan.service";
 import {ColumnType, IColumn} from "../grid/IColumn";
+import { IClanDto } from './IClanDto';
 
 @Component({
   selector: 'app-clans',
@@ -47,5 +48,23 @@ export class ClansComponent {
   ]
 
 
-  constructor(public clanService: ClanService) { }
+  constructor(public clanService: ClanService) { 
+    console.log(this.clanColumns);
+  }
+
+  itemParsingFunction(data: any): IClanDto{
+    return {
+      id: data.id,
+      name: data.name,
+      description: data.description,
+      region: data.region,
+      typeOpen: data.typeOpen,
+      amountMembers: data.amountMembers,
+      trophiesInWar: data.trophiesInWar,
+      minTrophies: data.minTrophies
+    }
+  }
+  
+  
+  
 }
