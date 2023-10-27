@@ -1,0 +1,11 @@
+<div class="header">
+    <h5>Popularidad del juego</h5>
+    <i class="pi pi-download " (click)="Save()"></i>
+</div>
+
+<div class="graph">
+<p-chart type="line" 
+         [data]="basicData"  
+         [options]="basicOptions"> 
+</p-chart>
+</div>

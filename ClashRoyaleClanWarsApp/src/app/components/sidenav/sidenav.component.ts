@@ -45,7 +45,13 @@ export class SidenavComponent implements OnInit {
       routeLink: "/faq",
       icon: "pi pi-question-circle",
       label: "FAQ",
-    }]
+    },
+    {
+      routeLink: "/graph",
+      icon: "pi pi-chart-bar",
+      label: "Graph",
+    }
+  ]
 
     if (this.isLoggedIn) {
       const user = this.tokenStorage.getUser();
