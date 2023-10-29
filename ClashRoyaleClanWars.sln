@@ -1,10 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClashRoyaleClanWarsAPI", "ClashRoyaleClanWarsAPI\ClashRoyaleClanWarsAPI.csproj", "{E0BC3D6B-4A8C-4C2B-9CD9-A437140B4E59}"
-EndProject
+# 
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClashRoyaleClanWarsTesting", "ClashRoyaleClanWarsTesting\ClashRoyaleClanWarsTesting.csproj", "{C57BA9F2-47BE-47BB-AA2C-F0F701C6C815}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClashRoyaleClanWarsAnalytics", "ClashRoyaleClanWarsAnalytics\ClashRoyaleClanWarsAnalytics.csproj", "{07303B8E-70ED-4A9A-9770-41D938259CDD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ClashRoyaleClanWarsAPI", "ClashRoyaleClanWarsAPI", "{E84AEF45-45C1-406D-9A50-C5B8F94A7F9F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClashRoyaleClanWarsAPI.API", "ClashRoyaleClanWarsAPI\ClashRoyaleClanWarsAPI.API\ClashRoyaleClanWarsAPI.API.csproj", "{0FA69C93-18E5-4E50-BCF0-8F3D01326608}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClashRoyaleClanWarsAPI.Application", "ClashRoyaleClanWarsAPI\ClashRoyaleClanWarsAPI.Application\ClashRoyaleClanWarsAPI.Application.csproj", "{DDEB492A-EC0E-4529-B6CA-9284D10E62CA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClashRoyaleClanWarsAPI.Domain", "ClashRoyaleClanWarsAPI\ClashRoyaleClanWarsAPI.Domain\ClashRoyaleClanWarsAPI.Domain.csproj", "{44F43EE8-D1FB-4DD2-9180-1D93B3C6705B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClashRoyaleClanWarsAPI.Infrastructure", "ClashRoyaleClanWarsAPI\ClashRoyaleClanWarsAPI.Infrastructure\ClashRoyaleClanWarsAPI.Infrastructure.csproj", "{3E696801-D00A-4CAD-A991-DF68F4205FAB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,10 +21,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E0BC3D6B-4A8C-4C2B-9CD9-A437140B4E59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E0BC3D6B-4A8C-4C2B-9CD9-A437140B4E59}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E0BC3D6B-4A8C-4C2B-9CD9-A437140B4E59}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E0BC3D6B-4A8C-4C2B-9CD9-A437140B4E59}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C57BA9F2-47BE-47BB-AA2C-F0F701C6C815}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C57BA9F2-47BE-47BB-AA2C-F0F701C6C815}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C57BA9F2-47BE-47BB-AA2C-F0F701C6C815}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -24,5 +29,27 @@ Global
 		{07303B8E-70ED-4A9A-9770-41D938259CDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07303B8E-70ED-4A9A-9770-41D938259CDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07303B8E-70ED-4A9A-9770-41D938259CDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FA69C93-18E5-4E50-BCF0-8F3D01326608}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FA69C93-18E5-4E50-BCF0-8F3D01326608}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FA69C93-18E5-4E50-BCF0-8F3D01326608}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FA69C93-18E5-4E50-BCF0-8F3D01326608}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDEB492A-EC0E-4529-B6CA-9284D10E62CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDEB492A-EC0E-4529-B6CA-9284D10E62CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDEB492A-EC0E-4529-B6CA-9284D10E62CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDEB492A-EC0E-4529-B6CA-9284D10E62CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44F43EE8-D1FB-4DD2-9180-1D93B3C6705B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44F43EE8-D1FB-4DD2-9180-1D93B3C6705B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44F43EE8-D1FB-4DD2-9180-1D93B3C6705B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44F43EE8-D1FB-4DD2-9180-1D93B3C6705B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E696801-D00A-4CAD-A991-DF68F4205FAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E696801-D00A-4CAD-A991-DF68F4205FAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E696801-D00A-4CAD-A991-DF68F4205FAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E696801-D00A-4CAD-A991-DF68F4205FAB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0FA69C93-18E5-4E50-BCF0-8F3D01326608} = {E84AEF45-45C1-406D-9A50-C5B8F94A7F9F}
+		{DDEB492A-EC0E-4529-B6CA-9284D10E62CA} = {E84AEF45-45C1-406D-9A50-C5B8F94A7F9F}
+		{44F43EE8-D1FB-4DD2-9180-1D93B3C6705B} = {E84AEF45-45C1-406D-9A50-C5B8F94A7F9F}
+		{3E696801-D00A-4CAD-A991-DF68F4205FAB} = {E84AEF45-45C1-406D-9A50-C5B8F94A7F9F}
 	EndGlobalSection
 EndGlobal
