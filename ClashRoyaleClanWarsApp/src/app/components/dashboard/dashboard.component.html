@@ -1,1 +1,38 @@
-<p>dashboard works!</p>
+<div class="title">
+    <h1> Bienvenidos al sistema gestor de Clash Royale</h1>
+</div>
+
+
+<p-divider align ="center">
+    <span class="p-tag" >Quienes Somos</span>
+</p-divider>
+
+<div class="text">
+    <p>Clash Royale es un videojuego de estrategia en línea para dispositivos móviles, creado por la compañía finlandesa Supercell. Fue lanzado globalmente el 2 de marzo de 2016. Es un videojuego freemium de estrategia en tiempo real basado en los personajes de Clash of Clans. Combina elementos de los juegos de cartas coleccionables y defensa de torres.</p>
+</div>
+
+<p-divider align ="center">
+    <span class="p-tag" >Desarrolladores del juego </span>
+</p-divider>
+
+<div class="text">
+    <p>Clash Royale fue desarrollado por Supercell, la compañía que creó Clash of Clans, Boom Beach, y Hay Day. El juego se lanzó en Canadá, Hong Kong, Australia, Suecia, Noruega, Dinamarca, Islandia, Finlandia y Nueva Zelanda para iOS el 4 de enero de 2016. El 2 de marzo de 2016, el juego fue lanzado en todo el mundo en iOS y Android.</p>
+</div>
+
+<p-divider align ="center">
+    <span class="p-tag" >Como jugar </span>
+</p-divider>
+
+<div class="text">
+    <p>El juego combina elementos de juegos de cartas coleccionables, defensa de torres y juegos de estrategia en tiempo real. El juego se juega en tiempo real, donde los jugadores se enfrentan en línea en partidas uno contra uno, con un máximo de 3 en cada lado, donde el objetivo es destruir la mayoría de las torres del oponente, con la destrucción de la "Torre del Rey" que otorga una victoria automática. Después de tres minutos, si ambos jugadores tienen la misma cantidad de coronas o ninguno ha destruido una torre, se produce un tiempo extra de dos minutos, y el jugador que destruya una torre gana instantáneamente. Después de un tiempo extra, un empate se declara. En el juego, los jugadores pueden formar un clan, compartir cartas y jugar batallas amistosas con sus compañeros de clan.</p>
+</div>
+
+<p-divider align ="center">
+    <span class="p-tag" >Galería</span>
+</p-divider>
+
+<p-galleria [value]="images" [numVisible]="5" [circular]="true" [showItemNavigators]="true" [showThumbnails]="false" [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '640px' }">
+    <ng-template pTemplate="item" let-item>
+        <img [src]="item.itemImageSrc" style="width: 100%; display: block;" />
+    </ng-template>
+</p-galleria>

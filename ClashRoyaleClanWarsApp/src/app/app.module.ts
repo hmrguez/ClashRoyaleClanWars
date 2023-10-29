@@ -37,7 +37,8 @@ import { ClansComponent } from './components/clans/clans.component';
 import { FAQComponent } from './components/faq/faq.component';
 import { GraphComponent } from './components/graph/graph.component';
 import {ChartModule} from "primeng/chart";
-
+import { GalleriaModule } from 'primeng/galleria';
+import { DividerModule } from 'primeng/divider';
 
 
 
@@ -83,7 +84,9 @@ import {ChartModule} from "primeng/chart";
     ContextMenuModule,
     ToastModule,
     HttpClientModule,
-    ChartModule
+    ChartModule,
+    GalleriaModule,
+    DividerModule,
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

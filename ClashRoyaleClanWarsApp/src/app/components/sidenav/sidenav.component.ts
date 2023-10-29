@@ -27,6 +27,11 @@ export class SidenavComponent implements OnInit {
 
     this.navData = [
       {
+        routeLink: "/",
+        icon: "pi pi-home",
+        label: "Home",
+      },
+      {
         routeLink: "/players",
         icon: "pi pi-user",
         label: "Players",
