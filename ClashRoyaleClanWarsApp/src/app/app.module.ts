@@ -35,7 +35,10 @@ import {HttpClient, HttpClientModule, HttpHandler} from "@angular/common/http";
 import { ProfileComponent } from './components/profile/profile.component';
 import { ClansComponent } from './components/clans/clans.component';
 import { FAQComponent } from './components/faq/faq.component';
-
+import { GraphComponent } from './components/graph/graph.component';
+import {ChartModule} from "primeng/chart";
+import { GalleriaModule } from 'primeng/galleria';
+import { DividerModule } from 'primeng/divider';
 
 
 
@@ -52,6 +55,7 @@ import { FAQComponent } from './components/faq/faq.component';
     ProfileComponent,
     ClansComponent,
     FAQComponent,
+    GraphComponent,
    
 
   ],
@@ -79,7 +83,10 @@ import { FAQComponent } from './components/faq/faq.component';
     ReactiveFormsModule,
     ContextMenuModule,
     ToastModule,
-    HttpClientModule
+    HttpClientModule,
+    ChartModule,
+    GalleriaModule,
+    DividerModule,
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]
