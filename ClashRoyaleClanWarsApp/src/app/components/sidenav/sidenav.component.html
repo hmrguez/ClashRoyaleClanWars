@@ -6,6 +6,7 @@
       <i class="pi pi-times close-icon"></i>
     </button>
   </div>
+
   <ul class="sidenav-nav">
     <li class="sidenav-nav-item" *ngFor="let data of navData" >
       <a href="#" class="sidenav-nav-link" [routerLink]="data.routeLink" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
@@ -13,5 +14,16 @@
         <span class="sidenav-link-text" *ngIf="collapsed">{{data.label}}</span>
       </a>
     </li>
+    <li class="sidenav-nav-item" *ngIf="LoggedIn" (click)="logout()">
+      <a href="#" class="sidenav-nav-link" >
+        <i class="sidenav-link-icon pi pi-sign-out" ></i>
+        <span class="sidenav-link-text" *ngIf="collapsed">Sign Out</span>
+      </a>
+    </li>
   </ul>
+
+
+ 
+
+  
 </div>

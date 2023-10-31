@@ -8,6 +8,7 @@ import {ClansComponent} from "./components/clans/clans.component";
 import {FAQComponent} from "./components/faq/faq.component";
 import {GraphComponent} from "./components/graph/graph.component";
 import { ProfileComponent } from './components/profile/profile.component';
+import { TokenStorageService } from './services/token-storage.service';
 
 
 const routes: Routes = [
@@ -18,16 +19,20 @@ const routes: Routes = [
   {path: 'clans', component: ClansComponent},
   {path: 'faq', component: FAQComponent},
   {path: 'graph', component: GraphComponent},
-  {path: 'profile', component: ProfileComponent }
+  {path: 'profile', component: ProfileComponent },
+
     
   
 ];
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule {
+
+ 
 
   
 }

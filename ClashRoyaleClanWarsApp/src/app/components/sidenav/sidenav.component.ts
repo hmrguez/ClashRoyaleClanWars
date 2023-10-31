@@ -1,5 +1,6 @@
 import {Component, EventEmitter, HostListener, OnInit, Output} from '@angular/core';
 import { TokenStorageService } from '../../services/token-storage.service';
+import { Router } from '@angular/router';
 
 
 
@@ -21,11 +22,13 @@ export class SidenavComponent implements OnInit {
   screenWidth: number = 0;
  
   navData :any;
+  LoggedIn = false;
 
-  constructor(private tokenStorage: TokenStorageService) { 
+  constructor(private tokenStorage: TokenStorageService, private router: Router) { 
     
     
-    var isLoggedIn = !!this.tokenStorage.getToken();
+   
+    this.LoggedIn = !!this.tokenStorage.getToken();
 
     this.navData = [
       {
@@ -60,17 +63,12 @@ export class SidenavComponent implements OnInit {
     }
   ]
 
-    if (isLoggedIn) {
+    if (this.LoggedIn) {
       const user = this.tokenStorage.getUser();
       this.navData.push({
         routeLink: "/profile",
         icon: "pi pi-user",
         label: tokenStorage.getUser(),
-      },
-      {
-        routelink:'\logOut',
-        icon: "pi pi-sign-out",
-        label: "Log Out"
       })
     }
     else {
@@ -80,35 +78,7 @@ export class SidenavComponent implements OnInit {
         label: "Sign Up",
       })
     }
-  }
-
- 
-
-  // navData: any = [
-  //   {
-  //     routeLink: "/players",
-  //     icon: "pi pi-user",
-  //     label: "Players",
-  //   },
-  //   {
-  //     routeLink: "/cards",
-  //     icon: "pi pi-id-card",
-  //     label: "Cards",
-  //   },
-  //   {
-  //     routeLink: "/clans",
-  //     icon: "pi pi-sitemap",
-  //     label: "Clans",
-  //   },
-  //   {
-  //     routeLink: "/login",
-  //     icon: "pi pi-user-plus",
-  //     label: "Sign Up",
-  //   }
-
-  // ];
-
-  
+  } 
 
   @HostListener('window:resize', ['$event'])
   onResize() {
@@ -131,5 +101,15 @@ export class SidenavComponent implements OnInit {
 
   ngOnInit(): void {
     this.screenWidth = window.innerWidth;
+  }
+
+  logout(): void {
+    this.tokenStorage.signOut();
+    
+    this.router.navigate(['/'])
+          .then(() => {
+            window.location.reload();
+          });
+
   }
 }
