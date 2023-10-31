@@ -75,7 +75,7 @@ export class GridComponent implements OnInit{
       this.dataService.getAll().subscribe({
         next: (v) => {
           console.log("Data before: ", v)
-          this.data = this.itemParsingFunction ? v.data.map(this.itemParsingFunction) : v.data
+          this.data = this.itemParsingFunction ? v.map(this.itemParsingFunction) : v
           console.log("Data after: ", this.data)
         },
         error: (e) => console.log("Error ", e)

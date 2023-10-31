@@ -9,10 +9,15 @@ import { TokenStorageService } from '../../services/token-storage.service';
 
 export class ProfileComponent implements OnInit {
   currentUser: any;
+  roles : any = []
 
   constructor(private token: TokenStorageService) { }
 
   ngOnInit(): void {
     this.currentUser = this.token.getUser();
+    this.roles = this.token.getRoles();
+    
+      
+    
   }
 }

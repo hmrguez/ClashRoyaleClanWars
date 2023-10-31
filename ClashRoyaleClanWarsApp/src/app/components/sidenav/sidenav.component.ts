@@ -19,11 +19,13 @@ export class SidenavComponent implements OnInit {
 
   collapsed = false;
   screenWidth: number = 0;
-  isLoggedIn = false;
+ 
   navData :any;
 
   constructor(private tokenStorage: TokenStorageService) { 
-    this.isLoggedIn = !!this.tokenStorage.getToken();
+    
+    
+    var isLoggedIn = !!this.tokenStorage.getToken();
 
     this.navData = [
       {
@@ -58,12 +60,17 @@ export class SidenavComponent implements OnInit {
     }
   ]
 
-    if (this.isLoggedIn) {
+    if (isLoggedIn) {
       const user = this.tokenStorage.getUser();
       this.navData.push({
         routeLink: "/profile",
         icon: "pi pi-user",
-        label: user.username,
+        label: tokenStorage.getUser(),
+      },
+      {
+        routelink:'\logOut',
+        icon: "pi pi-sign-out",
+        label: "Log Out"
       })
     }
     else {

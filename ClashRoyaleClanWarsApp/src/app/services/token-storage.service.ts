@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 
 const TOKEN_KEY = 'auth-token';
 const USER_KEY = 'auth-user';
+var roles_saved = 0;
 
 @Injectable({
   providedIn: 'root'
@@ -22,37 +23,54 @@ export class TokenStorageService {
     window.sessionStorage.removeItem(TOKEN_KEY);
     window.sessionStorage.setItem(TOKEN_KEY, token);
 
-    //get id, exp and roles from token and save it in session storage
-    //no me queda claro como llega el string token
+  }
 
-    // const tokenData = decode(token);
-    // if (tokenData){
-    //   const id = tokenData.id;
-    //   const exp = tokenData.exp;
-    //   const roles = tokenData.roles;
-    //   const expirationDate = tokenData.expirationTime;
-    //   this.autoLogout(expirationDate.getTime() - new Date().getTime());
+  public expToken(date:string):void{
 
-    //   window.sessionStorage.setItem("id", id);
-    //   window.sessionStorage.setItem("exp", exp);
-    //   window.sessionStorage.setItem("roles", roles);
-    //}
+    //\"iat\":\"31-Oct-23 5:24:20 AM\"
+    //not working del todo
 
-    
-    
+    var x = date.split(':')[1].substring(2,-2);
+
+    var y = x.split(' ')[1];
+
+    sessionStorage.setItem('expDate', y)
 
 
 
   }
 
-  public autoLogout(time: number)
-  {
-    setTimeout(() => {
-      this.signOut();
-    }, time);
+  public saveExp(exp:string):void{
+   // \"exp\":1698733460}"
+
+   var expp = exp.split(':')[1]
+   expp = expp.substring(0,expp.length-2)
+   sessionStorage.setItem("exp", expp);
   }
+
+  public saveRoles(roles:string):void{
+    //"{\"http://schemas.microsoft.com/ws/2008/06/identity/claims/role\":\"User\"
+    for (let index = 1; index < roles_saved+1; index++) {
+      sessionStorage.removeItem("Role"+index)
+    }
+
+    var r = roles.split(':')[2]
+    var rol = r.split('"')
+
+    var index = 1
+
+    for (index; index < rol.length-1; index++) {
+      const element = rol[index].substring(0, rol[index].length );
+      sessionStorage.setItem("Role" + index, element)
+
+    }
+
+    roles_saved = index-1
+   
     
-  
+  }
+
+
 
   public getToken(): string | null {
     return window.sessionStorage.getItem(TOKEN_KEY);
@@ -60,7 +78,12 @@ export class TokenStorageService {
 
   public saveUser(user: any): void {
     window.sessionStorage.removeItem(USER_KEY);
-    window.sessionStorage.setItem(USER_KEY, JSON.stringify(user));
+
+    var spl = user.split(':')
+    user = spl[2]
+    var us = user.substring(2, user.length-2)
+
+    window.sessionStorage.setItem(USER_KEY, user);
   }
 
   public getUser(): any {
@@ -70,6 +93,16 @@ export class TokenStorageService {
     }
 
     return {};
+  }
+
+  public getRoles():any{
+    var rol = []
+    for (let index = 0; index < roles_saved; index++) {
+      var x = sessionStorage.getItem("Role"+(index+1))
+      rol.push(x)      
+    }
+
+    return rol;
   }
 
   

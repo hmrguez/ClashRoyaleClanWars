@@ -1,6 +1,7 @@
 
 *{
   margin: auto auto;
+  
   padding: 0;
   box-sizing: border-box;
   font-family: sans-serif;
@@ -12,13 +13,18 @@
   
 
 }
-body{
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #7d2ae8;
-  padding: 30px;
+// body{
+//   min-height: 100vh;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   background: #7d2ae8;
+//   padding: 30px;
+// }
+
+.padre{
+  height: 100vh;
+  overflow-y: hidden;
 }
 .container{
   position:relative;
@@ -32,8 +38,7 @@ body{
   align-items: center;
   justify-content: center;
   display: flex;
-  // left:20%;
-  top: 15%;
+  margin-top: 5rem;
 
 
 

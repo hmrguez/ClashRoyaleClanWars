@@ -7,6 +7,8 @@ import {LogInComponent} from './components/log-in/log-in.component';
 import {ClansComponent} from "./components/clans/clans.component";
 import {FAQComponent} from "./components/faq/faq.component";
 import {GraphComponent} from "./components/graph/graph.component";
+import { ProfileComponent } from './components/profile/profile.component';
+
 
 const routes: Routes = [
   {path: '', component: DashboardComponent},
@@ -15,7 +17,10 @@ const routes: Routes = [
   {path: 'login', component: LogInComponent},
   {path: 'clans', component: ClansComponent},
   {path: 'faq', component: FAQComponent},
-  {path: 'graph', component: GraphComponent}
+  {path: 'graph', component: GraphComponent},
+  {path: 'profile', component: ProfileComponent }
+    
+  
 ];
 
 @NgModule({
@@ -23,4 +28,6 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule {
+
+  
 }
