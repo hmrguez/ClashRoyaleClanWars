@@ -11,6 +11,9 @@ import {ICardDto} from "./ICardDto";
   styleUrls: ['./cards.component.scss']
 })
 export class CardsComponent {
+  items: Array<ICardDto> = []
+
+
   enumColors = {
     DenominationEnum: {
       Spell: 'blue',
@@ -110,9 +113,12 @@ export class CardsComponent {
     },
   ];
 
+  currIndex = 0
+
 
   constructor(public cardService: CardService) {
     console.log(this.cardColumns)
+    this.getCards()
   }
 
   itemParsingFunction(data: any): ICardDto{
@@ -131,4 +137,34 @@ export class CardsComponent {
     }
   }
 
-}
+  getCards(){
+    this.cardService.getAll().subscribe(cards=>{
+      cards.forEach(cardData => {
+        let parsed = this.itemParsingFunction(cardData);
+          if(!parsed){
+            throw Error("Failed to parse card");
+          } else {
+            this.items.push(parsed);
+          }
+          });
+    })
+  }
+
+  plusSlides(position :number){
+    let size = this.items.length
+    let newpos = this.currIndex+position
+
+    if (newpos>=size){
+      this.currIndex=0;
+    }
+    else if (newpos<0){
+      this.currIndex=size-1;
+    }
+    else{
+      this.currIndex=newpos;
+    }
+
+  }
+  }
+
+
