@@ -82,40 +82,74 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
         await Save();
     }
 
-    public async Task<bool> ExistsCollection(int playerId, int cardId)
+    public async Task AddPlayerChallenge(int playerId, int challengeId, int reward)
     {
-        return await _context.Collection.FindAsync(playerId, cardId) is not null;
-    }
-
-    public async Task AddChallengeResult(int playerId, int challengeId, int reward)
-    {
-        var player = await GetSingleByIdAsync(playerId);
-        
         var challenge = await _challengeRepository.GetSingleByIdAsync(challengeId);
 
         if (!challenge!.IsOpen) throw new ChallengeClosedException();
 
-        var challengePlayerResult = ChallengePlayersModel.Create(player!, challenge, reward);
+        var player = await GetSingleByIdAsync(playerId);
 
-        await _context.ChallengePlayers.AddAsync(challengePlayerResult);
-        
+        var playerChallenge = ChallengePlayersModel.Create(player!, challenge, 0);
+
+        await _context.ChallengePlayers.AddAsync(playerChallenge);
+
+        await Save();
+    }
+    public async Task AddPlayerChallengeResult(int playerId, int challengeId, int reward)
+    {
+        if (!await ExistsPlayerChallenge(playerId, challengeId))
+            throw new IdNotFoundException<int>(playerId, challengeId);
+
+        var playerChallenge = await _context.ChallengePlayers.FindAsync(playerId, challengeId);
+
+        playerChallenge!.AddPrize(reward);
+        playerChallenge!.Completed();
+
+        _context.Entry(playerChallenge).State = EntityState.Modified;
+
         await Save();
     }
 
     public async Task AddDonation(int playerId, int clanId, int cardId, int amount)
     {
-        var player = await GetSingleByIdAsync(playerId);
+        var player = await GetSingleByIdAsync(playerId, true);
         var clan = await _clanRepository.Value.GetSingleByIdAsync(clanId);
         var card = await _cardRepository.GetSingleByIdAsync(cardId);
 
-        if(!player!.HaveCard(cardId)) throw new PlayerNotHaveCardException();
-        
-        _= await _context.ClanPlayers.FindAsync(playerId, clanId) ?? throw new IdNotFoundException<int>(playerId, clanId);
+        if (!player!.HaveCard(cardId))
+            throw new PlayerNotHaveCardException();
+
+        if (!await ExistsClanPlayer(playerId, clanId))
+            throw new IdNotFoundException<int>(playerId, clanId);
+
+        if (await ExistsDonation(playerId, clanId, cardId, DateTime.Now))
+            throw new DuplicationIdException(playerId, clanId, cardId);
 
         var donation = DonationModel.Create(player, clan!, card!, amount);
 
         await _context.Donations.AddAsync(donation);
 
         await Save();
+    }
+
+    public async Task<bool> ExistsPlayerChallenge(int playerId, int challengeId)
+    {
+        return await _context.ChallengePlayers.FindAsync(playerId, challengeId) is not null;
+    }
+
+    public async Task<bool> ExistsCollection(int playerId, int cardId)
+    {
+        return await _context.Collection.FindAsync(playerId, cardId) is not null;
+    }
+
+    public async Task<bool> ExistsClanPlayer(int playerId, int clanId)
+    {
+        return await _context.ClanPlayers.FindAsync(playerId, clanId) is not null;
+    }
+
+    public async Task<bool> ExistsDonation(int playerId, int clanId, int cardId, DateTime date)
+    {
+        return await _context.Donations.FindAsync(playerId, clanId, cardId, date) is not null;
     }
 }
