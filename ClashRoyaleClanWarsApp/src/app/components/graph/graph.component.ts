@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Query } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { PrimeNGConfig } from 'primeng/api';
 import jsPDF from 'jspdf';
@@ -17,7 +17,8 @@ export class GraphComponent {
     constructor( 
         private messageService: MessageService, 
         private primengConfig: PrimeNGConfig ,
-        public queryService : QueryService) {}
+        public queryService1 : QueryService,
+        public queryService2 : QueryService) {}
 
 
     Save(){
@@ -31,8 +32,11 @@ export class GraphComponent {
     }
 
   
-    ngOnInit() { 
-        this.queryService.getAll().subscribe((data)=>{
+    ngOnInit() {
+        this.queryService1.baseUrl = this.queryService1.baseUrl + "/2022" 
+        
+
+        this.queryService1.getAll().subscribe((data)=>{
             console.log("DATA", data);
             let labels = ['January', 'February','March','April','May','June','July','August','September','October','November','December'];
             let datasets = [0,0,0,0,0,0,0,0,0,0,0,0]

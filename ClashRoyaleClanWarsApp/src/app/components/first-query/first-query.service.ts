@@ -8,7 +8,7 @@ import { Structure } from './Structre';
 })
 export class FirstQueryService extends CrudService<Structure>{
 
-  baseUrl: string =  `http://localhost:5085/api/queries/firstquery`
+  baseUrl: string =  `http://localhost:5085/queries/firstquery`
   constructor( http: HttpClient) { 
     super(http);
    }
