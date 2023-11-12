@@ -4,3 +4,4 @@ Content-Type: application/json
 {
     "Cards": ["Knight", "Archers", "Skeletons", "Bomber", "Hound", "Prince", "Musketeer", "Goblins"]
 }
+

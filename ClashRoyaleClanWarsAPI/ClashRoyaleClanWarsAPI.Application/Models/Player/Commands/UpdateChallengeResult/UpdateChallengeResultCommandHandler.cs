@@ -5,22 +5,22 @@ using ClashRoyaleClanWarsAPI.Domain.Shared;
 using ClashRoyaleClanWarsAPI.Domain.Errors;
 using ClashRoyaleClanWarsAPI.Domain.Exceptions.Models;
 
-namespace ClashRoyaleClanWarsAPI.Application.Models.Player.Commands.AddChallengeResult;
+namespace ClashRoyaleClanWarsAPI.Application.Models.Player.Commands.UpdateChallengeResult;
 
-internal class AddChallengeResultCommandHandler : ICommandHandler<AddChallengeResultCommand>
+internal class UpdateChallengeResultCommandHandler : ICommandHandler<UpdateChallengeResultCommand>
 {
     private readonly IPlayerRepository _playerRepository;
 
-    public AddChallengeResultCommandHandler(IPlayerRepository playerRepository)
+    public UpdateChallengeResultCommandHandler(IPlayerRepository playerRepository)
     {
         _playerRepository = playerRepository;
     }
 
-    public async Task<Result> Handle(AddChallengeResultCommand request, CancellationToken cancellationToken)
+    public async Task<Result> Handle(UpdateChallengeResultCommand request, CancellationToken cancellationToken)
     {
         try
         {
-            await _playerRepository.AddChallengeResult(request.PlayerId, request.ChallengeId, request.Reward);
+            await _playerRepository.AddPlayerChallengeResult(request.PlayerId, request.ChallengeId, request.Reward);
         }
         catch (IdNotFoundException<int> e)
         {
