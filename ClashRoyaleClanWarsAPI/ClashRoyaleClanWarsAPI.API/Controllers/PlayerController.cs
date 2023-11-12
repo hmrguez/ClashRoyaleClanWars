@@ -5,9 +5,10 @@ using ClashRoyaleClanWarsAPI.Application.Common.Commands.DeleteModel;
 using ClashRoyaleClanWarsAPI.Application.Common.Commands.UpdateModel;
 using ClashRoyaleClanWarsAPI.Application.Common.Queries.GetAllModel;
 using ClashRoyaleClanWarsAPI.Application.Models.Player.Commands.AddCard;
-using ClashRoyaleClanWarsAPI.Application.Models.Player.Commands.AddChallengeResult;
+using ClashRoyaleClanWarsAPI.Application.Models.Player.Commands.AddChallengePlayer;
 using ClashRoyaleClanWarsAPI.Application.Models.Player.Commands.AddDonation;
 using ClashRoyaleClanWarsAPI.Application.Models.Player.Commands.UpdateAlias;
+using ClashRoyaleClanWarsAPI.Application.Models.Player.Commands.UpdateChallengeResult;
 using ClashRoyaleClanWarsAPI.Application.Models.Player.Queries.GetAllCardOfPlayer;
 using ClashRoyaleClanWarsAPI.Application.Models.Player.Queries.GetAllPlayerByAlias;
 using ClashRoyaleClanWarsAPI.Application.Models.Player.Queries.GetPlayerByIdFullLoad;
@@ -146,11 +147,20 @@ public class PlayerController : ApiController
             : Problem(result.Errors);
     }
 
-    // POST api/players/{playerId:int}/challenge
-    [HttpPost("{playerId:int}/challenge")]
-    public async Task<IActionResult> PostChallengeResult(int playerId, [FromBody] AddChallengeResultRequest addChallengeResult)
+    public async Task<IActionResult> UpdateChallengeResult(int playerId, int challengeId, [FromBody] AddChallengeResultRequest addChallengeResult)
     {
-        var command = new AddChallengeResultCommand(playerId, addChallengeResult.ChallengeId, addChallengeResult.Reward);
+        var command = new UpdateChallengeResultCommand(playerId, challengeId, addChallengeResult.Reward);
+
+        var result = await _sender.Send(command);
+
+        return result.IsSuccess ? NoContent() : Problem(result.Errors);
+    }
+
+    // PUT api/players/{playerId:int}/challenge/{challengeId:int}
+    [HttpPost("{playerId:int}/challenge/{challengeId:int}")]
+    public async Task<IActionResult> PostPlayerChallenge(int playerId, int challengeId, [FromBody] AddChallengeResultRequest addChallengeResultRequest)
+    {
+        var command = new AddChallengePlayerCommand(playerId, challengeId, addChallengeResultRequest.Reward);
 
         var result = await _sender.Send(command);
 

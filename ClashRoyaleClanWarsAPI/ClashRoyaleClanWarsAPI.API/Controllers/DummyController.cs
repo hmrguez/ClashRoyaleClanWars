@@ -4,7 +4,7 @@ using ClashRoyaleClanWarsAPI.API.Common.Mapping.Objects;
 using ClashRoyaleClanWarsAPI.Application.Common.Commands.AddModel;
 using ClashRoyaleClanWarsAPI.Application.Models.Battle.Command.AddBattle;
 using ClashRoyaleClanWarsAPI.Application.Models.Clan.Commands.AddPlayerClan;
-using ClashRoyaleClanWarsAPI.Application.Models.Player.Commands.AddChallengeResult;
+using ClashRoyaleClanWarsAPI.Application.Models.Player.Commands.AddChallengePlayer;
 using ClashRoyaleClanWarsAPI.Domain.Models;
 using ClashRoyaleClanWarsAPI.Domain.Models.Battle;
 using MediatR;
@@ -104,7 +104,7 @@ public class DummyController: ApiController
             var addPlayerClan = new AddPlayerClanCommand(GetRandomFromArray(clanIds), playerId);
             await _sender.Send(addPlayerClan);
             
-            var addChallenge = new AddChallengeResultCommand(playerId, GetRandomFromArray(challengeIds), random.Next(100));
+            var addChallenge = new AddChallengePlayerCommand(playerId, GetRandomFromArray(challengeIds), random.Next(100));
             await _sender.Send(addChallenge);
         }
 

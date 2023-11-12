@@ -24,6 +24,6 @@ public class DonationConfiguration : IEntityTypeConfiguration<DonationModel>
             .WithMany()
             .HasForeignKey("CardId");
 
-        builder.HasKey("PlayerId", "ClanId", "CardId");
+        builder.HasKey("PlayerId", "ClanId", "CardId", "Date");
     }
 }
