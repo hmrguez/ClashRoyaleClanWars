@@ -1,5 +1,6 @@
 import {Component, EventEmitter, HostListener, OnInit, Output} from '@angular/core';
 import { TokenStorageService } from '../../services/token-storage.service';
+import { Router } from '@angular/router';
 
 
 
@@ -19,11 +20,15 @@ export class SidenavComponent implements OnInit {
 
   collapsed = false;
   screenWidth: number = 0;
-  isLoggedIn = false;
+ 
   navData :any;
+  LoggedIn = false;
 
-  constructor(private tokenStorage: TokenStorageService) { 
-    this.isLoggedIn = !!this.tokenStorage.getToken();
+  constructor(private tokenStorage: TokenStorageService, private router: Router) { 
+    
+    
+   
+    this.LoggedIn = !!this.tokenStorage.getToken();
 
     this.navData = [
       {
@@ -55,15 +60,20 @@ export class SidenavComponent implements OnInit {
       routeLink: "/graph",
       icon: "pi pi-chart-bar",
       label: "Graph",
+    },
+    {
+      routeLink: "/query",
+      icon: "pi pi-user",
+      label: "Query",
     }
   ]
 
-    if (this.isLoggedIn) {
+    if (this.LoggedIn) {
       const user = this.tokenStorage.getUser();
       this.navData.push({
         routeLink: "/profile",
         icon: "pi pi-user",
-        label: user.username,
+        label: tokenStorage.getUser(),
       })
     }
     else {
@@ -73,35 +83,7 @@ export class SidenavComponent implements OnInit {
         label: "Sign Up",
       })
     }
-  }
-
- 
-
-  // navData: any = [
-  //   {
-  //     routeLink: "/players",
-  //     icon: "pi pi-user",
-  //     label: "Players",
-  //   },
-  //   {
-  //     routeLink: "/cards",
-  //     icon: "pi pi-id-card",
-  //     label: "Cards",
-  //   },
-  //   {
-  //     routeLink: "/clans",
-  //     icon: "pi pi-sitemap",
-  //     label: "Clans",
-  //   },
-  //   {
-  //     routeLink: "/login",
-  //     icon: "pi pi-user-plus",
-  //     label: "Sign Up",
-  //   }
-
-  // ];
-
-  
+  } 
 
   @HostListener('window:resize', ['$event'])
   onResize() {
@@ -124,5 +106,15 @@ export class SidenavComponent implements OnInit {
 
   ngOnInit(): void {
     this.screenWidth = window.innerWidth;
+  }
+
+  logout(): void {
+    this.tokenStorage.signOut();
+    
+    this.router.navigate(['/'])
+          .then(() => {
+            window.location.reload();
+          });
+
   }
 }

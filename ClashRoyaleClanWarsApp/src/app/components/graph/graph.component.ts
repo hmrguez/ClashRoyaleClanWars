@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, Query } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { PrimeNGConfig } from 'primeng/api';
 import jsPDF from 'jspdf';
+import { QueryService } from './query.service';
 
 @Component({
   selector: 'app-graph',
@@ -15,24 +16,35 @@ export class GraphComponent {
     basicOptions: any; 
     constructor( 
         private messageService: MessageService, 
-        private primengConfig: PrimeNGConfig 
-    ) { } 
+        private primengConfig: PrimeNGConfig ,
+        public queryService1 : QueryService,
+        public queryService2 : QueryService) {}
+
 
     Save(){
-      //download the graph as a pdf
       var canvas = document.querySelector('canvas');
       var img = canvas!.toDataURL("image/png");
       var doc = new jsPDF('landscape', 'px', 'a4' );
-      //add a Title
       doc.setFontSize(40);
       doc.text("Popularidad del juego", 35, 25);
       doc.addImage(img, 'JPEG', 50, 50, 500,300);
       doc.save('graph.pdf');
-
-
-
     }
-    ngOnInit() { 
+
+  
+    ngOnInit() {
+        this.queryService1.baseUrl = this.queryService1.baseUrl + "/2022" 
+        
+
+        this.queryService1.getAll().subscribe((data)=>{
+            console.log("DATA", data);
+            let labels = ['January', 'February','March','April','May','June','July','August','September','October','November','December'];
+            let datasets = [0,0,0,0,0,0,0,0,0,0,0,0]
+            
+        
+        
+        });
+
         this.basicData = { 
             labels: ['January', 'February', 'March',  
                 'April', 'May', 'June', 'July'], 

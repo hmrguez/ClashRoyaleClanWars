@@ -1,7 +1,52 @@
-<clash-grid [title]="'Cards'"
+<!-- <clash-grid [title]="'Cards'"
             [dataService]="cardService"
             [columns]="cardColumns"
             [primaryKey]="'Id'"
             [itemParsingFunction]="itemParsingFunction"
 >
-</clash-grid>
+</clash-grid> -->
+
+ <!-- <div class="card">
+    <p class ="title">{{items[currIndex].name}}</p>
+
+    
+    <img src = {{items[currIndex].imageUrl}}>
+
+   
+        <p class="info">{{items[currIndex].description}}</p>
+
+  
+
+    <br>
+
+   
+
+    <button type="button" (click)="nextCard()">Next Card</button>
+</div>  -->
+
+
+<div class="main">
+    <a class="prev" (click)="plusSlides(-1)">&#10094;</a>
+<div class = "card ">
+   
+    <img src = {{items[currIndex].imageUrl}}>
+    <div class="card-content">
+        <h2>
+            {{items[currIndex].name}}
+        </h2>
+       
+        <p>
+            {{items[currIndex].description}}
+        </p>
+        
+    </div>
+</div>
+<a class="next" (click)="plusSlides(1)">&#10095;</a>
+</div>
+
+
+
+
+
+
+

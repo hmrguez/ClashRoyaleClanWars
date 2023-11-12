@@ -7,7 +7,7 @@ import {IClanDto} from "./IClanDto";
   providedIn: 'root'
 })
 export class ClanService extends CrudService<IClanDto>{
-  baseUrl: string = `http://localhost:5123/api/clans`;
+  baseUrl: string = `http://localhost:5085/api/clans`;
   constructor(http: HttpClient) {
     super(http);
   }

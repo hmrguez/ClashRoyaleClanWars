@@ -1,12 +1,6 @@
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 
-export interface Response<T> {
-  data: T[],
-  success: boolean,
-  message: string
-}
-
 export abstract class CrudService<T> {
 
   abstract baseUrl: string
@@ -16,8 +10,8 @@ export abstract class CrudService<T> {
     this.http = http;
   }
 
-  getAll(): Observable<Response<T>> {
-    return this.http.get<Response<T>>(this.baseUrl);
+  getAll(): Observable<T[]> {
+    return this.http.get<T[]>(this.baseUrl);
   }
 
   getSingle(id: string | number): Observable<T> {

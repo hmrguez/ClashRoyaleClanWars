@@ -39,6 +39,12 @@ import { GraphComponent } from './components/graph/graph.component';
 import {ChartModule} from "primeng/chart";
 import { GalleriaModule } from 'primeng/galleria';
 import { DividerModule } from 'primeng/divider';
+import { FirstQueryComponent } from './components/first-query/first-query.component';
+import { SecondQueryComponent } from './components/second-query/second-query.component';
+import { ThirdQueryComponent } from './components/third-query/third-query.component';
+import { FourthQueryComponent } from './components/fourth-query/fourth-query.component';
+import { FifthQueryComponent } from './components/fifth-query/fifth-query.component';
+import { SixthQueryComponent } from './components/sixth-query/sixth-query.component';
 
 
 
@@ -56,6 +62,12 @@ import { DividerModule } from 'primeng/divider';
     ClansComponent,
     FAQComponent,
     GraphComponent,
+    FirstQueryComponent,
+    SecondQueryComponent,
+    ThirdQueryComponent,
+    FourthQueryComponent,
+    FifthQueryComponent,
+    SixthQueryComponent,
    
 
   ],
