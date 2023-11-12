@@ -1,12 +1,12 @@
 import {ICardDto} from "../cards/ICardDto";
 
 export interface IPlayerDto{
-  Id: number;
+  Id: Number;
   Alias: string,
-  Elo: number,
-  Level : number
-  Victories : number
-  CardAmount : number
-  MaxElo : number
+  Elo: Number,
+  Level : Number
+  Victories : Number
+  CardAmount : Number
+  MaxElo : Number
   FavoriteCard: ICardDto
 }

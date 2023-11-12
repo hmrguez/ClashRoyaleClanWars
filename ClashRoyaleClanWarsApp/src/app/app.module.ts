@@ -39,6 +39,7 @@ import { GraphComponent } from './components/graph/graph.component';
 import {ChartModule} from "primeng/chart";
 import { GalleriaModule } from 'primeng/galleria';
 import { DividerModule } from 'primeng/divider';
+import { FirstQueryComponent } from './components/first-query/first-query.component';
 
 
 
@@ -56,6 +57,7 @@ import { DividerModule } from 'primeng/divider';
     ClansComponent,
     FAQComponent,
     GraphComponent,
+    FirstQueryComponent,
    
 
   ],

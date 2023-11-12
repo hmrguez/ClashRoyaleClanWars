@@ -60,6 +60,11 @@ export class SidenavComponent implements OnInit {
       routeLink: "/graph",
       icon: "pi pi-chart-bar",
       label: "Graph",
+    },
+    {
+      routeLink: "/query",
+      icon: "pi pi-user",
+      label: "Query",
     }
   ]
 
