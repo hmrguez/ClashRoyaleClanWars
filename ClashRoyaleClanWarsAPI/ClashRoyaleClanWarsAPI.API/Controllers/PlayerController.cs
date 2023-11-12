@@ -147,6 +147,8 @@ public class PlayerController : ApiController
             : Problem(result.Errors);
     }
 
+    // PUT api/players/{playerId:int}/challenge/{challengeId:int}
+    [HttpPut("{playerId:int}/challenge/{challengeId:int}")]
     public async Task<IActionResult> UpdateChallengeResult(int playerId, int challengeId, [FromBody] AddChallengeResultRequest addChallengeResult)
     {
         var command = new UpdateChallengeResultCommand(playerId, challengeId, addChallengeResult.Reward);
@@ -156,7 +158,7 @@ public class PlayerController : ApiController
         return result.IsSuccess ? NoContent() : Problem(result.Errors);
     }
 
-    // PUT api/players/{playerId:int}/challenge/{challengeId:int}
+    // POST api/players/{playerId:int}/challenge/{challengeId:int}
     [HttpPost("{playerId:int}/challenge/{challengeId:int}")]
     public async Task<IActionResult> PostPlayerChallenge(int playerId, int challengeId, [FromBody] AddChallengeResultRequest addChallengeResultRequest)
     {
