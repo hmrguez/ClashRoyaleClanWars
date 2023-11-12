@@ -13,19 +13,14 @@ export class SixthQueryComponent {
 
   queryColumns: IColumn[] = [
     {
-      header: 'Player ID',
-      field: 'playerId',
+      header: 'Challenge ID',
+      field: 'challengeId',
       type: ColumnType.Number,
     },
     {
-      header: 'Player Name',
-      field: 'playerName',
+      header: 'Challenge Name',
+      field: 'challengeName',
       type: ColumnType.String,
-    },
-    {
-      header: 'Trophies',
-      field: 'trophies',
-      type: ColumnType.Number,
     },
     
   ];
@@ -42,10 +37,8 @@ export class SixthQueryComponent {
   
   itemParsingFunction(data: any): Structure{
     return {
-
-      id: data.playerId,
-      name: data.playerName,
-      trophies : data.trophies
+      challengeId : data.challengeId,
+      challengeName : data.challengeName
     }
   }
 

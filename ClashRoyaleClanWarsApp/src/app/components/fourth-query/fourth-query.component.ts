@@ -13,20 +13,25 @@ export class FourthQueryComponent {
 
   queryColumns: IColumn[] = [
     {
-      header: 'Player ID',
-      field: 'playerId',
+      header: 'Card ID',
+      field: 'cardId',
       type: ColumnType.Number,
     },
     {
-      header: 'Player Name',
-      field: 'playerName',
+      header: 'Card Name',
+      field: 'cardName',
       type: ColumnType.String,
     },
     {
-      header: 'Trophies',
-      field: 'trophies',
+      header: 'Count',
+      field: 'count',
       type: ColumnType.Number,
     },
+    {
+      header:'Clan Id',
+      field:'clanId',
+      type: ColumnType.Number
+    }
     
   ];
 
@@ -42,10 +47,10 @@ export class FourthQueryComponent {
   
   itemParsingFunction(data: any): Structure{
     return {
-
-      id: data.playerId,
-      name: data.playerName,
-      trophies : data.trophies
+      cardId : data.cardId,
+      cardName : data.cardName,
+      count : data.count,
+      clanId : data.clanId
     }
   }
 
