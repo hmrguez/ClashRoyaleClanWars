@@ -9,7 +9,7 @@ import {FAQComponent} from "./components/faq/faq.component";
 import {GraphComponent} from "./components/graph/graph.component";
 import { ProfileComponent } from './components/profile/profile.component';
 import { TokenStorageService } from './services/token-storage.service';
-import { FirstQueryComponent } from './components/first-query/first-query.component';
+import { QueryViewerComponent } from './components/query-viewer/query-viewer.component';
 
 
 const routes: Routes = [
@@ -21,7 +21,7 @@ const routes: Routes = [
   {path: 'faq', component: FAQComponent},
   {path: 'graph', component: GraphComponent},
   {path: 'profile', component: ProfileComponent },
-  {path: 'query', component: FirstQueryComponent},
+  {path: 'query', component: QueryViewerComponent},
 
     
   
