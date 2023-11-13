@@ -3,6 +3,7 @@ import { MessageService } from 'primeng/api';
 import { PrimeNGConfig } from 'primeng/api';
 import jsPDF from 'jspdf';
 import { QueryService } from './query.service';
+import { Observable, firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-graph',
@@ -30,50 +31,66 @@ export class GraphComponent {
       doc.save('graph.pdf');
     }
 
+    async getBattlesYear(q1 :QueryService){
+        let datasets1 = [0,0,0,0,0,0,0,0,0,0,0,0]
+
+        const func = ((data: any)=>{
+            console.log("DATA", data);
+            //hacer esto
+            for (let index = 0; index < data.length; index++) {
+                const element = data[index];
+                let mes = element.month
+                datasets1[mes-1] = element.amountBattles   
+            }
+        });
+
+        const obeservable = await q1.getAll().toPromise();
+        func(obeservable)
+        
+        return datasets1
+
+    }
+
   
-    ngOnInit() {
+    async ngOnInit() {
+        let datasets1: number[] = []
+        let datasets2: number[] = []
         //create a queryService variable
         let q1 = this.queryService
         //get current year
-        const baseUrl = q1.baseUrl
+        const baseUrl1 = q1.baseUrl
 
         const date = new Date();
         const currYear = date.getFullYear();
         const lastYear = currYear-1
 
+        let labels = ['January', 'February','March','April','May','June','July','August','September','October','November','December'];
         q1.baseUrl += "/" + String(currYear)
-        q1.getAll().subscribe((data)=>{
-            console.log("DATA", data);
-            let labels = ['January', 'February','March','April','May','June','July','August','September','October','November','December'];
-            let datasets = [0,0,0,0,0,0,0,0,0,0,0,0]
-            //hacer esto
-        });
 
-        q1.baseUrl = baseUrl
+        datasets1 = await this.getBattlesYear(q1)
+        
+        q1.baseUrl = baseUrl1
         q1.baseUrl += "/" + String(lastYear)
-        q1.getAll().subscribe((data)=>{
-            console.log("DATA", data);
-            let labels = ['January', 'February','March','April','May','June','July','August','September','October','November','December'];
-            let datasets = [0,0,0,0,0,0,0,0,0,0,0,0]
-            //hacer esto
-        });
 
+        datasets2 = await this.getBattlesYear(q1)
+        
+        q1.baseUrl = baseUrl1
 
+        console.log("d1", datasets1)
 
         this.basicData = { 
-            labels: ['January', 'February', 'March',  
-                'April', 'May', 'June', 'July'], 
+            labels: labels, 
             datasets: [ 
                 { 
-                    label: '2020', 
-                    data: [65, 59, 80, 81, 56, 55, 40], 
+                    label: String(currYear),
+                    data: datasets1, 
                     fill: false, 
                     borderColor: '#AA2324', 
                     tension: 0.4, 
                 }, 
                 { 
-                    label: '2021', 
-                    data: [28, 48, 40, 19, 86, 27, 90], 
+                    label: String(lastYear), 
+                    data: datasets2, 
                     fill: false, 
                     borderColor: '#177300', 
                     tension: 0.4, 
