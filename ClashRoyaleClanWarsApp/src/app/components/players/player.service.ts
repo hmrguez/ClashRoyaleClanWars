@@ -7,7 +7,7 @@ import {HttpClient} from "@angular/common/http";
   providedIn: 'root'
 })
 export class PlayerService extends CrudService<IPlayerDto>{
-  baseUrl: string = `http://localhost:5085/players`;
+  baseUrl: string = `http://localhost:5085/api/players`;
   constructor(http: HttpClient) {
     super(http);
   }

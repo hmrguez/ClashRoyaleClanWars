@@ -11,9 +11,9 @@ main {
 }
 
 .card {
-  margin: auto auto;
-  width: 29rem;
-  height: 36rem;
+  margin: auto auto auto auto;
+  width: 30%;
+  margin-top: 3%;
   border-radius: 10px;
   overflow: hidden;
   cursor: pointer;
@@ -23,7 +23,7 @@ main {
  
   img {
     position: relative;
-    object-fit: fill;
+    object-fit: contain;
     width: 100%;
     height: 100%;
     top: 0;

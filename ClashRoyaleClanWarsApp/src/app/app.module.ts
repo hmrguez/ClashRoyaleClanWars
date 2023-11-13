@@ -47,6 +47,7 @@ import { FifthQueryComponent } from './components/fifth-query/fifth-query.compon
 import { SixthQueryComponent } from './components/sixth-query/sixth-query.component';
 import { QueryViewerComponent } from './components/query-viewer/query-viewer.component';
 import { AccordionModule } from 'primeng/accordion';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 
 
@@ -104,6 +105,7 @@ import { AccordionModule } from 'primeng/accordion';
     GalleriaModule,
     DividerModule,
     AccordionModule,
+    InputNumberModule,
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

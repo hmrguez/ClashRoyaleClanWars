@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-
 import {ColumnType, IColumn} from "../grid/IColumn";
 import { Structure } from './Structure';
 import { QueryService } from './query.service';
+import { GridComponent } from '../grid/grid.component';
 
 @Component({
   selector: 'app-fifth-query',
@@ -10,6 +10,10 @@ import { QueryService } from './query.service';
   styleUrls: ['./fifth-query.component.scss']
 })
 export class FifthQueryComponent {
+
+  playerId:number = 1
+  baseUrl:string = ""
+  data :Structure[] = []
 
   queryColumns: IColumn[] = [
     {
@@ -28,20 +32,32 @@ export class FifthQueryComponent {
 
   constructor(public queryService: QueryService)
   {
-    this.queryService.getAll().subscribe((data)=>{
-        console.log("DATA", data);
+    this.baseUrl = queryService.baseUrl
+    this.queryService.baseUrl += "/1"
   }
-  );
-  }
+ 
 
  
   
   itemParsingFunction(data: any): Structure{
     return {
-
       clanId: data.clanId,
       clanName: data.clanName,
     }
+  }
+
+  GetData(){
+   
+    this.queryService.getAll().subscribe((data)=>{
+      this.data = data
+    })
+   
+  }
+
+  Show(){
+    let url = this.baseUrl + '/'+ this.playerId.toString();
+    this.queryService.baseUrl = url
+    this.GetData()
   }
 
 
