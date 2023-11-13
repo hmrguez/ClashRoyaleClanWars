@@ -163,7 +163,7 @@ internal class PredefinedQueries : IPredefinedQueries
     {
         //Consulta 6: Los desafíos donde haya participado al menos un jugador que lo haya completado.
 
-        var playerChallenge = await _context.ChallengePlayers
+        var playerChallenge = await _context.PlayerChallenges
                                     .Include(pc => pc.Player)
                                     .Include(pc => pc.Challenge)
                                     .ToListAsync();

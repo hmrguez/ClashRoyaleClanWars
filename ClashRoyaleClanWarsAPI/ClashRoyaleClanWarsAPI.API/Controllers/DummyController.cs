@@ -59,7 +59,8 @@ public class DummyController: ApiController
             
             var result = await _sender.Send(command);
             
-            if(result.IsFailure) continue;
+            if(result.IsFailure) 
+                continue;
             challengeIds.Add(result.Value);
         }
 
@@ -80,6 +81,10 @@ public class DummyController: ApiController
             var clan = _mapper.Map<ClanModel>(clanRequest);
             var command = new AddModelCommand<ClanModel, int>(clan);
             var result = await _sender.Send(command);
+
+            if (result.IsFailure) 
+                continue;
+            
             clanIds.Add(result.Value);
         }
 
@@ -98,7 +103,12 @@ public class DummyController: ApiController
             
             var player = _mapper.Map<PlayerModel>(playerRequest);
             var command = new AddModelCommand<PlayerModel, int>(player);
-            var playerId = (await _sender.Send(command)).Value;
+            var result = (await _sender.Send(command));
+
+            if (result.IsFailure)
+                continue;
+
+            var playerId = result.Value;
             playerIds.Add(playerId);
             
             var addPlayerClan = new AddPlayerClanCommand(GetRandomFromArray(clanIds), playerId);

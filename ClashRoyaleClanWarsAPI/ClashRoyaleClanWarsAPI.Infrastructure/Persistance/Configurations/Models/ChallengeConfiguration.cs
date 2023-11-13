@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ClashRoyaleClanWarsAPI.Infrastructure.Persistance.Configurations.Relationships;
+namespace ClashRoyaleClanWarsAPI.Infrastructure.Persistance.Configurations.Models;
 
 public class ChallengeConfiguration : IEntityTypeConfiguration<ChallengeModel>
 {
