@@ -25,6 +25,9 @@ public class PlayerModel : IEntity<int>
         Cards!.Add(collect);
     }
 
+
+    public void AddFavoriteCard(CardModel card) => FavoriteCard ??= card;
+
     public bool HaveCard(int cardId)
     {
         Cards ??= new List<CollectionModel>();
