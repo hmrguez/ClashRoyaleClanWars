@@ -17,8 +17,7 @@ export class GraphComponent {
     constructor( 
         private messageService: MessageService, 
         private primengConfig: PrimeNGConfig ,
-        public queryService1 : QueryService,
-        public queryService2 : QueryService) {}
+        public queryService:QueryService) {}
 
 
     Save(){
@@ -33,17 +32,33 @@ export class GraphComponent {
 
   
     ngOnInit() {
-        this.queryService1.baseUrl = this.queryService1.baseUrl + "/2022" 
-        
+        //create a queryService variable
+        let q1 = this.queryService
+        //get current year
+        const baseUrl = q1.baseUrl
 
-        this.queryService1.getAll().subscribe((data)=>{
+        const date = new Date();
+        const currYear = date.getFullYear();
+        const lastYear = currYear-1
+
+        q1.baseUrl += "/" + String(currYear)
+        q1.getAll().subscribe((data)=>{
             console.log("DATA", data);
             let labels = ['January', 'February','March','April','May','June','July','August','September','October','November','December'];
             let datasets = [0,0,0,0,0,0,0,0,0,0,0,0]
-            
-        
-        
+            //hacer esto
         });
+
+        q1.baseUrl = baseUrl
+        q1.baseUrl += "/" + String(lastYear)
+        q1.getAll().subscribe((data)=>{
+            console.log("DATA", data);
+            let labels = ['January', 'February','March','April','May','June','July','August','September','October','November','December'];
+            let datasets = [0,0,0,0,0,0,0,0,0,0,0,0]
+            //hacer esto
+        });
+
+
 
         this.basicData = { 
             labels: ['January', 'February', 'March',  
