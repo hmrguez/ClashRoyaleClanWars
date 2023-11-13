@@ -28,7 +28,7 @@ public class ClashRoyaleDbContext : IdentityDbContext
     public DbSet<ClanWarsModel> ClanWars => Set<ClanWarsModel>();
     public DbSet<CollectionModel> Collection => Set<CollectionModel>();
     public DbSet<DonationModel> Donations => Set<DonationModel>();
-    public DbSet<ChallengePlayersModel> ChallengePlayers => Set<ChallengePlayersModel>();
+    public DbSet<ChallengePlayersModel> PlayerChallenges => Set<ChallengePlayersModel>();
     public DbSet<ClanPlayersModel> ClanPlayers => Set<ClanPlayersModel>();
     public DbSet<PlayerModel> Players => Set<PlayerModel>();
     public DbSet<SpellModel> Spells => Set<SpellModel>();

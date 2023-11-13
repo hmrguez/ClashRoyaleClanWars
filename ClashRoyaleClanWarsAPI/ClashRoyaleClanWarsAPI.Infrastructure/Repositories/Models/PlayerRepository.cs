@@ -58,6 +58,8 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
 
         player!.AddCard(card!);
 
+        player.AddFavoriteCard(card);
+
         await Save();
     }
 
@@ -92,7 +94,7 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
 
         var playerChallenge = ChallengePlayersModel.Create(player!, challenge, 0);
 
-        await _context.ChallengePlayers.AddAsync(playerChallenge);
+        await _context.PlayerChallenges.AddAsync(playerChallenge);
 
         await Save();
     }
@@ -101,7 +103,7 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
         if (!await ExistsPlayerChallenge(playerId, challengeId))
             throw new IdNotFoundException<int>(playerId, challengeId);
 
-        var playerChallenge = await _context.ChallengePlayers.FindAsync(playerId, challengeId);
+        var playerChallenge = await _context.PlayerChallenges.FindAsync(playerId, challengeId);
 
         playerChallenge!.AddPrize(reward);
         playerChallenge!.Completed();
@@ -135,7 +137,7 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
 
     public async Task<bool> ExistsPlayerChallenge(int playerId, int challengeId)
     {
-        return await _context.ChallengePlayers.FindAsync(playerId, challengeId) is not null;
+        return await _context.PlayerChallenges.FindAsync(playerId, challengeId) is not null;
     }
 
     public async Task<bool> ExistsCollection(int playerId, int cardId)
