@@ -53,7 +53,7 @@ public class BattleController : ApiController
         var result = await _sender.Send(command);
 
         return result.IsSuccess ?
-            Created($"api/battles/{battle.Id.Value}", battle.Id.Value)
+            Created($"api/battles/{result.Value}", result.Value)
             : Problem(result.Errors);
     }
 }

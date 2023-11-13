@@ -13,20 +13,25 @@ export class SecondQueryComponent {
 
   queryColumns: IColumn[] = [
     {
-      header: 'Player ID',
-      field: 'playerId',
+      header: 'Clan ID',
+      field: 'clanId',
       type: ColumnType.Number,
     },
     {
-      header: 'Player Name',
-      field: 'playerName',
+      header: 'Clan Name',
+      field: 'clanName',
       type: ColumnType.String,
     },
     {
       header: 'Trophies',
-      field: 'trophies',
+      field: 'trophiesInWar',
       type: ColumnType.Number,
     },
+    {
+      header: 'Region',
+      field: 'region',
+      type : ColumnType.String,
+    }
     
   ];
 
@@ -42,10 +47,10 @@ export class SecondQueryComponent {
   
   itemParsingFunction(data: any): Structure{
     return {
-
-      id: data.playerId,
-      name: data.playerName,
-      trophies : data.trophies
+      clanId : data.clanId,
+      clanName : data.clanName,
+      region : data.region,
+      trophiesInWar : data.trophiesInWar
     }
   }
 

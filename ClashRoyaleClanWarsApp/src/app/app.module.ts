@@ -45,6 +45,9 @@ import { ThirdQueryComponent } from './components/third-query/third-query.compon
 import { FourthQueryComponent } from './components/fourth-query/fourth-query.component';
 import { FifthQueryComponent } from './components/fifth-query/fifth-query.component';
 import { SixthQueryComponent } from './components/sixth-query/sixth-query.component';
+import { QueryViewerComponent } from './components/query-viewer/query-viewer.component';
+import { AccordionModule } from 'primeng/accordion';
+
 
 
 
@@ -68,6 +71,7 @@ import { SixthQueryComponent } from './components/sixth-query/sixth-query.compon
     FourthQueryComponent,
     FifthQueryComponent,
     SixthQueryComponent,
+    QueryViewerComponent,
    
 
   ],
@@ -99,6 +103,7 @@ import { SixthQueryComponent } from './components/sixth-query/sixth-query.compon
     ChartModule,
     GalleriaModule,
     DividerModule,
+    AccordionModule,
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

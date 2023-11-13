@@ -13,20 +13,16 @@ export class FifthQueryComponent {
 
   queryColumns: IColumn[] = [
     {
-      header: 'Player ID',
-      field: 'playerId',
+      header: 'Clan ID',
+      field: 'clanId',
       type: ColumnType.Number,
     },
     {
-      header: 'Player Name',
-      field: 'playerName',
+      header: 'Clan Name',
+      field: 'clanName',
       type: ColumnType.String,
     },
-    {
-      header: 'Trophies',
-      field: 'trophies',
-      type: ColumnType.Number,
-    },
+   
     
   ];
 
@@ -43,9 +39,8 @@ export class FifthQueryComponent {
   itemParsingFunction(data: any): Structure{
     return {
 
-      id: data.playerId,
-      name: data.playerName,
-      trophies : data.trophies
+      clanId: data.clanId,
+      clanName: data.clanName,
     }
   }
 

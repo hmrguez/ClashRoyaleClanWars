@@ -51,21 +51,21 @@ export class SidenavComponent implements OnInit {
         icon: "pi pi-sitemap",
         label: "Clans",
       },
-    {
-      routeLink: "/faq",
-      icon: "pi pi-question-circle",
-      label: "FAQ",
-    },
-    {
-      routeLink: "/graph",
-      icon: "pi pi-chart-bar",
-      label: "Graph",
-    },
-    {
-      routeLink: "/query",
-      icon: "pi pi-user",
-      label: "Query",
-    }
+      {
+        routeLink: "/query",
+        icon: "pi pi-database",
+        label: "Query",
+      },
+      {
+        routeLink: "/graph",
+        icon: "pi pi-chart-bar",
+        label: "Graph",
+      },
+      {
+        routeLink: "/faq",
+        icon: "pi pi-question-circle",
+        label: "FAQ",
+      },
   ]
 
     if (this.LoggedIn) {

@@ -13,18 +13,23 @@ export class ThirdQueryComponent {
 
   queryColumns: IColumn[] = [
     {
-      header: 'Player ID',
+      header: 'Card ID',
       field: 'playerId',
       type: ColumnType.Number,
     },
     {
-      header: 'Player Name',
+      header: 'Card Name',
       field: 'playerName',
       type: ColumnType.String,
     },
     {
-      header: 'Trophies',
-      field: 'trophies',
+      header: 'Region',
+      field: 'region',
+      type: ColumnType.String,
+    },
+    {
+      header: 'Amount',
+      field: 'amount',
       type: ColumnType.Number,
     },
     
@@ -42,10 +47,11 @@ export class ThirdQueryComponent {
   
   itemParsingFunction(data: any): Structure{
     return {
-
-      id: data.playerId,
-      name: data.playerName,
-      trophies : data.trophies
+      cardId : data.cardId,
+      cardName : data.cardName,
+      region : data.region,
+      amount : data.amount
+      
     }
   }
 
