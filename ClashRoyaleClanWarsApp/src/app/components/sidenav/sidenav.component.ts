@@ -66,6 +66,11 @@ export class SidenavComponent implements OnInit {
         icon: "pi pi-question-circle",
         label: "FAQ",
       },
+      {
+        routeLink: "/analysis",
+        icon: "pi pi-tablet",
+        label: "Analysis",
+      }
   ]
 
     if (this.LoggedIn) {

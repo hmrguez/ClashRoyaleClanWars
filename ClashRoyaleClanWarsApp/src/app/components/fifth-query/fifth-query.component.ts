@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import {ColumnType, IColumn} from "../grid/IColumn";
 import { Structure } from './Structure';
 import { QueryService } from './query.service';
@@ -10,6 +10,8 @@ import { GridComponent } from '../grid/grid.component';
   styleUrls: ['./fifth-query.component.scss']
 })
 export class FifthQueryComponent {
+
+  @ViewChild("grid") grid: GridComponent = {} as GridComponent;
 
   playerId:number = 1
   baseUrl:string = ""
@@ -70,19 +72,12 @@ export class FifthQueryComponent {
  
 
   async Show(){
-
     this.queryService.reset()
     this.queryService.insertId(this.playerId)
     this.update = true
     var d = await this.loadData()
-
-
     this.update = false
-
-    
-    
-
-
+    this.grid.loadData()
   }
 
 

@@ -67,16 +67,17 @@ export class GridComponent implements OnInit{
     this.listColumn = this.columns.find(x=>x.type === ColumnType.List);
   }
 
-  private async loadData() {
+  public async loadData() {
 
     if(this.customData.length > 0){
-      this.data = [...this.customData]
+      this.data = this.itemParsingFunction ? this.customData.map(this.itemParsingFunction) : this.customData
+      console.log('data', this.data)
     } else{
       this.dataService.getAll().subscribe({
         next: (v) => {
-          console.log("Data before: ", v)
+          
           this.data = this.itemParsingFunction ? v.map(this.itemParsingFunction) : v
-          console.log("Data after: ", this.data)
+         
         },
         error: (e) => console.log("Error ", e)
       })

@@ -14,12 +14,12 @@ export class ThirdQueryComponent {
   queryColumns: IColumn[] = [
     {
       header: 'Card ID',
-      field: 'playerId',
+      field: 'cardId',
       type: ColumnType.Number,
     },
     {
       header: 'Card Name',
-      field: 'playerName',
+      field: 'cardName',
       type: ColumnType.String,
     },
     {

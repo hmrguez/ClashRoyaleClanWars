@@ -31,19 +31,13 @@ export class FirstQueryComponent {
 
 
   constructor(public queryService: FirstQueryService)
-  {
-    this.queryService.getAll().subscribe((data)=>{
-        console.log("DATA", data);
-  }
-  );
-  }
+  {}
 
  
   
   itemParsingFunction(data: any): Structure{
     return {
-
-      playerId: data.playerId,
+    playerId: data.playerId,
     playerName: data.playerName,
     trophies : data.trophies
     }

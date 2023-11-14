@@ -37,10 +37,7 @@ export class FourthQueryComponent {
 
   constructor(public queryService: QueryService)
   {
-    this.queryService.getAll().subscribe((data)=>{
-        console.log("DATA", data);
-  }
-  );
+   
   }
 
  

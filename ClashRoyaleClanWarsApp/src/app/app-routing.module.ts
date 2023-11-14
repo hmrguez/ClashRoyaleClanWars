@@ -9,6 +9,7 @@ import {FAQComponent} from "./components/faq/faq.component";
 import {GraphComponent} from "./components/graph/graph.component";
 import { ProfileComponent } from './components/profile/profile.component';
 import { QueryViewerComponent } from './components/query-viewer/query-viewer.component';
+import { AnalyticsComponent } from './components/analytics/analytics.component';
 
 
 
@@ -24,6 +25,7 @@ const routes: Routes = [
   {path: 'graph', component: GraphComponent},
   {path: 'profile', component: ProfileComponent },
   {path: 'query', component: QueryViewerComponent},
+  {path: 'analysis', component: AnalyticsComponent}
 
     
   
