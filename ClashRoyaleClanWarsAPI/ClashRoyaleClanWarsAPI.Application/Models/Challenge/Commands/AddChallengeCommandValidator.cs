@@ -10,7 +10,7 @@ internal class AddChallengeCommandValidator : AbstractValidator<AddModelCommand<
     {
         RuleFor(x => x.Model.AmountReward).NotNull().GreaterThan(0);
         RuleFor(x => x.Model.DurationInHours).NotNull().GreaterThan(0);
-        RuleFor(x => x.Model.Name).NotNull().Length(3, 32);
+        RuleFor(x => x.Model.Name).NotNull().Length(2, 32);
         RuleFor(x => x.Model.Cost).NotNull().GreaterThanOrEqualTo(0);
         RuleFor(x => x.Model.Description).NotNull().NotEmpty();
         RuleFor(x => x.Model.StartDate).NotNull();

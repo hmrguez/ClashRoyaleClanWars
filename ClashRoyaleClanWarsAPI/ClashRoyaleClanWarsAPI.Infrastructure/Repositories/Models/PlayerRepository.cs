@@ -98,6 +98,7 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
 
         await Save();
     }
+    
     public async Task AddPlayerChallengeResult(int playerId, int challengeId, int reward)
     {
         if (!await ExistsPlayerChallenge(playerId, challengeId))
@@ -113,7 +114,7 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
         await Save();
     }
 
-    public async Task AddDonation(int playerId, int clanId, int cardId, int amount)
+    public async Task AddDonation(int playerId, int clanId, int cardId, int amount, DateTime date)
     {
         var player = await GetSingleByIdAsync(playerId, true);
         var clan = await _clanRepository.Value.GetSingleByIdAsync(clanId);
@@ -125,10 +126,13 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
         if (!await ExistsClanPlayer(playerId, clanId))
             throw new IdNotFoundException<int>(playerId, clanId);
 
-        if (await ExistsDonation(playerId, clanId, cardId, DateTime.Now))
+        if (await ExistsDonation(playerId, clanId, cardId, date))
             throw new DuplicationIdException(playerId, clanId, cardId);
 
-        var donation = DonationModel.Create(player, clan!, card!, amount);
+        if (_context.Entry(player).State == EntityState.Detached)
+            _context.Attach(player);
+
+        var donation = DonationModel.Create(player, clan!, card!, amount, date);
 
         await _context.Donations.AddAsync(donation);
 

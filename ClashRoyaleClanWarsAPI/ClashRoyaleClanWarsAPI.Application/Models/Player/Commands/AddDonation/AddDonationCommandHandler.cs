@@ -20,7 +20,7 @@ internal class AddDonationCommandHandler : ICommandHandler<AddDonationCommand>
     {
         try
         {
-            await _playerRepository.AddDonation(request.PlayerId, request.ClanId, request.CardId, request.Amount);
+            await _playerRepository.AddDonation(request.PlayerId, request.ClanId, request.CardId, request.Amount, request.Date);
         }
         catch (IdNotFoundException<int> e)
         {
