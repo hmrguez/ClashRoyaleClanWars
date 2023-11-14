@@ -7,4 +7,5 @@ public class AddClanRequest
     public string? Region { get; set; }
     public bool TypeOpen { get; set; }
     public int MinTrophies { get; set; }
+    public int TrophiesInWar { get; set; }
 }

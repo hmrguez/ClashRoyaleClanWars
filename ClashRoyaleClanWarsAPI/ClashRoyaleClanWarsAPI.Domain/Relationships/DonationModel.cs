@@ -12,7 +12,7 @@ public class DonationModel
     public int Amount { get; private set; }
     public DateTime Date { get; private set; }
 
-    public static DonationModel Create(PlayerModel player, ClanModel clan, CardModel card, int amount)
+    public static DonationModel Create(PlayerModel player, ClanModel clan, CardModel card, int amount, DateTime date)
     {
         return new DonationModel
         {
@@ -20,7 +20,7 @@ public class DonationModel
             Clan = clan,
             Card = card,
             Amount = amount,
-            Date= DateTime.Now
+            Date= date
         };
     }
 }

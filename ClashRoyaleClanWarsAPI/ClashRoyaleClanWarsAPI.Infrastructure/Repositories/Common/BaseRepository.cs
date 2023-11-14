@@ -28,6 +28,7 @@ public class BaseRepository<TModel, UId> : IBaseRepository<TModel, UId> where TM
         _context.Set<TModel>().Add(model);
 
         await Save();
+
         return model.Id;
     }
     public virtual async Task Delete(TModel model)

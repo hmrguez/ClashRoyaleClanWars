@@ -21,7 +21,7 @@ public class UpdatePlayerStatsInsertBattleTrigger : IBeforeSaveTrigger<BattleMod
 
             winner!.AddVictory();
 
-            loser!.UpdateElo(context.Entity.AmountTrophies);
+            loser!.UpdateElo(-context.Entity.AmountTrophies);
             winner!.UpdateElo(context.Entity.AmountTrophies);
         }
     }

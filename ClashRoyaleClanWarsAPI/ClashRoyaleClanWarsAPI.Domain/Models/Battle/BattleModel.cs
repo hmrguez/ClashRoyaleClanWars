@@ -18,14 +18,19 @@ public class BattleModel : IEntity<BattleId>
 
     private static BattleId CreateId() => BattleId.CreateUnique();
 
-    public static BattleModel Create(int amountTrophies, PlayerModel winner, PlayerModel loser, int durationInSeconds)
+    public static BattleModel Create(int amountTrophies,
+                                     PlayerModel winner,
+                                     PlayerModel loser,
+                                     int durationInSeconds,
+                                     DateTime date)
     {
         return new BattleModel
         {
             AmountTrophies = amountTrophies,
             Winner = winner,
             Loser = loser,
-            DurationInSeconds = durationInSeconds
+            DurationInSeconds = durationInSeconds,
+            Date = date
         };
     }
 
