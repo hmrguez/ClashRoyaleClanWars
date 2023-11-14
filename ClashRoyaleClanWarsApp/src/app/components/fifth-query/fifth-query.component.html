@@ -10,15 +10,13 @@
 
 
 
-<clash-grid class="grid" 
+<clash-grid id="grid"
             [title]="'Fifth Query'"
             [columns]="queryColumns"
             [primaryKey]="'clanId'"
             [itemParsingFunction]="itemParsingFunction"
-            [customData]="data"
+            [customData]="updateData()"
+            
 >
 </clash-grid>
            
-
-
-<!-- [dataService]="queryService" -->

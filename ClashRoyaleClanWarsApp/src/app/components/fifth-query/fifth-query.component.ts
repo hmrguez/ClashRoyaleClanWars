@@ -14,6 +14,8 @@ export class FifthQueryComponent {
   playerId:number = 1
   baseUrl:string = ""
   data :Structure[] = []
+  update:boolean = false
+
 
   queryColumns: IColumn[] = [
     {
@@ -30,14 +32,28 @@ export class FifthQueryComponent {
     
   ];
 
-  constructor(public queryService: QueryService)
-  {
-    this.baseUrl = queryService.baseUrl
-    this.queryService.baseUrl += "/1"
-  }
+  constructor(public queryService: QueryService){}
+  
  
+  
+  async loadData(){
 
- 
+    var datasets1 = this.data
+
+    if (this.update){
+      const func = ((data: any)=>{
+          datasets1 = data
+      });
+  
+      const obeservable = await this.queryService.getAll().toPromise();
+      func(obeservable)
+
+      this.data = datasets1
+    }
+  
+    return datasets1
+
+}
   
   itemParsingFunction(data: any): Structure{
     return {
@@ -46,18 +62,27 @@ export class FifthQueryComponent {
     }
   }
 
-  GetData(){
-   
-    this.queryService.getAll().subscribe((data)=>{
-      this.data = data
-    })
-   
+  updateData(){
+    console.log('data', this.data)
+    return this.data
   }
 
-  Show(){
-    let url = this.baseUrl + '/'+ this.playerId.toString();
-    this.queryService.baseUrl = url
-    this.GetData()
+ 
+
+  async Show(){
+
+    this.queryService.reset()
+    this.queryService.insertId(this.playerId)
+    this.update = true
+    var d = await this.loadData()
+
+
+    this.update = false
+
+    
+    
+
+
   }
 
 

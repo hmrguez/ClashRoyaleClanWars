@@ -52,6 +52,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -73,6 +74,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
     FifthQueryComponent,
     SixthQueryComponent,
     QueryViewerComponent,
+   
    
 
   ],

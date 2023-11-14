@@ -7,7 +7,7 @@ import { CrudService } from 'src/app/services/CrudService';
   providedIn: 'root'
 })
 export class QueryService extends CrudService<Structure> {
-  override baseUrl: string = `http://localhost:5085/queries/fifthquery`;
+  override baseUrl: string = `http://localhost:5085/queries/fourthquery`;
   constructor(http : HttpClient) { 
     super(http)
   }

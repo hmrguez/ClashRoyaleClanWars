@@ -43,8 +43,8 @@ export class FirstQueryComponent {
   itemParsingFunction(data: any): Structure{
     return {
 
-      id: data.playerId,
-    name: data.playerName,
+      playerId: data.playerId,
+    playerName: data.playerName,
     trophies : data.trophies
     }
   }
