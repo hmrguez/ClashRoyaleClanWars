@@ -1,5 +1,3 @@
-using System.Runtime.InteropServices.JavaScript;
-using System.Security.Claims;
 using AutoMapper;
 using ClashRoyaleClanWarsAPI.API.Common.Mapping.Objects;
 using ClashRoyaleClanWarsAPI.Application.Common.Commands.AddModel;
@@ -17,12 +15,11 @@ using ClashRoyaleClanWarsAPI.Domain.Models.Battle;
 using ClashRoyaleClanWarsAPI.Infrastructure.Persistance;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace ClashRoyaleClanWarsAPI.API.Controllers;
 
 [Route("api/dummy")]
-public class DummyController: ApiController
+public class DummyController : ApiController
 {
     private readonly ClashRoyaleDbContext _context;
     private readonly IMapper _mapper;
@@ -40,12 +37,12 @@ public class DummyController: ApiController
         string[] nouns = { "Dutchman", "French", "Whale", "Dog", "Rat", "Virtual", "Robot", "Window", "Penguin", "Platypus", "Monkey", "Boat", "Truck", "Fighter", "Sniper", "Apple" };
         string[] adjectives = { "Flying", "Roaming", "Gay", "Boring", "Browsing", "Squishy", "Pretty", "Mecha", "Adorable", "Abstract", "Ugly", "Blazing", "Freezing" };
         string[] regions = { "CIS", "WEU", "Africa", "LATAM", "USA", "Canada", "SEA", "Dubai" };
-        
+
         List<int> clanIds = new();
         List<int> challengeIds = new();
         List<int> playerIds = new();
         List<ClanModel> clans = new();
-        
+
         var random = new Random();
 
 
@@ -72,10 +69,10 @@ public class DummyController: ApiController
             };
             var challenge = _mapper.Map<ChallengeModel>(challengeRequest);
             var command = new AddModelCommand<ChallengeModel, int>(challenge);
-            
+
             var result = await _sender.Send(command);
-            
-            if(result.IsFailure) 
+
+            if (result.IsFailure)
                 continue;
 
             challengeIds.Add(result.Value);
@@ -133,7 +130,7 @@ public class DummyController: ApiController
                 TypeOpen = true,
                 TrophiesInWar = random.Next(1, 3000)
             };
-            
+
             var clan = _mapper.Map<ClanModel>(clanRequest);
 
             int playerIdForClan = GetRandomFromArray(playerIds);
@@ -148,14 +145,14 @@ public class DummyController: ApiController
             var command = new AddClanWithCreatorCommand(playerIdForClan, clan);
             var result = await _sender.Send(command);
 
-            if (result.IsFailure) 
+            if (result.IsFailure)
                 continue;
 
             playerIdsForClanBooleanMask[playerIdForClanIndex] = true;
 
             clanIds.Add(result.Value);
             clans.Add(clan);
-            
+
             playerClanDict.Add(result.Value, new List<int>());
             playerClanDict[result.Value].Add(playerIdForClan);
         }
@@ -180,7 +177,7 @@ public class DummyController: ApiController
 
             if (result.IsFailure)
                 continue;
-            
+
             playerIdsForClanBooleanMask[playerIndex] = true;
             playerClanDict[clanId].Add(playerId);
         }
@@ -214,7 +211,7 @@ public class DummyController: ApiController
 
             if (result.IsSuccess)
                 clanUpdateBooleanMask[clanIdIndex] = true;
-        
+
         }
         #endregion
 
@@ -248,7 +245,7 @@ public class DummyController: ApiController
 
                 var addPlayerCard = new AddCardCommand(playerIds[i], cardId);
                 var result = await _sender.Send(addPlayerCard);
-                    
+
                 if (result.IsSuccess)
                     playerCardsDict[playerIds[i]].Add(cardId);
             }
@@ -265,14 +262,19 @@ public class DummyController: ApiController
 
             while (firstPlayer == secondPlayer) secondPlayer = GetRandomFromArray(playerIds);
 
+            var date = new DateTime(random.Next(2022, 2024), random.Next(1, 13), random.Next(1, 28), 
+                            random.Next(0, 13), random.Next(0,60), random.Next(0,60));
+
+
             var battleRequest = new AddBattleRequest()
             {
                 AmountTrophies = random.Next(10, 41),
                 DurationInSeconds = random.Next(1, 180),
                 LoserId = firstPlayer,
-                WinnerId = secondPlayer
+                WinnerId = secondPlayer,
+                Date = date
             };
-            
+
             var battle = _mapper.Map<BattleModel>(battleRequest);
             var command = new AddBattleCommand(battle, battleRequest.WinnerId, battleRequest.LoserId);
 
@@ -308,7 +310,7 @@ public class DummyController: ApiController
                 var addclanWar = new AddClanWarCommand(clanIdForWar, result.Value, random.Next(10, 100));
                 await _sender.Send(addclanWar);
 
-                if(result.IsSuccess)
+                if (result.IsSuccess)
                     clanWarBooleanMask[clanIdForWarIndex] = true;
             }
         }
@@ -332,7 +334,7 @@ public class DummyController: ApiController
 
                 var cardId = GetRandomFromArray(playerCardsDict[playerId]);
 
-                var date = new DateTime(random.Next(2010, 2023), random.Next(1, 13), random.Next(1, 28));
+                var date = new DateTime(2023, random.Next(1, 13), random.Next(1, 28));
 
                 var donation = new AddDonationCommand(playerId, clanId, cardId, random.Next(1, 8), date);
 
