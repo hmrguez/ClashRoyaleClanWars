@@ -8,6 +8,6 @@ internal class AddWarCommandValidator : AbstractValidator<AddModelCommand<WarMod
 {
     public AddWarCommandValidator()
     {
-        RuleFor(x => x.Model.StartDate).NotEmpty().NotNull().GreaterThanOrEqualTo(DateTime.UtcNow);
+        RuleFor(x => x.Model.StartDate).NotNull();
     }
 }

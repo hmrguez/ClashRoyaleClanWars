@@ -21,7 +21,7 @@ internal class BattleRepository : BaseRepository<BattleModel, BattleId>, IBattle
         var winner = await _playerRepository.GetSingleByIdAsync(winnerId);
         var loser = await _playerRepository.GetSingleByIdAsync(loserId);
 
-        battle = BattleModel.Create(battle.AmountTrophies, winner!, loser!, battle.DurationInSeconds);
+        battle = BattleModel.Create(battle.AmountTrophies, winner!, loser!, battle.DurationInSeconds, battle.Date);
 
         _context.Battles.Add(battle);
         await Save();

@@ -8,7 +8,7 @@ internal class AddClanWithCreatorCommandValidator : AbstractValidator<AddClanWit
     {
         RuleFor(x => x.Clan.Name).NotEmpty().NotNull().Length(3, 64);
         RuleFor(x => x.Clan.Region).NotEmpty().NotNull().Length(3, 32);
-        RuleFor(x => x.Clan.MinTrophies).NotEmpty().NotNull().GreaterThanOrEqualTo(0);
+        RuleFor(x => x.Clan.MinTrophies).NotNull().GreaterThanOrEqualTo(0);
 
     }
 }

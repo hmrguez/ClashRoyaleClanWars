@@ -4,6 +4,7 @@ using ClashRoyaleClanWarsAPI.Application.Common.Commands.AddModel;
 using ClashRoyaleClanWarsAPI.Application.Common.Commands.DeleteModel;
 using ClashRoyaleClanWarsAPI.Application.Common.Queries.GetAllModel;
 using ClashRoyaleClanWarsAPI.Application.Common.Queries.GetModelById;
+using ClashRoyaleClanWarsAPI.Application.Models.War.Commands.AddClanWar;
 using ClashRoyaleClanWarsAPI.Application.Models.War.Queries.GetUpCommingWars;
 using ClashRoyaleClanWarsAPI.Domain.Models;
 using MediatR;
@@ -77,5 +78,16 @@ public class WarController : ApiController
         var result = await _sender.Send(query);
 
         return result.IsSuccess ? Ok(result.Value) : Problem(result.Errors);
+    }
+
+    // POST api/wars/{warId:int}/{clanId:int}
+    [HttpPost("{warId:int}/{clanId:int}")]
+    public async Task<IActionResult> AddClanToWar(int warId, int clanId, int prize)
+    {
+        var command = new AddClanWarCommand(clanId, warId, prize);
+
+        var result = await _sender.Send(command);
+
+        return result.IsSuccess ? NoContent() : Problem(result.Errors);
     }
 }

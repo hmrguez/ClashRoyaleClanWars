@@ -4,7 +4,6 @@ using ClashRoyaleClanWarsAPI.Application.Common.Commands.DeleteModel;
 using ClashRoyaleClanWarsAPI.Application.Common.Commands.UpdateModel;
 using ClashRoyaleClanWarsAPI.Application.Common.Queries.GetAllModel;
 using ClashRoyaleClanWarsAPI.Application.Models.Clan.Commands.AddClanWithCreator;
-//using ClashRoyaleClanWarsAPI.Application.Models.Clan.Commands.AddClan;
 using ClashRoyaleClanWarsAPI.Application.Models.Clan.Commands.AddPlayerClan;
 using ClashRoyaleClanWarsAPI.Application.Models.Clan.Commands.RemovePlayerClan;
 using ClashRoyaleClanWarsAPI.Application.Models.Clan.Commands.UpdatePlayerRank;
@@ -58,7 +57,6 @@ public class ClanController : ApiController
         var clan = _mapper.Map<ClanModel>(clanRequest);
 
         var command = new AddClanWithCreatorCommand(playerId, clan);
-        //var command = new AddClanCommand(playerId, clan);
 
         var result = await _sender.Send(command);
 

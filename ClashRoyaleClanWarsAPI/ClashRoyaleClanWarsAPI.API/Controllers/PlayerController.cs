@@ -177,7 +177,8 @@ public class PlayerController : ApiController
             playerId,
             addDonationRequest.ClanId,
             addDonationRequest.CardId,
-            addDonationRequest.Amount);
+            addDonationRequest.Amount,
+            DateTime.UtcNow);
 
         var result = await _sender.Send(command);
 
