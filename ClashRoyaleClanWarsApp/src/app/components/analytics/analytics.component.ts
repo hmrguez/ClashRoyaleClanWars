@@ -21,6 +21,38 @@ export class AnalyticsComponent implements OnInit {
     imageSrcs = [
       {
         deck: "Giant Double Prince",
+        img: "/assets/gallery/decks/giantPrince.jpg"
+      },
+      {
+        deck: "Golem Beatdown",
+        img: "/assets/gallery/decks/giantDouble.PNG"
+      },
+      {
+        deck: "X-Bow 2.9",
+        img: "/assets/gallery/decks/giantDouble.PNG"
+      },
+      {
+        deck: "Graveyard Poison",
+        img: "/assets/gallery/decks/giantDouble.PNG"
+      },
+      {
+        deck: "Mega Knight Miner",
+        img: "/assets/gallery/decks/minerKnight.jpg"
+      },
+      {
+        deck: "Royal Giant",
+        img: "/assets/gallery/decks/giantDouble.PNG"
+      },
+      {
+        deck: "Hog 2.6",
+        img: "/assets/gallery/decks/giantDouble.PNG"
+      },
+      {
+        deck: "Lava Hound",
+        img: "/assets/gallery/decks/lavaHound.jpg"
+      },
+      {
+        deck: "Giant Skeleton",
         img: "/assets/gallery/decks/giantDouble.PNG"
       },
     ]
@@ -133,10 +165,18 @@ export class AnalyticsComponent implements OnInit {
     arr = this.selected.map(x => x.name)
     console.log('data', arr)
 
+    // let res = []
+    // for (let i=0 ; i<this.imageSrcs.length; i++){
+    //   let a={name: this.imageSrcs[i].deck, score: 200}
+    //   res.push(a)
+    // }
+    // this.queryResults = res
+
     this.deckService.rqst(arr).subscribe((data)=>{
       this.queryResults = data
 }
 );
+
     this.displayResults = true
 
 
