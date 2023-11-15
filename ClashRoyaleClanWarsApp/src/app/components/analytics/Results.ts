@@ -1,4 +1,10 @@
 export interface Deck{
-    deckName:string
+    name:string
     score:number
+    rating:number
+
+}
+
+export interface CardsList{
+    Cards: string[]
 }

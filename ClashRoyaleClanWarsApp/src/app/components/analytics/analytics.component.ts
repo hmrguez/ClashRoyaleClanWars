@@ -5,7 +5,7 @@ import { QualityEnum } from '../cards/CardEnums';
 import { TargetEnum } from '../cards/CardEnums';
 import { DenominationEnum } from '../cards/CardEnums';
 import { OnInit } from '@angular/core';
-import { Deck } from './Results';
+import { Deck, CardsList } from './Results';
 import { AnalyticsService } from './analytics.service';
 
 
@@ -17,35 +17,36 @@ import { AnalyticsService } from './analytics.service';
 export class AnalyticsComponent implements OnInit {
 
     displayResults = false;
+   
 
     imageSrcs = [
       {
         deck: "Giant Double Prince",
-        img: "/assets/gallery/decks/giantPrince.jpg"
+        img: "/assets/gallery/decks/giantDouble.PNG"
       },
       {
         deck: "Golem Beatdown",
-        img: "/assets/gallery/decks/giantDouble.PNG"
+        img: "/assets/gallery/decks/golem.PNG"
       },
       {
         deck: "X-Bow 2.9",
-        img: "/assets/gallery/decks/giantDouble.PNG"
+        img: "/assets/gallery/decks/crossbow.jpg"
       },
       {
         deck: "Graveyard Poison",
-        img: "/assets/gallery/decks/giantDouble.PNG"
+        img: "/assets/gallery/decks/graveyardPoison.jpg"
       },
       {
         deck: "Mega Knight Miner",
-        img: "/assets/gallery/decks/minerKnight.jpg"
+        img: "/assets/gallery/decks/miner.PNG"
       },
       {
         deck: "Royal Giant",
-        img: "/assets/gallery/decks/giantDouble.PNG"
+        img: "/assets/gallery/decks/royalGiant.PNG"
       },
       {
         deck: "Hog 2.6",
-        img: "/assets/gallery/decks/giantDouble.PNG"
+        img: "/assets/gallery/decks/hog.PNG"
       },
       {
         deck: "Lava Hound",
@@ -53,7 +54,7 @@ export class AnalyticsComponent implements OnInit {
       },
       {
         deck: "Giant Skeleton",
-        img: "/assets/gallery/decks/giantDouble.PNG"
+        img: "/assets/gallery/decks/skeleton.PNG"
       },
     ]
 
@@ -64,6 +65,8 @@ export class AnalyticsComponent implements OnInit {
     available: ICardDto[] =[];
 
     selected: ICardDto[] =[];
+
+    allCards: ICardDto[] = []
 
     currentlyDragging: ICardDto  | null = null;
 
@@ -91,6 +94,14 @@ export class AnalyticsComponent implements OnInit {
       type: DenominationEnum[data.type]
     }
   }
+  
+  createDeck(d:any) :Deck {
+    return{
+      name: d.name,
+      score : d.score,
+      rating : this.getRating()
+    }
+  }
 
   getCards(){
     this.cardServ.getAll().subscribe(cards=>{
@@ -103,7 +114,10 @@ export class AnalyticsComponent implements OnInit {
           }
           });
     })
+
+    this.allCards = this.available
   }
+
 
   dragStart(product: ICardDto) {
       this.currentlyDragging = product;
@@ -152,32 +166,40 @@ export class AnalyticsComponent implements OnInit {
     }
   }
 
+
+
   getImage(name: string){
 
     let obj = this.imageSrcs.filter(x => x.deck==name)
     return obj[0].img
+    
   }
 
-  
+  CreateList(data: string[]):string{
+    var a:string ="?"
+    for (let index = 0; index < data.length; index++) {
+      a+="Cards=" + data[index]
+      if (index+1<data.length){
+        a+= "&"
+      }
+    }
+    return a
+  }
 
   MakeRqst(){
     let arr:string[] = []
     arr = this.selected.map(x => x.name)
-    console.log('data', arr)
 
-    // let res = []
-    // for (let i=0 ; i<this.imageSrcs.length; i++){
-    //   let a={name: this.imageSrcs[i].deck, score: 200}
-    //   res.push(a)
-    // }
-    // this.queryResults = res
+    var q : any = []
+    
+    let list = this.CreateList(arr) 
 
-    this.deckService.rqst(arr).subscribe((data)=>{
-      this.queryResults = data
-}
-);
+    this.deckService.rqst(list).subscribe((data)=>{
+      this.queryResults = data});
 
     this.displayResults = true
+
+    
 
 
 
@@ -185,11 +207,18 @@ export class AnalyticsComponent implements OnInit {
 
   rst(){
     this.displayResults = false
-    this.available = this.available.concat(this.selected)
+    this.available = this.allCards
     this.selected = []
     this.canDrop = true
+    this.getRating()
   }
 
+  getRating(){
+    // return random
+    const randNum = Math.floor(Math.random() * 5);
+    return randNum
+
+  }
  
 }
 
