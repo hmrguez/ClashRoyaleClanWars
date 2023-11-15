@@ -1,0 +1,70 @@
+
+<div class="grid" *ngIf="!displayResults"> 
+	<div class="col-4 md:col-1 fst"> 
+		<p-table
+			[value]="available" 
+			responsiveLayout="scroll"> 
+			<ng-template pTemplate="header"> 
+				<tr> 
+					<th>Name</th> 
+					<th>Id</th> 
+				</tr> 
+			</ng-template> 
+			<ng-template pTemplate="body" let-card> 
+                <tr                           
+					pDraggable="products"
+					(onDragStart)="dragStart(card);"  
+					(onDragEnd)="dragEnd()"> 
+					<td>{{card.name}}</td> 
+					<td>{{card.id}}</td> 
+				</tr> 
+			</ng-template> 
+		</p-table> 
+	</div> 
+
+	<div
+		class="col-4 md:col-1 snd"
+		pDroppable="products"
+		(onDrop)="drop()" 
+		responsiveLayout="scroll"> 
+		
+		<p-table [value]="selected"> 
+			<ng-template pTemplate="header"> 
+				<tr> 
+					<th>Name</th> 
+					<th>Id</th>
+                    <th>Remove</th> 
+				</tr> 
+			</ng-template> 
+			<ng-template pTemplate="body" let-card> 
+				<tr> 
+					<td>{{card.name}}</td> 
+					<td>{{card.id}}</td> 
+                    <td class="href" (click)="Remove(card.id)"> Remove</td>
+				</tr> 
+			</ng-template> 
+		</p-table> 
+	</div> 
+</div> 
+
+<p-button label="Submit" severity="help" class="btn" [raised]="true" *ngIf="!canDrop && !displayResults" (click)="MakeRqst()"></p-button>
+<p-toast [preventOpenDuplicates]="true"></p-toast>
+
+<p-table [value]="queryResults" *ngIf="displayResults">
+    <ng-template pTemplate="header"> 
+        <tr> 
+            <th></th> 
+            <th>Deck Name</th>
+            <th>Score</th> 
+        </tr> 
+    </ng-template> 
+    <ng-template pTemplate="body" let-deck> 
+        <tr> 
+            <td> <img [src]="getImage(deck.name)"  /> </td> 
+            <td>{{deck.name}}</td> 
+            <td > {{deck.score}}</td>
+        </tr> 
+    </ng-template> 
+</p-table>
+
+<p-button label="Another Deck" severity="help" class="btn" [raised]="true" *ngIf="displayResults" (click)="rst()"></p-button>

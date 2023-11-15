@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {NgModule, Query} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {CardsComponent} from "./components/cards/cards.component";
 import {PlayersComponent} from "./components/players/players.component";
@@ -8,8 +8,11 @@ import {ClansComponent} from "./components/clans/clans.component";
 import {FAQComponent} from "./components/faq/faq.component";
 import {GraphComponent} from "./components/graph/graph.component";
 import { ProfileComponent } from './components/profile/profile.component';
-import { TokenStorageService } from './services/token-storage.service';
 import { QueryViewerComponent } from './components/query-viewer/query-viewer.component';
+import { AnalyticsComponent } from './components/analytics/analytics.component';
+
+
+
 
 
 const routes: Routes = [
@@ -22,6 +25,7 @@ const routes: Routes = [
   {path: 'graph', component: GraphComponent},
   {path: 'profile', component: ProfileComponent },
   {path: 'query', component: QueryViewerComponent},
+  {path: 'analysis', component: AnalyticsComponent}
 
     
   

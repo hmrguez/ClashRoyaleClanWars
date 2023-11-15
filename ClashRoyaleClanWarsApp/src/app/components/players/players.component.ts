@@ -12,32 +12,32 @@ export class PlayersComponent {
   columns: IColumn[] = [
     {
       header: 'Alias',
-      field: 'Alias',
+      field: 'alias',
       type: ColumnType.String,
     },
     {
       header: 'Elo',
-      field: 'Elo',
+      field: 'elo',
       type: ColumnType.Number,
     },
     {
       header: 'Level',
-      field: 'Level',
+      field: 'level',
       type: ColumnType.Number,
     },
     {
       header: 'Victories',
-      field: 'Victories',
+      field: 'victories',
       type: ColumnType.Number,
     },
     {
       header: 'Card Amount',
-      field: 'CardAmount',
+      field: 'cardAmount',
       type: ColumnType.Number,
     },
     {
       header: 'Max Elo',
-      field: 'MaxElo',
+      field: 'maxElo',
       type: ColumnType.Number,
     },
   ]

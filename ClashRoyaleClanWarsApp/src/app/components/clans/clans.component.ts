@@ -49,7 +49,7 @@ export class ClansComponent {
 
 
   constructor(public clanService: ClanService) { 
-    console.log(this.clanColumns);
+    
   }
 
   itemParsingFunction(data: any): IClanDto{
