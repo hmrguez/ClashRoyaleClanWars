@@ -24,7 +24,7 @@
     display:flex;
     justify-content: center;
 
-    transition: 0.5s ease-in;
+    margin-top: 2%;
 }
 
 .href:hover{
@@ -32,4 +32,28 @@
     //underline
     text-decoration: underline;
     color: blueviolet;
+}
+
+.Pict{
+    width: 30%;
+}
+
+.table{
+    width: 60%;
+   // overflow-x: auto;
+    height: 80%;
+    //overflow-y: auto;
+}
+
+.card{
+    margin-left: 2%;
+    margin-right: 2%;
+    margin-top: 2%;
+}
+
+h2{
+    justify-content: center;
+    display: flex;
+    margin-top: 2%;
+    color: rgb(13, 84, 146);
 }

@@ -50,6 +50,7 @@ import { AccordionModule } from 'primeng/accordion';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { AnalyticsComponent } from './components/analytics/analytics.component';
 import { DragDropModule } from 'primeng/dragdrop';
+import { RatingModule } from 'primeng/rating';
 
 
 
@@ -112,6 +113,7 @@ import { DragDropModule } from 'primeng/dragdrop';
     AccordionModule,
     InputNumberModule,
     DragDropModule,
+    RatingModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]
