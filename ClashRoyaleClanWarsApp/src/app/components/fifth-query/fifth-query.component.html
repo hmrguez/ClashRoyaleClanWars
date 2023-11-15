@@ -1,7 +1,22 @@
-<clash-grid [title]="'Fifth Query'"
-            [dataService]="queryService"
+<div class="flex-auto">
+    
+    <label class="mb-2 block font-bold" for="minmax-buttons">Player Id</label>
+    <br> 
+    <p-inputNumber class="inn" [(ngModel)]="playerId"  [showButtons]="true" inputId="minmax-buttons" [min]="1" [max]="100"> </p-inputNumber>
+    <p-button class = "btn" icon="pi pi-check" (click)="Show()"></p-button>
+   
+</div>
+
+
+
+
+<clash-grid #grid id="grid"
+            [title]="'Fifth Query'"
             [columns]="queryColumns"
             [primaryKey]="'clanId'"
             [itemParsingFunction]="itemParsingFunction"
+            [customData]="updateData()"
+            
 >
 </clash-grid>
+           

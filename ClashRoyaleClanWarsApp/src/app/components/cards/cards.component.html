@@ -26,15 +26,13 @@
 
 
 <div class="main">
+    <h2>{{items[currIndex].name}}</h2>
+
     <a class="prev" (click)="plusSlides(-1)">&#10094;</a>
 <div class = "card ">
    
     <img src = {{items[currIndex].imageUrl}}>
     <div class="card-content">
-        <h2>
-            {{items[currIndex].name}}
-        </h2>
-       
         <p>
             {{items[currIndex].description}}
         </p>
