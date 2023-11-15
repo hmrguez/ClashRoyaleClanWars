@@ -14,6 +14,14 @@
         <span class="sidenav-link-text" *ngIf="collapsed">{{data.label}}</span>
       </a>
     </li>
+
+    <li class="sidenav-nav-item" *ngIf="LoggedIn">
+      <a href="#" class="sidenav-nav-link" >
+        <i class="sidenav-link-icon pi pi-user" ></i>
+        <span class="sidenav-link-text" *ngIf="collapsed">{{this.tokenStorage.getUser()}}</span>
+      </a>
+    </li>
+
     <li class="sidenav-nav-item" *ngIf="LoggedIn" (click)="logout()">
       <a href="#" class="sidenav-nav-link" >
         <i class="sidenav-link-icon pi pi-sign-out" ></i>

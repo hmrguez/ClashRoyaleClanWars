@@ -24,7 +24,7 @@ export class SidenavComponent implements OnInit {
   navData :any;
   LoggedIn = false;
 
-  constructor(private tokenStorage: TokenStorageService, private router: Router) { 
+  constructor(public tokenStorage: TokenStorageService, private router: Router) { 
     
     
    
@@ -73,14 +73,7 @@ export class SidenavComponent implements OnInit {
       }
   ]
 
-    if (this.LoggedIn) {
-      const user = this.tokenStorage.getUser();
-      this.navData.push({
-        routeLink: "/profile",
-        icon: "pi pi-user",
-        label: tokenStorage.getUser(),
-      })
-    }
+    if (this.LoggedIn) {}
     else {
       this.navData.push({
         routeLink: "/login",
