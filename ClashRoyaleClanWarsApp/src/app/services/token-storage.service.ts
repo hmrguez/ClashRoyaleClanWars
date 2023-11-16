@@ -25,27 +25,18 @@ export class TokenStorageService {
 
   }
 
-  public expToken(date:string):void{
-
-    //\"iat\":\"31-Oct-23 5:24:20 AM\"
-    //not working del todo
-
-    var x = date.split(':')[1].substring(2,-2);
-
-    var y = x.split(' ')[1];
-
-    sessionStorage.setItem('expDate', y)
+  public expToken(exp:number):void{
+    var iatt = new Date(exp*1000)
+    sessionStorage.setItem('expDate', iatt.toISOString())
 
 
 
   }
 
-  public saveExp(exp:string):void{
-   // \"exp\":1698733460}"
-
-   var expp = exp.split(':')[1]
-   expp = expp.substring(0,expp.length-2)
-   sessionStorage.setItem("exp", expp);
+  public getExp():Date{
+    const d = sessionStorage.getItem('expDate')
+    const date = new Date(d!.slice(0,-1))
+    return date
   }
 
   public saveRoles(roles:string):void{

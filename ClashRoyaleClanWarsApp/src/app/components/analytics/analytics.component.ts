@@ -74,7 +74,7 @@ export class AnalyticsComponent implements OnInit {
 
     ngOnInit() {
       this.selected = [];
-      //save into availabale products the results from getall in the cardService
+      //save into available products the results from getall in the cardService
       this.getCards()
       
   }
@@ -199,10 +199,7 @@ export class AnalyticsComponent implements OnInit {
 
     this.displayResults = true
 
-    
-
-
-
+  
   }
 
   rst(){
