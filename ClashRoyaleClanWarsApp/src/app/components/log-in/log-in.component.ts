@@ -64,6 +64,7 @@ export class LogInComponent implements OnInit {
         this.tokenStorage.expToken(jwt.exp!);
         this.tokenStorage.saveToken(jwt.jti!);
         this.tokenStorage.saveUser( dec_s[4] );
+        this.tokenStorage.saveRoles(dec_s[0])
 
         this.messageService.add({ severity: 'success', summary: 'Success', detail: 'You have been logged in' });
 
