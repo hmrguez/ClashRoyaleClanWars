@@ -1,4 +1,4 @@
-namespace ClashRoyaleClanWarsAnalytics;
+namespace ClashRoyaleClanWarsAPI.API.Utils.Analytics;
 
 public static class CardScore
 {

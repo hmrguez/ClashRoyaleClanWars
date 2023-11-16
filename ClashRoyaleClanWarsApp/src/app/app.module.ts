@@ -47,6 +47,11 @@ import { FifthQueryComponent } from './components/fifth-query/fifth-query.compon
 import { SixthQueryComponent } from './components/sixth-query/sixth-query.component';
 import { QueryViewerComponent } from './components/query-viewer/query-viewer.component';
 import { AccordionModule } from 'primeng/accordion';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { AnalyticsComponent } from './components/analytics/analytics.component';
+import { DragDropModule } from 'primeng/dragdrop';
+import { RatingModule } from 'primeng/rating';
+
 
 
 
@@ -72,6 +77,8 @@ import { AccordionModule } from 'primeng/accordion';
     FifthQueryComponent,
     SixthQueryComponent,
     QueryViewerComponent,
+    AnalyticsComponent,
+   
    
 
   ],
@@ -104,6 +111,9 @@ import { AccordionModule } from 'primeng/accordion';
     GalleriaModule,
     DividerModule,
     AccordionModule,
+    InputNumberModule,
+    DragDropModule,
+    RatingModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

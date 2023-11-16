@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
-
+import { Component, ViewChild } from '@angular/core';
 import {ColumnType, IColumn} from "../grid/IColumn";
 import { Structure } from './Structure';
 import { QueryService } from './query.service';
+import { GridComponent } from '../grid/grid.component';
 
 @Component({
   selector: 'app-fifth-query',
@@ -10,6 +10,14 @@ import { QueryService } from './query.service';
   styleUrls: ['./fifth-query.component.scss']
 })
 export class FifthQueryComponent {
+
+  @ViewChild("grid") grid: GridComponent = {} as GridComponent;
+
+  playerId:number = 1
+  baseUrl:string = ""
+  data :Structure[] = []
+  update:boolean = false
+
 
   queryColumns: IColumn[] = [
     {
@@ -26,22 +34,52 @@ export class FifthQueryComponent {
     
   ];
 
-  constructor(public queryService: QueryService)
-  {
-    this.queryService.getAll().subscribe((data)=>{
-        console.log("DATA", data);
-  }
-  );
-  }
-
+  constructor(public queryService: QueryService){}
+  
  
+  
+  async loadData(){
+
+    var datasets1 = this.data
+
+    if (this.update){
+      const func = ((data: any)=>{
+          datasets1 = data
+      });
+  
+      const obeservable = await this.queryService.getAll().toPromise();
+      func(obeservable)
+
+      this.data = datasets1
+    }
+  
+    return datasets1
+
+}
   
   itemParsingFunction(data: any): Structure{
     return {
-
       clanId: data.clanId,
       clanName: data.clanName,
     }
+  }
+
+  updateData(){
+    console.log('data', this.data)
+    return this.data
+  }
+
+ 
+
+  async Show(){
+    this.queryService.reset()
+    this.queryService.insertId(this.playerId)
+    this.update = true
+    var d = await this.loadData()
+    var e = await this.loadData()
+    //duplicated because it takes a while to refresh
+    this.grid.loadData()
+    this.update = false
   }
 
 

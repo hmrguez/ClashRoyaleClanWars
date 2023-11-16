@@ -35,8 +35,6 @@ export class GraphComponent {
         let datasets1 = [0,0,0,0,0,0,0,0,0,0,0,0]
 
         const func = ((data: any)=>{
-            console.log("DATA", data);
-            //hacer esto
             for (let index = 0; index < data.length; index++) {
                 const element = data[index];
                 let mes = element.month
@@ -75,8 +73,6 @@ export class GraphComponent {
         datasets2 = await this.getBattlesYear(q1)
         
         q1.baseUrl = baseUrl1
-
-        console.log("d1", datasets1)
 
         this.basicData = { 
             labels: labels, 

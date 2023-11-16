@@ -1,8 +1,4 @@
-namespace ClashRoyaleClanWarsAnalytics;
-
-public record UserDeckRequest(List<string> Cards);
-
-public record DeckScore(string Name, int Score);
+namespace ClashRoyaleClanWarsAPI.API.Utils.Analytics;
 
 public class PresetDeck
 {

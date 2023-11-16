@@ -1,3 +1,7 @@
+.sidenav::-webkit-scrollbar{
+  display: none;
+}
+
 .sidenav{
   background: #263238;
   transition: all .5s ease;
@@ -7,6 +11,8 @@
   width: 5rem;
   height: 100vh;
   box-shadow: 0.063rem 0 1.25rem 0 #8690a3;
+  overflow-y: scroll;
+
 
   .logo-container{
 

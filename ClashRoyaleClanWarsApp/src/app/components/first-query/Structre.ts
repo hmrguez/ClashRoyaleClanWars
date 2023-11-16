@@ -1,6 +1,6 @@
 export interface Structure {
-    id: number
-    name: string
+    playerId: number
+    playerName: string
     trophies: number
    
   }

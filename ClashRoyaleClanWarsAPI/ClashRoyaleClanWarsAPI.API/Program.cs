@@ -48,6 +48,7 @@ var builder = WebApplication.CreateBuilder(args);
                 .AllowAnyHeader().AllowAnyMethod();
         });
     });
+       
 }
 
 

@@ -24,11 +24,20 @@ export class SidenavComponent implements OnInit {
   navData :any;
   LoggedIn = false;
 
-  constructor(private tokenStorage: TokenStorageService, private router: Router) { 
+  constructor(public tokenStorage: TokenStorageService, private router: Router) { 
     
     
    
     this.LoggedIn = !!this.tokenStorage.getToken();
+
+    if (this.LoggedIn){
+      const expDate = this.tokenStorage.getExp()
+      let now = Date.now();
+
+      //if now>expdate
+      if (!!expDate && !isNaN(+new Date(expDate)) && +new Date(expDate) < now ) {
+        this.LoggedIn=false
+    }}
 
     this.navData = [
       {
@@ -38,7 +47,7 @@ export class SidenavComponent implements OnInit {
       },
       {
         routeLink: "/players",
-        icon: "pi pi-user",
+        icon: "pi pi-users",
         label: "Players",
       },
       {
@@ -66,16 +75,14 @@ export class SidenavComponent implements OnInit {
         icon: "pi pi-question-circle",
         label: "FAQ",
       },
+      {
+        routeLink: "/analysis",
+        icon: "pi pi-tablet",
+        label: "Analysis",
+      }
   ]
 
-    if (this.LoggedIn) {
-      const user = this.tokenStorage.getUser();
-      this.navData.push({
-        routeLink: "/profile",
-        icon: "pi pi-user",
-        label: tokenStorage.getUser(),
-      })
-    }
+    if (this.LoggedIn) {}
     else {
       this.navData.push({
         routeLink: "/login",
@@ -109,6 +116,7 @@ export class SidenavComponent implements OnInit {
   }
 
   logout(): void {
+    this.LoggedIn = false
     this.tokenStorage.signOut();
     
     this.router.navigate(['/'])
