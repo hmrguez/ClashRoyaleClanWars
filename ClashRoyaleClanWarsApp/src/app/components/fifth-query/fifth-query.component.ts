@@ -76,8 +76,10 @@ export class FifthQueryComponent {
     this.queryService.insertId(this.playerId)
     this.update = true
     var d = await this.loadData()
-    this.update = false
+    var e = await this.loadData()
+    //duplicated because it takes a while to refresh
     this.grid.loadData()
+    this.update = false
   }
 
 

@@ -30,6 +30,15 @@ export class SidenavComponent implements OnInit {
    
     this.LoggedIn = !!this.tokenStorage.getToken();
 
+    if (this.LoggedIn){
+      const expDate = this.tokenStorage.getExp()
+      let now = Date.now();
+
+      //if now>expdate
+      if (!!expDate && !isNaN(+new Date(expDate)) && +new Date(expDate) < now ) {
+        this.LoggedIn=false
+    }}
+
     this.navData = [
       {
         routeLink: "/",
@@ -38,7 +47,7 @@ export class SidenavComponent implements OnInit {
       },
       {
         routeLink: "/players",
-        icon: "pi pi-user",
+        icon: "pi pi-users",
         label: "Players",
       },
       {
@@ -107,6 +116,7 @@ export class SidenavComponent implements OnInit {
   }
 
   logout(): void {
+    this.LoggedIn = false
     this.tokenStorage.signOut();
     
     this.router.navigate(['/'])
