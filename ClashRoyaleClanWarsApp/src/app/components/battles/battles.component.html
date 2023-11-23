@@ -1,47 +1,28 @@
-<!-- 
-<div class="card">
-    <h3>Battles</h3>
+<div *ngIf="is_Admin" class="add flex justify-content-center">
+    <p-button (click)="showDialog()" icon="pi pi-external-link" label="Add Battle"></p-button>
     <br>
-    
-
-    
-
-    <p-table
-        [value]="battles"
-        [paginator]="true"
-        [rows]="10"
-        [showCurrentPageReport]="true"
-        [tableStyle]="{ 'min-width': '50rem' }"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-        [rowsPerPageOptions]="[10, 15, 20]"
-    >
-        <ng-template pTemplate="header">
-            <tr>
-                <th style="width:20%">Winner</th>
-                <th style="width:20%">Loser</th>
-                <th style="width:20%">Amount Trophies</th>
-                <th style="width:20%">Duration In Seconds</th>
-                <th style="width: 20%">Date</th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-battle>
-            <tr>
-                <td>{{ battle.winner.alias }}</td>
-                <td>{{ battle.loser.alias }}</td>
-                <td>{{ battle.amountTrophies }}</td>
-                <td>{{ battle.durationInSeconds}}</td>
-                <td>{{ battle.date }}</td>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="paginatorleft">
-            
-        </ng-template>
-        <ng-template pTemplate="paginatorright">
-            
-        </ng-template>
-    </p-table>
-</div> 
- -->
+    <div *ngIf="visible">
+        <br>
+        <br>
+        <br>
+        <p-dropdown appendTo="body" [options]="players" [(ngModel)]="selectedWinner" placeholder="Winner" optionLabel="alias"></p-dropdown>
+        <br>
+        <p-dropdown appendTo="body" [options]="players" [(ngModel)]="selectedLoser" placeholder="Loser" optionLabel="alias"></p-dropdown>
+        <br>
+        <span class="p-label">
+            <p-inputNumber inputId="integeronly" [(ngModel)]="duration" placeholder="Duration In Seconds" [min]="0"> </p-inputNumber>
+        </span>
+        <br>
+        <span class="p-label">
+            <p-inputNumber inputId="integeronly" [(ngModel)]="trophies" placeholder="Trophies" [min]="0"> </p-inputNumber>
+        </span>
+        <br>
+        <p-calendar [(ngModel)]="date" [showTime]="true" [showSeconds]="true" [showButtonBar]="true" [showIcon]="true"></p-calendar>
+        <br>
+        <p-button icon="pi pi-check" (click)="Post()" [rounded]="true" [text]="true" [raised]="true"></p-button>
+       
+    </div>
+</div>
 
  <clash-grid [title]="'Battles'"
  [dataService]="battleSer"

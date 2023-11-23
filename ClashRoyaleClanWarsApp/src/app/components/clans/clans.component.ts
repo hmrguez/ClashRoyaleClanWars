@@ -111,6 +111,8 @@ export class ClansComponent implements OnInit {
     return players
 
   }
+
+  
   async ngOnInit() {
     
       this.regions.push('Dubai')

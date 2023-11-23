@@ -2,13 +2,21 @@ import { Component } from '@angular/core';
 import { BattlesService } from './battles.service';
 import { Battle } from './IBattle';
 import { IColumn, ColumnType } from '../grid/IColumn';
+import { PlayerService } from '../players/player.service';
+import { IPlayerDto } from '../players/IPlayerDto';
+import { OnInit } from '@angular/core';
+import { TokenStorageService } from 'src/app/services/token-storage.service';
 
+export interface Player{
+  id: Number,
+  alias: string,
+}
 @Component({
   selector: 'app-battles',
   templateUrl: './battles.component.html',
   styleUrls: ['./battles.component.scss']
 })
-export class BattlesComponent {
+export class BattlesComponent implements OnInit {
 
   battles !: any
 
@@ -45,26 +53,53 @@ export class BattlesComponent {
 
   ]
 
+  players: Player[] = []
+  is_Admin:boolean = false
 
-  constructor( public battleSer: BattlesService){
-    // var b = this.battleSer.getAll().subscribe((data)=>
-    // {this.battles = data},(err)=>
-    // {console.log(err.error)});
+  selectedWinner!: Player 
+  selectedLoser!: Player
+  date !: Date 
+  duration!: number
+  trophies !: number
+
+
+  constructor( public battleSer: BattlesService, public playerService:PlayerService, private tokenstor: TokenStorageService) {
+    this.is_Admin = this.tokenstor.isAdmin() || this.tokenstor.isSuperAdmin()
+    
   }
 
-  CreateBattleObject(){
-    // for (let index = 0; index < this.battles.length; index++) {
-    //   const element = this.battles[index];
-    //   this.BattlesForGrid.push({
-    //     winner: element.winner.alias,
-    //     loser: element.loser.alias,
-    //     trophies : element.amountTrophies,
-    //     duration : element.duationInSeconds,
-    //     date: element.date
-    //   })
+  visible: boolean = false;
+
+    showDialog() {
+        this.visible = true;
+    }
+
+  async ngOnInit() {
+    this.players = await this.LoadPlayers()
+    console.log(this.players)
       
-    // }
   }
+
+  async LoadPlayers(){
+    var play :IPlayerDto[] = []
+    var players :Player[] =[]
+  
+   
+    //map play and only add id and name to this.allpayers
+    const func = ((data: any)=>{
+        play = data
+    });
+  
+    const obeservable = await this.playerService.getAll().toPromise();
+    func(obeservable)
+  
+    for (let i=0;i<play.length;i++){
+      players.push({id: play[i].id, alias:play[i].alias})}
+
+    return players
+
+  }
+  
 
   itemParsingFunction(data: any): Battle{
     return {
@@ -77,6 +112,16 @@ export class BattlesComponent {
 
      
     }
+  }
+
+  Post(){
+    console.log(this.date.toISOString())
+    this.battleSer.create({winner:this.selectedWinner.id.toString(), loser: this.selectedLoser.id.toString(), trophies: this.trophies, duration: this.duration, date:this.date.toISOString()}).subscribe((data)=>{
+      console.log(data)
+    }, (err)=>{
+      console.log(err.error)
+    })
+    
   }
 
 
