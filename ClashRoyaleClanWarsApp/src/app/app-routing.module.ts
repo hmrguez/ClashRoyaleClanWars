@@ -12,6 +12,7 @@ import { QueryViewerComponent } from './components/query-viewer/query-viewer.com
 import { AnalyticsComponent } from './components/analytics/analytics.component';
 import { BattlesComponent } from './components/battles/battles.component';
 import { CardPopularityComponent } from './components/card-popularity/card-popularity.component';
+import { ClanPopComponent } from './components/clan-pop/clan-pop.component';
 
 
 
@@ -29,7 +30,9 @@ const routes: Routes = [
   {path: 'query', component: QueryViewerComponent},
   {path: 'analysis', component: AnalyticsComponent},
   {path: 'battles', component: BattlesComponent},
-  {path: 'pop', component: CardPopularityComponent}
+  {path: 'pop', component: CardPopularityComponent},
+  {path: 'clanpop', component:ClanPopComponent},
+
 
 
     

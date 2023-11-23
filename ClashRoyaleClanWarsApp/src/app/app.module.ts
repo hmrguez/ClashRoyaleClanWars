@@ -55,6 +55,7 @@ import { ListboxModule } from 'primeng/listbox';
 import { BattlesComponent } from './components/battles/battles.component';
 import { CardPopularityComponent } from './components/card-popularity/card-popularity.component';
 import { SelectButtonModule } from 'primeng/selectbutton';
+import { ClanPopComponent } from './components/clan-pop/clan-pop.component';
 
 
 
@@ -85,6 +86,7 @@ import { SelectButtonModule } from 'primeng/selectbutton';
     AnalyticsComponent,
     BattlesComponent,
     CardPopularityComponent,
+    ClanPopComponent,
    
    
 

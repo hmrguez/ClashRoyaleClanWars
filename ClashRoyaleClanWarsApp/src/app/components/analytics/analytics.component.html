@@ -1,7 +1,7 @@
 
 <div class="grid" *ngIf="!displayResults"> 
-	<div class="col-4 md:col-1 fst"> 
-        <div class="p-inputgroup">
+	<div class="col-5 md:col-1 fst"> 
+        <div class="p-inputgroup filterbox">
             <button type="button" pButton label="Search" (click)="Filter()"></button>
            
             <input type="text" pInputText placeholder="Keyword" [(ngModel)] = "FilterBy"/>
@@ -102,23 +102,3 @@
 
 
 
-<!-- <div class="table"></div>
-<p-table [value]="queryResults" *ngIf="displayResults" >
-	 
-    <ng-template pTemplate="header"> 
-        <tr> 
-            <th style="width: 40%;">Picture</th> 
-            <th style="width: 30%;">Deck Name</th>
-            <th style="width: 30%;">Score</th> 
-        </tr> 
-    </ng-template>
-    <ng-template pTemplate="body" let-deck> 
-        <tr> 
-            <td > <img [src]="getImage(deck.name)"  /> </td> 
-            <td>{{deck.name}}</td> 
-            <td > {{deck.score}}</td>
-        </tr> 
-    </ng-template> 
-</p-table>
-
-<p-button label="Analize Another Deck" severity="help" class="btn" [raised]="true" *ngIf="displayResults" (click)="rst()"></p-button> -->
