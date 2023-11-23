@@ -131,7 +131,7 @@ export class BattlesComponent implements OnInit {
   };
 
   Post(){
-    var url = 'http://localhost:5085/api/battles'
+    
 
     if (!this.selectedLoser || !this.selectedWinner || !this.trophies || !this.duration || !this.date){
       this.showError('Cannot have empty fields')
@@ -152,13 +152,10 @@ export class BattlesComponent implements OnInit {
     }
     
     
-    this.http.post(url,{'amountTrophies': this.trophies,'winnerId':this.selectedWinner.id, 'loserId': this.selectedLoser.id,  'durationInSeconds': this.duration, 'date':this.date.toISOString()},this.httpOptions).subscribe(data=>{
-      this.showSuccess('battle added')
-    }, err =>{
-      this.showError(err.error)
-     
-    })
-    this.visibleAdd = false
+    this.battleSer.create({'winnerId': this.selectedWinner.id, 'loserId': this.selectedLoser.id,
+  'amountTrophies': this.trophies, 'durationInSeconds':this.duration, 'date': this.date.toISOString()}).subscribe((data)=>{
+    this.showSuccess('Battle Created')
+  },(err)=>{this.showError(err.error)})
     
     
    

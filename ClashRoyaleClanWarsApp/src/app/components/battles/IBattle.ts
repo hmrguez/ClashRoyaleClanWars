@@ -1,6 +1,6 @@
 export interface Battle{
-    winnerId: string,
-    loserId: string,
+    winnerId: Number,
+    loserId: Number,
     amountTrophies: number,
     durationInSeconds: number,
     date: string,

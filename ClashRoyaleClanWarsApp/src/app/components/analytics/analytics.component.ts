@@ -15,7 +15,7 @@ import { AnalyticsService } from './analytics.service';
   templateUrl: './analytics.component.html',
   styleUrls: ['./analytics.component.scss']
 })
-export class AnalyticsComponent implements OnInit {
+export class AnalyticsComponent {
 
     displayResults = false;
 
@@ -75,15 +75,23 @@ export class AnalyticsComponent implements OnInit {
 
     currentlyDragging: ICardDto  | null = null;
 
-    constructor(private cardServ : CardService, private deckService: AnalyticsService){}
-
-    ngOnInit() {
-      this.selected = [];
-      //save into available products the results from getall in the cardService
-      this.getCards()
-      this.available = this.available.sort((a,b)=> a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
-      
+    constructor(private cardServ : CardService, private deckService: AnalyticsService){
+      this.selected = []
+      this.cardServ.getAll().subscribe(cards => {
+        cards.forEach(cardData => {
+          let parsed = this.itemParsingFunction(cardData);
+          if(!parsed){
+            throw Error("Failed to parse card");
+          } else {
+            this.available.push(parsed);
+          }
+        })
+        this.available = this.available.sort((a,b)=> a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
+        this.allCards = this.available
+        this.filtered = this.available
+        })
     }
+
     
     itemParsingFunction(data: any): ICardDto{
       return {
@@ -101,26 +109,8 @@ export class AnalyticsComponent implements OnInit {
     }
   }
   
-  
-
-  getCards(){
-    this.cardServ.getAll().subscribe(cards=>{
-      cards.forEach(cardData => {
-        let parsed = this.itemParsingFunction(cardData);
-        if(!parsed){
-          throw Error("Failed to parse card");
-        } else {
-          this.available.push(parsed);
-        }
-      });
-    })
-    this.allCards = this.available
-    this.filtered = this.available
-    
-  }
 
   Filter(){
-    //this.filtered =  this.available where card.name includes this.FilterBy
     if (this.FilterBy.trimEnd()!= ""){
     this.filtered = this.available.filter((card) => card.name.toLowerCase().includes(this.FilterBy.toLowerCase()))};
     
