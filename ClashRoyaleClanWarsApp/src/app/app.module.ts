@@ -51,6 +51,8 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { AnalyticsComponent } from './components/analytics/analytics.component';
 import { DragDropModule } from 'primeng/dragdrop';
 import { RatingModule } from 'primeng/rating';
+import { ListboxModule } from 'primeng/listbox';
+import { BattlesComponent } from './components/battles/battles.component';
 
 
 
@@ -78,6 +80,7 @@ import { RatingModule } from 'primeng/rating';
     SixthQueryComponent,
     QueryViewerComponent,
     AnalyticsComponent,
+    BattlesComponent,
    
    
 
@@ -113,7 +116,8 @@ import { RatingModule } from 'primeng/rating';
     AccordionModule,
     InputNumberModule,
     DragDropModule,
-    RatingModule
+    RatingModule,
+    ListboxModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

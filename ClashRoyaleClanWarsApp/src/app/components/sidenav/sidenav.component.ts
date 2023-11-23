@@ -23,10 +23,11 @@ export class SidenavComponent implements OnInit {
  
   navData :any;
   LoggedIn = false;
+  roles: string[] = []
 
   constructor(public tokenStorage: TokenStorageService, private router: Router) { 
     
-    
+  
    
     this.LoggedIn = !!this.tokenStorage.getToken();
 
@@ -61,6 +62,11 @@ export class SidenavComponent implements OnInit {
         label: "Clans",
       },
       {
+        routeLink: "/battles",
+        icon: "pi pi-sitemap",
+        label: "Battles",
+      },
+      {
         routeLink: "/query",
         icon: "pi pi-database",
         label: "Query",
@@ -82,7 +88,9 @@ export class SidenavComponent implements OnInit {
       }
   ]
 
-    if (this.LoggedIn) {}
+    if (this.LoggedIn) {
+      this.roles = tokenStorage.getRoles()
+    }
     else {
       this.navData.push({
         routeLink: "/login",

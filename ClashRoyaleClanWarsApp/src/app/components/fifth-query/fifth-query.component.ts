@@ -20,11 +20,7 @@ export class FifthQueryComponent {
 
 
   queryColumns: IColumn[] = [
-    {
-      header: 'Clan ID',
-      field: 'clanId',
-      type: ColumnType.Number,
-    },
+   
     {
       header: 'Clan Name',
       field: 'clanName',

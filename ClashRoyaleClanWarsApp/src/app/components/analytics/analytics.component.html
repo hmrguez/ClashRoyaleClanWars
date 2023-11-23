@@ -1,14 +1,21 @@
-<h2 *ngIf="!displayResults">Drag your selection of cards to the second table</h2>
 
 <div class="grid" *ngIf="!displayResults"> 
 	<div class="col-4 md:col-1 fst"> 
+        <div class="p-inputgroup">
+            <button type="button" pButton label="Search" (click)="Filter()"></button>
+           
+            <input type="text" pInputText placeholder="Keyword" [(ngModel)] = "FilterBy"/>
+            <button type="button" pButton icon="pi pi-refresh" styleClass="p-button-warn" (click)="ResetFilter()"></button>
+        </div>
+
 		<p-table
-			[value]="available" 
+			[value]="filtered" 
 			responsiveLayout="scroll"> 
 			<ng-template pTemplate="header"> 
 				<tr> 
 					<th>Name</th> 
-					<th>Id</th> 
+                    <th>Select</th>
+					
 				</tr> 
 			</ng-template> 
 			<ng-template pTemplate="body" let-card> 
@@ -17,7 +24,8 @@
 					(onDragStart)="dragStart(card);"  
 					(onDragEnd)="dragEnd()"> 
 					<td>{{card.name}}</td> 
-					<td>{{card.id}}</td> 
+                    <td class="href" (click)="Add(card)">Select</td>
+					
 				</tr> 
 			</ng-template> 
 		</p-table> 
@@ -33,14 +41,13 @@
 			<ng-template pTemplate="header"> 
 				<tr> 
 					<th>Name</th> 
-					<th>Id</th>
                     <th>Remove</th> 
 				</tr> 
 			</ng-template> 
 			<ng-template pTemplate="body" let-card> 
 				<tr> 
 					<td>{{card.name}}</td> 
-					<td>{{card.id}}</td> 
+					
                     <td class="href" (click)="Remove(card.id)"> Remove</td>
 				</tr> 
 			</ng-template> 
@@ -67,7 +74,6 @@
             <tr>
                 <th>Image</th>
                 <th>Name</th>
-				
                 <th>Score</th>
             </tr>
         </ng-template>

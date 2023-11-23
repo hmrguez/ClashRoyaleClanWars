@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {ColumnType, IColumn} from "../grid/IColumn";
 import {PlayerService} from "./player.service";
+import { IPlayerDto } from './IPlayerDto';
 
 @Component({
   selector: 'app-players',
@@ -43,4 +44,6 @@ export class PlayersComponent {
   ]
 
   constructor(public playerService: PlayerService) { }
+
+ 
 }

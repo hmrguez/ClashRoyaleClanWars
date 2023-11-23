@@ -1,3 +1,20 @@
+<div *ngIf="isAdmin || isSuperuser" class="card flex justify-content-center">
+    <p-button (click)="showDialog()" icon="pi pi-external-link" label="Insert a Clan"></p-button>
+    <p-dialog header="Insert a Clan" [(visible)]="visible" [style]="{ width: '50vw' }" [modal]="true">
+        <div class="flex py-2 justify-content-center">
+            <form>
+            <p>Select player that owns the clan</p>
+            <p-listbox  [options]="allPlayers" [(ngModel)]="playerSelected" optionLabel="name" [filter]="true" [style]="{ width: '15rem' }" [listStyle]="{'max-height': '220px'}"></p-listbox>
+            
+            <p-dropdown appendTo="body" [options]="regions" [(ngModel)]="selectedRegion" placeholder="Select a Region" [required]="true"></p-dropdown>
+
+            
+            <p-button label="Submit" type="Submit"></p-button>
+            </form>
+        </div>
+    </p-dialog>
+</div>
+
 <clash-grid [title]="'Clans'"
             [dataService]="clanService"
             [columns]="clanColumns"

@@ -12,11 +12,7 @@ import { QueryService } from './query.service';
 export class SixthQueryComponent {
 
   queryColumns: IColumn[] = [
-    {
-      header: 'Challenge ID',
-      field: 'challengeId',
-      type: ColumnType.Number,
-    },
+   
     {
       header: 'Challenge Name',
       field: 'challengeName',
@@ -27,10 +23,7 @@ export class SixthQueryComponent {
 
   constructor(public queryService: QueryService)
   {
-    this.queryService.getAll().subscribe((data)=>{
-        console.log("DATA", data);
-  }
-  );
+   
   }
 
  

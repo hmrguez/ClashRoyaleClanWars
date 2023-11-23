@@ -58,10 +58,9 @@ export class TokenStorageService {
 
     roles_saved = index-1
    
+   
     
   }
-
-
 
   public getToken(): string | null {
     return window.sessionStorage.getItem(TOKEN_KEY);
@@ -86,15 +85,24 @@ export class TokenStorageService {
     return {};
   }
 
-  public getRoles():any{
+  public getRoles(): string[]{
     var rol = []
-    for (let index = 0; index < roles_saved; index++) {
-      var x = sessionStorage.getItem("Role"+(index+1))
-      rol.push(x)      
+    for (let index = 1; index < 4; index++) {
+      var x = sessionStorage.getItem("Role"+(index))
+      if (x) rol.push(x)      
     }
 
-    return rol;
+    return rol
   }
 
+  public isAdmin() :boolean{
+    let role = this.getRoles()
+    return role.includes('Admin')
+  }
+
+  public isSuperAdmin() : boolean{
+    let role = this.getRoles()
+    return role.includes('SuperAdmin')
+  }
   
 }

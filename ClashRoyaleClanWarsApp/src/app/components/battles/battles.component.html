@@ -1,0 +1,52 @@
+<!-- 
+<div class="card">
+    <h3>Battles</h3>
+    <br>
+    
+
+    
+
+    <p-table
+        [value]="battles"
+        [paginator]="true"
+        [rows]="10"
+        [showCurrentPageReport]="true"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[10, 15, 20]"
+    >
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width:20%">Winner</th>
+                <th style="width:20%">Loser</th>
+                <th style="width:20%">Amount Trophies</th>
+                <th style="width:20%">Duration In Seconds</th>
+                <th style="width: 20%">Date</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-battle>
+            <tr>
+                <td>{{ battle.winner.alias }}</td>
+                <td>{{ battle.loser.alias }}</td>
+                <td>{{ battle.amountTrophies }}</td>
+                <td>{{ battle.durationInSeconds}}</td>
+                <td>{{ battle.date }}</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="paginatorleft">
+            
+        </ng-template>
+        <ng-template pTemplate="paginatorright">
+            
+        </ng-template>
+    </p-table>
+</div> 
+ -->
+
+ <clash-grid [title]="'Battles'"
+ [dataService]="battleSer"
+ [columns]="queryColumns"
+ [primaryKey]="'Id'"
+ [itemParsingFunction]="itemParsingFunction"
+>
+</clash-grid>

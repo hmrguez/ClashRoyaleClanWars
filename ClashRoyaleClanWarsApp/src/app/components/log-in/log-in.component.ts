@@ -81,7 +81,8 @@ export class LogInComponent implements OnInit {
           });
       },
       err => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please check the data' });
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error });
+        console.log(err)
 
         this.isLoginFailed = true;
       }
@@ -109,7 +110,7 @@ export class LogInComponent implements OnInit {
 
           }
           else
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error.message });
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error });
 
         }
       }

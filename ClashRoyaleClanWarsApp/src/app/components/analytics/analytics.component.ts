@@ -9,6 +9,7 @@ import { Deck, CardsList } from './Results';
 import { AnalyticsService } from './analytics.service';
 
 
+
 @Component({
   selector: 'app-analytics',
   templateUrl: './analytics.component.html',
@@ -17,6 +18,10 @@ import { AnalyticsService } from './analytics.service';
 export class AnalyticsComponent implements OnInit {
 
     displayResults = false;
+
+    FilterBy :string = "";
+
+    filtered : ICardDto[] = []
    
 
     imageSrcs = [
@@ -76,13 +81,14 @@ export class AnalyticsComponent implements OnInit {
       this.selected = [];
       //save into available products the results from getall in the cardService
       this.getCards()
+      this.available = this.available.sort((a,b)=> a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
       
-  }
-
-  itemParsingFunction(data: any): ICardDto{
-    return {
-      areaDamage: data.areaDamage,
-      damage: data.damage,
+    }
+    
+    itemParsingFunction(data: any): ICardDto{
+      return {
+        areaDamage: data.areaDamage,
+        damage: data.damage,
       description: data.description,
       elixir: data.elixir,
       id: data.id,
@@ -95,32 +101,38 @@ export class AnalyticsComponent implements OnInit {
     }
   }
   
-  createDeck(d:any) :Deck {
-    return{
-      name: d.name,
-      score : d.score,
-      rating : this.getRating()
-    }
-  }
+  
 
   getCards(){
     this.cardServ.getAll().subscribe(cards=>{
       cards.forEach(cardData => {
         let parsed = this.itemParsingFunction(cardData);
-          if(!parsed){
-            throw Error("Failed to parse card");
-          } else {
-            this.available.push(parsed);
-          }
-          });
+        if(!parsed){
+          throw Error("Failed to parse card");
+        } else {
+          this.available.push(parsed);
+        }
+      });
     })
-
     this.allCards = this.available
+    this.filtered = this.available
+    
   }
 
+  Filter(){
+    //this.filtered =  this.available where card.name includes this.FilterBy
+    if (this.FilterBy.trimEnd()!= ""){
+    this.filtered = this.available.filter((card) => card.name.toLowerCase().includes(this.FilterBy.toLowerCase()))};
+    
+  }
 
   dragStart(product: ICardDto) {
       this.currentlyDragging = product;
+  }
+
+  ResetFilter(){
+    this.filtered = this.available.sort((a,b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
+    this.FilterBy = ""
   }
 
   drop() {
@@ -128,10 +140,11 @@ export class AnalyticsComponent implements OnInit {
           let draggedProductIndex = this.findIndex(this.currentlyDragging);
           this.selected = [...this.selected, this.currentlyDragging];
           this.available = this.available.filter((val, i) => i != draggedProductIndex);
-          this.currentlyDragging = null;
+          this.filtered = this.filtered.filter((val,i)=> val != this.currentlyDragging)
           if (this.selected.length==8){
             this.canDrop=false
           }
+          this.currentlyDragging = null;
       }
   }
 
@@ -158,8 +171,11 @@ export class AnalyticsComponent implements OnInit {
       if (this.selected[i].id==id){
         card = this.selected[i]
         this.available.push(card)
+        
         this.selected = this.selected.filter(x=> x!=card)
         this.canDrop = true
+
+        if (card.name.toLowerCase().includes(this.FilterBy.toLowerCase())) this.filtered.push(card)
         break
       }
       
@@ -204,17 +220,27 @@ export class AnalyticsComponent implements OnInit {
 
   rst(){
     this.displayResults = false
-    this.available = this.allCards
+    this.available = this.allCards.sort((a,b)=> a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
+    this.filtered = this.allCards.sort((a,b)=> a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
     this.selected = []
     this.canDrop = true
-    this.getRating()
+   
   }
 
-  getRating(){
-    // return random
-    const randNum = Math.floor(Math.random() * 5);
-    return randNum
 
+  Add(card : ICardDto){
+    if (this.canDrop){
+      let draggedProductIndex = this.findIndex(card);
+      this.selected = [...this.selected, card];
+      this.available = this.available.filter((val, i) => i != draggedProductIndex);
+      this.filtered = this.filtered.filter((val,i)=> val != card)
+      this.currentlyDragging = null;
+      if (this.selected.length==8){
+        this.canDrop=false
+      }}
+  
+    
+    
   }
  
 }
