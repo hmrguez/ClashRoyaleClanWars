@@ -37,7 +37,7 @@ export class SidenavComponent implements OnInit {
 
       //if now>expdate
       if (!!expDate && !isNaN(+new Date(expDate)) && +new Date(expDate) < now ) {
-        this.LoggedIn=false
+        this.logout()
     }}
 
     this.navData = [
@@ -73,13 +73,13 @@ export class SidenavComponent implements OnInit {
       },
       {
         routeLink: "/graph",
-        icon: "pi pi-chart-bar",
+        icon: "pi pi-chart-line",
         label: "Game Popularity",
       },
       {
         routeLink: "/pop",
         icon: "pi pi-chart-bar",
-        label: "Cards Popularity",
+        label: "Amount of Victories",
       },
       {
         routeLink: "/faq",

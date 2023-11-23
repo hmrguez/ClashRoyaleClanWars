@@ -14,6 +14,8 @@
 			<ng-template pTemplate="header"> 
 				<tr> 
 					<th>Name</th> 
+                    <th>Type</th>
+                    <th>Elixir</th>
                     <th>Select</th>
 					
 				</tr> 
@@ -24,6 +26,8 @@
 					(onDragStart)="dragStart(card);"  
 					(onDragEnd)="dragEnd()"> 
 					<td>{{card.name}}</td> 
+                    <td>{{card.type}}</td>
+                    <td>{{card.elixir}}</td>
                     <td class="href" (click)="Add(card)">Select</td>
 					
 				</tr> 

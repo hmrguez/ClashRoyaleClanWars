@@ -54,6 +54,7 @@ import { RatingModule } from 'primeng/rating';
 import { ListboxModule } from 'primeng/listbox';
 import { BattlesComponent } from './components/battles/battles.component';
 import { CardPopularityComponent } from './components/card-popularity/card-popularity.component';
+import { SelectButtonModule } from 'primeng/selectbutton';
 
 
 
@@ -119,7 +120,8 @@ import { CardPopularityComponent } from './components/card-popularity/card-popul
     InputNumberModule,
     DragDropModule,
     RatingModule,
-    ListboxModule
+    ListboxModule,
+    SelectButtonModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]
