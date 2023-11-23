@@ -6,6 +6,8 @@ import { PlayerService } from '../players/player.service';
 import { IPlayerDto } from '../players/IPlayerDto';
 import { OnInit } from '@angular/core';
 import { TokenStorageService } from 'src/app/services/token-storage.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { MessageService } from 'primeng/api';
 
 export interface Player{
   id: Number,
@@ -25,17 +27,17 @@ export class BattlesComponent implements OnInit {
   queryColumns : IColumn[] = [
     {
       header: 'Winner',
-      field: 'winner',
+      field: 'winnerId',
       type: ColumnType.String, 
     },
     {
       header: 'Loser',
-      field: 'loser',
+      field: 'loserId',
       type: ColumnType.String, 
     },
     {
       header: 'Duration',
-      field: 'duration',
+      field: 'durationInSeconds',
       type: ColumnType.Number, 
     },
     {
@@ -45,7 +47,7 @@ export class BattlesComponent implements OnInit {
     },
     {
       header: 'Trophies',
-      field: 'trophies',
+      field: 'amountTrophies',
       type: ColumnType.Number 
     },
     
@@ -63,16 +65,18 @@ export class BattlesComponent implements OnInit {
   trophies !: number
 
 
-  constructor( public battleSer: BattlesService, public playerService:PlayerService, private tokenstor: TokenStorageService) {
+  constructor( public battleSer: BattlesService, public playerService:PlayerService, private tokenstor: TokenStorageService, public http:HttpClient, private mess:MessageService) {
     this.is_Admin = this.tokenstor.isAdmin() || this.tokenstor.isSuperAdmin()
     
   }
 
-  visible: boolean = false;
+  visibleAdd: boolean = false;
 
-    showDialog() {
-        this.visible = true;
+    showAdd() {
+        this.visibleAdd = !this.visibleAdd;
     }
+
+  
 
   async ngOnInit() {
     this.players = await this.LoadPlayers()
@@ -103,24 +107,61 @@ export class BattlesComponent implements OnInit {
 
   itemParsingFunction(data: any): Battle{
     return {
-      winner : data.winner.alias,
-      loser : data.loser.alias,
-      trophies : data.amountTrophies,
+      winnerId : data.winner.alias,
+      loserId : data.loser.alias,
+      amountTrophies : data.amountTrophies,
       //filter where clans.id = data.id, get the clans.name
       date : data.date,
-      duration : data.durationInSeconds
+      durationInSeconds : data.durationInSeconds
 
      
     }
   }
 
+  showError(message:string){
+    this.mess.add({ severity: 'error', summary: 'Error', detail: message });
+  }
+
+  showSuccess(message:string){
+    this.mess.add({ severity: 'success', summary: 'Success', detail: message });
+  }
+
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  };
+
   Post(){
-    console.log(this.date.toISOString())
-    this.battleSer.create({winner:this.selectedWinner.id.toString(), loser: this.selectedLoser.id.toString(), trophies: this.trophies, duration: this.duration, date:this.date.toISOString()}).subscribe((data)=>{
-      console.log(data)
-    }, (err)=>{
-      console.log(err.error)
+    var url = 'http://localhost:5085/api/battles'
+
+    if (!this.selectedLoser || !this.selectedWinner || !this.trophies || !this.duration || !this.date){
+      this.showError('Cannot have empty fields')
+      return
+    }
+
+    if (this.selectedLoser.id==this.selectedWinner.id){
+      this.showError('Winner and Loser are the same')
+      return
+    }
+
+    //if any fields are empty, show error
+    
+    
+    if (this.date > new Date()){
+      this.showError('Date is in the future')
+      return
+    }
+    
+    
+    this.http.post(url,{'amountTrophies': this.trophies,'winnerId':this.selectedWinner.id, 'loserId': this.selectedLoser.id,  'durationInSeconds': this.duration, 'date':this.date.toISOString()},this.httpOptions).subscribe(data=>{
+      this.showSuccess('battle added')
+    }, err =>{
+      this.showError(err.error)
+     
     })
+    this.visibleAdd = false
+    
+    
+   
     
   }
 

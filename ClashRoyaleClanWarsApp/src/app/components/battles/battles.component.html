@@ -1,28 +1,24 @@
 <div *ngIf="is_Admin" class="add flex justify-content-center">
-    <p-button (click)="showDialog()" icon="pi pi-external-link" label="Add Battle"></p-button>
-    <br>
-    <div *ngIf="visible">
-        <br>
-        <br>
-        <br>
-        <p-dropdown appendTo="body" [options]="players" [(ngModel)]="selectedWinner" placeholder="Winner" optionLabel="alias"></p-dropdown>
-        <br>
-        <p-dropdown appendTo="body" [options]="players" [(ngModel)]="selectedLoser" placeholder="Loser" optionLabel="alias"></p-dropdown>
-        <br>
-        <span class="p-label">
-            <p-inputNumber inputId="integeronly" [(ngModel)]="duration" placeholder="Duration In Seconds" [min]="0"> </p-inputNumber>
+    <p-button (click)="showAdd()" icon="pi pi-external-link" label="Add Battle"></p-button>
+  
+</div>
+   
+    <div  *ngIf="visibleAdd">
+        
+        <p-dropdown class="form" appendTo="body" [options]="players" [(ngModel)]="selectedWinner" placeholder="Winner" optionLabel="alias"></p-dropdown>
+        <p-dropdown class="form" appendTo="body" [options]="players" [(ngModel)]="selectedLoser" placeholder="Loser" optionLabel="alias"></p-dropdown>
+        <span class="p-label " class="form">
+            <p-inputNumber inputId="integeronly" [(ngModel)]="duration" placeholder="Duration In Seconds" [min]="1"> </p-inputNumber>
         </span>
-        <br>
-        <span class="p-label">
-            <p-inputNumber inputId="integeronly" [(ngModel)]="trophies" placeholder="Trophies" [min]="0"> </p-inputNumber>
+        <span class="p-label" class="form">
+            <p-inputNumber inputId="integeronly" [(ngModel)]="trophies" placeholder="Trophies" [min]="1"> </p-inputNumber>
         </span>
-        <br>
-        <p-calendar [(ngModel)]="date" [showTime]="true" [showSeconds]="true" [showButtonBar]="true" [showIcon]="true"></p-calendar>
-        <br>
-        <p-button icon="pi pi-check" (click)="Post()" [rounded]="true" [text]="true" [raised]="true"></p-button>
+        <p-calendar placeholder="Date" class="form" [(ngModel)]="date" [showTime]="true" [showSeconds]="true" [showButtonBar]="true" [showIcon]="true"></p-calendar>
+        <p-button class="form" icon="pi pi-check" (click)="Post()" [rounded]="true" [text]="true" [raised]="true"></p-button>
        
     </div>
-</div>
+
+    
 
  <clash-grid [title]="'Battles'"
  [dataService]="battleSer"
