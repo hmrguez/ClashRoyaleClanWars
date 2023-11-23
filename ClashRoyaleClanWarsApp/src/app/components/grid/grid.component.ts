@@ -16,7 +16,7 @@ import {Router} from "@angular/router";
   styleUrls: ['./grid.component.scss']
 })
 
-export class GridComponent implements OnInit{
+export class GridComponent implements OnInit {
   @Input() title: string = '';
   @Input() columns: IColumn[] = [];
   @Input() primaryKey: string = '';
@@ -37,7 +37,7 @@ export class GridComponent implements OnInit{
   selectionOnlyExport: boolean = false;
   selectedData: any[] = [];
 
-  @ViewChild('myForm', { static: false }) myForm!: NgForm;
+  @ViewChild('myForm', {static: false}) myForm!: NgForm;
   createEditForm!: FormGroup;
   visibleDialog: boolean = false
   isCreating: boolean = false; // true for creating and false for editing
@@ -50,34 +50,44 @@ export class GridComponent implements OnInit{
 
   protected readonly ColumnType = ColumnType;
 
-  constructor(private router: Router, private messageService: MessageService) { }
+  constructor(private router: Router, private messageService: MessageService) {
+  }
 
   ngOnInit(): void {
     this.loadData().then();
     this.createFormModel();
-    this.filterFields = this.columns.map(x=>x.field)
+    this.filterFields = this.columns.map(x => x.field)
 
 
     this.menuItems = [
-      { label: 'View ', visible: this.detailPage != '', icon: 'pi pi-fw pi-search', command: () => this.viewContextMenuAction()},
-      { label: 'Delete', visible: this.adminUser, icon: 'pi pi-fw pi-times', command: () => this.deleteContextMenuAction()},
-      { label: 'Edit', visible: this.adminUser, icon: 'pi pi-fw pi-pencil', command: () => this.editContextMenuAction()},
+      {
+        label: 'View ',
+        visible: this.detailPage != '',
+        icon: 'pi pi-fw pi-search',
+        command: () => this.viewContextMenuAction()
+      },
+      {
+        label: 'Delete',
+        visible: this.adminUser,
+        icon: 'pi pi-fw pi-times',
+        command: () => this.deleteContextMenuAction()
+      },
+      {label: 'Edit', visible: this.adminUser, icon: 'pi pi-fw pi-pencil', command: () => this.editContextMenuAction()},
     ]
 
-    this.listColumn = this.columns.find(x=>x.type === ColumnType.List);
+    this.listColumn = this.columns.find(x => x.type === ColumnType.List);
   }
 
   public async loadData() {
 
-    if(this.customData.length > 0){
+    if (this.customData.length > 0) {
       this.data = this.itemParsingFunction ? this.customData.map(this.itemParsingFunction) : this.customData
-      console.log('data', this.data)
-    } else{
+    } else {
       this.dataService.getAll().subscribe({
         next: (v) => {
-          
+
           this.data = this.itemParsingFunction ? v.map(this.itemParsingFunction) : v
-         
+
         },
         error: (e) => console.log("Error ", e)
       })
@@ -97,10 +107,10 @@ export class GridComponent implements OnInit{
   exportPdf() {
     const doc = new jsPDF()
     const exportData = this.getExportData()
-    const body = exportData.map(item => Object.values(item).map(y=>String(y)))
+    const body = exportData.map(item => Object.values(item).map(y => String(y)))
 
     autoTable(doc, {
-      head: [this.columns.map(x=>x.header)],
+      head: [this.columns.map(x => x.header)],
       body: body
     })
 
@@ -111,10 +121,106 @@ export class GridComponent implements OnInit{
     import("xlsx").then(xlsx => {
       const data = this.getExportData()
       const worksheet = xlsx.utils.json_to_sheet(data);
-      const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
-      const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+      const workbook = {Sheets: {'data': worksheet}, SheetNames: ['data']};
+      const excelBuffer: any = xlsx.write(workbook, {bookType: 'xlsx', type: 'array'});
       this.saveAsExcelFile(excelBuffer, "data");
     });
+  }
+
+  openNew() {
+    this.createFormModel()
+    this.visibleDialog = true;
+    this.isCreating = true;
+  }
+
+  openEdit(model: any) {
+    this.createFormModel(model)
+    this.visibleDialog = true
+    this.isCreating = false;
+  }
+
+  hideDialog() {
+    this.visibleDialog = false;
+  }
+
+  deleteSelectedProducts() {
+    for (const selectedDatum of this.selectedData) {
+      console.log(selectedDatum)
+      this.dataService.delete(selectedDatum[this.primaryKey]).subscribe({
+        next: () => this.messageService.add({severity: 'success', summary: this.title + ' deleted'}),
+        error: () => this.messageService.add({
+          severity: 'danger',
+          summary: 'Error',
+          detail: 'Error while deleting data. Try again later'
+        })
+      })
+    }
+
+    this.loadData().then()
+  }
+
+  saveProduct() {
+    if (!this.createEditForm.valid) return;
+    const model = this.createEditForm.value
+    if (this.isCreating) {
+      this.dataService.create(model).subscribe({
+        next: () => {
+          this.messageService.add({severity: 'success', summary: 'Created ' + this.title})
+          this.loadData().then()
+        },
+        error: () => {
+          this.messageService.add({
+            severity: 'danger',
+            summary: 'Error',
+            detail: 'Error while creating ' + this.title + '. Try again later'
+          })
+        }
+      })
+    } else {
+      this.dataService.update(model[this.primaryKey], model).subscribe({
+        next: () => {
+          this.messageService.add({severity: 'success', summary: 'Updated ' + this.title})
+          this.loadData().then()
+        },
+        error: () => {
+          this.messageService.add({
+            severity: 'danger',
+            summary: 'Error',
+            detail: 'Error while updating ' + this.title + '. Try again later'
+          })
+        }
+      })
+    }
+
+    this.hideDialog()
+  }
+
+  viewContextMenuAction() {
+    this.router.navigate([this.detailPage + "/" + this.selectedDatum[this.primaryKey]]).then()
+  }
+
+  showConfirm() {
+    this.messageService.clear();
+    this.messageService.add({
+      key: 'c',
+      sticky: true,
+      severity: 'warn',
+      summary: 'Are you sure you want to delete all selected?',
+      detail: 'Confirm to proceed'
+    });
+  }
+
+  onConfirm() {
+    this.deleteSelectedProducts()
+    this.messageService.clear('c');
+  }
+
+  onReject() {
+    this.messageService.clear('c');
+  }
+
+  getInsideListData(data: any) {
+    return this.data.find(x => x[this.primaryKey] == data[this.primaryKey])[this.listColumn?.field ?? -1];
   }
 
   private saveAsExcelFile(buffer: any, fileName: string): void {
@@ -126,83 +232,50 @@ export class GridComponent implements OnInit{
     FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
   }
 
-  private getExportData(){
+  private getExportData() {
     const tableData = this.table.filteredValue ?? this.table.value
     const finalValue = this.selectionOnlyExport ? this.selectedData : tableData;
     return finalValue.map((item) => {
       const newObj: Record<string, string> = {};
-
-      for (const key in item) {
-        if (Object.prototype.hasOwnProperty.call(item, key)) {
-          newObj[key] = item[key].toString();
+      this.columns.forEach((column) => {
+        switch (column.type) {
+          case ColumnType.String:
+            newObj[column.header] = item[column.field];
+            break;
+          case ColumnType.LargeString:
+            newObj[column.header] = item[column.field];
+            break;
+          case ColumnType.Image:
+            newObj[column.header] = item[column.field];
+            break;
+          case ColumnType.Number:
+            newObj[column.header] = item[column.field];
+            break;
+          case ColumnType.Boolean:
+            newObj[column.header] = item[column.field];
+            break;
+          case ColumnType.Date:
+            newObj[column.header] = item[column.field];
+            break;
+          case ColumnType.Enum:
+            newObj[column.header] = item[column.field];
+            break;
+          case ColumnType.List:
+            newObj[column.header] = item[column.field];
+            break;
+          default:
+            throw new Error(`No supported type, ${column.type}`)
         }
-      }
-
+      });
       return newObj;
     });
   }
 
-  openNew() {
-    this.createFormModel()
-    this.visibleDialog = true;
-    this.isCreating = true;
-  }
-
-  openEdit(model: any){
-    this.createFormModel(model)
-    this.visibleDialog = true
-    this.isCreating = false;
-  }
-
-  hideDialog(){
-    this.visibleDialog = false;
-  }
-
-  deleteSelectedProducts() {
-    for (const selectedDatum of this.selectedData) {
-      console.log(selectedDatum)
-      this.dataService.delete(selectedDatum[this.primaryKey]).subscribe({
-        next: () => this.messageService.add({severity:'success', summary: this.title + ' deleted'}),
-        error: () => this.messageService.add({severity: 'danger', summary: 'Error', detail: 'Error while deleting data. Try again later'})
-      })
-    }
-
-    this.loadData().then()
-  }
-
-  saveProduct() {
-    if(!this.createEditForm.valid) return;
-    const model = this.createEditForm.value
-    if(this.isCreating){
-      this.dataService.create(model).subscribe({
-        next: () => {
-          this.messageService.add({severity: 'success', summary: 'Created ' + this.title})
-          this.loadData().then()
-        },
-        error: () => {
-          this.messageService.add({severity: 'danger', summary: 'Error', detail: 'Error while creating ' + this.title + '. Try again later'})
-        }
-      })
-    } else {
-      this.dataService.update(model[this.primaryKey], model).subscribe({
-        next: () => {
-          this.messageService.add({severity: 'success', summary: 'Updated ' + this.title})
-          this.loadData().then()
-        },
-        error: () => {
-          this.messageService.add({severity: 'danger', summary: 'Error', detail: 'Error while updating ' + this.title + '. Try again later'})
-        }
-      })
-    }
-
-    this.hideDialog()
-  }
-
-  private createFormModel(model: any = null){
+  private createFormModel(model: any = null) {
     const formControls: { [key: string]: FormControl } = {};
 
     this.columns.forEach((column) => {
-      switch (column.type){
+      switch (column.type) {
         case ColumnType.String:
           formControls[column.field] = new FormControl(model?.[column.field] ?? '', Validators.required);
           break;
@@ -235,33 +308,11 @@ export class GridComponent implements OnInit{
     this.createEditForm = new FormGroup(formControls);
   }
 
-  viewContextMenuAction(){
-    this.router.navigate([this.detailPage + "/" + this.selectedDatum[this.primaryKey]]).then()
-  }
-
   private deleteContextMenuAction() {
     this.dataService.delete(this.selectedDatum[this.primaryKey]).subscribe({next: this.loadData})
   }
 
   private editContextMenuAction() {
     this.openEdit(this.selectedDatum)
-  }
-
-  showConfirm() {
-    this.messageService.clear();
-    this.messageService.add({key: 'c', sticky: true, severity:'warn', summary:'Are you sure you want to delete all selected?', detail:'Confirm to proceed'});
-  }
-
-  onConfirm() {
-    this.deleteSelectedProducts()
-    this.messageService.clear('c');
-  }
-
-  onReject() {
-    this.messageService.clear('c');
-  }
-
-  getInsideListData(data: any){
-    return this.data.find(x=>x[this.primaryKey] == data[this.primaryKey])[this.listColumn?.field ?? -1];
   }
 }
