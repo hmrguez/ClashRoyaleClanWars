@@ -1,12 +1,40 @@
 <div *ngIf="is_Admin" class="add flex justify-content-center">
-    <p-button (click)="showAdd()" icon="pi pi-external-link" label="Add Battle"></p-button>
+    <p-button (click)="showAdd()" icon="pi pi-plus-circle" label="Add Battle"></p-button>
   
 </div>
    
     <div  *ngIf="visibleAdd">
         
-        <p-dropdown class="form" appendTo="body" [options]="players" [(ngModel)]="selectedWinner" placeholder="Winner" optionLabel="alias"></p-dropdown>
-        <p-dropdown class="form" appendTo="body" [options]="players" [(ngModel)]="selectedLoser" placeholder="Loser" optionLabel="alias"></p-dropdown>
+        <p-dropdown class="form" [options]="players" [(ngModel)]="selectedWinner" optionLabel="alias" [filter]="true" filterBy="alias" [showClear]="true" placeholder="Select a Winner">
+            <ng-template pTemplate="selectedItem">
+                <div class="flex align-items-center gap-2" *ngIf="selectedWinner">
+                    
+                    <div>{{ selectedWinner.alias }}</div>
+                </div>
+            </ng-template>
+            <ng-template let-player pTemplate="item">
+                <div class="flex align-items-center gap-2">
+                    
+                    <div>{{ player.id + "  " + player.alias }}</div>
+                </div>
+            </ng-template>
+        </p-dropdown>
+
+        <p-dropdown class="form" [options]="players" [(ngModel)]="selectedLoser" optionLabel="alias" [filter]="true" filterBy="alias" [showClear]="true" placeholder="Select a Loser">
+            <ng-template pTemplate="selectedItem">
+                <div class="flex align-items-center gap-2" *ngIf="selectedLoser">
+                    
+                    <div>{{ selectedLoser.alias }}</div>
+                </div>
+            </ng-template>
+            <ng-template let-player pTemplate="item">
+                <div class="flex align-items-center gap-2">
+                    
+                    <div>{{ player.id + "  " + player.alias }}</div>
+                </div>
+            </ng-template>
+        </p-dropdown>
+
         <span class="p-label " class="form">
             <p-inputNumber inputId="integeronly" [(ngModel)]="duration" placeholder="Duration In Seconds" [min]="1"> </p-inputNumber>
         </span>

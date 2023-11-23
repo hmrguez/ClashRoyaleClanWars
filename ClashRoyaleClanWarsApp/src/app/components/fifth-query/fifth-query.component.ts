@@ -3,6 +3,9 @@ import {ColumnType, IColumn} from "../grid/IColumn";
 import { Structure } from './Structure';
 import { QueryService } from './query.service';
 import { GridComponent } from '../grid/grid.component';
+import { PlayerService } from '../players/player.service';
+import { MessageService } from 'primeng/api';
+
 
 @Component({
   selector: 'app-fifth-query',
@@ -13,7 +16,7 @@ export class FifthQueryComponent {
 
   @ViewChild("grid") grid: GridComponent = {} as GridComponent;
 
-  playerId:number = 1
+  
   baseUrl:string = ""
   data :Structure[] = []
   update:boolean = false
@@ -30,7 +33,12 @@ export class FifthQueryComponent {
     
   ];
 
-  constructor(public queryService: QueryService){}
+  allPlayers: any[] = []
+  selectedPlayer: any
+
+  constructor(public queryService: QueryService, private playerSer:PlayerService , private mess:MessageService){
+    this.playerSer.getAll().subscribe((data)=>{this.allPlayers=data})
+  }
   
  
   
@@ -69,7 +77,13 @@ export class FifthQueryComponent {
 
   async Show(){
     this.queryService.reset()
-    this.queryService.insertId(this.playerId)
+
+    if (!this.selectedPlayer){
+      this.mess.add({ severity: 'error', summary: 'Error', detail: "Need to select player " });
+      return
+    }
+
+    this.queryService.insertId(this.selectedPlayer.id)
     this.update = true
     var d = await this.loadData()
     var e = await this.loadData()
