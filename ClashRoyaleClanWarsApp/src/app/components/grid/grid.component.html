@@ -64,12 +64,6 @@
         <div *ngIf="!showToolbar">
           <h4 class="m-auto">{{ title }}</h4>
         </div>
-        <div>
-          <span class="p-input-icon-left ml-auto">
-            <i class="pi pi-search"></i>
-            <input pInputText type="text" (input)="filterData()" [(ngModel)]="globalFilter" placeholder="Search keyword" />
-        </span>
-        </div>
       </div>
     </ng-template>
 
