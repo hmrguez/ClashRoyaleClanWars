@@ -28,7 +28,7 @@ export class GraphComponent {
       doc.setFontSize(40);
       doc.text("Popularidad del juego", 35, 25);
       doc.addImage(img, 'JPEG', 50, 50, 500,300);
-      doc.save('graph.pdf');
+      doc.save('popularity.pdf');
     }
 
     async getBattlesYear(q1 :QueryService){

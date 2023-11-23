@@ -63,7 +63,7 @@ export class SidenavComponent implements OnInit {
       },
       {
         routeLink: "/battles",
-        icon: "pi pi-sitemap",
+        icon: "pi pi-shield",
         label: "Battles",
       },
       {
@@ -74,7 +74,12 @@ export class SidenavComponent implements OnInit {
       {
         routeLink: "/graph",
         icon: "pi pi-chart-bar",
-        label: "Graph",
+        label: "Game Popularity",
+      },
+      {
+        routeLink: "/pop",
+        icon: "pi pi-chart-bar",
+        label: "Cards Popularity",
       },
       {
         routeLink: "/faq",

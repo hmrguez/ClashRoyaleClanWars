@@ -11,6 +11,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { QueryViewerComponent } from './components/query-viewer/query-viewer.component';
 import { AnalyticsComponent } from './components/analytics/analytics.component';
 import { BattlesComponent } from './components/battles/battles.component';
+import { CardPopularityComponent } from './components/card-popularity/card-popularity.component';
 
 
 
@@ -28,6 +29,7 @@ const routes: Routes = [
   {path: 'query', component: QueryViewerComponent},
   {path: 'analysis', component: AnalyticsComponent},
   {path: 'battles', component: BattlesComponent},
+  {path: 'pop', component: CardPopularityComponent}
 
 
     

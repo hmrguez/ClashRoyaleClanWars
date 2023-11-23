@@ -53,6 +53,7 @@ import { DragDropModule } from 'primeng/dragdrop';
 import { RatingModule } from 'primeng/rating';
 import { ListboxModule } from 'primeng/listbox';
 import { BattlesComponent } from './components/battles/battles.component';
+import { CardPopularityComponent } from './components/card-popularity/card-popularity.component';
 
 
 
@@ -81,6 +82,7 @@ import { BattlesComponent } from './components/battles/battles.component';
     QueryViewerComponent,
     AnalyticsComponent,
     BattlesComponent,
+    CardPopularityComponent,
    
    
 
