@@ -13,6 +13,7 @@ import { AnalyticsComponent } from './components/analytics/analytics.component';
 import { BattlesComponent } from './components/battles/battles.component';
 import { CardPopularityComponent } from './components/card-popularity/card-popularity.component';
 import { ClanPopComponent } from './components/clan-pop/clan-pop.component';
+import { UsersComponent } from './components/users/users.component';
 
 
 
@@ -32,6 +33,7 @@ const routes: Routes = [
   {path: 'battles', component: BattlesComponent},
   {path: 'pop', component: CardPopularityComponent},
   {path: 'clanpop', component:ClanPopComponent},
+  {path: 'users', component: UsersComponent }
 
 
 

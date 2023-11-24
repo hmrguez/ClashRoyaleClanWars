@@ -95,11 +95,20 @@ export class SidenavComponent implements OnInit {
         routeLink: "/analysis",
         icon: "pi pi-tablet",
         label: "Analysis",
-      }
+      },
+      
   ]
 
     if (this.LoggedIn) {
       this.roles = tokenStorage.getRoles()
+      if (tokenStorage.isSuperAdmin()){
+        this.navData.push(
+          {
+          routeLink: "/users",
+          icon: "pi pi-user",
+          label: "Users",
+        })
+      }
     }
     else {
       this.navData.push({

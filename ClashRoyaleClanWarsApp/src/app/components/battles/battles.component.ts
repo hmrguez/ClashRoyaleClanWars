@@ -8,6 +8,8 @@ import { OnInit } from '@angular/core';
 import { TokenStorageService } from 'src/app/services/token-storage.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
+import { ViewChild } from '@angular/core';
+import { GridComponent } from '../grid/grid.component';
 
 export interface Player{
   id: Number,
@@ -20,6 +22,7 @@ export interface Player{
 })
 export class BattlesComponent implements OnInit {
 
+  @ViewChild("grid") grid: GridComponent = {} as GridComponent;
   battles !: any
 
   BattlesForGrid :Battle[] = [] 
@@ -153,6 +156,7 @@ export class BattlesComponent implements OnInit {
     this.battleSer.create({'winnerId': this.selectedWinner.id, 'loserId': this.selectedLoser.id,
   'amountTrophies': this.trophies, 'durationInSeconds':this.duration, 'date': this.date.toISOString()}).subscribe((data)=>{
     this.showSuccess('Battle Created')
+    this.grid.loadData()
   },(err)=>{this.showError(err.error)})
     
     

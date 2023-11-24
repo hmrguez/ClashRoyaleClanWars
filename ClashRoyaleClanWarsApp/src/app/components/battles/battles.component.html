@@ -48,7 +48,8 @@
 
     
 
- <clash-grid [title]="'Battles'"
+ <clash-grid #grid
+ [title]="'Battles'"
  [dataService]="battleSer"
  [columns]="queryColumns"
  [primaryKey]="'Id'"
