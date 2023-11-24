@@ -45,6 +45,7 @@ namespace ClashRoyaleClanWarsAPI.Tests
             var response = await _sut.RegisterUser(request);
 
             //Assert
+            Assert.NotNull(response);
             Assert.IsType<CreatedResult>(response);
         }
 
@@ -69,6 +70,7 @@ namespace ClashRoyaleClanWarsAPI.Tests
             var response = await _sut.RegisterUser(request);
 
             //Assert
+            Assert.NotNull(response);
             Assert.IsType<NotFoundObjectResult>(response);
         }
 
@@ -93,6 +95,7 @@ namespace ClashRoyaleClanWarsAPI.Tests
             var response = await _sut.Login(request);
 
             //Assert
+            Assert.NotNull(response);
             Assert.IsType<OkObjectResult>(response);
         }
 
@@ -116,6 +119,7 @@ namespace ClashRoyaleClanWarsAPI.Tests
             var response = await _sut.Login(request);
 
             //Assert
+            Assert.NotNull(response);
             Assert.IsType<NotFoundObjectResult>(response);
         }
 
@@ -140,6 +144,7 @@ namespace ClashRoyaleClanWarsAPI.Tests
             var response = await _sut.RegisterAdmin(request);
 
             //Assert
+            Assert.NotNull(response);
             Assert.IsType<NoContentResult>(response);
         }
 
@@ -164,6 +169,7 @@ namespace ClashRoyaleClanWarsAPI.Tests
             var response = await _sut.RegisterAdmin(request);
 
             //Assert
+            Assert.NotNull(response);
             Assert.IsType<NotFoundObjectResult>(response);
         }
     }
