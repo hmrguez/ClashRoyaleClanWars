@@ -1,58 +1,70 @@
 <div *ngIf="is_Admin" class="add flex justify-content-center">
-    <p-button (click)="showAdd()" icon="pi pi-plus-circle" label="Add Battle"></p-button>
-  
+  <p-button (click)="showAdd()" icon="pi pi-plus-circle" label="Add Battle"></p-button>
+
 </div>
-   
-    <div  *ngIf="visibleAdd">
-        
-        <p-dropdown class="form" [options]="players" [(ngModel)]="selectedWinner" optionLabel="alias" [filter]="true" filterBy="alias" [showClear]="true" placeholder="Select a Winner">
-            <ng-template pTemplate="selectedItem">
-                <div class="flex align-items-center gap-2" *ngIf="selectedWinner">
-                    
-                    <div>{{ selectedWinner.alias }}</div>
-                </div>
-            </ng-template>
-            <ng-template let-player pTemplate="item">
-                <div class="flex align-items-center gap-2">
-                    
-                    <div>{{ player.id + "  " + player.alias }}</div>
-                </div>
-            </ng-template>
-        </p-dropdown>
 
-        <p-dropdown class="form" [options]="players" [(ngModel)]="selectedLoser" optionLabel="alias" [filter]="true" filterBy="alias" [showClear]="true" placeholder="Select a Loser">
-            <ng-template pTemplate="selectedItem">
-                <div class="flex align-items-center gap-2" *ngIf="selectedLoser">
-                    
-                    <div>{{ selectedLoser.alias }}</div>
-                </div>
-            </ng-template>
-            <ng-template let-player pTemplate="item">
-                <div class="flex align-items-center gap-2">
-                    
-                    <div>{{ player.id + "  " + player.alias }}</div>
-                </div>
-            </ng-template>
-        </p-dropdown>
+<div *ngIf="visibleAdd" class="row mt-2">
 
-        <span class="p-label " class="form">
-            <p-inputNumber inputId="integeronly" [(ngModel)]="duration" placeholder="Duration In Seconds [1-300]" [min]="1" [max]="300"> </p-inputNumber>
-        </span>
-        <span class="p-label" class="form">
-            <p-inputNumber inputId="integeronly" [(ngModel)]="trophies" placeholder="Trophies [10-40]" [min]="10" [max]="40"> </p-inputNumber>
-        </span>
-        <p-calendar placeholder="Date" class="form" [(ngModel)]="date" [showTime]="true" [showSeconds]="true" [showButtonBar]="true" [showIcon]="true"></p-calendar>
-        <p-button class="form" icon="pi pi-check" (click)="Post()" [rounded]="true" [text]="true" [raised]="true"></p-button>
-       
-    </div>
+  <div class="col">
+    <p-dropdown [(ngModel)]="selectedWinner" [filter]="true" [options]="players" [showClear]="true" class="form"
+                filterBy="alias" optionLabel="alias" placeholder="Select a Winner">
+      <ng-template pTemplate="selectedItem">
+        <div *ngIf="selectedWinner" class="flex align-items-center gap-2">
+          <div>{{ selectedWinner.alias }}</div>
+        </div>
+      </ng-template>
+      <ng-template let-player pTemplate="item">
+        <div class="flex align-items-center gap-2">
+          <div>{{ player.id + "  " + player.alias }}</div>
+        </div>
+      </ng-template>
+    </p-dropdown>
+  </div>
 
-    
+  <div class="col">
+    <p-dropdown [(ngModel)]="selectedLoser" [filter]="true" [options]="players" [showClear]="true" class="form"
+                filterBy="alias" optionLabel="alias" placeholder="Select a Loser">
+      <ng-template pTemplate="selectedItem">
+        <div *ngIf="selectedLoser" class="flex align-items-center gap-2">
+          <div>{{ selectedLoser.alias }}</div>
+        </div>
+      </ng-template>
+      <ng-template let-player pTemplate="item">
+        <div class="flex align-items-center gap-2">
+          <div>{{ player.id + "  " + player.alias }}</div>
+        </div>
+      </ng-template>
+    </p-dropdown>
+  </div>
 
- <clash-grid #grid
- [title]="'Battles'"
- [dataService]="battleSer"
- [columns]="queryColumns"
- [primaryKey]="'Id'"
- [itemParsingFunction]="itemParsingFunction"
+  <div class="col">
+    <p-inputNumber [(ngModel)]="duration" [max]="300" [min]="1" inputId="integeronly"
+                   placeholder="Duration In Seconds [1-300]"></p-inputNumber>
+  </div>
+
+  <div class="col">
+    <p-inputNumber [(ngModel)]="trophies" [max]="40" [min]="10" inputId="integeronly"
+                   placeholder="Trophies [10-40]"></p-inputNumber>
+  </div>
+
+  <div class="col">
+    <p-calendar [(ngModel)]="date" [showButtonBar]="true" [showIcon]="true" [showSeconds]="true" [showTime]="true"
+                placeholder="Date"></p-calendar>
+  </div>
+
+  <div>
+    <p-button (click)="Post()" [raised]="true" [rounded]="true" [text]="true" class="form"
+              icon="pi pi-check"></p-button>
+  </div>
+
+</div>
+
+
+<clash-grid #grid
+            [columns]="queryColumns"
+            [dataService]="battleSer"
+            [itemParsingFunction]="itemParsingFunction"
+            [primaryKey]="'Id'"
+            [title]="'Battles'"
 >
 </clash-grid>
