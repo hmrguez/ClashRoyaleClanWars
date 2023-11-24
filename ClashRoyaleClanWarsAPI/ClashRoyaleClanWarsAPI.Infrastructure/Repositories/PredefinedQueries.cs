@@ -130,7 +130,7 @@ internal class PredefinedQueries : IPredefinedQueries
                                     CardId = cp.Player!.FavoriteCard!.Id,
                                     CardName = cp.Player!.FavoriteCard!.Name
                                 } into cpc
-                                let clanName = cpc.Single(r=> r.Clan!.Id == cpc.Key.ClanId).Clan!.Name
+                                let clanName = cpc.Where(r=> r.Clan!.Id == cpc.Key.ClanId).First().Clan!.Name
                                 select new
                                 {
                                     ClanId = cpc.Key.ClanId,
