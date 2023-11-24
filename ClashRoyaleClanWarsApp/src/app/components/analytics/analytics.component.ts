@@ -121,6 +121,8 @@ export class AnalyticsComponent {
   }
 
   ResetFilter(){
+  
+
     this.filtered = this.available.sort((a,b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
     this.FilterBy = ""
   }
@@ -160,7 +162,7 @@ export class AnalyticsComponent {
     for (let i = 0; i < this.selected.length; i++) {
       if (this.selected[i].id==id){
         card = this.selected[i]
-        this.available.push(card)
+        if (!this.available.includes(card)) this.available.push(card)
         
         this.selected = this.selected.filter(x=> x!=card)
         this.canDrop = true
@@ -211,7 +213,7 @@ export class AnalyticsComponent {
   rst(){
     this.displayResults = false
     this.available = this.allCards.sort((a,b)=> a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
-    this.filtered = this.allCards.sort((a,b)=> a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
+    this.filtered = this.available
     this.selected = []
     this.canDrop = true
    
@@ -221,8 +223,8 @@ export class AnalyticsComponent {
   Add(card : ICardDto){
     if (this.canDrop){
       let draggedProductIndex = this.findIndex(card);
-      this.selected = [...this.selected, card];
-      this.available = this.available.filter((val, i) => i != draggedProductIndex);
+      if (!this.selected.includes(card)) this.selected = [...this.selected, card];
+      this.available = this.available.filter((val, i) => val != card);
       this.filtered = this.filtered.filter((val,i)=> val != card)
       this.currentlyDragging = null;
       if (this.selected.length==8){
