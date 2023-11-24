@@ -36,22 +36,12 @@ export class FourthQueryComponent {
     
   ];
 
-  constructor(public queryService: QueryService, public clanService: ClanService)
+  constructor(public queryService: QueryService)
   {
-   this.getClans()
-  }
-
-  getClans(){
-    this.clanService.getAll().subscribe( (data)=>{
    
-      this.clans = data
-    }, 
-    (err)=>{
-      console.log(err.error.message)
-    }
-
-    )
   }
+
+ 
 
  
 

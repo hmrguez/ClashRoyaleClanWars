@@ -36,10 +36,10 @@
         </p-dropdown>
 
         <span class="p-label " class="form">
-            <p-inputNumber inputId="integeronly" [(ngModel)]="duration" placeholder="Duration In Seconds" [min]="1"> </p-inputNumber>
+            <p-inputNumber inputId="integeronly" [(ngModel)]="duration" placeholder="Duration In Seconds [1-300]" [min]="1" [max]="300"> </p-inputNumber>
         </span>
         <span class="p-label" class="form">
-            <p-inputNumber inputId="integeronly" [(ngModel)]="trophies" placeholder="Trophies" [min]="1"> </p-inputNumber>
+            <p-inputNumber inputId="integeronly" [(ngModel)]="trophies" placeholder="Trophies [10-40]" [min]="10" [max]="40"> </p-inputNumber>
         </span>
         <p-calendar placeholder="Date" class="form" [(ngModel)]="date" [showTime]="true" [showSeconds]="true" [showButtonBar]="true" [showIcon]="true"></p-calendar>
         <p-button class="form" icon="pi pi-check" (click)="Post()" [rounded]="true" [text]="true" [raised]="true"></p-button>

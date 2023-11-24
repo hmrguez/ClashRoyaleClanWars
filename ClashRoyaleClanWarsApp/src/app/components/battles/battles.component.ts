@@ -80,7 +80,7 @@ export class BattlesComponent implements OnInit {
 
   async ngOnInit() {
     this.players = await this.LoadPlayers()
-    console.log(this.players)
+    
       
   }
 
@@ -143,8 +143,6 @@ export class BattlesComponent implements OnInit {
       return
     }
 
-    //if any fields are empty, show error
-    
     
     if (this.date > new Date()){
       this.showError('Date is in the future')

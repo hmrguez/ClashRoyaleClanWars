@@ -60,7 +60,6 @@ export class LogInComponent implements OnInit {
         var decoded = atob(data.token.split('.')[1])
         var dec_s = decoded.split(',')
 
-
         this.tokenStorage.expToken(jwt.exp!);
         this.tokenStorage.saveToken(jwt.jti!);
         this.tokenStorage.saveUser( dec_s[4] );
@@ -81,7 +80,7 @@ export class LogInComponent implements OnInit {
           });
       },
       err => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error });
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Invalid Credentials' });
         console.log(err)
 
         this.isLoginFailed = true;
