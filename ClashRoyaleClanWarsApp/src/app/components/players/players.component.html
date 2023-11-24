@@ -1,15 +1,84 @@
-<clash-grid [title]="'Players'"
+<div *ngIf="is_Admin" class="add ">
+    <p-button (click)="showAdd()" icon="pi pi-plus-circle" label="Add Player"></p-button>
+    <p-button (click)="showUpdate()" icon="pi pi-wrench" label="Update Player"></p-button>
+    <p-button (click)="showDelete()" icon="pi pi-trash" label="Delete Player"></p-button>
+  
+</div>
+   
+    <div  *ngIf="visibleAdd">
+        <span class="p-label" class="form">
+            <input pInputText type="text" placeholder="Alias" [(ngModel)]="aliasAdd" />
+        </span>
+
+        <span class="p-label " class="form">
+            <p-inputNumber inputId="integeronly" [(ngModel)]="eloAdd" placeholder="elo" [min]="1"> </p-inputNumber>
+        </span>
+        <span class="p-label" class="form">
+            <p-inputNumber inputId="integeronly" [(ngModel)]="levelAdd" placeholder="level" [min]="1"> </p-inputNumber>
+        </span>
+       
+        <p-button class="form" icon="pi pi-check" (click)="Post()" [rounded]="true" [text]="true" [raised]="true"></p-button>
+       
+    </div>
+
+    <div  *ngIf="visibleUpdate">
+
+        <p-dropdown class="form" [options]="allPlayers" [(ngModel)]="selectedUp" optionLabel="alias" [filter]="true" filterBy="alias" [showClear]="true" placeholder="Select a Player">
+            <ng-template pTemplate="selectedItem">
+                <div class="flex align-items-center gap-2" *ngIf="selectedUp">
+                    
+                    <div>{{ selectedUp.alias }}</div>
+                </div>
+            </ng-template>
+            <ng-template let-player pTemplate="item">
+                <div class="flex align-items-center gap-2">
+                    
+                    <div>{{ player.id + "  " + player.alias }}</div>
+                </div>
+            </ng-template>
+        </p-dropdown>
+
+
+        <span class="p-label" class="form">
+            <input pInputText type="text" placeholder="Alias" [(ngModel)]="aliasUp" />
+        </span>
+
+        <span class="p-label " class="form">
+            <p-inputNumber inputId="integeronly" [(ngModel)]="eloUp" placeholder="elo" [min]="1"> </p-inputNumber>
+        </span>
+        <span class="p-label" class="form">
+            <p-inputNumber inputId="integeronly" [(ngModel)]="levelUp" placeholder="level" [min]="1"> </p-inputNumber>
+        </span>
+       
+        <p-button class="form" icon="pi pi-check" (click)="Update()" [rounded]="true" [text]="true" [raised]="true"></p-button>
+       
+    </div>
+
+    <div  *ngIf="visibleDelete">
+
+        <p-dropdown class="form" [options]="allPlayers" [(ngModel)]="selectedDelete" optionLabel="alias" [filter]="true" filterBy="alias" [showClear]="true" placeholder="Select a Player">
+            <ng-template pTemplate="selectedItem">
+                <div class="flex align-items-center gap-2" *ngIf="selectedDelete">
+                    
+                    <div>{{ selectedDelete.alias }}</div>
+                </div>
+            </ng-template>
+            <ng-template let-player pTemplate="item">
+                <div class="flex align-items-center gap-2">
+                    
+                    <div>{{ player.id + "  " + player.alias }}</div>
+                </div>
+            </ng-template>
+        </p-dropdown>
+
+        <p-button class="form" icon="pi pi-check" (click)="Delete()" [rounded]="true" [text]="true" [raised]="true"></p-button>
+    </div>
+
+
+
+<clash-grid #grid [title]="'Players'"
             [primaryKey]="'Id'"
             [columns]="columns"
             [dataService]="playerService"
 ></clash-grid>
-<!--@Input() title: string = '';-->
-<!--@Input() columns: IColumn[] = [];-->
-<!--@Input() primaryKey: string = '';-->
-<!--@Input() detailPage: string = ''-->
-<!--@Input() showToolbar: boolean = true;-->
-<!--@ViewChild('dt') table!: Table;-->
 
-<!--@Input() dataService!: CrudService<any>;-->
-<!--  @Input() adminUser: boolean = false;-->
-<!--  @Input() customData: any[] = []-->

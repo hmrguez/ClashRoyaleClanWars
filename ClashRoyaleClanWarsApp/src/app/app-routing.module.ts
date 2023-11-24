@@ -10,6 +10,10 @@ import {GraphComponent} from "./components/graph/graph.component";
 import { ProfileComponent } from './components/profile/profile.component';
 import { QueryViewerComponent } from './components/query-viewer/query-viewer.component';
 import { AnalyticsComponent } from './components/analytics/analytics.component';
+import { BattlesComponent } from './components/battles/battles.component';
+import { CardPopularityComponent } from './components/card-popularity/card-popularity.component';
+import { ClanPopComponent } from './components/clan-pop/clan-pop.component';
+import { UsersComponent } from './components/users/users.component';
 
 
 
@@ -25,7 +29,13 @@ const routes: Routes = [
   {path: 'graph', component: GraphComponent},
   {path: 'profile', component: ProfileComponent },
   {path: 'query', component: QueryViewerComponent},
-  {path: 'analysis', component: AnalyticsComponent}
+  {path: 'analysis', component: AnalyticsComponent},
+  {path: 'battles', component: BattlesComponent},
+  {path: 'pop', component: CardPopularityComponent},
+  {path: 'clanpop', component:ClanPopComponent},
+  {path: 'users', component: UsersComponent }
+
+
 
     
   

@@ -1,5 +1,11 @@
 $color-primary-white: rgb(240, 240, 240);
 
+.togglebutton{
+  position: relative;
+  justify-content: center;
+  display: flex;
+  margin-top: 2%;
+}
 main {
   
   display: flex;
@@ -13,7 +19,7 @@ main {
 h2 {
   position: relative;
   
-  margin-top: 5%;
+  margin-top: 2%;
   display: flex;
   justify-content: center;
   transition: inset .3s .3s ease-out;
@@ -26,7 +32,7 @@ h2 {
   font-weight: bolder;
 
 }
-.card {
+.carta {
   margin: auto auto auto auto;
   width: 30%;
   margin-top: 3%;
@@ -104,7 +110,7 @@ h2 {
 .prev, .next {
     cursor: pointer;
     position: absolute;
-    top: 50%;
+    top: 55%;
     width: auto;
     margin-top: -22px;
     padding: 16px;

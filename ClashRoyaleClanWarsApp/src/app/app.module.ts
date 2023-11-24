@@ -51,6 +51,13 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { AnalyticsComponent } from './components/analytics/analytics.component';
 import { DragDropModule } from 'primeng/dragdrop';
 import { RatingModule } from 'primeng/rating';
+import { ListboxModule } from 'primeng/listbox';
+import { BattlesComponent } from './components/battles/battles.component';
+import { CardPopularityComponent } from './components/card-popularity/card-popularity.component';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { ClanPopComponent } from './components/clan-pop/clan-pop.component';
+import { UsersComponent } from './components/users/users.component';
+
 
 
 
@@ -78,6 +85,10 @@ import { RatingModule } from 'primeng/rating';
     SixthQueryComponent,
     QueryViewerComponent,
     AnalyticsComponent,
+    BattlesComponent,
+    CardPopularityComponent,
+    ClanPopComponent,
+    UsersComponent,
    
    
 
@@ -113,7 +124,9 @@ import { RatingModule } from 'primeng/rating';
     AccordionModule,
     InputNumberModule,
     DragDropModule,
-    RatingModule
+    RatingModule,
+    ListboxModule,
+    SelectButtonModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

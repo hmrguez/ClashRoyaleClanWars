@@ -61,7 +61,7 @@ public class UserController : ApiController
 
     // PUT api/users/{id:string}
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateRole(string id, RoleEnum role)
+    public async Task<IActionResult> UpdateRole(string id, [FromBody] RoleEnum role)
     {
         var command = new UpdateRoleCommand(id, UserRoles.MapRole(role));
 

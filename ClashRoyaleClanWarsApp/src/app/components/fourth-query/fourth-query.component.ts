@@ -3,6 +3,9 @@ import { Component } from '@angular/core';
 import {ColumnType, IColumn} from "../grid/IColumn";
 import { Structure } from './Structure';
 import { QueryService } from './query.service';
+import { ClanService } from '../clans/clan.service';
+import { IClanDto } from '../clans/IClanDto';
+
 
 @Component({
   selector: 'app-fourth-query',
@@ -11,12 +14,10 @@ import { QueryService } from './query.service';
 })
 export class FourthQueryComponent {
 
+  clans: IClanDto[] = []
+
   queryColumns: IColumn[] = [
-    {
-      header: 'Card ID',
-      field: 'cardId',
-      type: ColumnType.Number,
-    },
+    
     {
       header: 'Card Name',
       field: 'cardName',
@@ -28,9 +29,9 @@ export class FourthQueryComponent {
       type: ColumnType.Number,
     },
     {
-      header:'Clan Id',
-      field:'clanId',
-      type: ColumnType.Number
+      header:'Clan Name',
+      field:'clanName',
+      type: ColumnType.String
     }
     
   ];
@@ -41,13 +42,20 @@ export class FourthQueryComponent {
   }
 
  
+
+ 
+
+ 
   
   itemParsingFunction(data: any): Structure{
     return {
       cardId : data.cardId,
       cardName : data.cardName,
       count : data.count,
-      clanId : data.clanId
+      //filter where clans.id = data.id, get the clans.name
+      clanName : data.clanName,
+
+     
     }
   }
 

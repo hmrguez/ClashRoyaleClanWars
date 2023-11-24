@@ -1,4 +1,125 @@
-<clash-grid [title]="'Clans'"
+<div *ngIf="isAdmin" class="add ">
+    <p-button (click)="showAdd()" icon="pi pi-plus-circle" label="Add Clan"></p-button>
+    <p-button (click)="showUpdate()" icon="pi pi-wrench" label="Update Clan"></p-button>
+    <p-button (click)="showDelete()" icon="pi pi-trash" label="Delete Clan"></p-button>
+</div>
+   
+    <div  *ngIf="visibleAdd">
+        <p-dropdown class="form" [options]="allPlayers" [(ngModel)]="playerAdd" optionLabel="alias" [filter]="true" filterBy="alias" [showClear]="true" placeholder="Select a Player">
+            <ng-template pTemplate="selectedItem">
+                <div class="flex align-items-center gap-2" *ngIf="playerAdd">
+                    
+                    <div>{{ playerAdd.alias }}</div>
+                </div>
+            </ng-template>
+            <ng-template let-player pTemplate="item">
+                <div class="flex align-items-center gap-2">
+                    
+                    <div>{{ player.id + "  " + player.alias }}</div>
+                </div>
+            </ng-template>
+        </p-dropdown>
+
+        <span class="p-label" class="form">
+            <input pInputText type="text" placeholder="Name" [(ngModel)]="nameAdd" />
+        </span>
+
+        <span class="p-label" class="form">
+            <input pInputText type="text" placeholder="Description" [(ngModel)]="descAdd" />
+        </span>
+
+        <span class="p-label" class="form">
+            <input pInputText type="text" placeholder="Region" [(ngModel)]="regionAdd" />
+        </span>
+
+        <span class="p-label" class="form">
+            <p-checkbox [(ngModel)]="openAdd" type="binary" [binary]="true" inputId="binary"></p-checkbox>
+            <label for="binary">Type Open</label>
+        </span>
+
+        <span class="p-label " class="form">
+            <p-inputNumber inputId="integeronly" [(ngModel)]="trophiesAdd" placeholder="Minimum Trophies" [min]="1"> </p-inputNumber>
+        </span>
+
+        <span class="p-label " class="form">
+            <p-inputNumber inputId="integeronly" [(ngModel)]="trophWarAdd" placeholder="Trophies In War" [min]="1"> </p-inputNumber>
+        </span>
+
+       
+        <p-button class="form" icon="pi pi-check" (click)="Post()" [rounded]="true" [text]="true" [raised]="true"></p-button>
+       
+    </div>
+
+    <div  *ngIf="visibleUpdate">
+
+        <p-dropdown class="form" [options]="allClans" [(ngModel)]="selectedUp" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select a Clan">
+            <ng-template pTemplate="selectedItem">
+                <div class="flex align-items-center gap-2" *ngIf="selectedUp">
+                    
+                    <div>{{ selectedUp.name }}</div>
+                </div>
+            </ng-template>
+            <ng-template let-clan pTemplate="item">
+                <div class="flex align-items-center gap-2">
+                    
+                    <div>{{ clan.id + "  " + clan.name }}</div>
+                </div>
+            </ng-template>
+        </p-dropdown>
+
+
+        <span class="p-label" class="form">
+            <input pInputText type="text" placeholder="Name" [(ngModel)]="nameUp" />
+        </span>
+
+        <span class="p-label" class="form">
+            <input pInputText type="text" placeholder="Description" [(ngModel)]="descUp" />
+        </span>
+
+        <span class="p-label" class="form">
+            <input pInputText type="text" placeholder="Region" [(ngModel)]="regionUp" />
+        </span>
+
+        <span class="p-label" class="form">
+            <p-checkbox [(ngModel)]="openUp" type="binary" [binary]="true" inputId="binary"></p-checkbox>
+            <label for="binary">Type Open</label>
+        </span>
+
+        <span class="p-label " class="form">
+            <p-inputNumber inputId="integeronly" [(ngModel)]="trophiesUp" placeholder="Minimum Trophies" [min]="1"> </p-inputNumber>
+        </span>
+
+        <span class="p-label " class="form">
+            <p-inputNumber inputId="integeronly" [(ngModel)]="trophWarUp" placeholder="Trophies In War" [min]="1"> </p-inputNumber>
+        </span>
+       
+        <p-button class="form" icon="pi pi-check" (click)="Update()" [rounded]="true" [text]="true" [raised]="true"></p-button>
+       
+    </div>
+
+    <div  *ngIf="visibleDelete">
+
+        <p-dropdown class="form" [options]="allClans" [(ngModel)]="selectedDelete" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select a Clan">
+            <ng-template pTemplate="selectedItem">
+                <div class="flex align-items-center gap-2" *ngIf="selectedDelete">
+                    
+                    <div>{{ selectedDelete.name }}</div>
+                </div>
+            </ng-template>
+            <ng-template let-player pTemplate="item">
+                <div class="flex align-items-center gap-2">
+                    
+                    <div>{{ player.id + "  " + player.name }}</div>
+                </div>
+            </ng-template>
+        </p-dropdown>
+
+        <p-button class="form" icon="pi pi-check" (click)="Delete()" [rounded]="true" [text]="true" [raised]="true"></p-button>
+    </div>
+
+
+<clash-grid #grid
+            [title]="'Clans'"
             [dataService]="clanService"
             [columns]="clanColumns"
             [primaryKey]="'id'"

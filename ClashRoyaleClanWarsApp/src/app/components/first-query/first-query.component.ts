@@ -11,11 +11,7 @@ import { Structure } from './Structre';
 export class FirstQueryComponent {
 
   queryColumns: IColumn[] = [
-    {
-      header: 'Player ID',
-      field: 'playerId',
-      type: ColumnType.Number,
-    },
+    
     {
       header: 'Player Name',
       field: 'playerName',
@@ -25,6 +21,11 @@ export class FirstQueryComponent {
       header: 'Trophies',
       field: 'trophies',
       type: ColumnType.Number,
+    },
+    {
+      header: 'Clan Name',
+      field: 'clanName',
+      type: ColumnType.String,
     },
     
   ];
@@ -39,7 +40,8 @@ export class FirstQueryComponent {
     return {
     playerId: data.playerId,
     playerName: data.playerName,
-    trophies : data.trophies
+    trophies : data.trophies,
+    clanName: data.clanName
     }
   }
 

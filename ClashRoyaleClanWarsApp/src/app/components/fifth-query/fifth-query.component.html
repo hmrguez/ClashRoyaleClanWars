@@ -1,8 +1,21 @@
 <div class="flex-auto">
+
+    <p-dropdown class="form" [options]="allPlayers" [(ngModel)]="selectedPlayer" optionLabel="alias" [filter]="true" filterBy="alias" [showClear]="true" placeholder="Select a Player">
+        <ng-template pTemplate="selectedItem">
+            <div class="flex align-items-center gap-2" *ngIf="selectedPlayer">
+                
+                <div>{{ selectedPlayer.alias }}</div>
+            </div>
+        </ng-template>
+        <ng-template let-player pTemplate="item">
+            <div class="flex align-items-center gap-2">
+                
+                <div>{{ player.id + "  " + player.alias }}</div>
+            </div>
+        </ng-template>
+    </p-dropdown>
     
-    <label class="mb-2 block font-bold" for="minmax-buttons">Player Id</label>
-    <br> 
-    <p-inputNumber class="inn" [(ngModel)]="playerId"  [showButtons]="true" inputId="minmax-buttons" [min]="1" [max]="100"> </p-inputNumber>
+
     <p-button class = "btn" icon="pi pi-check" (click)="Show()"></p-button>
    
 </div>
