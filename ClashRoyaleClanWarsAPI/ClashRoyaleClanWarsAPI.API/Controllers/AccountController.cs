@@ -47,7 +47,6 @@ public class AccountController : ApiController
     }
 
     [Authorize(Roles = UserRoles.SUPERADMIN)]
-    [Authorize(Roles = UserRoles.ADMIN)]
     [HttpPost("register/admin")]
     public async Task<IActionResult> RegisterAdmin(RegisterRequest request)
     {
