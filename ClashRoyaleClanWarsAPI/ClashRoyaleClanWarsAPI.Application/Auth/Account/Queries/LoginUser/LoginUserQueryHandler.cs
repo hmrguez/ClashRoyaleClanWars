@@ -28,9 +28,9 @@ internal class LoginUserQueryHandler : IQueryHandler<LoginUserQuery, LoginRespon
         {
             return Result.Failure<LoginResponse>(ErrorTypes.Auth.UsernameNotFound());
         }
-        catch (InvalidPasswordException)
+        catch (InvalidPasswordException e)
         {
-            return Result.Failure<LoginResponse>(ErrorTypes.Auth.InvalidPassword());
+            return Result.Failure<LoginResponse>(ErrorTypes.Auth.InvalidPassword(e.Message));
         }
 
         return response;

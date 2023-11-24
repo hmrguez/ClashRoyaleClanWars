@@ -21,8 +21,7 @@ namespace ClashRoyaleClanWarsAPI.Infrastructure
              {
                  options.Password.RequireDigit = true;
                  options.Password.RequireLowercase = true;
-                 options.Password.RequireUppercase = true;
-                 options.Password.RequiredLength = 6;
+                 options.Password.RequiredLength = 3;
              });
 
             AddPersistance(services);

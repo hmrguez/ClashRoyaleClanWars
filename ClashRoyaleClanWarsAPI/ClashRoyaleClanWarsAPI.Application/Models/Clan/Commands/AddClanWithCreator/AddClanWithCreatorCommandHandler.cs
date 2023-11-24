@@ -2,6 +2,7 @@
 using ClashRoyaleClanWarsAPI.Application.Interfaces.Repositories;
 using ClashRoyaleClanWarsAPI.Domain.Errors;
 using ClashRoyaleClanWarsAPI.Domain.Exceptions;
+using ClashRoyaleClanWarsAPI.Domain.Exceptions.Models;
 using ClashRoyaleClanWarsAPI.Domain.Shared;
 
 namespace ClashRoyaleClanWarsAPI.Application.Models.Clan.Commands.AddClanWithCreator;
@@ -24,6 +25,10 @@ public class AddClanWithCreatorCommandHandler : ICommandHandler<AddClanWithCreat
         catch (IdNotFoundException<int> e)
         {
             return Result.Failure<int>(ErrorTypes.Models.IdNotFound(e.Message));
+        }
+        catch (PlayerHasClanException)
+        {
+            return Result.Failure<int>(ErrorTypes.Models.PlayerHasClan());
         }
 
         return request.Clan.Id;

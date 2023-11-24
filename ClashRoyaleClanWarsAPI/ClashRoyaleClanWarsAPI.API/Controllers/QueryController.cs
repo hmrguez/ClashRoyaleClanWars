@@ -19,7 +19,6 @@ public class QueryController : ApiController
     [HttpGet("firstquery")]
     public async Task<IActionResult> GetFirstQuery()
     {
-
         var result = await _queries.FirstQuery();
 
         return Ok(result);

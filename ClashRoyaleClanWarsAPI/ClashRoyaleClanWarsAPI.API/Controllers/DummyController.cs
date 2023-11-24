@@ -81,7 +81,6 @@ public class DummyController : ApiController
 
         #endregion
 
-
         #region Players
 
         for (int i = 0; i < 50; i++)
