@@ -26,6 +26,10 @@ public class AddBattleCommandHandler : ICommandHandler<AddBattleCommand, Guid>
         {
             return Result.Failure<Guid>(ErrorTypes.Models.IdNotFound(e.Message));
         }
+        catch (DuplicationIdException e)
+        {
+            return Result.Failure<Guid>(ErrorTypes.Models.DuplicateId(e.Message));
+        }
 
         return id;
 
