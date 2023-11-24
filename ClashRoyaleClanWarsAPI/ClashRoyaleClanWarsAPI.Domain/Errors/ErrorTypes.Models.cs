@@ -34,5 +34,9 @@ public static partial class ErrorTypes
                 code: ErrorCode.PlayerNotHaveCard,
                 description: "Player does not have card");
 
+        public static Error PlayerHasClan() => new(
+                code: ErrorCode.PlayerHasClan,
+                description: "Player already belongs to a clan");
+
     }
 }

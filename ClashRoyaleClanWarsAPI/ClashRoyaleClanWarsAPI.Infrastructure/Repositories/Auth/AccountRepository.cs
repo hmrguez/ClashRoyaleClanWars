@@ -6,6 +6,7 @@ using ClashRoyaleClanWarsAPI.Application.Auth.Utils;
 using ClashRoyaleClanWarsAPI.Application.Interfaces.Auth;
 using ClashRoyaleClanWarsAPI.Domain.Exceptions.Auth;
 using Microsoft.AspNetCore.Identity;
+using System.Security.Authentication;
 
 namespace ClashRoyaleClanWarsAPI.Infrastructure.Repositories.Auth;
 
@@ -37,10 +38,10 @@ internal sealed class AccountRepository : IAccountRepository
             var result = pswHasher.VerifyHashedPassword(user, user.PasswordHash!, loginModel.Password!);
 
             if (result == 0)
-                throw new InvalidPasswordException();
+                throw new InvalidCredentialException();
         }
         else if (!await _userManager.CheckPasswordAsync(user, loginModel.Password!))
-            throw new InvalidPasswordException();
+            throw new InvalidCredentialException();
 
         var userModel = _mapper.Map<UserModel>(user);
 
@@ -51,6 +52,9 @@ internal sealed class AccountRepository : IAccountRepository
     {
         if (await UsernameExits(registerModel.Username!))
             throw new DuplicationUsernameException();
+
+        if(registerModel.Password != registerModel.ConfirmPassword)
+            throw new PasswordsNotMatchException();
 
         var roleMapped = UserRoles.MapRole(role);
 
@@ -70,7 +74,7 @@ internal sealed class AccountRepository : IAccountRepository
         var result = await _userManager.CreateAsync(user, password);
 
         if (!result.Succeeded)
-            throw new UserCreationException();
+            throw new InvalidPasswordException(string.Join(" ", result.Errors.Select(d => d.Description).ToArray()));
 
         if (await _roleManager.RoleExistsAsync(role))
             await _userManager.AddToRoleAsync(user, role);
