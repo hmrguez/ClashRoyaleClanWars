@@ -3,6 +3,7 @@ using AutoMapper.QueryableExtensions;
 using ClashRoyaleClanWarsAPI.Application.Interfaces.Repositories;
 using ClashRoyaleClanWarsAPI.Domain.Enum;
 using ClashRoyaleClanWarsAPI.Domain.Exceptions;
+using ClashRoyaleClanWarsAPI.Domain.Exceptions.Models;
 using ClashRoyaleClanWarsAPI.Domain.Models;
 using ClashRoyaleClanWarsAPI.Domain.Relationships;
 using ClashRoyaleClanWarsAPI.Infrastructure.Persistance;
@@ -40,11 +41,14 @@ internal class ClanRepository : BaseRepository<ClanModel, int>, IClanRepository
 
     public async Task<int> Add(int playerId, ClanModel clan)
     {
+        if (_context.ClanPlayers.Where(cp => cp.Player!.Id == playerId).Any())
+            throw new PlayerHasClanException();
+
         await Add(clan);
 
         var player = await _playerRepository.GetSingleByIdAsync(playerId);
 
-        clan.AddPlayer(player!);
+        clan.AddPlayer(player!, RankClan.Leader);
 
         await Save();
 
@@ -70,7 +74,7 @@ internal class ClanRepository : BaseRepository<ClanModel, int>, IClanRepository
 
         var player = await _playerRepository.GetSingleByIdAsync(playerId);
 
-        clan!.AddPlayer(player!);
+        clan!.AddPlayer(player!, rank);
 
         await Save();
     }

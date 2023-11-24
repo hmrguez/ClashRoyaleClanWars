@@ -22,10 +22,12 @@ internal class PredefinedQueries : IPredefinedQueries
         var clanWars = await _context.ClanWars
                             .Include(cw => cw.Clan)
                             .ToListAsync();
+
         var clanPlayer = await _context.ClanPlayers
                             .Include(cp => cp.Clan)
                             .Include(cp => cp.Player)
                             .ToListAsync();
+
         var players = await _context.Players
                             .ToListAsync();
 
@@ -35,6 +37,7 @@ internal class PredefinedQueries : IPredefinedQueries
                            select new
                            {
                                ClanId = cp.Clan!.Id,
+                               ClanName = cp.Clan!.Name,
                                PlayerId = p.Id,
                                PlayerName = p.Alias,
                                Trophies = p.Elo
@@ -45,7 +48,7 @@ internal class PredefinedQueries : IPredefinedQueries
                      select clanGroup.MaxBy(t => t.Trophies);
 
         return result
-            .Select(r => new FirstQueryResponse(r.PlayerId, r.PlayerName, r.Trophies))
+            .Select(r => new FirstQueryResponse(r.PlayerId, r.PlayerName, r.Trophies, r.ClanId, r.ClanName))
             .ToList();
     }
 
@@ -127,9 +130,11 @@ internal class PredefinedQueries : IPredefinedQueries
                                     CardId = cp.Player!.FavoriteCard!.Id,
                                     CardName = cp.Player!.FavoriteCard!.Name
                                 } into cpc
+                                let clanName = cpc.Single(r=> r.Clan!.Id == cpc.Key.ClanId).Clan!.Name
                                 select new
                                 {
                                     ClanId = cpc.Key.ClanId,
+                                    ClanName = clanName,
                                     CardId = cpc.Key.CardId,
                                     CardName = cpc.Key.CardName,
                                     Count = cpc.Count()
@@ -141,7 +146,7 @@ internal class PredefinedQueries : IPredefinedQueries
 
 
         return result
-            .Select(c => new FourthQueryResponse(c.CardId, c.CardName, c.Count, c.ClanId))
+            .Select(c => new FourthQueryResponse(c.CardId, c.CardName, c.Count, c.ClanId, c.ClanName))
             .ToList();
 
     }
