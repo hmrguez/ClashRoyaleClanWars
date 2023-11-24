@@ -33,13 +33,15 @@ public class ApiController : ControllerBase
         if (error == ErrorCode.IdsNotMatch ||
             error == ErrorCode.InvalidCredentials ||
             error == ErrorCode.InvalidPassword ||
+            error == ErrorCode.PasswordsNotMatch ||
             error == IValidationResult.ValidationError ||
             error == ErrorCode.ChallengeClosed ||
             error == ErrorCode.PlayerNotHaveCard)
             return BadRequest(error.Description);
 
         if (error == ErrorCode.DuplicateId ||
-            error == ErrorCode.DuplicateUsername)
+            error == ErrorCode.DuplicateUsername ||
+            error == ErrorCode.PlayerHasClan)
             return Conflict(error.Description);
 
 

@@ -1,8 +1,11 @@
 ﻿using ClashRoyaleClanWarsAPI.Application.Auth.User.Commands.DeleteUser;
+using ClashRoyaleClanWarsAPI.Application.Auth.User.Commands.UpdateRole;
 using ClashRoyaleClanWarsAPI.Application.Auth.User.Queries.GetAllUser;
 using ClashRoyaleClanWarsAPI.Application.Auth.User.Queries.GetUserById;
 using ClashRoyaleClanWarsAPI.Application.Auth.User.Queries.GetUserByName;
+using ClashRoyaleClanWarsAPI.Application.Auth.Utils;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClashRoyaleClanWarsAPI.API.Controllers;
@@ -50,6 +53,17 @@ public class UserController : ApiController
     public async Task<IActionResult> Delete(string id)
     {
         var command = new DeleteUserCommand(id);
+
+        var result = await _sender.Send(command);
+
+        return result.IsSuccess ? NoContent() : Problem(result.Errors);
+    }
+
+    // PUT api/users/{id:string}
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateRole(string id, RoleEnum role)
+    {
+        var command = new UpdateRoleCommand(id, UserRoles.MapRole(role));
 
         var result = await _sender.Send(command);
 

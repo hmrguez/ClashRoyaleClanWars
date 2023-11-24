@@ -13,4 +13,6 @@ public class ErrorCode
     public const string DuplicateUsername = "Auth.DuplicateUsername";
     public const string InvalidCredentials = "Auth.InvalidCredentials";
     public const string InvalidPassword = "Auth.InvalidPassword";
+    public const string PasswordsNotMatch = "Auth.PasswordsNotMatch";
+    public const string PlayerHasClan = "Player.PlayerHasClan";
 }
