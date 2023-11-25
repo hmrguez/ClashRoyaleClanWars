@@ -21,6 +21,9 @@ internal class BattleRepository : BaseRepository<BattleModel, BattleId>, IBattle
         var winner = await _playerRepository.GetSingleByIdAsync(winnerId);
         var loser = await _playerRepository.GetSingleByIdAsync(loserId);
 
+        if (await ExistsBattle(winnerId, loserId, battle.Date))
+            throw new DuplicationIdException();
+
         battle = BattleModel.Create(battle.AmountTrophies, winner!, loser!, battle.DurationInSeconds, battle.Date);
 
         _context.Battles.Add(battle);
@@ -51,4 +54,9 @@ internal class BattleRepository : BaseRepository<BattleModel, BattleId>, IBattle
         return battle!;
     }
 
+    public async Task<bool> ExistsBattle(int winnerId, int loserId, DateTime date) =>
+        await _context.Battles
+            .SingleOrDefaultAsync(p => p.Winner!.Id == winnerId && 
+                                        p.Loser!.Id == loserId &&
+                                        p.Date == date) is not null;
 }

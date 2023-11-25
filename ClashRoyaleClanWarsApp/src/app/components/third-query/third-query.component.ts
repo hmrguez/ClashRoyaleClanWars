@@ -12,11 +12,7 @@ import { QueryService } from './query.service';
 export class ThirdQueryComponent {
 
   queryColumns: IColumn[] = [
-    {
-      header: 'Card ID',
-      field: 'cardId',
-      type: ColumnType.Number,
-    },
+   
     {
       header: 'Card Name',
       field: 'cardName',
@@ -37,10 +33,7 @@ export class ThirdQueryComponent {
 
   constructor(public queryService: QueryService)
   {
-    this.queryService.getAll().subscribe((data)=>{
-        console.log("DATA", data);
-  }
-  );
+    
   }
 
  

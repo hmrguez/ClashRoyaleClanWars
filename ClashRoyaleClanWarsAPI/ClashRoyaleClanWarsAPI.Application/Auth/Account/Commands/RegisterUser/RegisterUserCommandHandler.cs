@@ -27,6 +27,14 @@ internal class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand,
         {
             return Result.Failure<string>(ErrorTypes.Auth.DuplicateUsername());
         }
+        catch (PasswordsNotMatchException)
+        {
+            return Result.Failure<string>(ErrorTypes.Auth.PasswordsNotMatch());
+        }
+        catch (InvalidPasswordException e)
+        {
+            return Result.Failure<string>(ErrorTypes.Auth.InvalidPassword(e.Message));
+        }
         catch (UserCreationException)
         {
             return Result.Failure<string>(ErrorTypes.Auth.InvalidCredentials());

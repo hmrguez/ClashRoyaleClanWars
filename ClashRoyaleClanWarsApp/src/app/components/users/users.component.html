@@ -1,0 +1,41 @@
+<p-button (click)="Show()" icon="pi pi-plus-circle" class="add" label="Update Roles"></p-button>
+
+<p-dropdown *ngIf="show" class="form" [options]="allUsers" [(ngModel)]="selectedUser" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select a User">
+    <ng-template pTemplate="selectedItem">
+        <div class="flex align-items-center gap-2" *ngIf="selectedUser">
+            <div>{{ selectedUser.name }}</div>
+        </div>
+    </ng-template>
+    <ng-template let-user pTemplate="item">
+        <div class="flex align-items-center gap-2">
+            
+            <div>{{ user.name }}</div>
+        </div>
+    </ng-template>
+</p-dropdown>
+
+<p-dropdown  *ngIf="show" class="form" [options]="roles" [(ngModel)]="roleSelected" optionLabel="name" [showClear]="true" placeholder="Select a Role">
+    <ng-template pTemplate="selectedItem">
+        <div class="flex align-items-center gap-2" *ngIf="roleSelected">
+            <div>{{ roleSelected.name }}</div>
+        </div>
+    </ng-template>
+    <ng-template let-role pTemplate="item">
+        <div class="flex align-items-center gap-2">
+            <div>{{ role.name }}</div>
+        </div>
+    </ng-template>
+</p-dropdown>
+
+<p-button *ngIf="show" class="form" icon="pi pi-check" (click)="Update()" [rounded]="true" [text]="true" [raised]="true"></p-button>
+
+
+
+
+<clash-grid [title]="'Users'"
+[dataService]="serv"
+[columns]="columns"
+[primaryKey]="'Id'"
+[itemParsingFunction]="itemParsingFunction"
+>
+</clash-grid>

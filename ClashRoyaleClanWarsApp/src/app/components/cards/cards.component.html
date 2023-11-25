@@ -1,35 +1,23 @@
-<!-- <clash-grid [title]="'Cards'"
+
+    <p-selectButton class="togglebutton" [options]="stateOptions" [(ngModel)]="value" optionLabel="label" optionValue="value"></p-selectButton>
+
+
+
+<clash-grid *ngIf="value"
+            [title]="'Cards'"
             [dataService]="cardService"
             [columns]="cardColumns"
             [primaryKey]="'Id'"
             [itemParsingFunction]="itemParsingFunction"
 >
-</clash-grid> -->
-
- <!-- <div class="card">
-    <p class ="title">{{items[currIndex].name}}</p>
-
-    
-    <img src = {{items[currIndex].imageUrl}}>
-
-   
-        <p class="info">{{items[currIndex].description}}</p>
-
-  
-
-    <br>
-
-   
-
-    <button type="button" (click)="nextCard()">Next Card</button>
-</div>  -->
+</clash-grid>
 
 
-<div class="main">
+<div class="main" *ngIf="!value">
     <h2>{{items[currIndex].name}}</h2>
 
     <a class="prev" (click)="plusSlides(-1)">&#10094;</a>
-<div class = "card ">
+<div class = "carta ">
    
     <img src = {{items[currIndex].imageUrl}}>
     <div class="card-content">

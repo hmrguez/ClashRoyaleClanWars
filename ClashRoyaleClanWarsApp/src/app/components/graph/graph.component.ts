@@ -25,10 +25,10 @@ export class GraphComponent {
       var canvas = document.querySelector('canvas');
       var img = canvas!.toDataURL("image/png");
       var doc = new jsPDF('landscape', 'px', 'a4' );
-      doc.setFontSize(40);
-      doc.text("Popularidad del juego", 35, 25);
+      doc.setFontSize(30);
+      doc.text("Game Popularity", 35, 25);
       doc.addImage(img, 'JPEG', 50, 50, 500,300);
-      doc.save('graph.pdf');
+      doc.save('popularity.pdf');
     }
 
     async getBattlesYear(q1 :QueryService){

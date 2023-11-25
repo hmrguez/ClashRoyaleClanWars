@@ -23,10 +23,11 @@ export class SidenavComponent implements OnInit {
  
   navData :any;
   LoggedIn = false;
+  roles: string[] = []
 
   constructor(public tokenStorage: TokenStorageService, private router: Router) { 
     
-    
+  
    
     this.LoggedIn = !!this.tokenStorage.getToken();
 
@@ -36,7 +37,7 @@ export class SidenavComponent implements OnInit {
 
       //if now>expdate
       if (!!expDate && !isNaN(+new Date(expDate)) && +new Date(expDate) < now ) {
-        this.LoggedIn=false
+        this.logout()
     }}
 
     this.navData = [
@@ -61,14 +62,29 @@ export class SidenavComponent implements OnInit {
         label: "Clans",
       },
       {
+        routeLink: "/battles",
+        icon: "pi pi-shield",
+        label: "Battles",
+      },
+      {
         routeLink: "/query",
         icon: "pi pi-database",
         label: "Query",
       },
       {
         routeLink: "/graph",
+        icon: "pi pi-chart-line",
+        label: "Game Popularity",
+      },
+      {
+        routeLink: "/pop",
         icon: "pi pi-chart-bar",
-        label: "Graph",
+        label: "Amount of Victories",
+      },
+      {
+        routeLink: "/clanpop",
+        icon: "pi pi-chart-pie",
+        label: "Most Popular Clans",
       },
       {
         routeLink: "/faq",
@@ -79,10 +95,21 @@ export class SidenavComponent implements OnInit {
         routeLink: "/analysis",
         icon: "pi pi-tablet",
         label: "Analysis",
-      }
+      },
+      
   ]
 
-    if (this.LoggedIn) {}
+    if (this.LoggedIn) {
+      this.roles = tokenStorage.getRoles()
+      if (tokenStorage.isSuperAdmin()){
+        this.navData.push(
+          {
+          routeLink: "/users",
+          icon: "pi pi-user",
+          label: "Users",
+        })
+      }
+    }
     else {
       this.navData.push({
         routeLink: "/login",
