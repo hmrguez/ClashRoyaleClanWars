@@ -12,17 +12,12 @@ using ClashRoyaleClanWarsAPI.Application.Models.Clan.Queries.GetAllPlayers;
 using ClashRoyaleClanWarsAPI.Application.Models.Clan.Queries.GetClanAvailables;
 using ClashRoyaleClanWarsAPI.Application.Models.Clan.Queries.GetClanByIdFullLoad;
 using ClashRoyaleClanWarsAPI.Domain.Enum;
-using ClashRoyaleClanWarsAPI.Domain.Errors;
 using ClashRoyaleClanWarsAPI.Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using ClashRoyaleClanWarsAPI.Application.Common.Commands.AddModel;
-using ClashRoyaleClanWarsAPI.Application.Common.Queries.GetModelById;
-using ClashRoyaleClanWarsAPI.Application.Models.Challenge.Queries.GetAllOpen;
 using ClashRoyaleClanWarsAPI.API.Controllers;
 using ClashRoyaleClanWarsAPI.Domain.Shared;
-using Microsoft.AspNetCore.Http.HttpResults;
 using ClashRoyaleClanWarsAPI.Domain.Relationships;
 
 namespace ClashRoyaleClanWarsAPI.Tests
