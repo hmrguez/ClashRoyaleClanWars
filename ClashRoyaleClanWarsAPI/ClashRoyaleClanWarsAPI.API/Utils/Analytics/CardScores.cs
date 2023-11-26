@@ -10031,6 +10031,25 @@ public static class CardScore
             { "Goblin Drill", goblin_drillScores }
         };
 
+        foreach (var card in cardScores)
+        {
+            foreach (var Scores in card.Value)
+            {
+                string Analyzing = Scores.Key;
+                var ToAnalyze = cardScores[Analyzing];
+
+                if (ToAnalyze.ContainsKey(card.Key))
+                {
+                    ToAnalyze[card.Key] = Scores.Value*-1;
+                }
+
+                else
+                {
+                    ToAnalyze.Add(card.Key, Scores.Value*-1);
+                }
+            }
+        }
+
         return cardScores;
     }
 }
