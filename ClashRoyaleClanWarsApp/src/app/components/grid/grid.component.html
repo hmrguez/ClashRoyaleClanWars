@@ -101,7 +101,7 @@
               </ng-container>
 
               <ng-container *ngSwitchCase="ColumnType.Enum">
-                <p-columnFilter field="status" matchMode="equals" display="menu" [showMatchModes]="false">
+                <p-columnFilter [field]="column.field" matchMode="equals" display="menu" [showMatchModes]="false">
                   <ng-template pTemplate="filter" let-value let-filter="filterCallback">
                     <p-dropdown [ngModel]="value" [options]="column.enumOptions" (onChange)="filter($event.value)" placeholder="Any">
                       <ng-template let-option pTemplate="item">
@@ -113,7 +113,7 @@
               </ng-container>
 
               <ng-container *ngSwitchCase="ColumnType.Boolean">
-                <p-columnFilter type="boolean" field="verified" display="menu"></p-columnFilter>
+                <p-columnFilter type="boolean" [field]="column.field" display="menu"></p-columnFilter>
               </ng-container>
 
               <p-sortIcon *ngIf="column.type !== ColumnType.Image" [field]="column.field"></p-sortIcon>
