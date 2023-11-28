@@ -1,4 +1,4 @@
-
+<!-- 
     <p-selectButton class="togglebutton" [options]="stateOptions" [(ngModel)]="value" optionLabel="label" optionValue="value"></p-selectButton>
 
 
@@ -30,8 +30,44 @@
 <a class="next" (click)="plusSlides(1)">&#10095;</a>
 </div>
 
+ -->
+
+ <div class="container">
+    <div class="content">
+      <div class="image-box">
+        <img src={{items[currIndex].imageUrl}} alt="" />
+      </div>
+      <form action="#">
+        <div class="topic">{{items[currIndex].name}}</div>
+        <br>
+        <p>
+            Description: {{items[currIndex].description}}
+        </p>
+        <br>
+        <p>
+            Type: {{items[currIndex].type}}
+        </p>
+        <br>
+        <p>
+            Elixir: {{items[currIndex].elixir}}
+        </p>
+        <br>
+        <p>
+            Damage: {{items[currIndex].damage}}
+        </p>
+        <br>
+        <p>
+            Quality: {{items[currIndex].quality}}
+        </p>
 
 
+        <div class="input-box">
+          <input type="submit" value="Previous" (click)="plusSlides(-1)" />
+          <input type="submit" value="Next" (click)="plusSlides(1)" />
+        </div>
+      </form>
+    </div>
+  </div>
 
 
 

@@ -115,7 +115,7 @@
     </ng-template>
   </p-dropdown>
 
-  <p-inputNumber [(ngModel)]="donateAmount" [min]="1" inputId="integeronly"
+  <p-inputNumber class="form" [(ngModel)]="donateAmount" [min]="1" inputId="integeronly"
                        placeholder="Amount to Donate"> </p-inputNumber>
 
   <p-button (click)="Donate()" [raised]="true" [rounded]="true" [text]="true" class="form"
