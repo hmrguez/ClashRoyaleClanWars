@@ -8,8 +8,8 @@ internal class AddPlayerCommandValidator : AbstractValidator<AddModelCommand<Pla
 {
     public AddPlayerCommandValidator()
     {
-        RuleFor(x => x.Model.Alias).NotNull().NotEmpty().Length(3, 64);
-        RuleFor(x => x.Model.Elo).NotNull().NotEmpty().InclusiveBetween(0, 9000);
-        RuleFor(x => x.Model.Level).NotNull().NotEmpty().InclusiveBetween(1, 15);
+        RuleFor(x => x.Model.Alias).NotNull().Length(3, 64);
+        RuleFor(x => x.Model.Elo).NotNull().InclusiveBetween(0, 9000);
+        RuleFor(x => x.Model.Level).NotNull().InclusiveBetween(1, 15);
     }
 }

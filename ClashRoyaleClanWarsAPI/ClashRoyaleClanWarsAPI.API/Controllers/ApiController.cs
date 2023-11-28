@@ -17,9 +17,10 @@ public class ApiController : ControllerBase
 
     protected IActionResult Problem(Error[] errors)
     {
-        var firstError = errors[0];
+        if(errors.Length > 1)
+            return BadRequest(string.Join(" ", errors.AsEnumerable()));
 
-        return Problem(firstError);
+        return Problem(errors[0]);
     }
 
     protected IActionResult Problem(Error error)
@@ -34,9 +35,9 @@ public class ApiController : ControllerBase
             error == ErrorCode.InvalidCredentials ||
             error == ErrorCode.InvalidPassword ||
             error == ErrorCode.PasswordsNotMatch ||
-            error == IValidationResult.ValidationError ||
             error == ErrorCode.ChallengeClosed ||
-            error == ErrorCode.PlayerNotHaveCard)
+            error == ErrorCode.PlayerNotHaveCard ||
+            error == ErrorCode.PlayerHasNoClan)
             return BadRequest(error.Description);
 
         if (error == ErrorCode.DuplicateId ||

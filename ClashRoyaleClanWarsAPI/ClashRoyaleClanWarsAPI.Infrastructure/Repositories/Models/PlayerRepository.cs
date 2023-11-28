@@ -114,20 +114,26 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
         await Save();
     }
 
-    public async Task AddDonation(int playerId, int clanId, int cardId, int amount, DateTime date)
+    public async Task AddDonation(int playerId, int cardId, int amount, DateTime date)
     {
-        var player = await GetSingleByIdAsync(playerId, true);
-        var clan = await _clanRepository.Value.GetSingleByIdAsync(clanId);
+        var clanPlayer = await _context.ClanPlayers
+            .Where(cp => cp.Player!.Id == playerId)
+            .Include(cp=> cp.Clan)
+            .Include(cp=> cp.Player)
+            .ThenInclude(cp=> cp!.Cards)
+            .FirstOrDefaultAsync() 
+            ?? throw new PlayerHasNoClanException(playerId);
+
+        var player = clanPlayer.Player;
+        var clan = clanPlayer.Clan;
+
         var card = await _cardRepository.GetSingleByIdAsync(cardId);
 
         if (!player!.HaveCard(cardId))
             throw new PlayerNotHaveCardException();
 
-        if (!await ExistsClanPlayer(playerId, clanId))
-            throw new IdNotFoundException<int>(playerId, clanId);
-
-        if (await ExistsDonation(playerId, clanId, cardId, date))
-            throw new DuplicationIdException(playerId, clanId, cardId);
+        if (await ExistsDonation(playerId, clan!.Id, cardId, date))
+            throw new DuplicationIdException(playerId, clan.Id, cardId);
 
         if (_context.Entry(player).State == EntityState.Detached)
             _context.Attach(player);

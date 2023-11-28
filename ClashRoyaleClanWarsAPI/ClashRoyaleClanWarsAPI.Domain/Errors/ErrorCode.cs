@@ -9,10 +9,12 @@ public class ErrorCode
     public const string ChallengeClosed = "Challenge.ChallengeClosed";
     public const string PlayerNotHaveCard = "Player.PlayerNotHaveCard";
     public const string NullValue = "Error.NullValue";
+    public const string Validation = "Error.Validation";
     public const string UsernameNotFound = "Auth.UsernameNotFound";
     public const string DuplicateUsername = "Auth.DuplicateUsername";
     public const string InvalidCredentials = "Auth.InvalidCredentials";
     public const string InvalidPassword = "Auth.InvalidPassword";
     public const string PasswordsNotMatch = "Auth.PasswordsNotMatch";
     public const string PlayerHasClan = "Player.PlayerHasClan";
+    public const string PlayerHasNoClan = "Player.PlayerHasNoClan";
 }

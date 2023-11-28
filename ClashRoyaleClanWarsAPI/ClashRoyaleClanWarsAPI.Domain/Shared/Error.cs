@@ -49,4 +49,8 @@ public class Error : IEquatable<Error>
     {
         return Equals((object?)other);
     }
+    public override string ToString()
+    {
+        return Description;
+    }
 }

@@ -2,7 +2,7 @@
 {
     public class ValidationResult<TResult> : Result<TResult>, IValidationResult
     {
-        private ValidationResult(Error[] errors) : base(default, false, IValidationResult.ValidationError)
+        private ValidationResult(Error[] errors) : base(default, false, errors)
         {
             Errors = errors;
         }

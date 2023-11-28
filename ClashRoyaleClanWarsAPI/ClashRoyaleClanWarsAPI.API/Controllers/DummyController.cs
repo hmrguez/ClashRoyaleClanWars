@@ -335,7 +335,7 @@ public class DummyController : ApiController
 
                 var date = new DateTime(2023, random.Next(1, 13), random.Next(1, 28));
 
-                var donation = new AddDonationCommand(playerId, clanId, cardId, random.Next(1, 8), date);
+                var donation = new AddDonationCommand(playerId, cardId, random.Next(1, 8), date);
 
                 await _sender.Send(donation);
             }

@@ -175,7 +175,6 @@ public class PlayerController : ApiController
     {
         var command = new AddDonationCommand(
             playerId,
-            addDonationRequest.ClanId,
             addDonationRequest.CardId,
             addDonationRequest.Amount,
             DateTime.UtcNow);

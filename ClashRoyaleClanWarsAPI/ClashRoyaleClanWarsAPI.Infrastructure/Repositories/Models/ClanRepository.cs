@@ -70,6 +70,9 @@ internal class ClanRepository : BaseRepository<ClanModel, int>, IClanRepository
         if (await ExistsClanPlayer(playerId, clanId))
             throw new DuplicationIdException(playerId, clanId);
 
+        if( await PlayerHasClan(playerId))
+            throw new PlayerHasClanException();
+
         var clan = await GetSingleByIdAsync(clanId);
 
         var player = await _playerRepository.GetSingleByIdAsync(playerId);
@@ -117,5 +120,10 @@ internal class ClanRepository : BaseRepository<ClanModel, int>, IClanRepository
     {
         return await _context.ClanPlayers.FindAsync(playerId, clandId) is not null;
     }
+
+    private async Task<bool> PlayerHasClan(int playerId) =>
+        await _context.ClanPlayers
+        .AsQueryable()
+        .Where(cp => cp.Player!.Id == playerId).FirstOrDefaultAsync() is not null;
 
 }

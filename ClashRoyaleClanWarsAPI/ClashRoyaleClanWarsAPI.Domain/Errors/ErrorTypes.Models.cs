@@ -38,5 +38,9 @@ public static partial class ErrorTypes
                 code: ErrorCode.PlayerHasClan,
                 description: "Player already belongs to a clan");
 
+        public static Error PlayerHasNoClan(string description) => new(
+                code: ErrorCode.PlayerHasNoClan,
+                description: description);
+
     }
 }

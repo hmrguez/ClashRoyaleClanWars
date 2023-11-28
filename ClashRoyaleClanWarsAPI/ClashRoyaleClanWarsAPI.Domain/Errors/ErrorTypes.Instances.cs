@@ -11,5 +11,6 @@ public static partial class ErrorTypes
 
         public static Error NullValue() => new(ErrorCode.NullValue, "The specific result value is null");
 
+        public static Error ValidationError() => new(ErrorCode.Validation, "A validation problem occurred");
     }
 }

@@ -20,7 +20,7 @@ internal class AddDonationCommandHandler : ICommandHandler<AddDonationCommand>
     {
         try
         {
-            await _playerRepository.AddDonation(request.PlayerId, request.ClanId, request.CardId, request.Amount, request.Date);
+            await _playerRepository.AddDonation(request.PlayerId, request.CardId, request.Amount, request.Date);
         }
         catch (IdNotFoundException<int> e)
         {
@@ -29,6 +29,10 @@ internal class AddDonationCommandHandler : ICommandHandler<AddDonationCommand>
         catch (PlayerNotHaveCardException)
         {
             return Result.Failure(ErrorTypes.Models.PlayerNotHaveCard());
+        }
+        catch (PlayerHasNoClanException e)
+        {
+            return Result.Failure(ErrorTypes.Models.PlayerHasNoClan(e.Message));
         }
 
         return Result.Success();

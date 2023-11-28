@@ -2,6 +2,7 @@
 using ClashRoyaleClanWarsAPI.Application.Interfaces.Repositories;
 using ClashRoyaleClanWarsAPI.Domain.Errors;
 using ClashRoyaleClanWarsAPI.Domain.Exceptions;
+using ClashRoyaleClanWarsAPI.Domain.Exceptions.Models;
 using ClashRoyaleClanWarsAPI.Domain.Shared;
 
 namespace ClashRoyaleClanWarsAPI.Application.Models.Clan.Commands.AddPlayerClan;
@@ -28,6 +29,10 @@ public class AddPlayerClanCommandHandler : ICommandHandler<AddPlayerClanCommand>
         catch (DuplicationIdException e)
         {
             return Result.Failure(ErrorTypes.Models.DuplicateId(e.Message));
+        }
+        catch (PlayerHasClanException)
+        {
+            return Result.Failure(ErrorTypes.Models.PlayerHasClan());
         }
 
         return Result.Success();
