@@ -133,7 +133,7 @@ export class BattlesComponent implements OnInit {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
-  Post(){
+  async Post(){
     
 
     if (!this.selectedLoser || !this.selectedWinner || !this.trophies || !this.duration || !this.date){
@@ -156,6 +156,7 @@ export class BattlesComponent implements OnInit {
     this.battleSer.create({'winnerId': this.selectedWinner.id, 'loserId': this.selectedLoser.id,
   'amountTrophies': this.trophies, 'durationInSeconds':this.duration, 'date': this.date.toISOString()}).subscribe((data)=>{
     this.showSuccess('Battle Created')
+    this.playerService.getAll().subscribe((data)=>{this.players=data})
     this.grid.loadData()
   },(err)=>{this.showError(err.error)})
     

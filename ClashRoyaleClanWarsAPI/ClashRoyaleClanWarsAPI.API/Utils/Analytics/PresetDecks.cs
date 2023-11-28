@@ -8,7 +8,7 @@ public static class PresetDecks
         {
             new("Giant Double Prince",
                 new List<string>
-                    { "Giant", "Prince", "Dark Prince", "Musketeer", "Fireball", "Zap", "Skeletons", "Bats" }),
+                    { "Giant", "Prince", "Dark Prince", "Musketeer", "FireBall", "Zap", "Skeletons", "Bats" }),
             new("Golem Beatdown",
                 new List<string>
                 {
@@ -16,13 +16,13 @@ public static class PresetDecks
                 }),
             new("X-Bow 2.9",
                 new List<string>
-                    { "X-Bow", "Tesla", "Ice Golem", "Skeletons", "Ice Spirit", "Fireball", "Log", "Archers" }),
+                    { "X-Bow", "Tesla", "Ice Golem", "Skeletons", "Ice Spirit", "FireBall", "The Log", "Archers" }),
             new("Graveyard Poison",
                 new List<string>
-                    { "Graveyard", "Poison", "Baby Dragon", "Knight", "Tornado", "Skeletons", "Ice Wizard", "Log" }),
+                    { "Graveyard", "Poison", "Baby Dragon", "Knight", "Tornado", "Skeletons", "Ice Wizard", "The Log" }),
             new("Mega Knight Miner",
                 new List<string>
-                    { "Mega Knight", "Miner", "Bats", "Skeletons", "Poison", "Log", "Mega Minion", "Ice Spirit" }),
+                    { "Mega Knight", "Miner", "Bats", "Skeletons", "Poison", "The Log", "Mega Minion", "Ice Spirit" }),
             new("Royal Giant",
                 new List<string>
                     { "Royal Giant", "Furnace", "Mega Minion", "Minions", "Fireball", "Zap", "Goblin Cage", "Guards" }),
