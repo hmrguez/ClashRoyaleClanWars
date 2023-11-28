@@ -113,7 +113,7 @@
               </ng-container>
 
               <ng-container *ngSwitchCase="ColumnType.Boolean">
-                <p-columnFilter type="boolean" [field]="column.field" display="menu"></p-columnFilter>
+                <p-columnFilter type="boolean" [field]="column.field"  display="menu"></p-columnFilter>
               </ng-container>
 
               <p-sortIcon *ngIf="column.type !== ColumnType.Image" [field]="column.field"></p-sortIcon>
