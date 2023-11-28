@@ -5,6 +5,7 @@ import { User } from './UserDto';
 import { IColumn, ColumnType} from '../grid/IColumn';
 import { OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { TokenStorageService } from 'src/app/services/token-storage.service';
 
 @Component({
   selector: 'app-users',
@@ -23,7 +24,7 @@ export class UsersComponent  {
     {name:'user',value:0},{name:'admin',value:1},{name:'superadmin',value:2}
   ]
 
-  constructor(private mess:MessageService, public serv:UsersService, private http: HttpClient){
+  constructor(private mess:MessageService, public serv:UsersService, private http: HttpClient, private token:TokenStorageService){
     this.serv.getAll().subscribe((data)=>{this.allUsers=data})
     
   }
@@ -84,7 +85,18 @@ export class UsersComponent  {
 
 
 
-    if (!this.selectedUser || !this.roleSelected) this.showError('Fields cannot be empty')
+    if (!this.selectedUser || !this.roleSelected) {this.showError('Fields cannot be empty')
+    return
+  }
+    let user = this.token.getUser()
+
+    if (this.selectedUser.name==user){
+     
+      this.showError('You cannot change your own role')
+      return
+    }
+   
+    
 
 
     this.serv.update(this.selectedUser.id, this.roleSelected.value).subscribe((data)=>{

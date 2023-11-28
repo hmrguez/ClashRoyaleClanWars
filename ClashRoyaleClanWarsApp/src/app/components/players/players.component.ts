@@ -100,6 +100,7 @@ export class PlayersComponent {
     this.visibleAdd= !this.visibleAdd
     this.visibleUpdate = false
     this.visibleDelete = false
+    this.visibleDonate= false
     
   }
 
@@ -107,12 +108,14 @@ export class PlayersComponent {
     this.visibleUpdate = !this.visibleUpdate
     this.visibleAdd = false
     this.visibleDelete = false
+    this.visibleDonate= false
   }
 
   showDelete(){
     this.visibleDelete = !this.visibleDelete
     this.visibleAdd = false
     this.visibleUpdate = false
+    this.visibleDonate= false
   }
 
   showDonate(){
@@ -200,7 +203,9 @@ export class PlayersComponent {
     let url = this.playerService.baseUrl 
     + '/' + this.selectedPlayer.id + '/donate' ;
 
-    this.http.post(url,{'cardId':this.selectedCard.id,'amount':this.donateAmount}).subscribe((data)=>{
+    console.log('cardId ' + this.selectedCard.id + '  amount' +this.donateAmount)
+
+    this.http.post(url,{'cardId':this.selectedCard.id,'amount':this.donateAmount, 'clanId':2}).subscribe((data)=>{
       this.showSuccess("Donated")
     },(err)=>{
       this.showError(err.error)
