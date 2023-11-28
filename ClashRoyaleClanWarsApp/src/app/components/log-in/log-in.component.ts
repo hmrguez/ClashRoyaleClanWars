@@ -58,6 +58,7 @@ export class LogInComponent implements OnInit {
 
         const jwt = jwt_decode.jwtDecode(data.token)
         var decoded = atob(data.token.split('.')[1])
+        sessionStorage.setItem('jwt', decoded)
         var dec_s = decoded.split(',')
 
         this.tokenStorage.expToken(jwt.exp!);

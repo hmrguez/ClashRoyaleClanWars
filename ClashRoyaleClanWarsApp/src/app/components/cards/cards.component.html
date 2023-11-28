@@ -2,7 +2,6 @@
     <p-selectButton class="togglebutton" [options]="stateOptions" [(ngModel)]="value" optionLabel="label" optionValue="value"></p-selectButton>
 
 
-
 <clash-grid *ngIf="value"
             [title]="'Cards'"
             [dataService]="cardService"
@@ -24,6 +23,7 @@
         <p>
             {{items[currIndex].description}}
         </p>
+        
         
     </div>
 </div>

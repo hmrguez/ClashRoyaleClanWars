@@ -96,6 +96,7 @@ export class ClansComponent {
   visibleAdd = false
   visibleUpdate = false
   visibleDelete = false
+  visiblePlayer = false
 
 
   nameAdd !: string
@@ -117,6 +118,9 @@ export class ClansComponent {
 
   selectedDelete!: any
 
+  selectedClan !: any
+  selectedPlayer !: any
+
   showError(message:string){
     this.mess.add({ severity: 'error', summary: 'Error', detail: message });
   }
@@ -129,6 +133,7 @@ export class ClansComponent {
     this.visibleAdd= !this.visibleAdd
     this.visibleUpdate = false
     this.visibleDelete = false
+    this.visiblePlayer = false
     
   }
 
@@ -136,12 +141,22 @@ export class ClansComponent {
     this.visibleUpdate = !this.visibleUpdate
     this.visibleAdd = false
     this.visibleDelete = false
+    this.visiblePlayer = false
   }
 
   showDelete(){
     this.visibleDelete = !this.visibleDelete
     this.visibleAdd = false
     this.visibleUpdate = false
+    this.visiblePlayer = false
+  }
+
+  showAddPlayer(){
+    this.visiblePlayer = !this.visiblePlayer
+    this.visibleAdd = false
+    this.visibleUpdate = false
+    this.visibleDelete = false
+
   }
 
   Post(){
@@ -228,7 +243,30 @@ export class ClansComponent {
     })
     
   }
-    
+
+
+    AddPlayerToClan(){
+      if (!this.selectedClan || !this.selectedPlayer){
+        this.showError("select player and clan")
+        return;
+      }
+
+      let url = this.clanService.baseUrl
+      
+      this.clanService.baseUrl += '/'+this.selectedClan.id + '/players/' + this.selectedPlayer.id
+
+      this.clanService.create({'id':1,'name':'na','description':'ja','region':'USA','typeOpen': true,'amountMembers':12,'trophiesInWar':10,'minTrophies':10}).subscribe((data)=>
+      {
+        this.showSuccess('Player added to clan')
+
+      },(err)=>{
+        this.showError(err.error)
+        console.log(err)
+      })
+
+      this.clanService.baseUrl=url
+
+    }
     
   
   

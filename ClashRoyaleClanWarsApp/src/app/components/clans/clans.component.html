@@ -2,6 +2,7 @@
   <p-button (click)="showAdd()" icon="pi pi-plus-circle" label="Add Clan"></p-button>
   <p-button (click)="showUpdate()" icon="pi pi-wrench" label="Update Clan"></p-button>
   <p-button (click)="showDelete()" icon="pi pi-trash" label="Delete Clan"></p-button>
+  <p-button (click)="showAddPlayer()" icon="pi pi-user" label="Add Player to Clan"></p-button>
 </div>
 
 <div *ngIf="visibleAdd" class="container">
@@ -130,6 +131,44 @@
   </p-dropdown>
 
   <p-button (click)="Delete()" [raised]="true" [rounded]="true" [text]="true" class="form"
+            icon="pi pi-check"></p-button>
+</div>
+
+<div *ngIf="visiblePlayer">
+
+  <p-dropdown [(ngModel)]="selectedClan" [filter]="true" [options]="allClans" [showClear]="true" class="form"
+              filterBy="name" optionLabel="name" placeholder="Select a Clan">
+    <ng-template pTemplate="selectedItem">
+      <div *ngIf="selectedClan" class="flex align-items-center gap-2">
+
+        <div>{{ selectedClan.name }}</div>
+      </div>
+    </ng-template>
+    <ng-template let-player pTemplate="item">
+      <div class="flex align-items-center gap-2">
+
+        <div>{{ player.id + "  " + player.name }}</div>
+      </div>
+    </ng-template>
+  </p-dropdown>
+
+  <p-dropdown [(ngModel)]="selectedPlayer" [filter]="true" [options]="allPlayers" [showClear]="true" class="form"
+              filterBy="alias" optionLabel="alias" placeholder="Select a Player">
+    <ng-template pTemplate="selectedItem">
+      <div *ngIf="selectedPlayer" class="flex align-items-center gap-2">
+
+        <div>{{ selectedPlayer.alias }}</div>
+      </div>
+    </ng-template>
+    <ng-template let-player pTemplate="item">
+      <div class="flex align-items-center gap-2">
+
+        <div>{{ player.id + "  " + player.alias }}</div>
+      </div>
+    </ng-template>
+  </p-dropdown>
+
+  <p-button (click)="AddPlayerToClan()" [raised]="true" [rounded]="true" [text]="true" class="form"
             icon="pi pi-check"></p-button>
 </div>
 
