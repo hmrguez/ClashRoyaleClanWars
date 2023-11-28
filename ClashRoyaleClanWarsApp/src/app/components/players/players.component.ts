@@ -57,6 +57,7 @@ export class PlayersComponent {
   visibleAdd = false
   visibleUpdate = false
   visibleDelete = false
+  visibleDonate = false
 
 
   aliasAdd !: string
@@ -69,6 +70,14 @@ export class PlayersComponent {
   selectedUp!: any
 
   selectedDelete!: any
+
+  selectedPlayer!:any
+  selectedCard!:any
+  amount=1
+
+  cards !:any
+
+
 
 
   constructor(public playerService: PlayerService, private tokens :TokenStorageService, private mess:MessageService, private http:HttpClient) { 
@@ -106,6 +115,13 @@ export class PlayersComponent {
     this.visibleUpdate = false
   }
 
+  showDonate(){
+    this.visibleDonate = !this.visibleDonate
+    this.visibleAdd = false
+    this.visibleUpdate = false
+    this.visibleDelete = false
+  }
+
   Post(){
     if (!this.eloAdd || !this.levelAdd || !this.aliasAdd){
       this.showError("Fields cannot be empty")
@@ -139,6 +155,7 @@ export class PlayersComponent {
     this.playerService.update(id, {'alias': this.aliasUp, 'elo': this.eloUp, 'level':this.levelUp, 'id': id, 'victories': this.selectedUp.victories,
     'cardAmount': this.selectedUp.cardAmount,  'maxElo': this.selectedUp.maxElo, 'favoriteCard': this.selectedUp.favoriteCard}).subscribe((data)=>{
       this.showSuccess('Updated')
+      this.playerService.getAll().subscribe((data)=>{this.allPlayers=data})
       this.grid.loadData()
     }, (err)=>{
       this.showError(err.error)
@@ -161,7 +178,36 @@ export class PlayersComponent {
       this.showError(err.error)
     })
   }
+
+  getCards(){
+    if (this.selectedPlayer){
+      let url = this.playerService.baseUrl
+      + '/' + this.selectedPlayer.id + "/cards"
+
+      this.http.get(url).subscribe((data)=>{this.cards=data
+      console.log(this.cards)}, (err)=>console.log(err))
+    }
+  }
+
+  donateAmount = 1
     
+  Donate(){
+    if (!this.selectedPlayer || !this.selectedCard){
+      this.showError('Select a card and a player')
+      return
+    }
+
+    let url = this.playerService.baseUrl 
+    + '/' + this.selectedPlayer.id + '/donate' ;
+
+    this.http.post(url,{'cardId':this.selectedCard.id,'amount':this.donateAmount}).subscribe((data)=>{
+      this.showSuccess("Donated")
+    },(err)=>{
+      this.showError(err.error)
+    })
+
+  }
+
     
   
  

@@ -32,6 +32,12 @@ h2 {
   font-weight: bolder;
 
 }
+
+.card-content{
+  //center
+  width: 80% !important;
+  
+}
 .carta {
   margin: auto auto auto auto;
   width: 30%;
@@ -68,9 +74,13 @@ h2 {
   //   font-weight: bolder;
 
   // }
+
+ 
   
   p, a {
     position: absolute;
+    padding: 5%;
+    text-align: center;
     opacity: 0;
     max-width: 80%;
     transition: opacity .3s ease-out;
@@ -89,10 +99,6 @@ h2 {
     text-decoration: none;
   }
   
-  &:hover h2 {
-    inset: auto auto 220px 30px;
-    transition: inset .3s ease-out;
-  }
   
   &:hover p, &:hover a {
     opacity: 1;
@@ -139,3 +145,8 @@ h2 {
     background-color: rgba(0,0,0,0.8);
   }
 
+
+  .btn{
+    display: flex;
+    justify-content: center;
+  }

@@ -145,6 +145,7 @@ export class CardsComponent {
     })
   }
 
+
   plusSlides(position :number){
     let size = this.items.length
     let newpos = this.currIndex+position
