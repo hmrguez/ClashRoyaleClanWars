@@ -28,7 +28,7 @@ namespace ClashRoyaleClanWarsAPI.Infrastructure
 
             AddScopeds(services);
 
-            services.AddTransient(typeof(Lazy<>), typeof(LazilyResolved<>)); //Important circular reference
+            //services.AddTransient(typeof(Lazy<>), typeof(LazilyResolved<>)); //Important circular reference
 
             return services;
         }
