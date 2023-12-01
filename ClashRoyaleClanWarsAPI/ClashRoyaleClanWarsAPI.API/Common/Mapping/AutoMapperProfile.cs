@@ -35,9 +35,6 @@ public class AutoMapperProfile : Profile
 
         CreateMap<AddWarRequest, WarModel>();
 
-        CreateMap<IdentityUser, UserModel>()
-            .ForMember(um=> um.Name, source=> source.MapFrom(iu=> iu.UserName));
-
         CreateMap<LoginRequest, LoginModel>();
         CreateMap<RegisterRequest, RegisterModel>();
 

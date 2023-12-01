@@ -4,17 +4,19 @@ public class UserResponse
 {
     private UserResponse() { }
 
-    public string? Id { get; set; }
-    public string? Username { get; set; }
-    public string? Role { get; set; }
+    public Guid? Id { get; init; }
+    public string? Username { get; init; }
+    public string? Role { get; init; }
+    public int? PlayerId { get; init; }
 
-    public static UserResponse Create(string id, string username, string role)
+    public static UserResponse Create(Guid id, string username, string role, int? playerId)
     {
         var user = new UserResponse()
         {
             Id = id,
             Username = username,
-            Role = role
+            Role = role,
+            PlayerId = playerId
         };
 
         return user;

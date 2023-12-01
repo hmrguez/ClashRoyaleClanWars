@@ -3,4 +3,4 @@ using ClashRoyaleClanWarsAPI.Application.Auth.Response;
 
 namespace ClashRoyaleClanWarsAPI.Application.Auth.User.Queries.GetUserById;
 
-public record GetUserByIdQuery(string Id) : IQuery<UserResponse>;
+public record GetUserByIdQuery(Guid Id) : IQuery<UserResponse>;

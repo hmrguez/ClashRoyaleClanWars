@@ -12,20 +12,20 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClashRoyaleClanWarsAPI.Infrastructure.Migrations
 {
     [DbContext(typeof(ClashRoyaleDbContext))]
-    [Migration("20231026033405_FixMigrations")]
-    partial class FixMigrations
+    [Migration("20231201152836_FirstMigration")]
+    partial class FirstMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.12")
+                .HasAnnotation("ProductVersion", "7.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Models.Battle.BattleModel", b =>
+            modelBuilder.Entity("ClashRoyaleClanWarsAPI.Domain.Models.Battle.BattleModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
@@ -56,7 +56,7 @@ namespace ClashRoyaleClanWarsAPI.Infrastructure.Migrations
                     b.ToTable("Battles");
                 });
 
-            modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Models.Card.CardModel", b =>
+            modelBuilder.Entity("ClashRoyaleClanWarsAPI.Domain.Models.Card.CardModel", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int");
@@ -102,7 +102,7 @@ namespace ClashRoyaleClanWarsAPI.Infrastructure.Migrations
                     b.UseTphMappingStrategy();
                 });
 
-            modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Models.Challenge.ChallengeModel", b =>
+            modelBuilder.Entity("ClashRoyaleClanWarsAPI.Domain.Models.ChallengeModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -121,6 +121,9 @@ namespace ClashRoyaleClanWarsAPI.Infrastructure.Migrations
 
                     b.Property<int>("DurationInHours")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsOpen")
+                        .HasColumnType("bit");
 
                     b.Property<int>("LossLimit")
                         .HasColumnType("int");
@@ -141,7 +144,7 @@ namespace ClashRoyaleClanWarsAPI.Infrastructure.Migrations
                     b.ToTable("Challenges");
                 });
 
-            modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Models.Clan.ClanModel", b =>
+            modelBuilder.Entity("ClashRoyaleClanWarsAPI.Domain.Models.ClanModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -185,7 +188,7 @@ namespace ClashRoyaleClanWarsAPI.Infrastructure.Migrations
                     b.ToTable("Clans");
                 });
 
-            modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Models.Player.PlayerModel", b =>
+            modelBuilder.Entity("ClashRoyaleClanWarsAPI.Domain.Models.PlayerModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -233,7 +236,81 @@ namespace ClashRoyaleClanWarsAPI.Infrastructure.Migrations
                     b.ToTable("Players");
                 });
 
-            modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Models.War.WarModel", b =>
+            modelBuilder.Entity("ClashRoyaleClanWarsAPI.Domain.Models.RoleModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("nvarchar(32)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("ffd134e8-96ca-40e9-9e69-84b4e18c4c0a"),
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = new Guid("aa8f19cf-9a70-4b70-ae92-e67e42120122"),
+                            Name = "User"
+                        },
+                        new
+                        {
+                            Id = new Guid("b225e79f-d3c1-49fe-9dce-06ae22cbfeaf"),
+                            Name = "SuperAdmin"
+                        });
+                });
+
+            modelBuilder.Entity("ClashRoyaleClanWarsAPI.Domain.Models.UserModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("PlayerId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("RoleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlayerId")
+                        .IsUnique()
+                        .HasFilter("[PlayerId] IS NOT NULL");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("fdc931b1-c3e8-49fd-b201-dd2b6f02bc65"),
+                            PasswordHash = "AQAAAAIAAYagAAAAEJ57UyoO2lh9/HwCDUr/CiUXek0mgnMxdWSGBa2HpU+i97XD4pZ8ezQWjtd3BJVLeQ==",
+                            UserName = "superadmin"
+                        });
+                });
+
+            modelBuilder.Entity("ClashRoyaleClanWarsAPI.Domain.Models.WarModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -249,7 +326,28 @@ namespace ClashRoyaleClanWarsAPI.Infrastructure.Migrations
                     b.ToTable("Wars");
                 });
 
-            modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Relationships.ClanPlayersModel", b =>
+            modelBuilder.Entity("ClashRoyaleClanWarsAPI.Domain.Relationships.ChallengePlayersModel", b =>
+                {
+                    b.Property<int>("PlayerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ChallengeId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsCompleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("PrizeAmount")
+                        .HasColumnType("int");
+
+                    b.HasKey("PlayerId", "ChallengeId");
+
+                    b.HasIndex("ChallengeId");
+
+                    b.ToTable("PlayerChallenges");
+                });
+
+            modelBuilder.Entity("ClashRoyaleClanWarsAPI.Domain.Relationships.ClanPlayersModel", b =>
                 {
                     b.Property<int>("PlayerId")
                         .HasColumnType("int");
@@ -267,7 +365,7 @@ namespace ClashRoyaleClanWarsAPI.Infrastructure.Migrations
                     b.ToTable("ClanPlayers");
                 });
 
-            modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Relationships.ClanWarsModel", b =>
+            modelBuilder.Entity("ClashRoyaleClanWarsAPI.Domain.Relationships.ClanWarsModel", b =>
                 {
                     b.Property<int>("ClanId")
                         .HasColumnType("int");
@@ -285,7 +383,7 @@ namespace ClashRoyaleClanWarsAPI.Infrastructure.Migrations
                     b.ToTable("ClanWars");
                 });
 
-            modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Relationships.CollectionModel", b =>
+            modelBuilder.Entity("ClashRoyaleClanWarsAPI.Domain.Relationships.CollectionModel", b =>
                 {
                     b.Property<int>("PlayerId")
                         .HasColumnType("int");
@@ -306,7 +404,7 @@ namespace ClashRoyaleClanWarsAPI.Infrastructure.Migrations
                     b.ToTable("Collection");
                 });
 
-            modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Relationships.DonationModel", b =>
+            modelBuilder.Entity("ClashRoyaleClanWarsAPI.Domain.Relationships.DonationModel", b =>
                 {
                     b.Property<int>("PlayerId")
                         .HasColumnType("int");
@@ -317,10 +415,13 @@ namespace ClashRoyaleClanWarsAPI.Infrastructure.Migrations
                     b.Property<int>("CardId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("Amount")
                         .HasColumnType("int");
 
-                    b.HasKey("PlayerId", "ClanId", "CardId");
+                    b.HasKey("PlayerId", "ClanId", "CardId", "Date");
 
                     b.HasIndex("CardId");
 
@@ -329,271 +430,9 @@ namespace ClashRoyaleClanWarsAPI.Infrastructure.Migrations
                     b.ToTable("Donations");
                 });
 
-            modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Relationships.PlayerChallengesModel", b =>
+            modelBuilder.Entity("ClashRoyaleClanWarsAPI.Domain.Models.Card.Implementation.SpellModel", b =>
                 {
-                    b.Property<int>("PlayerId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ChallengeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PrizeAmount")
-                        .HasColumnType("int");
-
-                    b.HasKey("PlayerId", "ChallengeId");
-
-                    b.HasIndex("ChallengeId");
-
-                    b.ToTable("PlayerChallenges");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
-
-                    b.ToTable("Roles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "e5096c80-e8d4-4069-982c-3ac0a3e83047",
-                            ConcurrencyStamp = "c438c423-992e-48b5-bb75-fceb2ab05737",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = "122770ca-a0c1-46ff-b849-ac199ea5f7c1",
-                            ConcurrencyStamp = "dee33159-bb14-4512-ba79-71ec882545fe",
-                            Name = "User",
-                            NormalizedName = "USER"
-                        },
-                        new
-                        {
-                            Id = "e606454d-dfc6-4134-8a0b-df26290f3b7e",
-                            ConcurrencyStamp = "a4f91a73-b0bf-47a3-a07c-6dcb58e98af2",
-                            Name = "SuperAdmin",
-                            NormalizedName = "SUPERADMIN"
-                        });
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RoleId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("RoleClaims", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("Users", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "21863356-0820-41ec-8028-623e9ba30baa",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "35e22ad7-16d1-43c9-92f3-1e2d73da75ff",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            NormalizedUserName = "SUPERADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGO9kcxea/II1Gpj/cCHpKYvkF/ze5dfGP0xXjNTZv4YxSwLH/DNrAvsUrP2JKnvkg==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "a1468969-9cf5-4447-ab01-4a82ccd9853c",
-                            TwoFactorEnabled = false,
-                            UserName = "superadmin"
-                        });
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserClaims", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
-                {
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("LoginProvider", "ProviderKey");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserLogins", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("UserId", "RoleId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("UserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "21863356-0820-41ec-8028-623e9ba30baa",
-                            RoleId = "e606454d-dfc6-4134-8a0b-df26290f3b7e"
-                        });
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("UserId", "LoginProvider", "Name");
-
-                    b.ToTable("UserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Models.Card.Implementation.SpellModel", b =>
-                {
-                    b.HasBaseType("ClashRoyaleRestAPI.Domain.Models.Card.CardModel");
+                    b.HasBaseType("ClashRoyaleClanWarsAPI.Domain.Models.Card.CardModel");
 
                     b.Property<int>("LifeTime")
                         .ValueGeneratedOnUpdateSometimes()
@@ -919,9 +758,9 @@ namespace ClashRoyaleClanWarsAPI.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Models.Card.Implementation.StructureModel", b =>
+            modelBuilder.Entity("ClashRoyaleClanWarsAPI.Domain.Models.Card.Implementation.StructureModel", b =>
                 {
-                    b.HasBaseType("ClashRoyaleRestAPI.Domain.Models.Card.CardModel");
+                    b.HasBaseType("ClashRoyaleClanWarsAPI.Domain.Models.Card.CardModel");
 
                     b.Property<int>("HitPoints")
                         .ValueGeneratedOnUpdateSometimes()
@@ -1200,9 +1039,9 @@ namespace ClashRoyaleClanWarsAPI.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Models.Card.Implementation.TroopModel", b =>
+            modelBuilder.Entity("ClashRoyaleClanWarsAPI.Domain.Models.Card.Implementation.TroopModel", b =>
                 {
-                    b.HasBaseType("ClashRoyaleRestAPI.Domain.Models.Card.CardModel");
+                    b.HasBaseType("ClashRoyaleClanWarsAPI.Domain.Models.Card.CardModel");
 
                     b.Property<int>("Amount")
                         .HasColumnType("int");
@@ -2793,15 +2632,15 @@ namespace ClashRoyaleClanWarsAPI.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Models.Battle.BattleModel", b =>
+            modelBuilder.Entity("ClashRoyaleClanWarsAPI.Domain.Models.Battle.BattleModel", b =>
                 {
-                    b.HasOne("ClashRoyaleRestAPI.Domain.Models.Player.PlayerModel", "Loser")
+                    b.HasOne("ClashRoyaleClanWarsAPI.Domain.Models.PlayerModel", "Loser")
                         .WithMany()
                         .HasForeignKey("LoserId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .HasConstraintName("FK_Battles_Players_LoserId");
 
-                    b.HasOne("ClashRoyaleRestAPI.Domain.Models.Player.PlayerModel", "Winner")
+                    b.HasOne("ClashRoyaleClanWarsAPI.Domain.Models.PlayerModel", "Winner")
                         .WithMany()
                         .HasForeignKey("WinnerId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -2812,108 +2651,39 @@ namespace ClashRoyaleClanWarsAPI.Infrastructure.Migrations
                     b.Navigation("Winner");
                 });
 
-            modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Models.Player.PlayerModel", b =>
+            modelBuilder.Entity("ClashRoyaleClanWarsAPI.Domain.Models.PlayerModel", b =>
                 {
-                    b.HasOne("ClashRoyaleRestAPI.Domain.Models.Card.CardModel", "FavoriteCard")
+                    b.HasOne("ClashRoyaleClanWarsAPI.Domain.Models.Card.CardModel", "FavoriteCard")
                         .WithMany()
                         .HasForeignKey("FavoriteCardId");
 
                     b.Navigation("FavoriteCard");
                 });
 
-            modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Relationships.ClanPlayersModel", b =>
+            modelBuilder.Entity("ClashRoyaleClanWarsAPI.Domain.Models.UserModel", b =>
                 {
-                    b.HasOne("ClashRoyaleRestAPI.Domain.Models.Clan.ClanModel", "Clan")
-                        .WithMany("Players")
-                        .HasForeignKey("ClanId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("ClashRoyaleClanWarsAPI.Domain.Models.PlayerModel", "Player")
+                        .WithOne("User")
+                        .HasForeignKey("ClashRoyaleClanWarsAPI.Domain.Models.UserModel", "PlayerId");
 
-                    b.HasOne("ClashRoyaleRestAPI.Domain.Models.Player.PlayerModel", "Player")
-                        .WithMany()
-                        .HasForeignKey("PlayerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Clan");
+                    b.HasOne("ClashRoyaleClanWarsAPI.Domain.Models.RoleModel", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId");
 
                     b.Navigation("Player");
+
+                    b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Relationships.ClanWarsModel", b =>
+            modelBuilder.Entity("ClashRoyaleClanWarsAPI.Domain.Relationships.ChallengePlayersModel", b =>
                 {
-                    b.HasOne("ClashRoyaleRestAPI.Domain.Models.Clan.ClanModel", "Clan")
-                        .WithMany()
-                        .HasForeignKey("ClanId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ClashRoyaleRestAPI.Domain.Models.War.WarModel", "War")
-                        .WithMany()
-                        .HasForeignKey("WarId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Clan");
-
-                    b.Navigation("War");
-                });
-
-            modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Relationships.CollectionModel", b =>
-                {
-                    b.HasOne("ClashRoyaleRestAPI.Domain.Models.Card.CardModel", "Card")
-                        .WithMany()
-                        .HasForeignKey("CardId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("ClashRoyaleRestAPI.Domain.Models.Player.PlayerModel", "Player")
-                        .WithMany("Cards")
-                        .HasForeignKey("PlayerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Card");
-
-                    b.Navigation("Player");
-                });
-
-            modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Relationships.DonationModel", b =>
-                {
-                    b.HasOne("ClashRoyaleRestAPI.Domain.Models.Card.CardModel", "Card")
-                        .WithMany()
-                        .HasForeignKey("CardId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ClashRoyaleRestAPI.Domain.Models.Clan.ClanModel", "Clan")
-                        .WithMany()
-                        .HasForeignKey("ClanId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ClashRoyaleRestAPI.Domain.Models.Player.PlayerModel", "Player")
-                        .WithMany()
-                        .HasForeignKey("PlayerId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Card");
-
-                    b.Navigation("Clan");
-
-                    b.Navigation("Player");
-                });
-
-            modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Relationships.PlayerChallengesModel", b =>
-                {
-                    b.HasOne("ClashRoyaleRestAPI.Domain.Models.Challenge.ChallengeModel", "Challenge")
+                    b.HasOne("ClashRoyaleClanWarsAPI.Domain.Models.ChallengeModel", "Challenge")
                         .WithMany()
                         .HasForeignKey("ChallengeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ClashRoyaleRestAPI.Domain.Models.Player.PlayerModel", "Player")
+                    b.HasOne("ClashRoyaleClanWarsAPI.Domain.Models.PlayerModel", "Player")
                         .WithMany()
                         .HasForeignKey("PlayerId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -2924,65 +2694,106 @@ namespace ClashRoyaleClanWarsAPI.Infrastructure.Migrations
                     b.Navigation("Player");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("ClashRoyaleClanWarsAPI.Domain.Relationships.ClanPlayersModel", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
-                        .WithMany()
-                        .HasForeignKey("RoleId")
+                    b.HasOne("ClashRoyaleClanWarsAPI.Domain.Models.ClanModel", "Clan")
+                        .WithMany("Players")
+                        .HasForeignKey("ClanId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("ClashRoyaleClanWarsAPI.Domain.Models.PlayerModel", "Player")
+                        .WithMany()
+                        .HasForeignKey("PlayerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Clan");
+
+                    b.Navigation("Player");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("ClashRoyaleClanWarsAPI.Domain.Relationships.ClanWarsModel", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("ClashRoyaleClanWarsAPI.Domain.Models.ClanModel", "Clan")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("ClanId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("ClashRoyaleClanWarsAPI.Domain.Models.WarModel", "War")
+                        .WithMany()
+                        .HasForeignKey("WarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Clan");
+
+                    b.Navigation("War");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("ClashRoyaleClanWarsAPI.Domain.Relationships.CollectionModel", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("ClashRoyaleClanWarsAPI.Domain.Models.Card.CardModel", "Card")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("CardId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("ClashRoyaleClanWarsAPI.Domain.Models.PlayerModel", "Player")
+                        .WithMany("Cards")
+                        .HasForeignKey("PlayerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Card");
+
+                    b.Navigation("Player");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("ClashRoyaleClanWarsAPI.Domain.Relationships.DonationModel", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("ClashRoyaleClanWarsAPI.Domain.Models.Card.CardModel", "Card")
                         .WithMany()
-                        .HasForeignKey("RoleId")
+                        .HasForeignKey("CardId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("ClashRoyaleClanWarsAPI.Domain.Models.ClanModel", "Clan")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("ClanId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("ClashRoyaleClanWarsAPI.Domain.Models.PlayerModel", "Player")
+                        .WithMany()
+                        .HasForeignKey("PlayerId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Card");
+
+                    b.Navigation("Clan");
+
+                    b.Navigation("Player");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Models.Clan.ClanModel", b =>
+            modelBuilder.Entity("ClashRoyaleClanWarsAPI.Domain.Models.ClanModel", b =>
                 {
                     b.Navigation("Players");
                 });
 
-            modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Models.Player.PlayerModel", b =>
+            modelBuilder.Entity("ClashRoyaleClanWarsAPI.Domain.Models.PlayerModel", b =>
                 {
                     b.Navigation("Cards");
+
+                    b.Navigation("User")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ClashRoyaleClanWarsAPI.Domain.Models.RoleModel", b =>
+                {
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

@@ -77,6 +77,9 @@ internal class ClanRepository : BaseRepository<ClanModel, int>, IClanRepository
 
         var player = await _playerRepository.GetSingleByIdAsync(playerId);
 
+        if (player.Elo < clan.MinTrophies)
+            throw new PlayerHasNoEnoughTrophiesException(player.Elo, clan.MinTrophies);
+
         clan!.AddPlayer(player!, rank);
 
         await Save();

@@ -28,7 +28,8 @@ public class ApiController : ControllerBase
 
         if (error == ErrorCode.IdNotFound ||
             error == ErrorCode.ModelNotFound ||
-            error == ErrorCode.UsernameNotFound)
+            error == ErrorCode.UsernameNotFound ||
+            error == ErrorCode.RoleNotFound)
             return NotFound(error.Description);
 
         if (error == ErrorCode.IdsNotMatch ||

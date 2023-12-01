@@ -7,7 +7,7 @@ using ClashRoyaleClanWarsAPI.Domain.Shared;
 
 namespace ClashRoyaleClanWarsAPI.Application.Auth.Account.Queries.LoginUser;
 
-internal class LoginUserQueryHandler : IQueryHandler<LoginUserQuery, LoginResponse>
+public class LoginUserQueryHandler : IQueryHandler<LoginUserQuery, LoginResponse>
 {
     private readonly IAccountRepository _repository;
 
