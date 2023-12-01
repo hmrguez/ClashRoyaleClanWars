@@ -84,11 +84,25 @@ export class PlayersComponent {
   allcards !:any
   allChallenges!:any[]
 
+  currentuser !:any
+  currentusercards !:any
 
 
 
-  constructor(public playerService: PlayerService, private tokens :TokenStorageService, private mess:MessageService,private challengeSer:ChallengeService, private http:HttpClient, private cardser:CardService) { 
+
+  constructor(public playerService: PlayerService, public tokens :TokenStorageService, private mess:MessageService,private challengeSer:ChallengeService, private http:HttpClient, private cardser:CardService) { 
     this.is_Admin = this.tokens.isAdmin() || this.tokens.isSuperAdmin()
+
+    if (!this.is_Admin){
+      var user = tokens.getUser()
+      var url = this.playerService.baseUrl + '/'+user
+      // this.http.get(url).subscribe((data)=>{this.currentuser=data}, (err)=>{console.log(err)})
+      // var url2 = this.playerService.baseUrl + '/'+this.currentuser.id + '/cards'
+      // this.http.get(url2).subscribe((data)=>{this.currentusercards=data}, (err)=>{console.log(err)})
+      
+
+
+    }
     this.playerService.getAll().subscribe((data)=>{
       this.allPlayers=data
       

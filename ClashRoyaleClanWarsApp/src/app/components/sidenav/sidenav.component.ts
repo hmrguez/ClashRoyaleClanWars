@@ -46,11 +46,7 @@ export class SidenavComponent implements OnInit {
         icon: "pi pi-home",
         label: "Home",
       },
-      {
-        routeLink: "/players",
-        icon: "pi pi-users",
-        label: "Players",
-      },
+      
       {
         routeLink: "/cards",
         icon: "pi pi-id-card",
@@ -110,6 +106,11 @@ export class SidenavComponent implements OnInit {
   ]
 
     if (this.LoggedIn) {
+      this.navData.push({
+        routeLink: "/players",
+        icon: "pi pi-users",
+        label: "Players",
+      })
       this.roles = tokenStorage.getRoles()
       if (tokenStorage.isSuperAdmin()){
         this.navData.push(
@@ -117,7 +118,8 @@ export class SidenavComponent implements OnInit {
           routeLink: "/users",
           icon: "pi pi-user",
           label: "Users",
-        })
+        },
+        )
       }
     }
     else {

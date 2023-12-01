@@ -1,3 +1,154 @@
+<div *ngIf="!is_Admin" class="stats">
+
+  <div class="row">
+
+  <div class="col-md-3">
+    <div class="stati amethyst ">
+      <i class="pi pi-user"></i>
+      <div>
+        <b>{{allPlayers[0].alias}}</b>
+        <span>Username</span>
+      </div> 
+    </div>
+  </div> 
+
+  <div class="col-md-3">
+    <div class="stati amethyst ">
+      <i class="pi pi-user"></i>
+      <div>
+        <b>{{allPlayers[0].elo}}</b>
+        <span>Elo</span>
+      </div> 
+    </div>
+  </div> 
+
+  <div class="col-md-3">
+    <div class="stati amethyst ">
+      <i class="pi pi-user"></i>
+      <div>
+        <b>{{allPlayers[0].level}}</b>
+        <span>Level</span>
+      </div> 
+    </div>
+  </div> 
+
+</div>
+
+<div class="row">
+
+  <div class="col-md-3">
+    <div class="stati amethyst ">
+      <i class="pi pi-user"></i>
+      <div>
+        <b>{{allPlayers[0].victories}}</b>
+        <span>Victories</span>
+      </div> 
+    </div>
+  </div> 
+
+  <div class="col-md-3">
+    <div class="stati amethyst ">
+      <i class="pi pi-user"></i>
+      <div>
+        <b>{{allPlayers[0].cardAmount}}</b>
+        <span>Card Amount</span>
+      </div> 
+    </div>
+  </div> 
+
+  <div class="col-md-3">
+    <div class="stati amethyst ">
+      <i class="pi pi-user"></i>
+      <div>
+        <b>{{allPlayers[0].maxElo}}</b>
+        <span>Max ELO</span>
+      </div> 
+    </div>
+  </div> 
+
+</div>
+
+<div class="row">
+
+  <div class="col-md-3">
+    <div class="stati amethyst ">
+      <i class="pi pi-user"></i>
+      <div>
+        <b>{{this.tokens.getRoles()}}</b>
+        <span>Rol</span>
+      </div> 
+    </div>
+  </div> 
+
+  
+
+</div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <div *ngIf="is_Admin" class="add ">
   <p-button (click)="showAdd()" icon="pi pi-plus-circle" label="Add Player"></p-button>
   <p-button (click)="showUpdate()" icon="pi pi-wrench" label="Update Player"></p-button>
@@ -200,7 +351,7 @@
             icon="pi pi-check"></p-button>
 </div>
 
-<clash-grid #grid [columns]="columns"
+<clash-grid *ngIf="is_Admin" #grid [columns]="columns"
             [dataService]="playerService"
             [primaryKey]="'Id'"
             [title]="'Players'"
