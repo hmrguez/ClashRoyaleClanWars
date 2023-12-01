@@ -1,75 +1,83 @@
-﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
-using ClashRoyaleClanWarsAPI.Application.Auth.Response;
-using ClashRoyaleClanWarsAPI.Application.Auth.User;
-using ClashRoyaleClanWarsAPI.Application.Interfaces.Auth;
+﻿using ClashRoyaleClanWarsAPI.Application.Interfaces.Auth;
 using ClashRoyaleClanWarsAPI.Domain.Exceptions;
 using ClashRoyaleClanWarsAPI.Domain.Exceptions.Auth;
-using ClashRoyaleClanWarsAPI.Domain.Exceptions.Models;
+using ClashRoyaleClanWarsAPI.Domain.Models;
 using ClashRoyaleClanWarsAPI.Infrastructure.Persistance;
+using ClashRoyaleClanWarsAPI.Infrastructure.Repositories.Common;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace ClashRoyaleClanWarsAPI.Infrastructure.Repositories.Auth;
 
-internal sealed class UserRepository : IUserRepository
+internal sealed class UserRepository : BaseRepository<UserModel, Guid>, IUserRepository
 {
-    private readonly UserManager<IdentityUser> _userManager;
-    private readonly ClashRoyaleDbContext _context;
-    private readonly IMapper _mapper;
+    private readonly IRoleManager _roleManager;
 
-    public UserRepository(UserManager<IdentityUser> userManager, ClashRoyaleDbContext context, IMapper mapper)
+    public UserRepository(ClashRoyaleDbContext context, IRoleManager roleManager) : base(context)
     {
-        _userManager = userManager;
-        _context = context;
-        _mapper = mapper;
+        _roleManager = roleManager;
     }
 
-    public async Task<UserResponse> GetUserByNameAsync(string username)
+    public async Task<UserModel> GetUserByNameAsync(string username)
     {
-        var user = await _userManager.FindByNameAsync(username)
+        var user = await _context.Users
+            .Include(u => u.Role)
+            .SingleOrDefaultAsync(u => u.UserName == username)
             ?? throw new UsernameNotFoundException();
 
-        var role = (await _userManager.GetRolesAsync(user)).First();
-
-        return UserResponse.Create(user.Id, user.UserName!, role);
+        return user;
     }
-    public async Task<UserResponse> GetUserByIdAsync(string id)
+    public override async Task<UserModel> GetSingleByIdAsync(Guid id)
     {
-        var user = await _userManager.FindByIdAsync(id)
-            ?? throw new IdNotFoundException<string>(id);
+        var user = await _context.Users
+            .Include(u => u.Role)
+            .SingleOrDefaultAsync(u => u.Id == id)
+            ?? throw new IdNotFoundException<Guid>(id);
 
-        var role = (await _userManager.GetRolesAsync(user)).First();
-
-        return UserResponse.Create(user.Id, user.UserName!, role);
+        return user;
     }
-    public async Task<IEnumerable<UserModel>> GetAllAsync()
+    public override async Task<IEnumerable<UserModel>> GetAllAsync()
     {
-        if (_context.Users == null) throw new ModelNotFoundException(nameof(IdentityUser));
-
-        return await _context.Users
-            .ProjectTo<UserModel>(_mapper.ConfigurationProvider)
+        var usersResponse = await _context.Users
+            .Include(u => u.Role)
             .ToListAsync();
+
+        return usersResponse;
     }
-    public async Task Delete(string id)
+    public async Task<UserModel> Add(string username, string password, RoleModel role)
     {
-        var identUser = await _userManager.FindByIdAsync(id)
-            ?? throw new IdNotFoundException<string>(id);
+        UserModel user = UserModel.Create(username, role.Id);
 
-        await _userManager.DeleteAsync(identUser);
+        var passwordHasher = new PasswordHasher<UserModel>();
+        user.PasswordHash = passwordHasher.HashPassword(user, password);
 
-        await _context.SaveChangesAsync();
+        await _context.Users.AddAsync(user);
+
+        await Save();
+
+        return user;
     }
-    public async Task UpdateRole(string id, string role)
+
+    public async Task Delete(Guid id)
     {
-        var identUser = await _userManager.FindByIdAsync(id)
-            ?? throw new IdNotFoundException<string>(id);
+        var user = await _context.Users
+            .SingleOrDefaultAsync(u => u.Id == id)
+            ?? throw new IdNotFoundException<Guid>(id);
 
-        var currentRole = (await _userManager.GetRolesAsync(identUser)).First();
+        _context.Users.Remove(user);
 
-        await _userManager.RemoveFromRoleAsync(identUser, currentRole);
+        await Save();
+    }
+    public async Task UpdateRole(Guid id, string role)
+    {
+        var user = await _context.Users
+            .Include(u => u.Role)
+            .SingleOrDefaultAsync(u => u.Id == id)
+            ?? throw new IdNotFoundException<Guid>(id);
 
-        await _userManager.AddToRoleAsync(identUser, role);
+        var roleInstance = await _roleManager.GetRoleByNameAsync(role);
+
+        user.Role = roleInstance;
 
         await _context.SaveChangesAsync();
     }

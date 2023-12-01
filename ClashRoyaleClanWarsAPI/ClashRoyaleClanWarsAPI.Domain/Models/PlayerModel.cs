@@ -6,6 +6,10 @@ namespace ClashRoyaleClanWarsAPI.Domain.Models;
 
 public class PlayerModel : IEntity<int>
 {
+    private PlayerModel(string alias)
+    {
+        Alias = alias;
+    }
     public int Id { get; private set; }
     public string? Alias { get; private set; }
     public int Elo { get; private set; }
@@ -13,6 +17,7 @@ public class PlayerModel : IEntity<int>
     public int Victories { get; private set; }
     public int CardAmount { get; private set; }
     public int MaxElo { get; private set; }
+    public UserModel User { get; private set; }
     public CardModel? FavoriteCard { get; private set; }
     public List<CollectionModel>? Cards { get; private set; }
 
@@ -24,7 +29,6 @@ public class PlayerModel : IEntity<int>
 
         Cards!.Add(collect);
     }
-
 
     public void AddFavoriteCard(CardModel card) => FavoriteCard ??= card;
 
@@ -56,4 +60,8 @@ public class PlayerModel : IEntity<int>
             UpdateMaxElo(Elo);
     }
 
+    public static PlayerModel Create(string alias)
+    {
+        return new PlayerModel(alias);
+    }
 }

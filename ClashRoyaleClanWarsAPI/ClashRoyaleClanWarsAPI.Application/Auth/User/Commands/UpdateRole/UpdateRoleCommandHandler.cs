@@ -3,10 +3,11 @@ using ClashRoyaleClanWarsAPI.Application.Interfaces.Auth;
 using ClashRoyaleClanWarsAPI.Domain.Exceptions;
 using ClashRoyaleClanWarsAPI.Domain.Shared;
 using ClashRoyaleClanWarsAPI.Domain.Errors;
+using ClashRoyaleClanWarsAPI.Domain.Exceptions.Auth;
 
 namespace ClashRoyaleClanWarsAPI.Application.Auth.User.Commands.UpdateRole;
 
-internal class UpdateRoleCommandHandler : ICommandHandler<UpdateRoleCommand>
+public class UpdateRoleCommandHandler : ICommandHandler<UpdateRoleCommand>
 {
     private readonly IUserRepository _userRepository;
 
@@ -24,6 +25,10 @@ internal class UpdateRoleCommandHandler : ICommandHandler<UpdateRoleCommand>
         catch (IdNotFoundException<string> e)
         {
             return Result.Failure(ErrorTypes.Models.IdNotFound(e.Message));
+        }
+        catch (RoleNotFoundException e)
+        {
+            return Result.Failure(ErrorTypes.Auth.RoleNotFound(e.Message));
         }
 
         return Result.Success();

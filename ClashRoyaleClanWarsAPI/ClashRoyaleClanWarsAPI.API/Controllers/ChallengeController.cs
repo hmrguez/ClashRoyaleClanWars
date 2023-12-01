@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using ClashRoyaleClanWarsAPI.Application.Common.Commands.UpdateModel;
 using ClashRoyaleClanWarsAPI.Application.Common.Commands.DeleteModel;
 using ClashRoyaleClanWarsAPI.Domain.Models;
+using ClashRoyaleClanWarsAPI.Application.Common.Queries.GetAllModel;
 
 namespace ClashRoyaleClanWarsAPI.API.Controllers;
 
@@ -30,6 +31,17 @@ public class ChallengeController : ApiController
         var result = await _sender.Send(quey);
 
         return result.IsSuccess? Ok(result.Value) : Problem(result.Errors);
+    }
+
+    // GET api/challenges/
+    [HttpGet]
+    public async Task<IActionResult> GetAllChallenges()
+    {
+        var query = new GetAllModelQuery<ChallengeModel, int>();
+
+        var result = await _sender.Send(query);
+
+        return result.IsSuccess ? Ok(result.Value) : Problem(result.Errors);
     }
 
     // GET api/challenges/open

@@ -55,6 +55,7 @@ namespace ClashRoyaleClanWarsAPI.Infrastructure.Migrations
                     AmountReward = table.Column<int>(type: "int", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DurationInHours = table.Column<int>(type: "int", nullable: false),
+                    IsOpen = table.Column<bool>(type: "bit", nullable: false),
                     MinLevel = table.Column<int>(type: "int", nullable: false),
                     LossLimit = table.Column<int>(type: "int", nullable: false)
                 },
@@ -80,6 +81,18 @@ namespace ClashRoyaleClanWarsAPI.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Clans", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Roles",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Roles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -167,7 +180,33 @@ namespace ClashRoyaleClanWarsAPI.Infrastructure.Migrations
                         name: "FK_Battles_Players_WinnerId",
                         column: x => x.WinnerId,
                         principalTable: "Players",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ClanPlayers",
+                columns: table => new
+                {
+                    PlayerId = table.Column<int>(type: "int", nullable: false),
+                    ClanId = table.Column<int>(type: "int", nullable: false),
+                    Rank = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClanPlayers", x => new { x.PlayerId, x.ClanId });
+                    table.ForeignKey(
+                        name: "FK_ClanPlayers_Clans_ClanId",
+                        column: x => x.ClanId,
+                        principalTable: "Clans",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ClanPlayers_Players_PlayerId",
+                        column: x => x.PlayerId,
+                        principalTable: "Players",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -199,6 +238,7 @@ namespace ClashRoyaleClanWarsAPI.Infrastructure.Migrations
                 name: "Donations",
                 columns: table => new
                 {
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PlayerId = table.Column<int>(type: "int", nullable: false),
                     ClanId = table.Column<int>(type: "int", nullable: false),
                     CardId = table.Column<int>(type: "int", nullable: false),
@@ -206,7 +246,7 @@ namespace ClashRoyaleClanWarsAPI.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Donations", x => new { x.PlayerId, x.ClanId, x.CardId });
+                    table.PrimaryKey("PK_Donations", x => new { x.PlayerId, x.ClanId, x.CardId, x.Date });
                     table.ForeignKey(
                         name: "FK_Donations_Cards_CardId",
                         column: x => x.CardId,
@@ -232,7 +272,8 @@ namespace ClashRoyaleClanWarsAPI.Infrastructure.Migrations
                 {
                     PlayerId = table.Column<int>(type: "int", nullable: false),
                     ChallengeId = table.Column<int>(type: "int", nullable: false),
-                    PrizeAmount = table.Column<int>(type: "int", nullable: false)
+                    PrizeAmount = table.Column<int>(type: "int", nullable: false),
+                    IsCompleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -251,28 +292,28 @@ namespace ClashRoyaleClanWarsAPI.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PlayerClans",
+                name: "Users",
                 columns: table => new
                 {
-                    PlayerId = table.Column<int>(type: "int", nullable: false),
-                    ClanId = table.Column<int>(type: "int", nullable: false),
-                    Rank = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    PlayerId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PlayerClans", x => new { x.PlayerId, x.ClanId });
+                    table.PrimaryKey("PK_Users", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PlayerClans_Clans_ClanId",
-                        column: x => x.ClanId,
-                        principalTable: "Clans",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_PlayerClans_Players_PlayerId",
+                        name: "FK_Users_Players_PlayerId",
                         column: x => x.PlayerId,
                         principalTable: "Players",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Users_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Roles",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.InsertData(
@@ -405,6 +446,21 @@ namespace ClashRoyaleClanWarsAPI.Infrastructure.Migrations
                     { 109, false, 0, "Building capable of burrowing underground and appearing anywhere in the Arena. Spawns Goblins one at a time until destroyed.", 4, 900, 0f, "https://api-assets.clashroyale.com/cards/300/eN2TKUYbih-26yBi0xy5LVFOA0zDftgDqxxnVfdIg1o.png", 6, 9, "Goblin Drill", 2, 2f, 0f, 4, 2 }
                 });
 
+            migrationBuilder.InsertData(
+                table: "Roles",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { new Guid("aa8f19cf-9a70-4b70-ae92-e67e42120122"), "User" },
+                    { new Guid("b225e79f-d3c1-49fe-9dce-06ae22cbfeaf"), "SuperAdmin" },
+                    { new Guid("ffd134e8-96ca-40e9-9e69-84b4e18c4c0a"), "Admin" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "PasswordHash", "PlayerId", "RoleId", "UserName" },
+                values: new object[] { new Guid("fdc931b1-c3e8-49fd-b201-dd2b6f02bc65"), "AQAAAAIAAYagAAAAEJ57UyoO2lh9/HwCDUr/CiUXek0mgnMxdWSGBa2HpU+i97XD4pZ8ezQWjtd3BJVLeQ==", null, null, "superadmin" });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Battles_LoserId",
                 table: "Battles",
@@ -416,6 +472,11 @@ namespace ClashRoyaleClanWarsAPI.Infrastructure.Migrations
                 columns: new[] { "WinnerId", "LoserId", "Date" },
                 unique: true,
                 filter: "[WinnerId] IS NOT NULL AND [LoserId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClanPlayers_ClanId",
+                table: "ClanPlayers",
+                column: "ClanId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ClanWars_WarId",
@@ -443,14 +504,27 @@ namespace ClashRoyaleClanWarsAPI.Infrastructure.Migrations
                 column: "ChallengeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PlayerClans_ClanId",
-                table: "PlayerClans",
-                column: "ClanId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Players_FavoriteCardId",
                 table: "Players",
                 column: "FavoriteCardId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Roles_Name",
+                table: "Roles",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_PlayerId",
+                table: "Users",
+                column: "PlayerId",
+                unique: true,
+                filter: "[PlayerId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_RoleId",
+                table: "Users",
+                column: "RoleId");
         }
 
         /// <inheritdoc />
@@ -458,6 +532,9 @@ namespace ClashRoyaleClanWarsAPI.Infrastructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Battles");
+
+            migrationBuilder.DropTable(
+                name: "ClanPlayers");
 
             migrationBuilder.DropTable(
                 name: "ClanWars");
@@ -472,19 +549,22 @@ namespace ClashRoyaleClanWarsAPI.Infrastructure.Migrations
                 name: "PlayerChallenges");
 
             migrationBuilder.DropTable(
-                name: "PlayerClans");
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Wars");
 
             migrationBuilder.DropTable(
-                name: "Challenges");
-
-            migrationBuilder.DropTable(
                 name: "Clans");
 
             migrationBuilder.DropTable(
+                name: "Challenges");
+
+            migrationBuilder.DropTable(
                 name: "Players");
+
+            migrationBuilder.DropTable(
+                name: "Roles");
 
             migrationBuilder.DropTable(
                 name: "Cards");
