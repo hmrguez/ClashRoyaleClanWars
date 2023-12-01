@@ -57,6 +57,11 @@ import { CardPopularityComponent } from './components/card-popularity/card-popul
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { ClanPopComponent } from './components/clan-pop/clan-pop.component';
 import { UsersComponent } from './components/users/users.component';
+import { StatsComponent } from './components/stats/stats.component';
+import { FieldsetModule } from 'primeng/fieldset';
+import { PlayerviewComponent } from './components/playerview/playerview.component';
+import { WarComponent } from './components/war/war.component';
+import { ChallengeComponent } from './components/challenge/challenge.component';
 
 
 
@@ -89,6 +94,10 @@ import { UsersComponent } from './components/users/users.component';
     CardPopularityComponent,
     ClanPopComponent,
     UsersComponent,
+    StatsComponent,
+    PlayerviewComponent,
+    WarComponent,
+    ChallengeComponent,
    
    
 
@@ -126,7 +135,8 @@ import { UsersComponent } from './components/users/users.component';
     DragDropModule,
     RatingModule,
     ListboxModule,
-    SelectButtonModule
+    SelectButtonModule,
+    FieldsetModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

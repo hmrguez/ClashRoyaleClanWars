@@ -8,6 +8,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ViewChild } from '@angular/core';
 import { GridComponent } from '../grid/grid.component';
 import { isPlatformBrowser } from '@angular/common';
+import { CardService } from '../cards/card.service';
+import { ChallengeService } from '../challenge/challenge.service';
 
 @Component({
   selector: 'app-players',
@@ -58,6 +60,8 @@ export class PlayersComponent {
   visibleUpdate = false
   visibleDelete = false
   visibleDonate = false
+  visibleAssign = false
+  visibleChallenge =false
 
 
   aliasAdd !: string
@@ -77,14 +81,23 @@ export class PlayersComponent {
 
   cards !:any
 
+  allcards !:any
+  allChallenges!:any[]
 
 
 
-  constructor(public playerService: PlayerService, private tokens :TokenStorageService, private mess:MessageService, private http:HttpClient) { 
+
+  constructor(public playerService: PlayerService, private tokens :TokenStorageService, private mess:MessageService,private challengeSer:ChallengeService, private http:HttpClient, private cardser:CardService) { 
     this.is_Admin = this.tokens.isAdmin() || this.tokens.isSuperAdmin()
     this.playerService.getAll().subscribe((data)=>{
       this.allPlayers=data
       
+    })
+    this.cardser.getAll().subscribe((data)=>{
+      this.allcards = data
+    })
+    this.challengeSer.getAll().subscribe((data)=>{
+      this.allChallenges = data
     })
   }
 
@@ -101,6 +114,8 @@ export class PlayersComponent {
     this.visibleUpdate = false
     this.visibleDelete = false
     this.visibleDonate= false
+    this.visibleAssign = false
+    this.visibleChallenge =false
     
   }
 
@@ -109,6 +124,8 @@ export class PlayersComponent {
     this.visibleAdd = false
     this.visibleDelete = false
     this.visibleDonate= false
+    this.visibleAssign = false
+    this.visibleChallenge =false
   }
 
   showDelete(){
@@ -116,6 +133,8 @@ export class PlayersComponent {
     this.visibleAdd = false
     this.visibleUpdate = false
     this.visibleDonate= false
+    this.visibleAssign = false
+    this.visibleChallenge =false
   }
 
   showDonate(){
@@ -123,6 +142,27 @@ export class PlayersComponent {
     this.visibleAdd = false
     this.visibleUpdate = false
     this.visibleDelete = false
+    this.visibleAssign = false
+    this.visibleChallenge =false
+  }
+
+  showAssign(){
+    this.visibleAssign = !this.visibleAssign 
+    this.visibleAdd = false
+    this.visibleUpdate = false
+    this.visibleDelete = false
+    this.visibleDonate = false
+    this.visibleChallenge =false
+
+  }
+
+  showChallenge(){
+    this.visibleChallenge = !this.visibleChallenge
+    this.visibleAdd = false
+    this.visibleUpdate = false
+    this.visibleDelete = false
+    this.visibleDonate = false
+    this.visibleAssign = false
   }
 
   Post(){
@@ -209,6 +249,51 @@ export class PlayersComponent {
       this.showSuccess("Donated")
     },(err)=>{
       this.showError(err.error)
+    })
+
+  }
+
+  playerAssign !: any
+  cardAssign !: any
+
+  AssignCards(){
+
+    if (!this.playerAssign || !this.cardAssign){
+      this.showError('Select a card and a player')
+    }
+
+    let url = this.playerService.baseUrl + '/'+this.playerAssign.id + '/cards/' + this.cardAssign.id
+
+    this.http.post(url,{}).subscribe((data)=>{
+      this.showSuccess("Cards assigned")
+      
+
+    },(err)=>{
+      this.showError(err.error)
+      console.log(err)
+    })
+
+  }
+
+  challenge !: any
+  playerChallenge !: any
+  reward!: number
+
+  Challenge(){
+    if (!this.challenge || !this.playerChallenge || !this.reward){
+      this.showError('No fields can be empty')
+      return
+    }
+
+    let url = this.playerService.baseUrl + '/'+this.playerChallenge.id + '/challenge/' + this.challenge.id
+
+    this.http.post(url,{'reward': this.reward}).subscribe((data)=>{
+      this.showSuccess("Challenge assigned")
+      
+
+    },(err)=>{
+      this.showError(err.error)
+      console.log(err)
     })
 
   }

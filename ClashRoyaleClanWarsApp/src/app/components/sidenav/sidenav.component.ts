@@ -67,6 +67,16 @@ export class SidenavComponent implements OnInit {
         label: "Battles",
       },
       {
+        routeLink: "/war",
+        icon: "pi pi-bolt",
+        label: "Wars",
+      },
+      {
+        routeLink: "/challenge",
+        icon: "pi pi-exclamation-triangle",
+        label: "Challenges",
+      },
+      {
         routeLink: "/query",
         icon: "pi pi-database",
         label: "Query",
