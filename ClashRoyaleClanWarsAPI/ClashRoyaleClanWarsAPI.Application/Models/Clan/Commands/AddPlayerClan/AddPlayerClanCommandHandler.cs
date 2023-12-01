@@ -34,6 +34,10 @@ public class AddPlayerClanCommandHandler : ICommandHandler<AddPlayerClanCommand>
         {
             return Result.Failure(ErrorTypes.Models.PlayerHasClan());
         }
+        catch (PlayerHasNoEnoughTrophiesException e)
+        {
+            return Result.Failure(ErrorTypes.Models.PlayerHasNoEnoughTrophies(e.Message));
+        }
 
         return Result.Success();
     }

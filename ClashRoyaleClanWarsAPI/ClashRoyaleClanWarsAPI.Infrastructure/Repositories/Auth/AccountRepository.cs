@@ -1,51 +1,46 @@
-﻿using AutoMapper;
-using ClashRoyaleClanWarsAPI.Application.Auth;
+﻿using ClashRoyaleClanWarsAPI.Application.Auth;
 using ClashRoyaleClanWarsAPI.Application.Auth.Response;
-using ClashRoyaleClanWarsAPI.Application.Auth.User;
 using ClashRoyaleClanWarsAPI.Application.Auth.Utils;
 using ClashRoyaleClanWarsAPI.Application.Interfaces.Auth;
+using ClashRoyaleClanWarsAPI.Application.Interfaces.Repositories;
 using ClashRoyaleClanWarsAPI.Domain.Exceptions.Auth;
+using ClashRoyaleClanWarsAPI.Domain.Models;
+using ClashRoyaleClanWarsAPI.Infrastructure.Persistance;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Authentication;
 
 namespace ClashRoyaleClanWarsAPI.Infrastructure.Repositories.Auth;
 
 internal sealed class AccountRepository : IAccountRepository
 {
-    private readonly UserManager<IdentityUser> _userManager;
-    private readonly RoleManager<IdentityRole> _roleManager;
+    private readonly ClashRoyaleDbContext _context;
+    private readonly IRoleManager _roleManager;
+    private readonly IPlayerRepository _playerRepository;
+    private readonly IUserRepository _userRepository;
     private readonly IJwtTokenProvider _jwtTokenProvider;
-    private readonly IMapper _mapper;
 
-    public AccountRepository(UserManager<IdentityUser> userManager, IMapper mapper, IJwtTokenProvider jwtTokenProvider, RoleManager<IdentityRole> roleManager)
+    public AccountRepository(IJwtTokenProvider jwtTokenProvider,
+                             IPlayerRepository playerRepository,
+                             ClashRoyaleDbContext context,
+                             IUserRepository userRepository,
+                             IRoleManager roleManager)
     {
-        _userManager = userManager;
         _jwtTokenProvider = jwtTokenProvider;
-        _mapper = mapper;
+        _playerRepository = playerRepository;
+        _context = context;
+        _userRepository = userRepository;
         _roleManager = roleManager;
     }
 
     public async Task<LoginResponse> LoginUserAsync(LoginModel loginModel)
     {
-        var user = await _userManager.FindByNameAsync(loginModel.Username!)
-            ?? throw new UsernameNotFoundException();
+        var user = await _userRepository.GetUserByNameAsync(loginModel.Username!);
 
-        var roles = await _userManager.GetRolesAsync(user);
-
-        if (roles.First() == UserRoles.SUPERADMIN)
-        {
-            var pswHasher = new PasswordHasher<IdentityUser>();
-            var result = pswHasher.VerifyHashedPassword(user, user.PasswordHash!, loginModel.Password!);
-
-            if (result == 0)
-                throw new InvalidCredentialException();
-        }
-        else if (!await _userManager.CheckPasswordAsync(user, loginModel.Password!))
+        if (!VerifyPassword(user, loginModel.Password!))
             throw new InvalidCredentialException();
 
-        var userModel = _mapper.Map<UserModel>(user);
-
-        return _jwtTokenProvider.CreateToken(userModel, roles);
+        return _jwtTokenProvider.CreateToken(user, user.Role!.Name);
     }
 
     public async Task<UserResponse> RegisterUserAsync(RegisterModel registerModel, RoleEnum role)
@@ -53,34 +48,40 @@ internal sealed class AccountRepository : IAccountRepository
         if (await UsernameExits(registerModel.Username!))
             throw new DuplicationUsernameException();
 
-        if(registerModel.Password != registerModel.ConfirmPassword)
+        if (registerModel.Password != registerModel.ConfirmPassword)
             throw new PasswordsNotMatchException();
 
         var roleMapped = UserRoles.MapRole(role);
 
-        var identityUser = await CreateUser(registerModel.Username!, registerModel.Password!, roleMapped);
+        var appUser = await CreateUser(registerModel.Username!, registerModel.Password!, roleMapped);
 
-        return UserResponse.Create(identityUser.Id, identityUser.UserName!, roleMapped);
+        return UserResponse.Create(appUser.Id, appUser.UserName!, roleMapped, appUser.PlayerId);
     }
 
-    private async Task<IdentityUser> CreateUser(string username, string password, string role)
+    private async Task<UserModel> CreateUser(string username, string password, string role)
     {
-        IdentityUser user = new()
-        {
-            UserName = username,
-            SecurityStamp = Guid.NewGuid().ToString()
-        };
+        var roleInstance = await _roleManager.GetRoleByNameAsync(role);
 
-        var result = await _userManager.CreateAsync(user, password);
+        var user = await _userRepository.Add(username, password, roleInstance);
 
-        if (!result.Succeeded)
-            throw new InvalidPasswordException(string.Join(" ", result.Errors.Select(d => d.Description).ToArray()));
+        var playerModel = PlayerModel.Create(username);
 
-        if (await _roleManager.RoleExistsAsync(role))
-            await _userManager.AddToRoleAsync(user, role);
+        var playerId = await _playerRepository.Add(playerModel);
+
+        user.PlayerId = playerId;
+
+        await _context.SaveChangesAsync();
 
         return user;
     }
+
+    private bool VerifyPassword(UserModel user, string providedPassword)
+    {
+        var pswHasher = new PasswordHasher<UserModel>();
+        var result = pswHasher.VerifyHashedPassword(user, user.PasswordHash, providedPassword);
+
+        return result == 0;
+    }
     private async Task<bool> UsernameExits(string username)
-        => (await _userManager.FindByNameAsync(username)) is not null;
+        => (await _context.Users.Where(u=> u.UserName == username).FirstOrDefaultAsync()) is not null;
 }

@@ -1,22 +1,17 @@
 using ClashRoyaleClanWarsAPI.API.OptionsSetup;
 using ClashRoyaleClanWarsAPI.Application;
 using ClashRoyaleClanWarsAPI.Infrastructure;
-using ClashRoyaleClanWarsAPI.Infrastructure.Persistance;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 {
     builder.Services.AddControllers();
+
     builder.Services
         .AddApplication()
         .AddInfrastructure();
-
-    builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-                .AddEntityFrameworkStores<ClashRoyaleDbContext>()
-                .AddDefaultTokenProviders();
 
     builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer();
@@ -48,9 +43,8 @@ var builder = WebApplication.CreateBuilder(args);
                 .AllowAnyHeader().AllowAnyMethod();
         });
     });
-       
-}
 
+}
 
 var app = builder.Build();
 {

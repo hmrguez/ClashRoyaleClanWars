@@ -11,5 +11,6 @@ public static partial class ErrorTypes
         public static Error InvalidCredentials() => new(ErrorCode.InvalidCredentials, "InvalidCredentials");
         public static Error PasswordsNotMatch() => new(ErrorCode.PasswordsNotMatch, "Passwords do not match");
         public static Error InvalidPassword(string message) => new(ErrorCode.InvalidPassword, message);
+        public static Error RoleNotFound(string message) => new(ErrorCode.RoleNotFound, message);
     }
 }

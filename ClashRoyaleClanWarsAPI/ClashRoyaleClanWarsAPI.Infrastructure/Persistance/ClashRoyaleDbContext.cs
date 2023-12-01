@@ -6,14 +6,12 @@ using ClashRoyaleClanWarsAPI.Domain.Relationships;
 using ClashRoyaleClanWarsAPI.Infrastructure.Persistance.Configurations.Models;
 using ClashRoyaleClanWarsAPI.Infrastructure.Persistance.Configurations.Relationships;
 using ClashRoyaleClanWarsAPI.Infrastructure.Persistance.Seed;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace ClashRoyaleClanWarsAPI.Infrastructure.Persistance;
 
-public class ClashRoyaleDbContext : IdentityDbContext
+public class ClashRoyaleDbContext : DbContext
 {
     private readonly IConfiguration _configuration;
     public ClashRoyaleDbContext(DbContextOptions<ClashRoyaleDbContext> options, IConfiguration configuration) : base(options)
@@ -35,6 +33,8 @@ public class ClashRoyaleDbContext : IdentityDbContext
     public DbSet<StructureModel> Structures => Set<StructureModel>();
     public DbSet<TroopModel> Troops => Set<TroopModel>();
     public DbSet<WarModel> Wars => Set<WarModel>();
+    public DbSet<UserModel> Users => Set<UserModel>();
+    public DbSet<RoleModel> Roles => Set<RoleModel>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -42,7 +42,6 @@ public class ClashRoyaleDbContext : IdentityDbContext
 
         ApplyModelsConfiguration(modelBuilder);
         ApplyRelationshipsConfiguration(modelBuilder);
-        RenameIdentityTables(modelBuilder);
 
         modelBuilder.SeedRoles(_configuration["SuperAdmin:Password"]!);
         modelBuilder.SeedCards();
@@ -68,9 +67,11 @@ public class ClashRoyaleDbContext : IdentityDbContext
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(SpellConfiguration).Assembly);
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(StructureConfiguration).Assembly);
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(WarConfiguration).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserModelConfiguration).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(RoleModelConfiguration).Assembly);
     }
 
-    private static void RenameIdentityTables(ModelBuilder modelBuilder)
+    /*private static void RenameIdentityTables(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<IdentityUser>(m => m.ToTable("Users"));
         modelBuilder.Entity<IdentityRole>(m => m.ToTable("Roles"));
@@ -79,5 +80,5 @@ public class ClashRoyaleDbContext : IdentityDbContext
         modelBuilder.Entity<IdentityUserLogin<string>>(m => m.ToTable("UserLogins"));
         modelBuilder.Entity<IdentityUserRole<string>>(m => m.ToTable("UserRoles"));
         modelBuilder.Entity<IdentityUserToken<string>>(m => m.ToTable("UserTokens"));
-    }
+    }*/
 }

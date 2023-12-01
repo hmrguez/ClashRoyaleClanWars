@@ -1,10 +1,11 @@
 ﻿using ClashRoyaleClanWarsAPI.Application.Abstractions.CQRS;
+using ClashRoyaleClanWarsAPI.Application.Auth.Response;
 using ClashRoyaleClanWarsAPI.Application.Interfaces.Auth;
 using ClashRoyaleClanWarsAPI.Domain.Shared;
 
 namespace ClashRoyaleClanWarsAPI.Application.Auth.User.Queries.GetAllUser;
 
-internal class GetAllUserQueryHandler : IQueryHandler<GetAllUserQuery, IEnumerable<UserModel>>
+public class GetAllUserQueryHandler : IQueryHandler<GetAllUserQuery, IEnumerable<UserResponse>>
 {
     private readonly IUserRepository _repository;
 
@@ -13,10 +14,12 @@ internal class GetAllUserQueryHandler : IQueryHandler<GetAllUserQuery, IEnumerab
         _repository = repository;
     }
 
-    public async Task<Result<IEnumerable<UserModel>>> Handle(GetAllUserQuery request, CancellationToken cancellationToken)
+    public async Task<Result<IEnumerable<UserResponse>>> Handle(GetAllUserQuery request, CancellationToken cancellationToken)
     {
         var users = await _repository.GetAllAsync();
 
-        return Result.Create(users);
+        var userResponse = users.Select(u => UserResponse.Create(u.Id, u.UserName, u.Role!.Name, u.PlayerId)).ToList();
+
+        return Result.Create(userResponse.AsEnumerable());
     }
 }

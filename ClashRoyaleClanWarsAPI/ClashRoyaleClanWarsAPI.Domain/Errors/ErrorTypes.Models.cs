@@ -42,5 +42,8 @@ public static partial class ErrorTypes
                 code: ErrorCode.PlayerHasNoClan,
                 description: description);
 
+        public static Error PlayerHasNoEnoughTrophies(string description) => new(
+                code: ErrorCode.PlayerHasNoEnoughTrophies,
+                description: description);
     }
 }

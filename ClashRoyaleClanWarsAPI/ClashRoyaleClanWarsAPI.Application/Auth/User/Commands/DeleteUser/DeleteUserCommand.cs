@@ -2,4 +2,4 @@
 
 namespace ClashRoyaleClanWarsAPI.Application.Auth.User.Commands.DeleteUser;
 
-public record DeleteUserCommand(string Id) : ICommand;
+public record DeleteUserCommand(Guid Id) : ICommand;
