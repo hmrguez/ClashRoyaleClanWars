@@ -59,6 +59,7 @@ import { ClanPopComponent } from './components/clan-pop/clan-pop.component';
 import { UsersComponent } from './components/users/users.component';
 import { StatsComponent } from './components/stats/stats.component';
 import { FieldsetModule } from 'primeng/fieldset';
+import { PasswordModule } from 'primeng/password';
 
 import { WarComponent } from './components/war/war.component';
 import { ChallengeComponent } from './components/challenge/challenge.component';
@@ -135,7 +136,8 @@ import { ChallengeComponent } from './components/challenge/challenge.component';
     RatingModule,
     ListboxModule,
     SelectButtonModule,
-    FieldsetModule
+    FieldsetModule,
+    PasswordModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]
