@@ -45,5 +45,10 @@ public static partial class ErrorTypes
         public static Error PlayerHasNoEnoughTrophies(string description) => new(
                 code: ErrorCode.PlayerHasNoEnoughTrophies,
                 description: description);
+
+        public static Error ClanAlreadyInWar(string description) => new(
+                code: ErrorCode.ClanAlreadyInWar,
+                description: description);
+        
     }
 }

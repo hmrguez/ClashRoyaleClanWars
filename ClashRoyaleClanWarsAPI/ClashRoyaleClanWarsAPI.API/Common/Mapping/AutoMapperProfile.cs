@@ -1,13 +1,11 @@
 ﻿using AutoMapper;
 using ClashRoyaleClanWarsAPI.API.Common.Mapping.Objects;
 using ClashRoyaleClanWarsAPI.Application.Auth;
-using ClashRoyaleClanWarsAPI.Application.Auth.User;
 using ClashRoyaleClanWarsAPI.Application.Common.Mapping;
 using ClashRoyaleClanWarsAPI.Domain.Models;
 using ClashRoyaleClanWarsAPI.Domain.Models.Battle;
 using ClashRoyaleClanWarsAPI.Domain.Models.Card.Implementation;
 using ClashRoyaleClanWarsAPI.Domain.Relationships;
-using Microsoft.AspNetCore.Identity;
 
 namespace ClashRoyaleClanWarsAPI.API.Common.Mapping;
 
@@ -24,6 +22,9 @@ public class AutoMapperProfile : Profile
 
         CreateMap<PlayerModel, PlayerModel>();
         CreateMap<CollectionModel, CollectionDto>();
+
+        CreateMap<WarModel, WarModel>();
+        CreateMap<ClanWarsModel, ClanWarDto>();
 
         CreateMap<AddBattleRequest, BattleModel>();
 
