@@ -23,7 +23,7 @@
 <p-inputNumber [(ngModel)]="amountRewardPost" [min]="1" inputId="integeronly" placeholder="Reward" class="form"></p-inputNumber>
 </div>
 <div class="col"><p-inputNumber [(ngModel)]="durationInHoursPost" [min]="1" inputId="integeronly" placeholder="Duration In Hours" class="form"></p-inputNumber>
-</div> <div class="col"><p-inputNumber [(ngModel)]="minLevelPost" [min]="1" inputId="integeronly" placeholder="Min Level" class="form"></p-inputNumber>
+</div> <div class="col"><p-inputNumber [(ngModel)]="minLevelPost" [min]="1" [max]="15" inputId="integeronly" placeholder="Min Level" class="form"></p-inputNumber>
 </div></div>
 
 <div class="row">
