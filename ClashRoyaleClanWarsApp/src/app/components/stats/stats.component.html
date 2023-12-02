@@ -1,0 +1,32 @@
+<p-fieldset [toggleable]="true" [collapsed]="true">
+    <ng-template pTemplate="header">
+        <div class="flex align-items-center text-primary">
+            <span class="pi pi-chart-line mr-2"></span>
+            <span class="font-bold text-lg">Game Popularity</span>
+        </div>
+    </ng-template>
+    <app-graph></app-graph>
+</p-fieldset>
+
+<p-fieldset [toggleable]="true" [collapsed]="true">
+    <ng-template pTemplate="header">
+        <div class="flex align-items-center text-primary">
+            <span class="pi pi-chart-bar mr-2"></span>
+            <span class="font-bold text-lg">Win Frequency</span>
+        </div>
+    </ng-template>
+    <app-card-popularity></app-card-popularity>
+</p-fieldset>
+
+
+<p-fieldset [toggleable]="true" [collapsed]="true">
+    <ng-template pTemplate="header">
+        <div class="flex align-items-center text-primary">
+            <span class="pi pi-chart-pie mr-2"></span>
+            <span class="font-bold text-lg">Clan Popularity</span>
+        </div>
+    </ng-template>
+    <app-clan-pop></app-clan-pop>
+</p-fieldset>
+
+

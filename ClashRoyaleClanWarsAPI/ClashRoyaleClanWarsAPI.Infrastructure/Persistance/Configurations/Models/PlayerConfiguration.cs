@@ -34,5 +34,10 @@ public class PlayerConfiguration : IEntityTypeConfiguration<PlayerModel>
             .WithMany()
             .HasForeignKey("FavoriteCardId")
             .IsRequired(false);
+
+        builder.HasOne(u => u.User)
+            .WithOne(p => p.Player)
+            .HasForeignKey<UserModel>(p => p.PlayerId)
+            .IsRequired(false);
     }
 }

@@ -17,4 +17,6 @@ public class ErrorCode
     public const string PasswordsNotMatch = "Auth.PasswordsNotMatch";
     public const string PlayerHasClan = "Player.PlayerHasClan";
     public const string PlayerHasNoClan = "Player.PlayerHasNoClan";
+    public const string PlayerHasNoEnoughTrophies = "Player.PlayerHasNoEnoughTrophies";
+    public const string RoleNotFound = "Auth.RoleNotFound";
 }

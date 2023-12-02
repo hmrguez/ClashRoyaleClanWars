@@ -1,4 +1,5 @@
 ﻿using ClashRoyaleClanWarsAPI.Application.Auth.Utils;
+using ClashRoyaleClanWarsAPI.Domain.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,55 +9,24 @@ public static class SeedRolesSuperAdminModelBuilderExtentions
 {
     public static void SeedRoles(this ModelBuilder builder, string superAdminPSW)
     {
+        var superAdminRole = RoleModel.Create(UserRoles.SUPERADMIN);
 
-        List<IdentityRole> roles = new List<IdentityRole>()
+        List<RoleModel> roles = new List<RoleModel>()
         {
-            new IdentityRole
-            {
-                Name = UserRoles.ADMIN,
-                NormalizedName = UserRoles.ADMIN.ToUpper(),
-                ConcurrencyStamp = Guid.NewGuid().ToString(),
-            },
-            new IdentityRole
-            {
-                Name = UserRoles.USER,
-                NormalizedName = UserRoles.USER.ToUpper(),
-                ConcurrencyStamp = Guid.NewGuid().ToString(),
-            },
-            new IdentityRole
-            {
-                Name = UserRoles.SUPERADMIN,
-                NormalizedName = UserRoles.SUPERADMIN.ToUpper(),
-                ConcurrencyStamp = Guid.NewGuid().ToString()
-            },
+            RoleModel.Create(UserRoles.ADMIN),
+            RoleModel.Create(UserRoles.USER),
+            superAdminRole
         };
 
-        builder.Entity<IdentityRole>().HasData(roles);
+        builder.Entity<RoleModel>().HasData(roles);
 
-        var passwordHasher = new PasswordHasher<IdentityUser>();
+        var passwordHasher = new PasswordHasher<UserModel>();
 
-        IdentityUser superadmin = new()
-        {
-            UserName = "superadmin",
-            NormalizedUserName = "SUPERADMIN",
-        };
+        UserModel superAdminUser = UserModel.Create("superadmin", superAdminRole.Id);
+        
+        superAdminUser.PasswordHash = passwordHasher.HashPassword(superAdminUser, superAdminPSW);
 
-        builder.Entity<IdentityUser>().HasData(superadmin);
-
-
-
-        List<IdentityUserRole<string>> userRoles = new();
-
-        superadmin.PasswordHash = passwordHasher.HashPassword(superadmin, superAdminPSW);
-
-        userRoles.Add(new IdentityUserRole<string>
-        {
-            UserId = superadmin.Id,
-            RoleId = roles.First(q => q.Name == UserRoles.SUPERADMIN).Id
-        });
-
-
-        builder.Entity<IdentityUserRole<string>>().HasData(userRoles);
+        builder.Entity<UserModel>().HasData(superAdminUser);
 
     }
 }

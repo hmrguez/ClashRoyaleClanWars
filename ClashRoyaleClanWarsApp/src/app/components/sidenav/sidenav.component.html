@@ -2,6 +2,7 @@
   <div class="logo-container">
     <button class="logo" (click)="toggleCollapse()">C</button>
     <div class="logo-text" *ngIf="collapsed">Clash</div>
+    
     <button class="btn-closed" *ngIf="collapsed" (click)="closeNavbar()">
       <i class="pi pi-times close-icon"></i>
     </button>
@@ -15,13 +16,7 @@
       </a>
     </li>
 
-    <li class="sidenav-nav-item" *ngIf="LoggedIn">
-      <a class="sidenav-nav-link" >
-        <i class="sidenav-link-icon pi pi-at" ></i>
-        <span class="sidenav-link-text" *ngIf="collapsed">{{this.tokenStorage.getUser()}}</span>
-      </a>
-    </li>
-
+    
     <li class="sidenav-nav-item" *ngIf="LoggedIn" (click)="logout()">
       <a href="#" class="sidenav-nav-link" >
         <i class="sidenav-link-icon pi pi-sign-out" ></i>

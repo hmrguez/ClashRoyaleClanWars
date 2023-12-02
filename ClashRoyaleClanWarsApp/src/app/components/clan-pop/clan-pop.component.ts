@@ -67,7 +67,7 @@ export class ClanPopComponent {
   }
 
   Save(){
-    var canvas = document.querySelector('canvas');
+    var canvas = document.querySelectorAll('canvas')[2];
     var img = canvas!.toDataURL("image/png");
     var doc = new jsPDF('portrait', 'px', 'a4' );
     doc.setFontSize(20);

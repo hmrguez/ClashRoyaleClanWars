@@ -6,7 +6,7 @@ using ClashRoyaleClanWarsAPI.Domain.Errors;
 
 namespace ClashRoyaleClanWarsAPI.Application.Auth.User.Commands.DeleteUser;
 
-internal class DeleteUserCommandHandler : ICommandHandler<DeleteUserCommand>
+public class DeleteUserCommandHandler : ICommandHandler<DeleteUserCommand>
 {
     private readonly IUserRepository _repository;
 

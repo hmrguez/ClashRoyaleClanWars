@@ -1,13 +1,12 @@
-﻿using ClashRoyaleClanWarsAPI.Application.Auth.Response;
-using ClashRoyaleClanWarsAPI.Application.Auth.User;
+﻿using ClashRoyaleClanWarsAPI.Application.Interfaces.Repositories;
+using ClashRoyaleClanWarsAPI.Domain.Models;
 
 namespace ClashRoyaleClanWarsAPI.Application.Interfaces.Auth;
 
-public interface IUserRepository
+public interface IUserRepository : IBaseRepository<UserModel, Guid>
 {
-    Task<IEnumerable<UserModel>> GetAllAsync();
-    Task<UserResponse> GetUserByNameAsync(string username);
-    Task<UserResponse> GetUserByIdAsync(string id);
-    Task Delete(string id);
-    Task UpdateRole(string id, string role);
+    Task<UserModel> GetUserByNameAsync(string username);
+    Task<UserModel> Add(string username, string password, RoleModel role);
+    Task Delete(Guid id);
+    Task UpdateRole(Guid id, string role);
 }

@@ -348,6 +348,8 @@ body::before {
   position: relative;
   display:flex;
   justify-content: center;
+  align-items:center;
+  gap: 2rem;
 }
 .content .input-box input {
   position: relative;
@@ -455,3 +457,4 @@ body::before {
 .p{
   margin-top: 2%;
 }
+

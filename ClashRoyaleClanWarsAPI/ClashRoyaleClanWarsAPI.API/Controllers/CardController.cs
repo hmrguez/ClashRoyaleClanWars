@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using ClashRoyaleClanWarsAPI.API.Common.Mapping.Objects;
 using ClashRoyaleClanWarsAPI.API.Common.Mapping.Utils;
-using ClashRoyaleClanWarsAPI.Application.Auth.Utils;
 using ClashRoyaleClanWarsAPI.Application.Common.Commands.DeleteModel;
 using ClashRoyaleClanWarsAPI.Application.Common.Commands.UpdateModel;
 using ClashRoyaleClanWarsAPI.Application.Common.Queries.GetAllModel;
@@ -10,7 +9,6 @@ using ClashRoyaleClanWarsAPI.Application.Models.Card.Queries.GetCardsByName;
 using ClashRoyaleClanWarsAPI.Domain.Errors;
 using ClashRoyaleClanWarsAPI.Domain.Models.Card;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClashRoyaleClanWarsAPI.API.Controllers;
@@ -78,7 +76,6 @@ public class CardController : ApiController
     }
 
     // DELETE api/cards/{id:int}
-    [Authorize(Roles = UserRoles.SUPERADMIN)]
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {

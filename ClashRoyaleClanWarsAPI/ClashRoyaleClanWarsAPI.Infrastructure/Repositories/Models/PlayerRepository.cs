@@ -16,18 +16,15 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
 {
     private readonly IChallengeRepository _challengeRepository;
     private readonly ICardRepository _cardRepository;
-    private readonly Lazy<IClanRepository> _clanRepository;
     private readonly IMapper _mapper;
 
     public PlayerRepository(ClashRoyaleDbContext context,
                             IChallengeRepository challengeRepository,
                             ICardRepository cardRepository,
-                            Lazy<IClanRepository> clanRepository,
                             IMapper mapper) : base(context)
     {
         _challengeRepository = challengeRepository;
         _cardRepository = cardRepository;
-        _clanRepository = clanRepository;
         _mapper = mapper;
     }
 

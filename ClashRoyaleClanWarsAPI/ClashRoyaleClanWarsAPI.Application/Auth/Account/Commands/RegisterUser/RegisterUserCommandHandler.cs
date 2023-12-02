@@ -7,7 +7,7 @@ using ClashRoyaleClanWarsAPI.Domain.Shared;
 
 namespace ClashRoyaleClanWarsAPI.Application.Auth.Account.Commands.RegisterUser;
 
-internal class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand, string>
+public class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand, string>
 {
     private readonly IAccountRepository _repository;
 
@@ -40,6 +40,6 @@ internal class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand,
             return Result.Failure<string>(ErrorTypes.Auth.InvalidCredentials());
         }
 
-        return response.Id!;
+        return response.Id.ToString()!;
     }
 }

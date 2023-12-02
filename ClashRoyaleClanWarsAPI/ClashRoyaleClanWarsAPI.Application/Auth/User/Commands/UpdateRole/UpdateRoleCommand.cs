@@ -2,4 +2,4 @@
 
 namespace ClashRoyaleClanWarsAPI.Application.Auth.User.Commands.UpdateRole;
 
-public record UpdateRoleCommand(string Id, string Role) : ICommand;
+public record UpdateRoleCommand(Guid Id, string Role) : ICommand;

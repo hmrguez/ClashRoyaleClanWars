@@ -49,7 +49,7 @@ export class CardPopularityComponent implements OnInit{
 }
 
 Save(){
-  var canvas = document.querySelector('canvas');
+  var canvas = document.querySelectorAll('canvas')[1];
   var img = canvas!.toDataURL("image/png");
   var doc = new jsPDF('landscape', 'px', 'a4' );
   doc.setFontSize(40);

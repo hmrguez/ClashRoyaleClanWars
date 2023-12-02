@@ -5,7 +5,6 @@ using ClashRoyaleClanWarsAPI.Application.Auth.User.Queries.GetUserById;
 using ClashRoyaleClanWarsAPI.Application.Auth.User.Queries.GetUserByName;
 using ClashRoyaleClanWarsAPI.Application.Auth.Utils;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClashRoyaleClanWarsAPI.API.Controllers;
@@ -37,9 +36,9 @@ public class UserController : ApiController
         return result.IsSuccess ? Ok(result.Value) : Problem(result.Errors);
     }
 
-    // GET api/users/{id:string}
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetUserById(string id)
+    // GET api/users/{id:guid}
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> GetUserById(Guid id)
     {
         var query = new GetUserByIdQuery(id);
 
@@ -48,9 +47,9 @@ public class UserController : ApiController
         return result.IsSuccess ? Ok(result.Value) : Problem(result.Errors);
     }
 
-    // DELETE api/users/{id:string}
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(string id)
+    // DELETE api/users/{id:guid}
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> Delete(Guid id)
     {
         var command = new DeleteUserCommand(id);
 
@@ -59,9 +58,9 @@ public class UserController : ApiController
         return result.IsSuccess ? NoContent() : Problem(result.Errors);
     }
 
-    // PUT api/users/{id:string}
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateRole(string id, [FromBody] RoleEnum role)
+    // PUT api/users/{id:guid}
+    [HttpPut("{id:guid}")]
+    public async Task<IActionResult> UpdateRole(Guid id, [FromBody] RoleEnum role)
     {
         var command = new UpdateRoleCommand(id, UserRoles.MapRole(role));
 
