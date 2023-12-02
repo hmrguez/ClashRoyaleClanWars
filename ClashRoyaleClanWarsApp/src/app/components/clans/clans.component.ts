@@ -185,6 +185,8 @@ export class ClansComponent {
       this.showError(err.error)
     })
 
+    this.clanService.baseUrl = this.baseUrl
+
     
     
 
@@ -267,10 +269,6 @@ export class ClansComponent {
       this.clanService.baseUrl=url
 
     }
-    
-  
-  
 
-  
   
 }

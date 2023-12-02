@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
 import {ColumnType, IColumn} from "../grid/IColumn";
 import { Structure } from './Structure';
 import { QueryService } from './query.service';
 import { ClanService } from '../clans/clan.service';
 import { IClanDto } from '../clans/IClanDto';
+import { GridComponent } from '../grid/grid.component';
+
 
 
 @Component({
@@ -13,8 +15,9 @@ import { IClanDto } from '../clans/IClanDto';
   styleUrls: ['./fourth-query.component.scss']
 })
 export class FourthQueryComponent {
-
+  data :any[] = []
   clans: IClanDto[] = []
+  @ViewChild("grid") grid: GridComponent = {} as GridComponent;
 
   queryColumns: IColumn[] = [
     
@@ -36,29 +39,30 @@ export class FourthQueryComponent {
     
   ];
 
+  count = 0
+
   constructor(public queryService: QueryService)
   {
-   
+    this.queryService.getAll().subscribe((data)=>{
+      data.forEach(element => {
+        this.data.push({
+          cardName: element.cardName,
+          count: element.count,
+          clanName: element.clanName,
+          queryId : this.count
+        })
+        this.count++
+
+        
+      });
+      this.grid.loadData()
+    })
   }
 
  
 
  
-
- 
-  
-  itemParsingFunction(data: any): Structure{
-    return {
-      cardId : data.cardId,
-      cardName : data.cardName,
-      count : data.count,
-      //filter where clans.id = data.id, get the clans.name
-      clanName : data.clanName,
-
-     
-    }
-  }
-
-
 
 }
+  
+  

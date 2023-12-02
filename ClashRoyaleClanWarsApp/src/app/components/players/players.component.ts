@@ -175,6 +175,7 @@ export class PlayersComponent {
           this.tokens.updateUser(this.newusername)
           this.currentuser.alias = this.newusername
           this.showSuccess('Username changed')
+          console.log(data)
         },(err)=>{
           this.visibleu = false
           this.showError(err.error)

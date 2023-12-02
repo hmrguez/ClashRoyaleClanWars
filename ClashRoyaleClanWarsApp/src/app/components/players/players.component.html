@@ -124,7 +124,7 @@
 </p-dialog>
 
 
-<p-dialog header="Username" [(visible)]="visibleu" [modal]="true"  [draggable]="false" [resizable]="false">
+<p-dialog header="Username" [(visible)]="visibleu" [modal]="visibleu"  [draggable]="false" [resizable]="false">
  
   <span class="p-float-label">
     <input pInputText id="username" [(ngModel)]="newusername" />
@@ -136,7 +136,7 @@
   
 </p-dialog>
 
-<p-dialog header="Password" [(visible)]="visiblep" [modal]="true"  [draggable]="false" [resizable]="false">
+<p-dialog header="Password" [(visible)]="visiblep" [modal]="visiblep"  [draggable]="false" [resizable]="false">
 
   <div class="row">
  
@@ -410,9 +410,10 @@
             icon="pi pi-check"></p-button>
 </div>
 
-<clash-grid *ngIf="is_Admin" #grid [columns]="columns"
+<clash-grid *ngIf="is_Admin" #grid 
+            [columns]="columns"
             [dataService]="playerService"
-            [primaryKey]="'Id'"
+            [primaryKey]="'id'"
             [title]="'Players'"
 ></clash-grid>
 

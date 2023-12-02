@@ -1,7 +1,8 @@
-<clash-grid [title]="'Fourth Query'"
-            [dataService]="queryService"
+<clash-grid #grid
+ [title]="'Fourth Query'"
             [columns]="queryColumns"
-            [primaryKey]="'Id'"
-            [itemParsingFunction]="itemParsingFunction"
+            [primaryKey]="'queryId'"
+            [customData]="data"
+            
 >
 </clash-grid>
