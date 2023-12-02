@@ -54,7 +54,7 @@
   </p-toolbar>
 
   <p-table #dt
-           [dataKey]="columns[0].field"
+           [dataKey]="primaryKey"
            [value]="data"
            [columns]="columns"
            [paginator]="showToolbar" [rows]="10"

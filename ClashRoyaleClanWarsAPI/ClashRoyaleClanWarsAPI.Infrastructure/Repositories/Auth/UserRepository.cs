@@ -57,7 +57,6 @@ internal sealed class UserRepository : BaseRepository<UserModel, Guid>, IUserRep
 
         return user;
     }
-
     public async Task Delete(Guid id)
     {
         var user = await _context.Users
@@ -81,5 +80,15 @@ internal sealed class UserRepository : BaseRepository<UserModel, Guid>, IUserRep
 
         await _context.SaveChangesAsync();
     }
+    public async Task ChangePassword(Guid id, string newPassword)
+    {
+        var user = await GetSingleByIdAsync(id);
 
+        var pswHasher = new PasswordHasher<UserModel>();
+
+        var hashedPssword = pswHasher.HashPassword(user, newPassword);
+        user.PasswordHash = hashedPssword;
+
+        await Save();
+    }
 }

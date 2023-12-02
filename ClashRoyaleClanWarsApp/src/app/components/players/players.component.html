@@ -82,6 +82,17 @@
     </div>
   </div> 
 
+  <div class="col-md-3">
+    <div class="stati amethyst ">
+      <i class="pi pi-lock"></i>
+      <div>
+        <b>Password</b>
+        
+        <span><a (click)="ShowDialogPassword()">Change</a></span>
+      </div> 
+    </div>
+  </div>
+
   
 
   
@@ -113,7 +124,7 @@
 </p-dialog>
 
 
-<p-dialog header="Username" [(visible)]="visibleu" [modal]="true"  [draggable]="false" [resizable]="false">
+<p-dialog header="Username" [(visible)]="visibleu" [modal]="visibleu"  [draggable]="false" [resizable]="false">
  
   <span class="p-float-label">
     <input pInputText id="username" [(ngModel)]="newusername" />
@@ -123,6 +134,18 @@
   <p-button (click)="ChangeUsername()" [raised]="true" [rounded]="true" [text]="true" class="form"
             icon="pi pi-check"></p-button>
   
+</p-dialog>
+
+<p-dialog header="Password" [(visible)]="visiblep" [modal]="visiblep"  [draggable]="false" [resizable]="false">
+
+  <div class="row">
+ 
+  <p-password class="col" [(ngModel)]="pass" [toggleMask]="true" [placeholder]="'Enter Password'"></p-password>
+  <p-password class="col" [(ngModel)]="confPass" [feedback]="false" [toggleMask]="true" [placeholder]="'Confirm Password'"></p-password>
+
+  <p-button class="col" (click)="ChangePassword()" [raised]="true" [rounded]="true" [text]="true" class="form"
+            icon="pi pi-check"></p-button>
+          </div>
 </p-dialog>
 
 
@@ -387,9 +410,10 @@
             icon="pi pi-check"></p-button>
 </div>
 
-<clash-grid *ngIf="is_Admin" #grid [columns]="columns"
+<clash-grid *ngIf="is_Admin" #grid 
+            [columns]="columns"
             [dataService]="playerService"
-            [primaryKey]="'Id'"
+            [primaryKey]="'id'"
             [title]="'Players'"
 ></clash-grid>
 

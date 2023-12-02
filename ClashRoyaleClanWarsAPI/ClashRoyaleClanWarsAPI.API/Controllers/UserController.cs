@@ -1,4 +1,5 @@
-﻿using ClashRoyaleClanWarsAPI.Application.Auth.User.Commands.DeleteUser;
+﻿using ClashRoyaleClanWarsAPI.Application.Auth.User.Commands.ChangePassword;
+using ClashRoyaleClanWarsAPI.Application.Auth.User.Commands.DeleteUser;
 using ClashRoyaleClanWarsAPI.Application.Auth.User.Commands.UpdateRole;
 using ClashRoyaleClanWarsAPI.Application.Auth.User.Queries.GetAllUser;
 using ClashRoyaleClanWarsAPI.Application.Auth.User.Queries.GetUserById;
@@ -63,6 +64,17 @@ public class UserController : ApiController
     public async Task<IActionResult> UpdateRole(Guid id, [FromBody] RoleEnum role)
     {
         var command = new UpdateRoleCommand(id, UserRoles.MapRole(role));
+
+        var result = await _sender.Send(command);
+
+        return result.IsSuccess ? NoContent() : Problem(result.Errors);
+    }
+
+    // PUT api/users/{id:guid}/password
+    [HttpPut("{id:guid}/password")]
+    public async Task<IActionResult> ChangePassword(Guid id, [FromBody] string password)
+    {
+        var command = new ChangePasswordCommand(id, password);
 
         var result = await _sender.Send(command);
 

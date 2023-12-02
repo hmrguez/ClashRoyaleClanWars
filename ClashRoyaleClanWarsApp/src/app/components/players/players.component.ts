@@ -12,6 +12,7 @@ import { CardService } from '../cards/card.service';
 import { ChallengeService } from '../challenge/challenge.service';
 import { OnInit } from '@angular/core';
 import { TimeScale } from 'chart.js';
+import { UsersService } from '../users/users.service';
 
 @Component({
   selector: 'app-players',
@@ -94,7 +95,7 @@ export class PlayersComponent {
  
   
 
-  constructor(public playerService: PlayerService, public tokens :TokenStorageService, private mess:MessageService,private challengeSer:ChallengeService, private http:HttpClient, private cardser:CardService) { 
+  constructor(public playerService: PlayerService, private userSer: UsersService, public tokens :TokenStorageService, private mess:MessageService,private challengeSer:ChallengeService, private http:HttpClient, private cardser:CardService) { 
     this.is_Admin = this.tokens.isAdmin() || this.tokens.isSuperAdmin()
 
     if (!this.is_Admin){
@@ -102,6 +103,7 @@ export class PlayersComponent {
       var url = this.playerService.baseUrl 
       
       this.playerService.baseUrl = url+ '/'+ user
+      console.log(this.playerService.baseUrl)
       this.playerService.getAll().subscribe((data: any[])=>{
         this.currentuser = data[0]
         console.log(this.currentuser)
@@ -126,12 +128,6 @@ export class PlayersComponent {
     this.challengeSer.getAll().subscribe((data)=>{
       this.allChallenges = data
     })
-
-
-      
-      
-    
-
     
   }
 
@@ -140,12 +136,18 @@ export class PlayersComponent {
   
       visible = false
       visibleu =false
+      visiblep = false
 
       newusername!:string
 
       ShowDialogUsername(){
         this.visibleu = true
       }
+
+      ShowDialogPassword(){
+        this.visiblep = true
+      }
+
       ShowDialog(){
         this.visible = true
       }
@@ -159,8 +161,9 @@ export class PlayersComponent {
       }
 
       ChangeUsername(){
+        this.visibleu = false
+
         if (!this.newusername){
-          this.visibleu = false
           this.showError('Username cannot be empty')
           return
         }
@@ -168,14 +171,41 @@ export class PlayersComponent {
         let url = this.playerService.baseUrl + '/'+ this.currentuser.id + '/' + this.newusername
 
         this.http.patch(url,{}).subscribe((data)=>{
-          this.visibleu = false
+        
           this.tokens.updateUser(this.newusername)
           this.currentuser.alias = this.newusername
           this.showSuccess('Username changed')
+          console.log(data)
         },(err)=>{
           this.visibleu = false
           this.showError(err.error)
         })
+      }
+
+      pass !: string
+      confPass!: string
+
+      ChangePassword(){
+        this.visiblep=false
+
+        if (!this.pass||!this.confPass){
+          this.showError('Fill all fields')
+          return
+        }
+
+        if (this.pass != this.confPass){
+          this.showError('Passwords do not match')
+          return
+        }
+
+        var url = this.userSer.baseUrl + '/' + this.tokens.getToken() + '/password'
+
+        this.http.put(url,{'password':this.pass}).subscribe((data)=>{
+          this.showSuccess('Password Changed')
+        },(err)=>{
+          this.showError(err.error)
+        })
+
       }
 
  

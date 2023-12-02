@@ -1,6 +1,6 @@
 <div *ngIf="isAdmin" class="add flex justify-content-center">
     <p-button (click)="showAdd()" icon="pi pi-plus-circle" label="Add Challenge"></p-button>
-    <p-button (click)="showDelete()" icon="pi pi-plus-circle" label="Delete Challenge"></p-button>
+    <p-button (click)="showDelete()" icon="pi pi-plus-trash" label="Delete Challenge"></p-button>
   
   </div>
 <div *ngIf="visibleAdd" >
@@ -71,7 +71,7 @@
 <clash-grid #grid [title]="'Challenge'"
             [dataService]="challengeSer"
             [columns]="columns"
-            [primaryKey]="'Id'"
+            [primaryKey]="'id'"
             [itemParsingFunction]="itemParsingFunction"
 >
 </clash-grid>

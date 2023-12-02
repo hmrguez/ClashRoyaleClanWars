@@ -2,7 +2,7 @@
 using ClashRoyaleClanWarsAPI.Domain.Models;
 using FluentValidation;
 
-namespace ClashRoyaleClanWarsAPI.Application.Models.War.Commands;
+namespace ClashRoyaleClanWarsAPI.Application.Models.War.Commands.AddWar;
 
 internal class AddWarCommandValidator : AbstractValidator<AddModelCommand<WarModel, int>>
 {

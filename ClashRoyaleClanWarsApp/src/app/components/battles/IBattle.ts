@@ -4,4 +4,5 @@ export interface Battle{
     amountTrophies: number,
     durationInSeconds: number,
     date: string,
+    id :number
 }

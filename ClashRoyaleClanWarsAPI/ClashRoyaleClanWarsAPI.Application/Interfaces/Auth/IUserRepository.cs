@@ -9,4 +9,5 @@ public interface IUserRepository : IBaseRepository<UserModel, Guid>
     Task<UserModel> Add(string username, string password, RoleModel role);
     Task Delete(Guid id);
     Task UpdateRole(Guid id, string role);
+    Task ChangePassword(Guid id, string newPassword);
 }

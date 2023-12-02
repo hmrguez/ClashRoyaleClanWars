@@ -2,7 +2,7 @@
 using ClashRoyaleClanWarsAPI.Application.Interfaces.Repositories;
 using ClashRoyaleClanWarsAPI.Domain.Models;
 
-namespace ClashRoyaleClanWarsAPI.Application.Models.War.Commands;
+namespace ClashRoyaleClanWarsAPI.Application.Models.War.Commands.DeleteWar;
 
 public class DeleteWarCommandHandler : DeleteModelCommandHandler<WarModel, int>
 {
