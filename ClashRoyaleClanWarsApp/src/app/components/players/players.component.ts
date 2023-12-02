@@ -108,15 +108,10 @@ export class PlayersComponent {
         this.playerService.baseUrl = url + '/' + this.currentuser.id + '/cards'
         this.playerService.getAll().subscribe((data2)=>{
           this.currentusercards = data2
-          console.log(this.currentusercards)
+          this.playerService.baseUrl = url
         })
       })
 
-
-
-
-
-    
     }
     
     this.playerService.getAll().subscribe((data)=>{
@@ -126,6 +121,8 @@ export class PlayersComponent {
     this.cardser.getAll().subscribe((data)=>{
       this.allcards = data
     })
+
+    this.challengeSer.baseUrl+= '/open'
     this.challengeSer.getAll().subscribe((data)=>{
       this.allChallenges = data
     })
@@ -142,18 +139,46 @@ export class PlayersComponent {
 
   
       visible = false
+      visibleu =false
 
+      newusername!:string
+
+      ShowDialogUsername(){
+        this.visibleu = true
+      }
       ShowDialog(){
         this.visible = true
       }
 
-  showError(message:string){
-    this.mess.add({ severity: 'error', summary: 'Error', detail: message });
-  }
+      showError(message:string){
+        this.mess.add({ severity: 'error', summary: 'Error', detail: message });
+      }
+    
+      showSuccess(message:string){
+        this.mess.add({ severity: 'success', summary: 'Success', detail: message });
+      }
 
-  showSuccess(message:string){
-    this.mess.add({ severity: 'success', summary: 'Success', detail: message });
-  }
+      ChangeUsername(){
+        if (!this.newusername){
+          this.visibleu = false
+          this.showError('Username cannot be empty')
+          return
+        }
+
+        let url = this.playerService.baseUrl + '/'+ this.currentuser.id + '/' + this.newusername
+
+        this.http.patch(url,{}).subscribe((data)=>{
+          this.visibleu = false
+          this.tokens.updateUser(this.newusername)
+          this.currentuser.alias = this.newusername
+          this.showSuccess('Username changed')
+        },(err)=>{
+          this.visibleu = false
+          this.showError(err.error)
+        })
+      }
+
+ 
 
   showAdd(){
     this.visibleAdd= !this.visibleAdd

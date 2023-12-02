@@ -8,7 +8,7 @@ import { CrudService } from 'src/app/services/CrudService';
 })
 export class QueryService extends CrudService<Structure> {
   basic :string = `http://localhost:5085/queries/fifthquery`;
-  override baseUrl: string = `http://localhost:5085/queries/fifthquery/1`;
+  override baseUrl: string = `http://localhost:5085/queries/fifthquery`;
 
   insertId(playerId:number){
     this.baseUrl += "/" + playerId.toString()

@@ -66,6 +66,11 @@ export class TokenStorageService {
     return window.sessionStorage.getItem(TOKEN_KEY);
   }
 
+  public updateUser(user:string){
+    window.sessionStorage.removeItem(USER_KEY);
+    window.sessionStorage.setItem(USER_KEY, user);
+  }
+
   public saveUser(user: any): void {
     window.sessionStorage.removeItem(USER_KEY);
 
