@@ -25,17 +25,17 @@ public static class PresetDecks
                     { "Mega Knight", "Miner", "Bats", "Skeletons", "Poison", "The Log", "Mega Minion", "Ice Spirit" }),
             new("Royal Giant",
                 new List<string>
-                    { "Royal Giant", "Furnace", "Mega Minion", "Minions", "Fireball", "Zap", "Goblin Cage", "Guards" }),
+                    { "Royal Giant", "Furnace", "Mega Minion", "Minions", "FireBall", "Zap", "Goblin Cage", "Guards" }),
             new("Hog 2.6",
                 new List<string>
-                    { "Hog Rider", "Ice Golem", "Ice Spirit", "Skeletons", "Fireball", "Log", "Musketeer", "Cannon" }),
+                    { "Hog Rider", "Ice Golem", "Ice Spirit", "Skeletons", "FireBall", "The Log", "Musketeer", "Cannon" }),
             new("Lava Hound",
                 new List<string>
-                    { "Lava Hound", "Balloon", "Mega Minion", "Minions", "Tombstone", "Fireball", "Zap", "Skeletons" }),
+                    { "Lava Hound", "Ballon", "Mega Minion", "Minions", "Tombstone", "FireBall", "Zap", "Skeletons" }),
             new("Giant Skeleton",
                 new List<string>
                 {
-                    "Giant Skeleton", "Balloon", "Bats", "Skeletons", "Fireball", "Zap", "Mega Minion", "Tombstone"
+                    "Giant Skeleton", "Ballon", "Bats", "Skeletons", "FireBall", "Zap", "Mega Minion", "Tombstone"
                 }),
         };
     }
