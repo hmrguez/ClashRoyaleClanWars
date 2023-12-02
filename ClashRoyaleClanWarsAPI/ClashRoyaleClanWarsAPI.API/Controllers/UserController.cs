@@ -74,8 +74,6 @@ public class UserController : ApiController
     [HttpPut("password")]
     public async Task<IActionResult> ChangePassword([FromBody] PasswordDto passwordDto)
     {
-        Console.WriteLine("Password: " + passwordDto.Id + " ," + passwordDto.Password);
-        
         var command = new ChangePasswordCommand(passwordDto.Id, passwordDto.Password);
 
         var result = await _sender.Send(command);
