@@ -124,14 +124,14 @@ export class PlayersComponent {
       this.allcards = data
     })
     
-    var url = this.challengeSer.baseUrl
+    var url1 = this.challengeSer.baseUrl
 
     this.challengeSer.baseUrl+= '/open'
     this.challengeSer.getAll().subscribe((data)=>{
       this.allChallenges = data
     })
 
-    this.challengeSer.baseUrl = url
+    this.challengeSer.baseUrl = url1
     
   }
 
@@ -173,16 +173,18 @@ export class PlayersComponent {
         }
 
         let url = this.playerService.baseUrl + '/'+ this.currentuser.id + '/' + this.newusername
+        console.log(this.tokens.getUser())
 
         this.http.patch(url,{}).subscribe((data)=>{
         
-          this.tokens.updateUser(this.newusername)
+          this.tokens.updateUser(JSON.stringify( this.newusername))
           this.currentuser.alias = this.newusername
           this.showSuccess('Username changed')
-          console.log(data)
+          console.log(this.tokens.getUser())
         },(err)=>{
           this.visibleu = false
           this.showError(err.error)
+          console.log(err)
         })
       }
 
@@ -205,7 +207,7 @@ export class PlayersComponent {
         var url = this.userSer.baseUrl + '/' + this.tokens.getToken() + '/password'
         console.log(url)
 
-        this.http.put(url,this.pass).subscribe((data)=>{
+        this.http.put(url, {'password': this.pass}).subscribe((data)=>{
           this.showSuccess('Password Changed')
 
         },(err)=>{

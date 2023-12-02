@@ -82,14 +82,18 @@ export class UsersComponent  {
     return
   }
 
-  let user = this.selectedUserP.id
+  
 
-  let url = this.serv + '/'+ user + '/password'
+  let user = this.selectedUserP.id
+  console.log(typeof(this.pass))
+
+  let url = this.serv.baseUrl + '/'+ user + '/password'
 
   this.http.put(url, this.pass).subscribe((data)=>{
     this.showSuccess('Password Updated')
     this.grid.loadData()
-    console.log(data)}, (err)=>{this.showError(err.error)})
+    console.log(data)}, 
+    (err)=>{this.showError(err.error)})
 
 
 }
