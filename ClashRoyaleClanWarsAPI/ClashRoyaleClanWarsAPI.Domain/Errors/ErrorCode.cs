@@ -19,4 +19,7 @@ public class ErrorCode
     public const string PlayerHasNoClan = "Player.PlayerHasNoClan";
     public const string PlayerHasNoEnoughTrophies = "Player.PlayerHasNoEnoughTrophies";
     public const string RoleNotFound = "Auth.RoleNotFound";
+    public const string ClanAlreadyInWar = "Clan.ClanAlreadyInWar";
+
+    
 }
