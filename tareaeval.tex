@@ -1,0 +1,85 @@
+\documentclass[15pt,a4paper]{article}
+
+\usepackage{amssymb}
+\usepackage{vmargin}
+\usepackage{csquotes}
+\usepackage{graphicx}
+\setmargins{2.5cm}{1.5cm}{16.5cm}{23.42cm}{10pt}{1cm}{0pt}{2cm}
+\graphicspath{ {.} }
+
+\title{Tarea Evaluativa 13.\\  Probabilidades y Estadística.}
+\author{Karen Dianelis Cantero Lopez. C311 \\ Luis Alejandro Rodriguez Otero C311\\  Hector Miguel Rodriguez Sosa C311 \\ Sebastian Suarez Gomez C311 \\ Alejandro Solar Ruiz C312 }
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Ejercicio 1}
+\subsection*{Inciso a}
+Usando la propiedad  $ \int_{-\infty}^{\infty} f(x) dx = 1 $ : \\
+
+$ \int_{-\infty}^{\infty}C e^{x} dx = 1 $ \\
+
+$ \int_{-\infty}^{\infty}C e^{x} dx =  \int_{0}^{1}C e^{x} dx  = 1$ , pues tenemos que  $0<x<1$\\
+
+ $C \int_{0}^{1} e^{x} dx  = 1$\\
+
+$ C (e^{x}) \Big|_0^1 = 1$\\
+
+$ C (e-1)  = 1$\\
+
+$C = \frac{1}{e-1}$
+\subsection*{Inciso b}
+Para simular la variable aleatoria X, podemos utilizar el método de la transformada inversa. Este método se basa en el hecho de que si U es una variable aleatoria uniforme en (0,1), entonces la variable aleatoria $X = F^{-1}(U)$, donde $F^{-1}$ es la función inversa de la función de distribución acumulativa de X, tiene la distribución de probabilidad de X.
+En este caso, la función de distribución acumulativa de X es: \\
+ 
+   $F(x) = \int_{0}^{x} f(t)dt =  \int_{0}^{x} \frac{1}{ e - 1} e^t dt =  \frac{e^t}{e - 1}\Big|_0^x = \frac{e^x - e^0}{e - 1}=  \frac{e^x - 1}{ e - 1}$ \\
+   
+La función inversa de F(x) es: \\
+  
+  $ F^{-1}(u) = ln((e - 1)u + 1)$
+
+\begin{center}
+\includegraphics[width=0.5\textwidth]{Ej1}
+\end{center}
+
+\section{Ejercicio 2}
+
+\begin{center}
+\includegraphics[width=0.5\textwidth]{Ej2}
+\end{center}
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{|c| c| c| c| c|}
+\hline \hline
+$Y|X$ & 0 & 1 & 2 & 3 \\
+\hline
+0 & $\frac{4}{81}$ & $\frac{10}{81}$  & $\frac{8}{81}$ & $\frac{2}{81}  $\\[5pt]
+\hline
+1 & $\frac{10}{81}$ & $\frac{17}{81}$  & $\frac{8}{81}$ & $\frac{1}{81}  $\\[5pt]
+\hline
+2 & $\frac{8}{81}$ & $\frac{8}{81}$  & $\frac{2}{81}$ & 0\\[5pt]
+\hline
+3 & $\frac{2}{81}$ & $\frac{1}{81}$  & 0 &  0\\[5pt]
+\hline
+
+\end{tabular}
+\end{table}
+
+
+\section{Ejercicio 3}
+Dado que $\lambda =1$, tenemos que $EX = 1$, por lo tanto se espera que una persona abra una cuenta nueva en una semana. Lo muliplicamos por el número de semanas en dos años (104) (1*104=104) para saber la cantidad de personas que se espera que abran una cuenta nueva en dos años; y obtenemos el nuevo $\lambda = 104$.\\
+$P(X>100) = 1 - P(X \le 100)$\\[10pt]
+$P(X \le 100) = \sum_{k=0}^{100} \frac{\lambda^{k} e^{-\lambda}}{k!}$ \\[10pt]
+$P(X \le 100) = \sum_{k=0}^{100} \frac{104^{k} e^{-104}}{k!}$ \\[10pt]
+
+\begin{center}
+\includegraphics[width=0.5\textwidth]{Ej3}
+\end{center}
+$P(X  \le 100) = 0.371191117641780$ \\[10pt]
+$P(X>100) = 1 - 0.371191117641780$\\[10pt]
+$P(X>100) \approx 0.63$
+
+\end{document}
