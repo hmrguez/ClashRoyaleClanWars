@@ -32,7 +32,8 @@ public class ApiController : ControllerBase
             error == ErrorCode.RoleNotFound)
             return NotFound(error.Description);
 
-        if (error == ErrorCode.IdsNotMatch ||
+        if (error == ErrorCode.Validation ||
+            error == ErrorCode.IdsNotMatch ||
             error == ErrorCode.InvalidCredentials ||
             error == ErrorCode.InvalidPassword ||
             error == ErrorCode.PasswordsNotMatch ||
@@ -43,7 +44,8 @@ public class ApiController : ControllerBase
 
         if (error == ErrorCode.DuplicateId ||
             error == ErrorCode.DuplicateUsername ||
-            error == ErrorCode.PlayerHasClan)
+            error == ErrorCode.PlayerHasClan ||
+            error == ErrorCode.ClanAlreadyInWar)
             return Conflict(error.Description);
 
 

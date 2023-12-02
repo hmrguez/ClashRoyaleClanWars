@@ -14,12 +14,12 @@ public class ClanWarsConfiguration : IEntityTypeConfiguration<ClanWarsModel>
         builder.HasKey("ClanId", "WarId");
         
         builder.HasOne(c => c.War)
-            .WithMany()
+            .WithMany(w=> w.ClansInWar)
             .HasForeignKey("WarId");
         
         builder.HasOne(c => c.Clan)
-            .WithMany()
-            .HasForeignKey("ClanId");
+            .WithOne()
+            .HasForeignKey<ClanWarsModel>(c=> c.ClanId);
 
     }
 }

@@ -1,4 +1,5 @@
-﻿using ClashRoyaleClanWarsAPI.Domain.Shared;
+﻿using ClashRoyaleClanWarsAPI.Domain.Errors;
+using ClashRoyaleClanWarsAPI.Domain.Shared;
 using FluentValidation;
 using MediatR;
 
@@ -25,7 +26,7 @@ public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TReques
             .SelectMany(validationResult => validationResult.Errors)
             .Where(validationFailure => validationFailure is not null)
             .Select(failure => new Error(
-                failure.PropertyName,
+                ErrorCode.Validation,
                 failure.ErrorMessage))
             .Distinct()
             .ToArray();
