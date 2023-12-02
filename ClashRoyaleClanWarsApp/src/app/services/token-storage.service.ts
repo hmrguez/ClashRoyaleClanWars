@@ -23,7 +23,7 @@ export class TokenStorageService {
     window.sessionStorage.removeItem(TOKEN_KEY);
     //"{\"http://schemas.microsoft.com/ws/2008/06/identity/claims/role\":\"User\"
     var k = token.split(':')[2].split('"')[1]
-    k = k.substring(0,k.length-1)
+    
 
     window.sessionStorage.setItem(TOKEN_KEY, k);
 

@@ -22,7 +22,12 @@ export class UsersComponent  {
 
   selectedUser !: any
   roleSelected !: any
+
+  selectedUserP !: any
+  pass !: string
+  confPass !: string
   show = false
+  showP = false
 
   roles = [
     {name:'user',value:0},{name:'admin',value:1},{name:'superadmin',value:2}
@@ -69,6 +74,30 @@ export class UsersComponent  {
     
   ]
 
+  ChangePassword(){
+    if (!this.selectedUserP || !this.pass || !this.confPass) {this.showError('Fields cannot be empty')
+    return
+  }
+    if (this.pass != this.confPass) {this.showError('Passwords do not match')
+    return
+  }
+
+  
+
+  let user = this.selectedUserP.id
+  console.log(typeof(this.pass))
+
+  let url = this.serv.baseUrl + '/'+ user + '/password'
+
+  this.http.put(url, this.pass).subscribe((data)=>{
+    this.showSuccess('Password Updated')
+    this.grid.loadData()
+    console.log(data)}, 
+    (err)=>{this.showError(err.error)})
+
+
+}
+
 
   itemParsingFunction(data:any) : User{
     return {
@@ -81,6 +110,12 @@ export class UsersComponent  {
 
   Show(){
     this.show = !this.show
+    this.showP = false
+  }
+
+  ShowPass(){
+    this.showP = !this.showP
+    this.show = false
   }
 
   showError(message:string){
