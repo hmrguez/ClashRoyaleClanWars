@@ -198,12 +198,6 @@ export class ClansComponent {
       return
     }
 
-    if (!this.nameUp && !this.descUp && !this.regionUp && !this.trophWarUp && !this.trophiesUp){
-      this.showError('Not all fields can be empty')
-      return
-    }
-
-   
 
     if (!this.nameUp) this.nameUp = this.selectedUp.name
     if (!this.descUp) this.descUp = this.selectedUp.description

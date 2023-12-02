@@ -123,11 +123,15 @@ export class PlayersComponent {
     this.cardser.getAll().subscribe((data)=>{
       this.allcards = data
     })
+    
+    var url = this.challengeSer.baseUrl
 
     this.challengeSer.baseUrl+= '/open'
     this.challengeSer.getAll().subscribe((data)=>{
       this.allChallenges = data
     })
+
+    this.challengeSer.baseUrl = url
     
   }
 
@@ -199,9 +203,11 @@ export class PlayersComponent {
         }
 
         var url = this.userSer.baseUrl + '/' + this.tokens.getToken() + '/password'
+        console.log(url)
 
-        this.http.put(url,{'password':this.pass}).subscribe((data)=>{
+        this.http.put(url,this.pass).subscribe((data)=>{
           this.showSuccess('Password Changed')
+
         },(err)=>{
           this.showError(err.error)
         })
@@ -274,6 +280,7 @@ export class PlayersComponent {
 
     this.http.post(this.playerService.baseUrl, {'elo':this.eloAdd, 'level':this.levelAdd, 'alias':this.aliasAdd}).subscribe((data)=>{
       this.showSuccess('Player Created')
+      this.playerService.getAll().subscribe((data)=>{this.allPlayers = data})
       this.grid.loadData()
     }, (err)=>{this.showError(err.error)})
 
@@ -367,8 +374,8 @@ export class PlayersComponent {
 
     this.http.post(url,{}).subscribe((data)=>{
       this.showSuccess("Cards assigned")
-      
-
+      this.playerService.getAll().subscribe((data)=>{this.allPlayers=data})
+      this.grid.loadData()
     },(err)=>{
       this.showError(err.error)
       console.log(err)
