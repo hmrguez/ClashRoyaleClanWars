@@ -1,0 +1,74 @@
+<div *ngIf="isAdmin" class="add ">
+    <p-button (click)="DisplayInsert()" icon="pi pi-plus-circle" label="Add War"></p-button>
+    <p-button (click)="DisplayClanWar()" icon="pi pi-shield" label="Add Clan to War"></p-button>
+    
+  
+  </div>
+
+  <div *ngIf="showInsert" class="row mt-2">
+
+    <div class="col">
+      <p-calendar [(ngModel)]="dateInsert" [showButtonBar]="true" [showIcon]="true" [showSeconds]="true" [showTime]="true"
+                  placeholder="Date" class="form"></p-calendar>
+    </div>
+  
+    <div>
+      <p-button (click)="Insert()" [raised]="true" [rounded]="true" [text]="true" class="form"
+                icon="pi pi-check"></p-button>
+    </div>
+  
+  </div>
+
+
+    <div *ngIf="showClanWar" class="row mt-2">
+        
+        <p-dropdown [(ngModel)]="clanSelected" [filter]="true" [options]="allClans" [showClear]="true" class="form"
+                filterBy="name" optionLabel="name" placeholder="Select a Clan">
+      <ng-template pTemplate="selectedItem">
+        <div *ngIf="clanSelected" class="flex align-items-center gap-2">
+          <div>{{ clanSelected.name }}</div>
+        </div>
+      </ng-template>
+      <ng-template let-clan pTemplate="item">
+        <div class="flex align-items-center gap-2">
+          <div>{{ clan.id + "  " + clan.name }}</div>
+        </div>
+      </ng-template>
+    </p-dropdown>
+
+    <p-dropdown [(ngModel)]="warSelected" [filter]="true" [options]="allWars" [showClear]="true" class="form"
+                filterBy="startDate" optionLabel="startDate" placeholder="Select a War">
+      <ng-template pTemplate="selectedItem">
+        <div *ngIf="warSelected" class="flex align-items-center gap-2">
+          <div>{{ warSelected.startDate }}</div>
+        </div>
+      </ng-template>
+      <ng-template let-war pTemplate="item">
+        <div class="flex align-items-center gap-2">
+          <div>{{ war.id + "- " + war.startDate }}</div>
+        </div>
+      </ng-template>
+    </p-dropdown>
+
+        <div class="col">
+            <p-inputNumber [(ngModel)]="prize" [min]="1" inputId="integeronly" placeholder="Prize" class="form"></p-inputNumber>
+          </div>
+    
+        <div>
+        <p-button (click)="PostClanWar()" [raised]="true" [rounded]="true" [text]="true" class="form"
+                    icon="pi pi-check"></p-button>
+        </div>
+        </div>
+
+
+
+
+
+
+<clash-grid #grid [title]="'Wars'"
+[dataService]="warService"
+[columns]="columns"
+[primaryKey]="'Id'"
+[itemParsingFunction]="itemParsingFunction"
+>
+</clash-grid>

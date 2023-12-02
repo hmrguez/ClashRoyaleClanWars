@@ -22,7 +22,7 @@ export class GraphComponent {
 
 
     Save(){
-      var canvas = document.querySelector('canvas');
+      var canvas = document.querySelectorAll('canvas')[0]
       var img = canvas!.toDataURL("image/png");
       var doc = new jsPDF('landscape', 'px', 'a4' );
       doc.setFontSize(30);

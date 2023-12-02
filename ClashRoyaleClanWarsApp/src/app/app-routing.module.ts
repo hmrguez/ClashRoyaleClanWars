@@ -14,6 +14,9 @@ import { BattlesComponent } from './components/battles/battles.component';
 import { CardPopularityComponent } from './components/card-popularity/card-popularity.component';
 import { ClanPopComponent } from './components/clan-pop/clan-pop.component';
 import { UsersComponent } from './components/users/users.component';
+import { StatsComponent } from './components/stats/stats.component';
+import { WarComponent } from './components/war/war.component';
+import { ChallengeComponent } from './components/challenge/challenge.component';
 
 
 
@@ -26,14 +29,14 @@ const routes: Routes = [
   {path: 'login', component: LogInComponent},
   {path: 'clans', component: ClansComponent},
   {path: 'faq', component: FAQComponent},
-  {path: 'graph', component: GraphComponent},
+  {path: 'graph', component: StatsComponent},
   {path: 'profile', component: ProfileComponent },
   {path: 'query', component: QueryViewerComponent},
   {path: 'analysis', component: AnalyticsComponent},
   {path: 'battles', component: BattlesComponent},
-  {path: 'pop', component: CardPopularityComponent},
-  {path: 'clanpop', component:ClanPopComponent},
-  {path: 'users', component: UsersComponent }
+  {path: 'users', component: UsersComponent },
+  {path: 'war', component: WarComponent},
+  {path: 'challenge', component: ChallengeComponent},
 
 
 
