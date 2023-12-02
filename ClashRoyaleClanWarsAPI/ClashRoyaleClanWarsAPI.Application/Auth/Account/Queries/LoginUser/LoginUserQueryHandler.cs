@@ -4,6 +4,7 @@ using ClashRoyaleClanWarsAPI.Application.Interfaces.Auth;
 using ClashRoyaleClanWarsAPI.Domain.Errors;
 using ClashRoyaleClanWarsAPI.Domain.Exceptions.Auth;
 using ClashRoyaleClanWarsAPI.Domain.Shared;
+using System.Security.Authentication;
 
 namespace ClashRoyaleClanWarsAPI.Application.Auth.Account.Queries.LoginUser;
 
@@ -32,6 +33,11 @@ public class LoginUserQueryHandler : IQueryHandler<LoginUserQuery, LoginResponse
         {
             return Result.Failure<LoginResponse>(ErrorTypes.Auth.InvalidPassword(e.Message));
         }
+        catch (InvalidCredentialException)
+        {
+            return Result.Failure<LoginResponse>(ErrorTypes.Auth.InvalidCredentials());
+        }
+        
 
         return response;
     }
