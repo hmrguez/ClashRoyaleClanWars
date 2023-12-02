@@ -80,7 +80,7 @@ internal sealed class AccountRepository : IAccountRepository
         var pswHasher = new PasswordHasher<UserModel>();
         var result = pswHasher.VerifyHashedPassword(user, user.PasswordHash, providedPassword);
 
-        return result == 0;
+        return result == PasswordVerificationResult.Success;
     }
     private async Task<bool> UsernameExits(string username)
         => (await _context.Users.Where(u=> u.UserName == username).FirstOrDefaultAsync()) is not null;
