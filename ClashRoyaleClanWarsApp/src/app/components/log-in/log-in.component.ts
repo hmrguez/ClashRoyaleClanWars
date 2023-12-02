@@ -60,11 +60,12 @@ export class LogInComponent implements OnInit {
         var decoded = atob(data.token.split('.')[1])
         sessionStorage.setItem('jwt', decoded)
         var dec_s = decoded.split(',')
+        console.log(dec_s)
 
         this.tokenStorage.expToken(jwt.exp!);
         this.tokenStorage.saveToken(jwt.jti!);
-        this.tokenStorage.saveUser( dec_s[4] );
-        this.tokenStorage.saveRoles(dec_s[0])
+        this.tokenStorage.saveUser( dec_s[1] );
+        this.tokenStorage.saveRoles(dec_s[2])
 
         this.messageService.add({ severity: 'success', summary: 'Success', detail: 'You have been logged in' });
 

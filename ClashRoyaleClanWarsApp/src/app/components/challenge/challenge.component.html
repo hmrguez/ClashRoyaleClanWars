@@ -4,17 +4,43 @@
   
   </div>
 <div *ngIf="visibleAdd" >
+
+<div class="row" style="padding-top: 12px;">
+  <div class="col">
 <input [(ngModel)]="namePost" pInputText placeholder="Name" type="text" class="form"/>
+</div>
+
+<div class="col">
 <input [(ngModel)]="descriptionPost" pInputText placeholder="Description" type="text" class="form"/>
+</div>
+</div>
+
+<div class="row">
+  <div class="col">
 <p-inputNumber [(ngModel)]="costPost" [min]="1" inputId="integeronly" placeholder="cost" class="form"></p-inputNumber>
+</div>
+<div class="col">
 <p-inputNumber [(ngModel)]="amountRewardPost" [min]="1" inputId="integeronly" placeholder="Reward" class="form"></p-inputNumber>
-<p-inputNumber [(ngModel)]="durationInHoursPost" [min]="1" inputId="integeronly" placeholder="Duration In Hours" class="form"></p-inputNumber>
-<p-inputNumber [(ngModel)]="minLevelPost" [min]="1" inputId="integeronly" placeholder="Min Level" class="form"></p-inputNumber>
+</div>
+<div class="col"><p-inputNumber [(ngModel)]="durationInHoursPost" [min]="1" inputId="integeronly" placeholder="Duration In Hours" class="form"></p-inputNumber>
+</div> <div class="col"><p-inputNumber [(ngModel)]="minLevelPost" [min]="1" inputId="integeronly" placeholder="Min Level" class="form"></p-inputNumber>
+</div></div>
+
+<div class="row">
+  <div class="col">
 <p-inputNumber [(ngModel)]="lossLimitPost" [min]="1" inputId="integeronly" placeholder="Loss Limit" class="form"></p-inputNumber>
+</div>
+
+<div class="col">
 <p-calendar [(ngModel)]="startDatePost" [showButtonBar]="true" [showIcon]="true" [showSeconds]="true" [showTime]="true"
                   placeholder="Date" class="form"></p-calendar>
-<p-checkbox [(ngModel)]="isOpenPost" [binary]="true" inputId="binary" type="binary" class="form"></p-checkbox>
-<label for="binary">Open</label>
+                </div>
+                <div class="col">
+<p-checkbox [(ngModel)]="isOpenPost" label="Open" [binary]="true" inputId="binary" type="binary" class="form"></p-checkbox>
+
+</div>
+
+</div>
 
 <p-button (click)="Post()" [raised]="true" [rounded]="true" [text]="true" class="form"
             icon="pi pi-check"></p-button>

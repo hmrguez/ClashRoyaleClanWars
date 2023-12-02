@@ -6,6 +6,8 @@ import { IColumn, ColumnType} from '../grid/IColumn';
 import { OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { TokenStorageService } from 'src/app/services/token-storage.service';
+import { GridComponent } from '../grid/grid.component';
+import { ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-users',
@@ -13,6 +15,8 @@ import { TokenStorageService } from 'src/app/services/token-storage.service';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent  {
+
+  @ViewChild('grid') grid :GridComponent ={} as GridComponent
 
   allUsers : any[] = []
 
@@ -54,9 +58,14 @@ export class UsersComponent  {
     
       {
         header: 'Username',
-        field: 'name',
+        field: 'username',
         type: ColumnType.String,
       },
+      {
+        header: 'Role',
+        field: 'role',
+        type: ColumnType.String,
+      }
     
   ]
 
@@ -64,8 +73,9 @@ export class UsersComponent  {
   itemParsingFunction(data:any) : User{
     return {
       id : data.id,
-      name : data.name,
-      role :data.passwordHash
+      username : data.username,
+      role :data.role,
+      playerId : data.playerId
     }
   }
 
@@ -82,9 +92,6 @@ export class UsersComponent  {
   }
   
   Update(){
-
-
-
     if (!this.selectedUser || !this.roleSelected) {this.showError('Fields cannot be empty')
     return
   }
@@ -101,6 +108,8 @@ export class UsersComponent  {
 
     this.serv.update(this.selectedUser.id, this.roleSelected.value).subscribe((data)=>{
     this.showSuccess('Role Updated')
+    this.grid.loadData()
+    
     console.log(data)}, (err)=>{this.showError(err.error)})
 
   }

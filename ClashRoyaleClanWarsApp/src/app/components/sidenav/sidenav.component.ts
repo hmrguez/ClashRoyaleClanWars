@@ -80,17 +80,7 @@ export class SidenavComponent implements OnInit {
       {
         routeLink: "/graph",
         icon: "pi pi-chart-line",
-        label: "Game Popularity",
-      },
-      {
-        routeLink: "/pop",
-        icon: "pi pi-chart-bar",
-        label: "Amount of Victories",
-      },
-      {
-        routeLink: "/clanpop",
-        icon: "pi pi-chart-pie",
-        label: "Most Popular Clans",
+        label: "Statistics",
       },
       {
         routeLink: "/faq",

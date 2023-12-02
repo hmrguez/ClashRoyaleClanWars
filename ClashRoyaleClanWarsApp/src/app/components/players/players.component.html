@@ -6,7 +6,7 @@
     <div class="stati amethyst ">
       <i class="pi pi-user"></i>
       <div>
-        <b>{{allPlayers[0].alias}}</b>
+        <b>{{currentuser.alias}}</b>
         <span>Username</span>
       </div> 
     </div>
@@ -14,9 +14,10 @@
 
   <div class="col-md-3">
     <div class="stati amethyst ">
-      <i class="pi pi-user"></i>
+      <i class="pi pi-star"></i>
+
       <div>
-        <b>{{allPlayers[0].elo}}</b>
+        <b>{{currentuser.elo}}</b>
         <span>Elo</span>
       </div> 
     </div>
@@ -24,9 +25,9 @@
 
   <div class="col-md-3">
     <div class="stati amethyst ">
-      <i class="pi pi-user"></i>
+      <i class="pi pi-box"></i>
       <div>
-        <b>{{allPlayers[0].level}}</b>
+        <b>{{currentuser.level}}</b>
         <span>Level</span>
       </div> 
     </div>
@@ -38,9 +39,9 @@
 
   <div class="col-md-3">
     <div class="stati amethyst ">
-      <i class="pi pi-user"></i>
+      <i class="pi pi-slack"></i>
       <div>
-        <b>{{allPlayers[0].victories}}</b>
+        <b>{{currentuser.victories}}</b>
         <span>Victories</span>
       </div> 
     </div>
@@ -48,19 +49,19 @@
 
   <div class="col-md-3">
     <div class="stati amethyst ">
-      <i class="pi pi-user"></i>
+      <i class="pi pi-stop"></i>
       <div>
-        <b>{{allPlayers[0].cardAmount}}</b>
-        <span>Card Amount</span>
+        <b>{{currentuser.cardAmount}}</b>
+        <span><a (click)="ShowDialog()">View</a> Cards </span>
       </div> 
     </div>
   </div> 
 
   <div class="col-md-3">
     <div class="stati amethyst ">
-      <i class="pi pi-user"></i>
+      <i class="pi pi-star-fill"></i>
       <div>
-        <b>{{allPlayers[0].maxElo}}</b>
+        <b>{{currentuser.maxElo}}</b>
         <span>Max ELO</span>
       </div> 
     </div>
@@ -72,7 +73,7 @@
 
   <div class="col-md-3">
     <div class="stati amethyst ">
-      <i class="pi pi-user"></i>
+      <i class="pi pi-lock-open"></i>
       <div>
         <b>{{this.tokens.getRoles()}}</b>
         <span>Rol</span>
@@ -82,10 +83,31 @@
 
   
 
-</div>
+  
 
 </div>
 
+
+</div>
+
+<p-dialog header="Cards" [(visible)]="visible" [modal]="true"  [draggable]="false" [resizable]="false">
+  <p-table [value]="currentusercards" styleClass="p-datatable-striped" [tableStyle]="{'min-width': '30rem'}">
+    <ng-template pTemplate="header">
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-card>
+        <tr>
+            <td>{{card.name}}</td>
+            <td><img src="{{card.imageUrl}}"></td>
+            
+        </tr>
+    </ng-template>
+</p-table>
+  
+</p-dialog>
 
 
 

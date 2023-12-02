@@ -10,6 +10,8 @@ import { GridComponent } from '../grid/grid.component';
 import { isPlatformBrowser } from '@angular/common';
 import { CardService } from '../cards/card.service';
 import { ChallengeService } from '../challenge/challenge.service';
+import { OnInit } from '@angular/core';
+import { TimeScale } from 'chart.js';
 
 @Component({
   selector: 'app-players',
@@ -89,20 +91,34 @@ export class PlayersComponent {
 
 
 
+ 
+  
 
   constructor(public playerService: PlayerService, public tokens :TokenStorageService, private mess:MessageService,private challengeSer:ChallengeService, private http:HttpClient, private cardser:CardService) { 
     this.is_Admin = this.tokens.isAdmin() || this.tokens.isSuperAdmin()
 
     if (!this.is_Admin){
-      var user = tokens.getUser()
-      var url = this.playerService.baseUrl + '/'+user
-      // this.http.get(url).subscribe((data)=>{this.currentuser=data}, (err)=>{console.log(err)})
-      // var url2 = this.playerService.baseUrl + '/'+this.currentuser.id + '/cards'
-      // this.http.get(url2).subscribe((data)=>{this.currentusercards=data}, (err)=>{console.log(err)})
+      var user = this.tokens.getUser()
+      var url = this.playerService.baseUrl 
       
+      this.playerService.baseUrl = url+ '/'+ user
+      this.playerService.getAll().subscribe((data: any[])=>{
+        this.currentuser = data[0]
+        console.log(this.currentuser)
+        this.playerService.baseUrl = url + '/' + this.currentuser.id + '/cards'
+        this.playerService.getAll().subscribe((data2)=>{
+          this.currentusercards = data2
+          console.log(this.currentusercards)
+        })
+      })
 
 
+
+
+
+    
     }
+    
     this.playerService.getAll().subscribe((data)=>{
       this.allPlayers=data
       
@@ -113,7 +129,23 @@ export class PlayersComponent {
     this.challengeSer.getAll().subscribe((data)=>{
       this.allChallenges = data
     })
+
+
+      
+      
+    
+
+    
   }
+
+  
+
+  
+      visible = false
+
+      ShowDialog(){
+        this.visible = true
+      }
 
   showError(message:string){
     this.mess.add({ severity: 'error', summary: 'Error', detail: message });
