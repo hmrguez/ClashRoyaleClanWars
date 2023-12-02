@@ -8,7 +8,7 @@ import { Challenge } from './ChallengeDto';
 })
 export class ChallengeService extends CrudService<Challenge>{
 
-   baseUrl= 'http://localhost:5085/api/challenges/open'
+   baseUrl= 'http://localhost:5085/api/challenges'
 
   constructor(http:HttpClient) {
     super(http)

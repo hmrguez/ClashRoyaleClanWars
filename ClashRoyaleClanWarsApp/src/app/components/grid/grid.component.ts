@@ -80,7 +80,7 @@ export class GridComponent implements OnInit {
 
   public async loadData() {
 
-    if (this.customData.length > 0) {
+    if (this.customData.length > 0 || !this.dataService) {
       this.data = this.itemParsingFunction ? this.customData.map(this.itemParsingFunction) : this.customData
     } else {
       this.dataService.getAll().subscribe({
