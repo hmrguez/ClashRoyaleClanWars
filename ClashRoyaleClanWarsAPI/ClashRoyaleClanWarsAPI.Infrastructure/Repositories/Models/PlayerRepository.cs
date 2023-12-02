@@ -72,6 +72,17 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
         return (await GetAllAsync()).Where(c => c.Alias == alias);
     }
 
+    public override async Task Update(PlayerModel model)
+    {
+        _context.Attach(model);
+
+        _context.Entry(model).Property(x => x.Elo).IsModified = true;
+        _context.Entry(model).Property(x => x.Alias).IsModified = true;
+        _context.Entry(model).Property(x => x.Level).IsModified = true;
+
+        await Save();
+    }
+
     public async Task UpdateAlias(int playerId, string alias)
     {
         var player = await GetSingleByIdAsync(playerId);

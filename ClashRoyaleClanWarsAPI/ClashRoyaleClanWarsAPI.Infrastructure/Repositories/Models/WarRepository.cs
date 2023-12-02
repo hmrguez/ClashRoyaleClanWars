@@ -47,7 +47,7 @@ internal class WarRepository : BaseRepository<WarModel, int>, IWarRepository
         var war = await GetSingleByIdAsync(warId);
         var clan = await _clanRepository.GetSingleByIdAsync(clanId);
 
-        var clanWar = ClanWarsModel.Create(clan, war, prize);
+        var clanWar = ClanWarsModel.Create(clan.Id, war.Id, prize);
 
         await _context.ClanWars.AddAsync(clanWar);
 
