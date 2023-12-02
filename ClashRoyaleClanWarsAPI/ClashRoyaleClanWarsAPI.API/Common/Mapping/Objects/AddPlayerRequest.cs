@@ -1,6 +1,4 @@
-﻿using ClashRoyaleClanWarsAPI.Domain.Models.Card;
-
-namespace ClashRoyaleClanWarsAPI.API.Common.Mapping.Objects;
+﻿namespace ClashRoyaleClanWarsAPI.API.Common.Mapping.Objects;
 
 public class AddPlayerRequest
 {

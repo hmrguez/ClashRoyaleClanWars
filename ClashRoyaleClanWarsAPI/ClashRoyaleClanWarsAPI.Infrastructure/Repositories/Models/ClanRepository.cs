@@ -124,6 +124,19 @@ internal class ClanRepository : BaseRepository<ClanModel, int>, IClanRepository
         return await _context.ClanPlayers.FindAsync(playerId, clandId) is not null;
     }
 
+    public override async Task Update(ClanModel model)
+    {
+        _context.Attach(model);
+
+        _context.Entry(model).Property(x=> x.Name).IsModified = true;
+        _context.Entry(model).Property(x=> x.Description).IsModified = true;
+        _context.Entry(model).Property(x=> x.MinTrophies).IsModified = true;
+        _context.Entry(model).Property(x=> x.Region).IsModified = true;
+        _context.Entry(model).Property(x=> x.TypeOpen).IsModified = true;
+        _context.Entry(model).Property(x=> x.TrophiesInWar).IsModified = true;
+
+        await Save();
+    }
     private async Task<bool> PlayerHasClan(int playerId) =>
         await _context.ClanPlayers
         .AsQueryable()
