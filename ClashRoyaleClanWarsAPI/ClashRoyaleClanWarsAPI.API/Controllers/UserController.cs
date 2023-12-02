@@ -71,13 +71,17 @@ public class UserController : ApiController
     }
 
     // PUT api/users/{id:guid}/password
-    [HttpPut("{id:guid}/password")]
-    public async Task<IActionResult> ChangePassword(Guid id, [FromBody] string password)
+    [HttpPut("password")]
+    public async Task<IActionResult> ChangePassword([FromBody] PasswordDto passwordDto)
     {
-        var command = new ChangePasswordCommand(id, password);
+        Console.WriteLine("Password: " + passwordDto.Id + " ," + passwordDto.Password);
+        
+        var command = new ChangePasswordCommand(passwordDto.Id, passwordDto.Password);
 
         var result = await _sender.Send(command);
 
         return result.IsSuccess ? NoContent() : Problem(result.Errors);
     }
 }
+
+public record PasswordDto(string Password, Guid Id);
