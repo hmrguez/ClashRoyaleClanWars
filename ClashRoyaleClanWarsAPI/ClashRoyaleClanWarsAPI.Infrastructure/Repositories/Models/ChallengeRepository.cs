@@ -11,5 +11,6 @@ internal class ChallengeRepository : BaseRepository<ChallengeModel, int>, IChall
     {
     }
 
-    public async Task<IEnumerable<ChallengeModel>> GetAllOpenChallenges() => (await GetAllAsync()).Where(x => x.IsOpen).ToList();
+    public async Task<IEnumerable<ChallengeModel>> GetAllOpenChallenges()
+        => (await GetAllAsync()).Where(x => x.IsOpen).ToList();
 }

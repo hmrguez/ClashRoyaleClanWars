@@ -49,6 +49,11 @@ public static partial class ErrorTypes
         public static Error ClanAlreadyInWar(string description) => new(
                 code: ErrorCode.ClanAlreadyInWar,
                 description: description);
-        
+        public static Error ClanFull(string description) => new(
+                code: ErrorCode.ClanFull,
+                description: description);
+        public static Error WarFull(string description) => new(
+                code: ErrorCode.WarFull,
+                description: description);
     }
 }
