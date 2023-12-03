@@ -53,6 +53,8 @@ public class PlayerModel : IEntity<int>
             MaxElo = Elo;
             return;
         }
+        if (Elo + elo < 0)
+            return;
 
         Elo += elo;
 
