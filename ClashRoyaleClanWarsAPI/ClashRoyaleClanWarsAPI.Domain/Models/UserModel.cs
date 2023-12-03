@@ -17,7 +17,7 @@ public class UserModel : IEntity<Guid>
         UserName = username;
     }
     public Guid Id { get; private set; }
-    public string UserName { get; private set; }
+    public string UserName { get; set; }
     public string PasswordHash { get; set; }
     public Guid? RoleId { get; set; }
     public RoleModel? Role { get; set; }

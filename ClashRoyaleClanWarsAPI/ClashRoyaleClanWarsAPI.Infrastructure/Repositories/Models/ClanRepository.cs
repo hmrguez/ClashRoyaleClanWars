@@ -67,6 +67,9 @@ internal class ClanRepository : BaseRepository<ClanModel, int>, IClanRepository
 
     public async Task AddPlayer(int clanId, int playerId, RankClan rank = RankClan.Member)
     {
+        if (await IsClanFull(clanId))
+            throw new ClanFullException(clanId);
+
         if (await ExistsClanPlayer(playerId, clanId))
             throw new DuplicationIdException(playerId, clanId);
 
@@ -83,6 +86,10 @@ internal class ClanRepository : BaseRepository<ClanModel, int>, IClanRepository
         clan!.AddPlayer(player!, rank);
 
         await Save();
+    }
+    public async Task<bool> IsClanFull(int clanId)
+    {
+        return await _context.ClanPlayers.Where(c => c.Clan!.Id == clanId).CountAsync() == 50;
     }
 
     public async Task RemovePlayer(int clanId, int playerId)

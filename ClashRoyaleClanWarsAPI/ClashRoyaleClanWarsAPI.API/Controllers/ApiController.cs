@@ -39,7 +39,9 @@ public class ApiController : ControllerBase
             error == ErrorCode.PasswordsNotMatch ||
             error == ErrorCode.ChallengeClosed ||
             error == ErrorCode.PlayerNotHaveCard ||
-            error == ErrorCode.PlayerHasNoClan)
+            error == ErrorCode.PlayerHasNoClan ||
+            error == ErrorCode.ClanFull ||
+            error == ErrorCode.WarFull)
             return BadRequest(error.Description);
 
         if (error == ErrorCode.DuplicateId ||
