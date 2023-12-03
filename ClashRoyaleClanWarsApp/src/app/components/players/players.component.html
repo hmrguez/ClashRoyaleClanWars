@@ -1,6 +1,5 @@
 <p-selectButton *ngIf="is_Admin" class="togglebutton add" [options]="stateOptions" [(ngModel)]="value" optionLabel="label" optionValue="value"></p-selectButton>
 
-
 <div *ngIf="!value" class="stats">
 
   <div class="row">
@@ -248,7 +247,7 @@ placeholder="Amount to Donate"> </p-inputNumber>
 
 </div>
 
-<div *ngIf="visibleAdd" class="container">
+<div *ngIf="visibleAdd && value" class="container">
   <div class="row row-cols-3 mt-2">
     <div class="col">
       <input [(ngModel)]="aliasAdd" pInputText placeholder="Alias" type="text"/>
@@ -268,7 +267,7 @@ placeholder="Amount to Donate"> </p-inputNumber>
   </div>
 </div>
 
-<div *ngIf="visibleUpdate" class="container">
+<div *ngIf="visibleUpdate&& value" class="container">
   <div class="row">
   <div class="col-12 text-center mb-2">
     <p-dropdown [(ngModel)]="selectedUp" [filter]="true" [options]="allPlayers" [showClear]="true" class="form"
@@ -304,7 +303,7 @@ placeholder="Amount to Donate"> </p-inputNumber>
   </div>
 </div>
 
-<div *ngIf="visibleDelete">
+<div *ngIf="visibleDelete&& value">
 
   <p-dropdown [(ngModel)]="selectedDelete" [filter]="true" [options]="allPlayers" [showClear]="true" class="form"
               filterBy="alias" optionLabel="alias" placeholder="Select a Player">
@@ -326,7 +325,7 @@ placeholder="Amount to Donate"> </p-inputNumber>
             icon="pi pi-check"></p-button>
 </div>
 
-<div *ngIf="visibleChallenge">
+<div *ngIf="visibleChallenge&& value">
   <p-dropdown [(ngModel)]="playerChallenge" [filter]="true" [options]="allPlayers" [showClear]="true" class="form"
               filterBy="alias" optionLabel="alias" placeholder="Select a Player" >
     <ng-template pTemplate="selectedItem">
@@ -364,7 +363,7 @@ placeholder="Amount to Donate"> </p-inputNumber>
 
 </div>
 
-<div *ngIf="visibleDonate">
+<div *ngIf="visibleDonate&& value">
 
   <p-dropdown [(ngModel)]="selectedPlayer" [filter]="true" [options]="allPlayers" [showClear]="true" class="form"
               filterBy="alias" optionLabel="alias" placeholder="Select a Player" (ngModelChange)="getCards()">
@@ -403,7 +402,7 @@ placeholder="Amount to Donate"> </p-inputNumber>
 </div>
 
 
-<div *ngIf="visibleAssign">
+<div *ngIf="visibleAssign&& value">
 
   <p-dropdown [(ngModel)]="playerAssign" [filter]="true" [options]="allPlayers" [showClear]="true" class="form"
               filterBy="alias" optionLabel="alias" placeholder="Select a Player" >
@@ -446,3 +445,4 @@ placeholder="Amount to Donate"> </p-inputNumber>
             [title]="'Players'"
 ></clash-grid>
 
+<p-toast [baseZIndex]="1000"></p-toast>
