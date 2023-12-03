@@ -19,6 +19,8 @@ export class FourthQueryComponent {
   clans: IClanDto[] = []
   @ViewChild("grid") grid: GridComponent = {} as GridComponent;
 
+  quality={1:''}
+
   queryColumns: IColumn[] = [
     
     {
