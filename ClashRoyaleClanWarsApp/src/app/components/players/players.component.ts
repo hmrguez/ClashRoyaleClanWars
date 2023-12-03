@@ -204,10 +204,10 @@ export class PlayersComponent {
           return
         }
 
-        var url = this.userSer.baseUrl + '/' + this.tokens.getToken() + '/password'
+        var url = this.userSer.baseUrl  + '/password'
         console.log(url)
 
-        this.http.put(url, {'password': this.pass}).subscribe((data)=>{
+        this.http.put(url, {'password': this.pass, 'id': this.tokens.getToken()}).subscribe((data)=>{
           this.showSuccess('Password Changed')
 
         },(err)=>{
