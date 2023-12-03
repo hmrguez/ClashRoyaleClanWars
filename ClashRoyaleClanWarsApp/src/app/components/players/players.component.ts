@@ -107,16 +107,7 @@ export class PlayersComponent {
       var user = this.tokens.getUser()
       var url = this.playerService.baseUrl 
       
-      this.http.get(url+'/'+user).subscribe((data: any)=>{
-        this.currentuser = data[0]
-        this.http.get(url + '/' + this.currentuser.id + '/cards').subscribe((data2)=>{
-          this.currentusercards = data2
-          
-        })
-      })
-
-    
-    
+      this.updateCurrentUserCards()
 
     this.http.get(url).subscribe((data:any)=>{
       this.allPlayers=data
@@ -134,6 +125,19 @@ export class PlayersComponent {
 
     this.challengeSer.baseUrl = url1
     
+  }
+
+  updateCurrentUserCards(){
+    var user = this.tokens.getUser()
+      var url = this.playerService.baseUrl 
+      
+      this.http.get(url+'/'+user).subscribe((data: any)=>{
+        this.currentuser = data[0]
+        this.http.get(url + '/' + this.currentuser.id + '/cards').subscribe((data2)=>{
+          this.currentusercards = data2
+          
+        })
+      })
   }
 
   
@@ -404,8 +408,13 @@ export class PlayersComponent {
 
     this.http.post(url,{}).subscribe((data)=>{
       this.showSuccess("Cards assigned")
+
       this.playerService.getAll().subscribe((data)=>{this.allPlayers=data})
       this.grid.loadData()
+
+      this.updateCurrentUserCards()
+
+      
     },(err)=>{
       this.showError(err.error)
       console.log(err)
