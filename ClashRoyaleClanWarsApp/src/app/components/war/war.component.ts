@@ -119,13 +119,23 @@ itemParsingFunction(data:any) : War{
       startDate: new Date().toJSON()
     }
 
+    var base = this.warService.baseUrl
+    this.warService.baseUrl = url
+
     this.warService.create(body).subscribe((data)=>{
       this.showSuccess('Clan Added to War')
+      this.warService.baseUrl=base
       this.grid.loadData()
       
     },(err)=>{
       this.showError('Could not insert \n' + err.error)
     })
+
+    this.warService.baseUrl=base
   }
 
 }
+
+
+
+
