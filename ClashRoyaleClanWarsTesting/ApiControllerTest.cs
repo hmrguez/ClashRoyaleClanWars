@@ -38,7 +38,6 @@ namespace ClashRoyaleClanWarsAPI.Tests
             var DuplicateUsernameError = new Error("Auth.DuplicateUsername", "Auth.DuplicateUsername");
             var InvalidCredentialsError = new Error("Auth.InvalidCredentials", "Auth.InvalidCredentials");
             var InvalidPasswordError = new Error("Auth.InvalidPassword", "Auth.InvalidPassword");
-            var ValidationError = new Error ("ValidationError", "A validation problem occurred");
 
 
             //Act
@@ -53,7 +52,6 @@ namespace ClashRoyaleClanWarsAPI.Tests
             var DuplicateUsernameResponse = Problem (DuplicateUsernameError);
             var InvalidCredentialsResponse = Problem (InvalidCredentialsError);
             var InvalidPasswordResponse = Problem (InvalidPasswordError);
-            var ValidationResponse = Problem (ValidationError);
 
             //Assert
             Assert.IsType<ConflictObjectResult>(DuplicateIdResponse);
@@ -69,7 +67,6 @@ namespace ClashRoyaleClanWarsAPI.Tests
             Assert.IsType<BadRequestObjectResult>(PlayerNotHaveCardsResponse);
             Assert.IsType<BadRequestObjectResult>(InvalidCredentialsResponse);
             Assert.IsType<BadRequestObjectResult>(InvalidPasswordResponse);
-            Assert.IsType<BadRequestObjectResult>(ValidationResponse);
 
             Assert.IsType<ObjectResult>(NullValueResponse);
         }
@@ -82,23 +79,30 @@ namespace ClashRoyaleClanWarsAPI.Tests
             var Error2 = new Error("Auth.UsernameNotFound", "Auth.UsernameNotFound");
             var Error3 = new Error("Model.IdsNotMatch", "Model.IdsNotMatch");
 
-            Error[] DuplicatedFirst = new Error[3]
+            Error[] DuplicatedFirst = new Error[1]
             {
-                Error1, Error2, Error3
+                Error1
             };
 
-            Error[] UsernameNotFoundFirst = new Error[3]
+            Error[] UsernameNotFoundFirst = new Error[1]
             {
-                Error2, Error1, Error3
+                Error2
+            };
+
+            Error[] ValidationArray = new Error[3]
+            {
+                Error1, Error2, Error3
             };
 
             //Act
             var DuplicatedFirstResponse = Problem(DuplicatedFirst);
             var UsernameNotFoundFirstResponse = Problem(UsernameNotFoundFirst);
+            var ValidationArrayResponse = Problem(ValidationArray);
 
             //Assert
             Assert.IsType<ConflictObjectResult>(DuplicatedFirstResponse);
             Assert.IsType<NotFoundObjectResult>(UsernameNotFoundFirstResponse);
+            Assert.IsType<BadRequestObjectResult>(ValidationArrayResponse);
         }
     }
 }

@@ -1,15 +1,15 @@
-<div *ngIf="isAdmin" class="add ">
-  <p-button (click)="showAdd()" icon="pi pi-plus-circle" label="Add Clan"></p-button>
-  <p-button (click)="showUpdate()" icon="pi pi-wrench" label="Update Clan"></p-button>
-  <p-button (click)="showDelete()" icon="pi pi-trash" label="Delete Clan"></p-button>
-  <p-button (click)="showAddPlayer()" icon="pi pi-user" label="Add Player to Clan"></p-button>
+<div  class="add ">
+  <p-button *ngIf="isAdmin || isUser" (click)="showAdd()" icon="pi pi-plus-circle" label="Add Clan"></p-button>
+  <p-button *ngIf="isAdmin" (click)="showUpdate()" icon="pi pi-wrench" label="Update Clan"></p-button>
+  <p-button *ngIf="isAdmin" (click)="showDelete()" icon="pi pi-trash" label="Delete Clan"></p-button>
+  <p-button *ngIf="isAdmin" (click)="showAddPlayer()" icon="pi pi-user" label="Add Player to Clan"></p-button>
 </div>
 
 <div *ngIf="visibleAdd" class="container">
   <div class="row mt-2">
-    <div class="col-3">
+    <div *ngIf="isAdmin" class="col-3">
       <p-dropdown [(ngModel)]="playerAdd" [filter]="true" [options]="allPlayers" [showClear]="true" class="form"
-                  filterBy="alias" optionLabel="alias" placeholder="Select a Player">
+                  filterBy="alias" optionLabel="alias" placeholder="Select a Leader">
         <ng-template pTemplate="selectedItem">
           <div *ngIf="playerAdd" class="flex align-items-center gap-2">
 
@@ -43,12 +43,12 @@
     </span>
 
     <span class="mt-2 col">
-        <p-inputNumber [(ngModel)]="trophiesAdd" [min]="1" inputId="integeronly"
+        <p-inputNumber [(ngModel)]="trophiesAdd" [min]="0" inputId="integeronly"
                        placeholder="Minimum Trophies"> </p-inputNumber>
     </span>
 
     <span class="mt-2 col">
-        <p-inputNumber [(ngModel)]="trophWarAdd" [min]="1" inputId="integeronly"
+        <p-inputNumber [(ngModel)]="trophWarAdd" [min]="0" inputId="integeronly"
                        placeholder="Trophies In War"> </p-inputNumber>
     </span>
   </div>
@@ -98,12 +98,12 @@
         </span>
 
     <span class="col mt-2">
-            <p-inputNumber [(ngModel)]="trophiesUp" [min]="1" inputId="integeronly"
+            <p-inputNumber [(ngModel)]="trophiesUp" [min]="0" inputId="integeronly"
                            placeholder="Minimum Trophies"> </p-inputNumber>
         </span>
 
     <span class="col mt-2">
-            <p-inputNumber [(ngModel)]="trophWarUp" [min]="1" inputId="integeronly"
+            <p-inputNumber [(ngModel)]="trophWarUp" [min]="0" inputId="integeronly"
                            placeholder="Trophies In War"> </p-inputNumber>
         </span>
   </div>

@@ -1,15 +1,43 @@
-<p-button (click)="Show()" icon="pi pi-plus-circle" class="add" label="Update Roles"></p-button>
+<div class="add">
+<p-button (click)="Show()" icon="pi pi-plus-circle"  label="Update Roles"></p-button>
+<p-button (click)="ShowPass()" icon="pi pi-plus-lock"  label="Update Password"></p-button>
+</div>
 
-<p-dropdown *ngIf="show" class="form" [options]="allUsers" [(ngModel)]="selectedUser" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select a User">
+<div *ngIf="showP">
+
+    <p-dropdown  *ngIf="showP" class="form" [options]="allUsers" [(ngModel)]="selectedUserP" optionLabel="username" [filter]="true" filterBy="username" [showClear]="true" placeholder="Select a User">
+        <ng-template pTemplate="selectedItem">
+            <div class="flex align-items-center gap-2" *ngIf="selectedUserP">
+                <div>{{ selectedUserP.username }}</div>
+            </div>
+        </ng-template>
+        <ng-template let-user pTemplate="item">
+            <div class="flex align-items-center gap-2">
+                
+                <div>{{ user.username }}</div>
+            </div>
+        </ng-template>
+    </p-dropdown>
+ 
+    <p-password class="form" [(ngModel)]="pass" [toggleMask]="true" [placeholder]="'Enter Password'"></p-password>
+    <p-password class="form" [(ngModel)]="confPass" [feedback]="false" [toggleMask]="true" [placeholder]="'Confirm Password'"></p-password>
+  
+    </div>
+    <p-button *ngIf="showP" (click)="ChangePassword()" [raised]="true" [rounded]="true" [text]="true" class="form"
+              icon="pi pi-check"></p-button>
+
+
+
+<p-dropdown *ngIf="show" class="form" [options]="allUsers" [(ngModel)]="selectedUser" optionLabel="username" [filter]="true" filterBy="username" [showClear]="true" placeholder="Select a User">
     <ng-template pTemplate="selectedItem">
         <div class="flex align-items-center gap-2" *ngIf="selectedUser">
-            <div>{{ selectedUser.name }}</div>
+            <div>{{ selectedUser.username }}</div>
         </div>
     </ng-template>
     <ng-template let-user pTemplate="item">
         <div class="flex align-items-center gap-2">
             
-            <div>{{ user.name }}</div>
+            <div>{{ user.username }}</div>
         </div>
     </ng-template>
 </p-dropdown>
@@ -32,10 +60,11 @@
 
 
 
-<clash-grid [title]="'Users'"
+<clash-grid #grid
+ [title]="'Users'"
 [dataService]="serv"
 [columns]="columns"
-[primaryKey]="'Id'"
+[primaryKey]="'id'"
 [itemParsingFunction]="itemParsingFunction"
 >
 </clash-grid>

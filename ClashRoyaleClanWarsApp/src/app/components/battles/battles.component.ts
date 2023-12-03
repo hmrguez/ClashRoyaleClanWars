@@ -115,7 +115,8 @@ export class BattlesComponent implements OnInit {
       amountTrophies : data.amountTrophies,
       //filter where clans.id = data.id, get the clans.name
       date : data.date,
-      durationInSeconds : data.durationInSeconds
+      durationInSeconds : data.durationInSeconds,
+      id : data.id.value
 
      
     }
@@ -154,7 +155,7 @@ export class BattlesComponent implements OnInit {
     
     
     this.battleSer.create({'winnerId': this.selectedWinner.id, 'loserId': this.selectedLoser.id,
-  'amountTrophies': this.trophies, 'durationInSeconds':this.duration, 'date': this.date.toISOString()}).subscribe((data)=>{
+  'amountTrophies': this.trophies, 'durationInSeconds':this.duration, 'date': this.date.toISOString(), 'id': 1}).subscribe((data)=>{
     this.showSuccess('Battle Created')
     this.playerService.getAll().subscribe((data)=>{this.players=data})
     this.grid.loadData()

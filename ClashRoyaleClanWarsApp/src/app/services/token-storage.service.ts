@@ -21,7 +21,11 @@ export class TokenStorageService {
   public saveToken(token: string): void {
     
     window.sessionStorage.removeItem(TOKEN_KEY);
-    window.sessionStorage.setItem(TOKEN_KEY, token);
+    //"{\"http://schemas.microsoft.com/ws/2008/06/identity/claims/role\":\"User\"
+    var k = token.split(':')[2].split('"')[1]
+    
+
+    window.sessionStorage.setItem(TOKEN_KEY, k);
 
   }
 
@@ -66,6 +70,11 @@ export class TokenStorageService {
     return window.sessionStorage.getItem(TOKEN_KEY);
   }
 
+  public updateUser(user:string){
+    window.sessionStorage.removeItem(USER_KEY);
+    window.sessionStorage.setItem(USER_KEY, user);
+  }
+
   public saveUser(user: any): void {
     window.sessionStorage.removeItem(USER_KEY);
 
@@ -79,7 +88,9 @@ export class TokenStorageService {
   public getUser(): any {
     const user = window.sessionStorage.getItem(USER_KEY);
     if (user) {
-      return JSON.parse(user);
+     
+      return JSON.parse(user)
+      
     }
 
     return {};

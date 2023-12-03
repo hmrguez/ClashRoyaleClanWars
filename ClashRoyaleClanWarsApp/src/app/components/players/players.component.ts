@@ -8,6 +8,11 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ViewChild } from '@angular/core';
 import { GridComponent } from '../grid/grid.component';
 import { isPlatformBrowser } from '@angular/common';
+import { CardService } from '../cards/card.service';
+import { ChallengeService } from '../challenge/challenge.service';
+import { OnInit } from '@angular/core';
+import { TimeScale } from 'chart.js';
+import { UsersService } from '../users/users.service';
 
 @Component({
   selector: 'app-players',
@@ -17,6 +22,9 @@ import { isPlatformBrowser } from '@angular/common';
 export class PlayersComponent {
 
   @ViewChild("grid") grid: GridComponent = {} as GridComponent;
+
+  stateOptions: any[] = [{label: 'View As Player', value: false}, {label: 'View As Admin', value: true}];
+  value = false
 
   columns: IColumn[] = [
     {
@@ -58,6 +66,8 @@ export class PlayersComponent {
   visibleUpdate = false
   visibleDelete = false
   visibleDonate = false
+  visibleAssign = false
+  visibleChallenge =false
 
 
   aliasAdd !: string
@@ -77,30 +87,176 @@ export class PlayersComponent {
 
   cards !:any
 
+  allcards !:any
+  allChallenges!:any[]
+
+  currentuser !:any
+  currentusercards !:any
 
 
 
-  constructor(public playerService: PlayerService, private tokens :TokenStorageService, private mess:MessageService, private http:HttpClient) { 
+
+
+ 
+  
+
+  constructor(public playerService: PlayerService, private userSer: UsersService, public tokens :TokenStorageService, private mess:MessageService,private challengeSer:ChallengeService, private http:HttpClient, private cardser:CardService) { 
     this.is_Admin = this.tokens.isAdmin() || this.tokens.isSuperAdmin()
-    this.playerService.getAll().subscribe((data)=>{
-      this.allPlayers=data
+
+   
+      var user = this.tokens.getUser()
+      var url = this.playerService.baseUrl 
       
+      this.updateCurrentUserCards()
+
+    this.http.get(url).subscribe((data:any)=>{
+      this.allPlayers=data
     })
+    this.cardser.getAll().subscribe((data)=>{
+      this.allcards = data
+    })
+    
+    var url1 = this.challengeSer.baseUrl
+
+    this.challengeSer.baseUrl+= '/open'
+    this.challengeSer.getAll().subscribe((data)=>{
+      this.allChallenges = data
+    })
+
+    this.challengeSer.baseUrl = url1
+    
   }
 
-  showError(message:string){
-    this.mess.add({ severity: 'error', summary: 'Error', detail: message });
+  updateCurrentUserCards(){
+    var user = this.tokens.getUser()
+      var url = this.playerService.baseUrl 
+      
+      this.http.get(url+'/'+user).subscribe((data: any)=>{
+        this.currentuser = data[0]
+        this.http.get(url + '/' + this.currentuser.id + '/cards').subscribe((data2)=>{
+          this.currentusercards = data2
+          
+        })
+      })
   }
 
-  showSuccess(message:string){
-    this.mess.add({ severity: 'success', summary: 'Success', detail: message });
-  }
+  
+
+  
+      visible = false
+      visibleu =false
+      visiblep = false
+      visibled = false
+
+      newusername!:string
+
+      ShowDialogUsername(){
+        this.visibleu = true
+      }
+
+      ShowDialogPassword(){
+        this.visiblep = true
+      }
+
+      ShowDialogDonate(){
+        this.visibled = true
+      }
+
+      ShowDialog(){
+        this.visible = true
+      }
+
+      showError(message:string){
+        this.mess.add({ severity: 'error', summary: 'Error', detail: message });
+      }
+    
+      showSuccess(message:string){
+        this.mess.add({ severity: 'success', summary: 'Success', detail: message });
+      }
+
+      donateAmountC !: any
+      donateCard !: any
+
+      DonateCard(){
+        this.visibled = false
+        if (!this.donateCard || !this.donateAmountC) {
+          this.showError('Fill all fields')
+          return
+      }
+
+      let url = this.playerService.baseUrl + '/' + this.currentuser.id + '/donate' ;
+
+      
+
+    this.http.post(url,{'cardId':this.donateCard.id,'amount':this.donateAmountC}).subscribe((data)=>{
+      this.showSuccess("Donated")
+    },(err)=>{
+      this.showError(err.error)
+    })
+
+    }
+
+      ChangeUsername(){
+        this.visibleu = false
+
+        if (!this.newusername){
+          this.showError('Username cannot be empty')
+          return
+        }
+
+        let url = this.playerService.baseUrl + '/'+ this.currentuser.id + '/' + this.newusername
+        console.log(this.tokens.getUser())
+
+        this.http.patch(url,{}).subscribe((data)=>{
+        
+          this.tokens.updateUser(JSON.stringify( this.newusername))
+          this.currentuser.alias = this.newusername
+          this.showSuccess('Username changed')
+          console.log(this.tokens.getUser())
+        },(err)=>{
+          this.visibleu = false
+          this.showError(err.error)
+          console.log(err)
+        })
+      }
+
+      pass !: string
+      confPass!: string
+
+      ChangePassword(){
+        this.visiblep=false
+
+        if (!this.pass||!this.confPass){
+          this.showError('Fill all fields')
+          return
+        }
+
+        if (this.pass != this.confPass){
+          this.showError('Passwords do not match')
+          return
+        }
+
+        var url = this.userSer.baseUrl  + '/password'
+        console.log(url)
+
+        this.http.put(url, {'password': this.pass, 'id': this.tokens.getToken()}).subscribe((data)=>{
+          this.showSuccess('Password Changed')
+
+        },(err)=>{
+          this.showError(err.error)
+        })
+
+      }
+
+ 
 
   showAdd(){
     this.visibleAdd= !this.visibleAdd
     this.visibleUpdate = false
     this.visibleDelete = false
     this.visibleDonate= false
+    this.visibleAssign = false
+    this.visibleChallenge =false
     
   }
 
@@ -109,6 +265,8 @@ export class PlayersComponent {
     this.visibleAdd = false
     this.visibleDelete = false
     this.visibleDonate= false
+    this.visibleAssign = false
+    this.visibleChallenge =false
   }
 
   showDelete(){
@@ -116,6 +274,8 @@ export class PlayersComponent {
     this.visibleAdd = false
     this.visibleUpdate = false
     this.visibleDonate= false
+    this.visibleAssign = false
+    this.visibleChallenge =false
   }
 
   showDonate(){
@@ -123,6 +283,27 @@ export class PlayersComponent {
     this.visibleAdd = false
     this.visibleUpdate = false
     this.visibleDelete = false
+    this.visibleAssign = false
+    this.visibleChallenge =false
+  }
+
+  showAssign(){
+    this.visibleAssign = !this.visibleAssign 
+    this.visibleAdd = false
+    this.visibleUpdate = false
+    this.visibleDelete = false
+    this.visibleDonate = false
+    this.visibleChallenge =false
+
+  }
+
+  showChallenge(){
+    this.visibleChallenge = !this.visibleChallenge
+    this.visibleAdd = false
+    this.visibleUpdate = false
+    this.visibleDelete = false
+    this.visibleDonate = false
+    this.visibleAssign = false
   }
 
   Post(){
@@ -133,6 +314,7 @@ export class PlayersComponent {
 
     this.http.post(this.playerService.baseUrl, {'elo':this.eloAdd, 'level':this.levelAdd, 'alias':this.aliasAdd}).subscribe((data)=>{
       this.showSuccess('Player Created')
+      this.playerService.getAll().subscribe((data)=>{this.allPlayers = data})
       this.grid.loadData()
     }, (err)=>{this.showError(err.error)})
 
@@ -209,6 +391,56 @@ export class PlayersComponent {
       this.showSuccess("Donated")
     },(err)=>{
       this.showError(err.error)
+    })
+
+  }
+
+  playerAssign !: any
+  cardAssign !: any
+
+  AssignCards(){
+
+    if (!this.playerAssign || !this.cardAssign){
+      this.showError('Select a card and a player')
+    }
+
+    let url = this.playerService.baseUrl + '/'+this.playerAssign.id + '/cards/' + this.cardAssign.id
+
+    this.http.post(url,{}).subscribe((data)=>{
+      this.showSuccess("Cards assigned")
+
+      this.playerService.getAll().subscribe((data)=>{this.allPlayers=data})
+      this.grid.loadData()
+
+      this.updateCurrentUserCards()
+
+      
+    },(err)=>{
+      this.showError(err.error)
+      console.log(err)
+    })
+
+  }
+
+  challenge !: any
+  playerChallenge !: any
+  reward!: number
+
+  Challenge(){
+    if (!this.challenge || !this.playerChallenge || !this.reward){
+      this.showError('No fields can be empty')
+      return
+    }
+
+    let url = this.playerService.baseUrl + '/'+this.playerChallenge.id + '/challenge/' + this.challenge.id
+
+    this.http.post(url,{'reward': this.reward}).subscribe((data)=>{
+      this.showSuccess("Challenge assigned")
+      
+
+    },(err)=>{
+      this.showError(err.error)
+      console.log(err)
     })
 
   }

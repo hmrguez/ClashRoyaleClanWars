@@ -1,0 +1,77 @@
+<div *ngIf="isAdmin" class="add flex justify-content-center">
+    <p-button (click)="showAdd()" icon="pi pi-plus-circle" label="Add Challenge"></p-button>
+    <p-button (click)="showDelete()" icon="pi pi-plus-trash" label="Delete Challenge"></p-button>
+  
+  </div>
+<div *ngIf="visibleAdd" >
+
+<div class="row" style="padding-top: 12px;">
+  <div class="col">
+<input [(ngModel)]="namePost" pInputText placeholder="Name" type="text" class="form"/>
+</div>
+
+<div class="col">
+<input [(ngModel)]="descriptionPost" pInputText placeholder="Description" type="text" class="form"/>
+</div>
+</div>
+
+<div class="row">
+  <div class="col">
+<p-inputNumber [(ngModel)]="costPost" [min]="1" inputId="integeronly" placeholder="cost" class="form"></p-inputNumber>
+</div>
+<div class="col">
+<p-inputNumber [(ngModel)]="amountRewardPost" [min]="1" inputId="integeronly" placeholder="Reward" class="form"></p-inputNumber>
+</div>
+<div class="col"><p-inputNumber [(ngModel)]="durationInHoursPost" [min]="1" inputId="integeronly" placeholder="Duration In Hours" class="form"></p-inputNumber>
+</div> <div class="col"><p-inputNumber [(ngModel)]="minLevelPost" [min]="1" [max]="15" inputId="integeronly" placeholder="Min Level" class="form"></p-inputNumber>
+</div></div>
+
+<div class="row">
+  <div class="col">
+<p-inputNumber [(ngModel)]="lossLimitPost" [min]="1" inputId="integeronly" placeholder="Loss Limit" class="form"></p-inputNumber>
+</div>
+
+<div class="col">
+<p-calendar [(ngModel)]="startDatePost" [showButtonBar]="true" [showIcon]="true" [showSeconds]="true" [showTime]="true"
+                  placeholder="Date" class="form"></p-calendar>
+                </div>
+                <div class="col">
+<p-checkbox [(ngModel)]="isOpenPost" label="Open" [binary]="true" inputId="binary" type="binary" class="form"></p-checkbox>
+
+</div>
+
+</div>
+
+<p-button (click)="Post()" [raised]="true" [rounded]="true" [text]="true" class="form"
+            icon="pi pi-check"></p-button>
+
+</div>
+
+<div *ngIf="visibleDelete" >
+    <p-dropdown class="form" [(ngModel)]="selectedChallenge" [filter]="true" [options]="allChallenges" [showClear]="true" 
+                filterBy="name" optionLabel="name" placeholder="Select a Challenge">
+      <ng-template pTemplate="selectedItem">
+        <div *ngIf="selectedChallenge" class="flex align-items-center gap-2">
+
+          <div>{{ selectedChallenge.name }}</div>
+        </div>
+      </ng-template>
+      <ng-template let-challenge pTemplate="item">
+        <div class="flex align-items-center gap-2">
+
+          <div>{{ challenge.id + "  " + challenge.name }}</div>
+        </div>
+      </ng-template>
+    </p-dropdown>
+
+    <p-button (click)="Delete()" [raised]="true" [rounded]="true" [text]="true" class="form"
+            icon="pi pi-check"></p-button>
+</div>
+
+<clash-grid #grid [title]="'Challenge'"
+            [dataService]="challengeSer"
+            [columns]="columns"
+            [primaryKey]="'id'"
+            [itemParsingFunction]="itemParsingFunction"
+>
+</clash-grid>

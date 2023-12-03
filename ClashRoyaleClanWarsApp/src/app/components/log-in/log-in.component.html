@@ -6,7 +6,7 @@
         <img [src] = "ImagePath" alt="">
         <div class="text">
           <span class="text-1">Clash Royale</span>
-          <span class="text-2">Unete a nosotros</span>
+          <span class="text-2">Join Us</span>
         </div>
       </div>
       <div class="back">
@@ -20,7 +20,7 @@
     <div class="forms">
         <div class="form-content">
           <div class="login-form">
-            <div class="title">Autenticarse</div>
+            <div class="title">Log In</div>
 
             <!-- this form corresponds to LogInForm in the component -->
 
@@ -28,41 +28,41 @@
             <div class="input-boxes">
               <div class="input-box">
              
-                <input type="text" placeholder="Nombre de usuario" required="true" [(ngModel)]="LogInForm.Username" name="username">
+                <input type="text" placeholder="Username" required="true" [(ngModel)]="LogInForm.Username" name="username">
               </div>
               <div class="input-box">
                
-                <input type="password" placeholder="Contraseña" required [(ngModel)]="LogInForm.Password" name="password">
+                <input type="password" placeholder="Password" required [(ngModel)]="LogInForm.Password" name="password">
               </div>
         
               <div class="button input-box">
-                <button type="submit"  (click)="LogIn()">Aceptar</button>
+                <button type="submit"  (click)="LogIn()">Submit</button>
               </div>
-              <div class="text sign-up-text">No tiene cuenta? <label for="flip">Registrarse</label></div>
+              <div class="text sign-up-text">Don't have an account? <label for="flip">Sign Up</label></div>
             </div>
         </form>
       </div>
         <div class="signup-form">
-          <div class="title">Registrarse</div>
+          <div class="title">Sign Up</div>
         <form action="#">
 
             <div class="input-boxes">
               <div class="input-box">
                
-                <input type="text" placeholder="Nombre de usuario" required [(ngModel)]="SignUpForm.Username" name="username">
+                <input type="text" placeholder="Username" required [(ngModel)]="SignUpForm.Username" name="username">
               </div>
               <div class="input-box">
 
-                <input type="password" placeholder="Contraseña" required [(ngModel)]="SignUpForm.Password" name="password" >
+                <input type="password" placeholder="Password" required [(ngModel)]="SignUpForm.Password" name="password" >
               </div>
 
               <div class="input-box">
-                <input type="password" placeholder="Confirme su contraseña" required [(ngModel)]="SignUpForm.ConfirmPassword" name="ConfirmPassword">
+                <input type="password" placeholder="Confirm Password" required [(ngModel)]="SignUpForm.ConfirmPassword" name="ConfirmPassword">
               </div>
               <div class="button input-box">
-                <button type="submit" (click)="SignUp()">Aceptar</button>
+                <button type="submit" (click)="SignUp()">Submit</button>
               </div>
-              <div class="text sign-up-text">Ya tiene cuenta? <label for="flip">Autenticarse</label></div>
+              <div class="text sign-up-text">Already have an account? <label for="flip">Log In</label></div>
             </div>
       </form>
     </div>
@@ -71,4 +71,4 @@
   </div>
 </div>
 
-  <p-toast></p-toast>
+<p-toast></p-toast>

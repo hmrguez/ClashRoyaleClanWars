@@ -59,12 +59,14 @@ export class LogInComponent implements OnInit {
         const jwt = jwt_decode.jwtDecode(data.token)
         var decoded = atob(data.token.split('.')[1])
         sessionStorage.setItem('jwt', decoded)
+        console.log(jwt)
         var dec_s = decoded.split(',')
+        console.log(dec_s)
 
         this.tokenStorage.expToken(jwt.exp!);
-        this.tokenStorage.saveToken(jwt.jti!);
-        this.tokenStorage.saveUser( dec_s[4] );
-        this.tokenStorage.saveRoles(dec_s[0])
+        this.tokenStorage.saveToken(dec_s[0]);
+        this.tokenStorage.saveUser( dec_s[1] );
+        this.tokenStorage.saveRoles(dec_s[2])
 
         this.messageService.add({ severity: 'success', summary: 'Success', detail: 'You have been logged in' });
 

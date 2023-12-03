@@ -22,6 +22,8 @@ export class ClansComponent {
 
   isAdmin: boolean = false
 
+  isUser = false
+
 
   playerSelected!: any
 
@@ -70,6 +72,7 @@ export class ClansComponent {
   baseUrl !: string
   constructor(public clanService: ClanService, private tokenStorage: TokenStorageService, public playerSer: PlayerService, private mess:MessageService ) { 
     this.isAdmin = this.tokenStorage.isAdmin() || this.tokenStorage.isSuperAdmin()
+    this.isUser = !this.isAdmin && !!this.tokenStorage.getToken()
     this.playerSer.getAll().subscribe((data)=>{this.allPlayers=data})
     this.clanService.getAll().subscribe((data)=>{this.allClans=data})
     this.baseUrl = this.clanService.baseUrl
@@ -161,6 +164,10 @@ export class ClansComponent {
 
   Post(){
 
+    if (this.isUser){
+      this.playerAdd = this.allPlayers.filter(x => x.alias == this.tokenStorage.getUser())[0]
+    }
+
     if (!this.playerAdd) {
       this.showError('Player field cannot be empty')
       return
@@ -185,6 +192,8 @@ export class ClansComponent {
       this.showError(err.error)
     })
 
+    this.clanService.baseUrl = this.baseUrl
+
     
     
 
@@ -196,12 +205,6 @@ export class ClansComponent {
       return
     }
 
-    if (!this.nameUp && !this.descUp && !this.regionUp && !this.trophWarUp && !this.trophiesUp){
-      this.showError('Not all fields can be empty')
-      return
-    }
-
-   
 
     if (!this.nameUp) this.nameUp = this.selectedUp.name
     if (!this.descUp) this.descUp = this.selectedUp.description
@@ -258,6 +261,7 @@ export class ClansComponent {
       this.clanService.create({'id':1,'name':'na','description':'ja','region':'USA','typeOpen': true,'amountMembers':12,'trophiesInWar':10,'minTrophies':10}).subscribe((data)=>
       {
         this.showSuccess('Player added to clan')
+        this.grid.loadData()
 
       },(err)=>{
         this.showError(err.error)
@@ -267,10 +271,6 @@ export class ClansComponent {
       this.clanService.baseUrl=url
 
     }
-    
-  
-  
 
-  
   
 }

@@ -40,24 +40,23 @@ export class FifthQueryComponent {
     this.playerSer.getAll().subscribe((data)=>{this.allPlayers=data})
   }
   
- 
+ updated = false
   
   async loadData(){
-
-    var datasets1 = this.data
-
-    if (this.update){
       const func = ((data: any)=>{
-          datasets1 = data
+          this.data = data
+          this.grid.data = this.data
+          
+          
       });
   
       const obeservable = await this.queryService.getAll().toPromise();
       func(obeservable)
 
-      this.data = datasets1
-    }
+      
+    
   
-    return datasets1
+  
 
 }
   
@@ -84,12 +83,9 @@ export class FifthQueryComponent {
     }
 
     this.queryService.insertId(this.selectedPlayer.id)
-    this.update = true
-    var d = await this.loadData()
-    var e = await this.loadData()
-    //duplicated because it takes a while to refresh
-    this.grid.loadData()
-    this.update = false
+    
+    await this.loadData()
+    
   }
 
 
