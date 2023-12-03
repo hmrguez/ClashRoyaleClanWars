@@ -54,8 +54,6 @@ export class FourthQueryComponent {
           queryId : this.count
         })
         this.count++
-
-        
       });
       this.grid.loadData()
     })
