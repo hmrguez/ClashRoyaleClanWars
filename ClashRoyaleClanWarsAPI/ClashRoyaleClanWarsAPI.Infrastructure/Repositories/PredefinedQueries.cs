@@ -2,6 +2,7 @@
 using ClashRoyaleClanWarsAPI.Application.Responses;
 using ClashRoyaleClanWarsAPI.Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using System.Linq;
 
 namespace ClashRoyaleClanWarsAPI.Infrastructure.Repositories;
@@ -132,15 +133,15 @@ internal class PredefinedQueries : IPredefinedQueries
                                 }
                                 into cpc
                                 let clanName = cpc.Where(r => r.Clan!.Id == cpc.Key.ClanId).First().Clan!.Name
-                                let cardQuality = cpc.Where(r => r.Player!.FavoriteCard!.Id == cpc.Key.CardId)
-                                                  .First().Player!.FavoriteCard!.Quality
+                                let cardType = cpc.Where(r => r.Player!.FavoriteCard!.Id == cpc.Key.CardId)
+                                                  .First().Player!.FavoriteCard!.Type
                                 select new
                                 {
                                     ClanId = cpc.Key.ClanId,
                                     ClanName = clanName,
                                     CardId = cpc.Key.CardId,
                                     CardName = cpc.Key.CardName,
-                                    CardQuality = cardQuality,
+                                    CardType = cardType,
                                     Count = cpc.Count()
                                 };
 
@@ -148,13 +149,13 @@ internal class PredefinedQueries : IPredefinedQueries
                      group cp by new
                      {
                          ClanId = cp.ClanId,
-                         CardQuality = cp.CardQuality
+                         CardType = cp.CardType
                      }
                      into cpT
                      select cpT.MaxBy(c => c.Count);
 
         return result
-            .Select(c => new FourthQueryResponse(c.ClanId, c.ClanName, c.CardId, c.CardName, c.CardQuality, c.Count))
+            .Select(c => new FourthQueryResponse(c.ClanId, c.ClanName, c.CardId, c.CardName, c.CardType, c.Count))
             .OrderBy(c=> c.ClanId)
             .ToList();
 

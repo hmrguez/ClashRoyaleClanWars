@@ -6,5 +6,5 @@ public record FourthQueryResponse(int ClanId,
                                   string ClanName,
                                   int CardId,
                                   string CardName,
-                                  QualityCardEnum CardQuality,
+                                  TypeCardEnum CardType,
                                   int Count);
