@@ -1,3 +1,10 @@
-﻿namespace ClashRoyaleClanWarsAPI.Application.Responses;
+﻿using ClashRoyaleClanWarsAPI.Domain.Enum;
 
-public record FourthQueryResponse(int CardId, string CardName, int Count, int ClanId, string ClanName);
+namespace ClashRoyaleClanWarsAPI.Application.Responses;
+
+public record FourthQueryResponse(int ClanId,
+                                  string ClanName,
+                                  int CardId,
+                                  string CardName,
+                                  QualityCardEnum CardQuality,
+                                  int Count);

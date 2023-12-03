@@ -2,6 +2,7 @@
 using ClashRoyaleClanWarsAPI.Application.Responses;
 using ClashRoyaleClanWarsAPI.Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace ClashRoyaleClanWarsAPI.Infrastructure.Repositories;
 
@@ -122,31 +123,39 @@ internal class PredefinedQueries : IPredefinedQueries
                                     .ThenInclude(p => p!.FavoriteCard)
                                     .ToListAsync();
 
-
         var countFavoriteCard = from cp in clanPlayers
                                 group cp by new
                                 {
                                     ClanId = cp.Clan!.Id,
                                     CardId = cp.Player!.FavoriteCard!.Id,
                                     CardName = cp.Player!.FavoriteCard!.Name
-                                } into cpc
-                                let clanName = cpc.Where(r=> r.Clan!.Id == cpc.Key.ClanId).First().Clan!.Name
+                                }
+                                into cpc
+                                let clanName = cpc.Where(r => r.Clan!.Id == cpc.Key.ClanId).First().Clan!.Name
+                                let cardQuality = cpc.Where(r => r.Player!.FavoriteCard!.Id == cpc.Key.CardId)
+                                                  .First().Player!.FavoriteCard!.Quality
                                 select new
                                 {
                                     ClanId = cpc.Key.ClanId,
                                     ClanName = clanName,
                                     CardId = cpc.Key.CardId,
                                     CardName = cpc.Key.CardName,
+                                    CardQuality = cardQuality,
                                     Count = cpc.Count()
                                 };
 
         var result = from cp in countFavoriteCard
-                     group cp by cp.ClanId into cpc
-                     select cpc.MaxBy(c => c.Count);
-
+                     group cp by new
+                     {
+                         ClanId = cp.ClanId,
+                         CardQuality = cp.CardQuality
+                     }
+                     into cpT
+                     select cpT.MaxBy(c => c.Count);
 
         return result
-            .Select(c => new FourthQueryResponse(c.CardId, c.CardName, c.Count, c.ClanId, c.ClanName))
+            .Select(c => new FourthQueryResponse(c.ClanId, c.ClanName, c.CardId, c.CardName, c.CardQuality, c.Count))
+            .OrderBy(c=> c.ClanId)
             .ToList();
 
     }
