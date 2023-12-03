@@ -122,7 +122,7 @@ datos.
 \section{Modelo de Datos}
 Base de datos:
 \begin{center}
-\includegraphics[width=0.8\textwidth]{bd}
+\includegraphics[width=1\textwidth]{bd}
 \end{center}
 
 \section{Diccionario de Datos}
@@ -132,7 +132,62 @@ Base de datos:
 
 \section{Opciones del sistema}
 
+\begin{enumerate}
+    \item El sistema cuenta con una barra de navegación plegable a la izquierda de la pantalla
+    \begin{center}
+        \includegraphics[width=1\textwidth]{main}
+        \end{center}
+    \item El sistema cuenta con un apartado de FAQ donde se le darán respuesta a algunas preguntas
+    técnicas que puedan tener los usuarios.
+    \begin{center}
+        \includegraphics[width=1\textwidth]{faq}
+        \end{center}
+    \item Los usuarios del sistema pueden autenticarse con su nombre de usuario y contraseña, o se pueden registrar
+    
+        \includegraphics[width=1\textwidth]{log}
+        \includegraphics[width=1\textwidth]{sign}
+       
+    \item Los ususarios pueden visualizar las cartas con sus propiedades
+    \begin{center}
+        \includegraphics[width=1\textwidth]{cards}
+        \end{center}
+
+    \item Los usuarios pueden visualizar gráficamente la popularidad del juego; es decir, pueden ver gráficamente la cantidad de batallas en el año. 
+    Además, se pueden visualizar los 5 clanes más populares en una gráfica de pastel, y se puede visualizar en una gráfica de barras, la distribución de batallas ganadas por usuarios
+
+    \item Los usuarios pueden visualizar las tablas de Clanes, Batallas, Guerras y Desafíos. También puede visualizar los resultados de las 6 consultas que se realizan.
+    \item Un usuario puede realizar un análisis a un mazo de su elección y ver los resultados de la consulta.
+    \includegraphics[width=1\textwidth]{anal1}
+    \includegraphics[width=1\textwidth]{anal2}
+
+    \item Si el usuario está autenticado y su rol es 'User', entonces puede ver sus estadísticas como jugador, incluyendo las cartas de su mazo. Además puede cambiar su nombre de usuario y contraseña.
+    \includegraphics[width=1\textwidth]{user}
+    \includegraphics[width=1\textwidth]{mazo}
+
+    \item Si el usuario está autenticado y su rol es 'Admin' o  'Superadmin', puede realizar operaciones CRUD sobre las tablas, así como donar cartas, asignar cartas, agregar un jugador a un clan, agregar un clan a una guerra
+    \item Si el usuario está autenticado y su rol es 'Superadmin' puede cambiar los roles a los usuarios y cambiar sus contraseñas.
+
+\end{enumerate}
+
 \section{Salidas del sistema}
+
+\begin{enumerate}
+    \item Todas las tablas de la base de datos que se pueden visualizar (Jugadores, Clanes, Batallas, Guerras, Desafíos) se muestran usando el mismo componente, variando solamente las columnas que se muestran. Se tiene las funcionalidades de ordernar en orden ascendiente o descendiente por columnas y filtrar por una columna. También se cuenta con la funcionalidad de exportar los datos a pdf, csv y xlsx (se puede exportar todos los datos o los que se seleccionen manualmente). Los resultados de las consultas predeterminadas también se muestran en este mismo componente.
+
+\includegraphics[width=1\textwidth]{grid}
+\includegraphics[width=1\textwidth]{pdf}
+\includegraphics[width=1\textwidth]{xlsx}
+\includegraphics[width=1\textwidth]{csv}
+
+\item Mostramos en una gráfica de líneas la populariad del juego (cantidad de batallas por mes por año). Esta gráfica se puede exportar a pdf.
+FOTOOOOOOOOOOOOO
+
+\item Mostramos en una gráfica de barras la distribución de batallas ganadas por jugador (cuántos jugadores tienen x cantidad de batallas ganadas). Esta gráfica se puede exportar a pdf.
+
+\item Mostramos en una gráfica de pastel los 5 clanes más populares .Esta gráfica se puede exportar a pdf.
+
+
+\end{enumerate}
 
 \section{Modificaciones sobre el diseño de base de datos propuesto al inicio}
 
