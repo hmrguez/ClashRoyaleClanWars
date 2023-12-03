@@ -95,6 +95,11 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
 
         player!.ChangeAlias(alias!);
 
+        _context.Entry(player).Reference(u => u.User).Load();
+
+        if (player.User != null)
+            player.User.UserName = alias;
+
         await Save();
     }
 
