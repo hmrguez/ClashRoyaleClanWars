@@ -20,15 +20,15 @@ public class BattleConfiguration : IEntityTypeConfiguration<BattleModel>
         builder.HasOne(b => b.Winner)
             .WithMany()
             .HasForeignKey("WinnerId")
-            .OnDelete(DeleteBehavior.Cascade)
-            .HasConstraintName("FK_Battles_Players_WinnerId");
+            .OnDelete(DeleteBehavior.NoAction);
+        //.HasConstraintName("FK_Battles_Players_WinnerId");
 
 
         builder.HasOne(b => b.Loser)
             .WithMany()
             .HasForeignKey("LoserId")
-            .OnDelete(DeleteBehavior.NoAction)
-            .HasConstraintName("FK_Battles_Players_LoserId");
+            .OnDelete(DeleteBehavior.NoAction);
+            //.HasConstraintName("FK_Battles_Players_LoserId");
 
         builder.HasIndex("WinnerId", "LoserId", "Date").IsUnique();
     }

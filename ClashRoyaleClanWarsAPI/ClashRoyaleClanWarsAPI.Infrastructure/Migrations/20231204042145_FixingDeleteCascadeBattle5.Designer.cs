@@ -4,6 +4,7 @@ using ClashRoyaleClanWarsAPI.Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClashRoyaleClanWarsAPI.Infrastructure.Migrations
 {
     [DbContext(typeof(ClashRoyaleDbContext))]
-    partial class ClashRoyaleDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231204042145_FixingDeleteCascadeBattle5")]
+    partial class FixingDeleteCascadeBattle5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

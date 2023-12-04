@@ -4,6 +4,7 @@ using ClashRoyaleClanWarsAPI.Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClashRoyaleClanWarsAPI.Infrastructure.Migrations
 {
     [DbContext(typeof(ClashRoyaleDbContext))]
-    partial class ClashRoyaleDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231204040622_FixingDeleteCascadeBattle4")]
+    partial class FixingDeleteCascadeBattle4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -253,17 +256,17 @@ namespace ClashRoyaleClanWarsAPI.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("532a2e25-c262-47f9-bf8b-48b07e84639f"),
+                            Id = new Guid("aff1ba23-e886-4819-b36d-083bcb8e58b5"),
                             Name = "Admin"
                         },
                         new
                         {
-                            Id = new Guid("471c2ac5-dd9c-46a1-b104-01d05ad234dd"),
+                            Id = new Guid("388e522d-e530-440a-96b0-c933ac50e8cb"),
                             Name = "User"
                         },
                         new
                         {
-                            Id = new Guid("7a509152-925f-475e-8118-b24c588a80b1"),
+                            Id = new Guid("d3e9b40e-305b-4e0c-9070-6dea126711f4"),
                             Name = "SuperAdmin"
                         });
                 });
@@ -302,9 +305,9 @@ namespace ClashRoyaleClanWarsAPI.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("8bcbfc62-b9a3-4456-b9ba-2ee1db9531a4"),
-                            PasswordHash = "AQAAAAIAAYagAAAAEARPD825gaw+PV4p6Nz40pFoLkKUiSZ3nmLl7+/5v+RR8haWZMc3aeLNrbgVOaJCWw==",
-                            RoleId = new Guid("7a509152-925f-475e-8118-b24c588a80b1"),
+                            Id = new Guid("0203aaa8-7c6e-494e-9e97-506dccd4e1dd"),
+                            PasswordHash = "AQAAAAIAAYagAAAAECGzqO3mclGd+wXMY7dV8h8kNOQ5MQ38mrf9JVuNdMYpbWOdsOg2wUc1LKklPt0cvQ==",
+                            RoleId = new Guid("d3e9b40e-305b-4e0c-9070-6dea126711f4"),
                             UserName = "superadmin"
                         });
                 });
@@ -2639,12 +2642,12 @@ namespace ClashRoyaleClanWarsAPI.Infrastructure.Migrations
                     b.HasOne("ClashRoyaleClanWarsAPI.Domain.Models.PlayerModel", "Loser")
                         .WithMany()
                         .HasForeignKey("LoserId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("ClashRoyaleClanWarsAPI.Domain.Models.PlayerModel", "Winner")
                         .WithMany()
                         .HasForeignKey("WinnerId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Loser");
 
@@ -2770,7 +2773,7 @@ namespace ClashRoyaleClanWarsAPI.Infrastructure.Migrations
                     b.HasOne("ClashRoyaleClanWarsAPI.Domain.Models.PlayerModel", "Player")
                         .WithMany()
                         .HasForeignKey("PlayerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Card");
