@@ -82,16 +82,13 @@ export class SidenavComponent implements OnInit {
         icon: "pi pi-chart-line",
         label: "Statistics",
       },
-      {
-        routeLink: "/faq",
-        icon: "pi pi-question-circle",
-        label: "FAQ",
-      },
+      
       {
         routeLink: "/analysis",
         icon: "pi pi-tablet",
         label: "Analysis",
       },
+      
       
   ]
 
@@ -119,6 +116,14 @@ export class SidenavComponent implements OnInit {
         label: "Sign Up",
       })
     }
+
+    this.navData.push(
+      {
+        routeLink: "/faq",
+        icon: "pi pi-question-circle",
+        label: "FAQ",
+      }
+    )
   } 
 
   @HostListener('window:resize', ['$event'])
