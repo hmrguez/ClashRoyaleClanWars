@@ -341,6 +341,11 @@ export class PlayersComponent {
     'cardAmount': this.selectedUp.cardAmount,  'maxElo': this.selectedUp.maxElo, 'favoriteCard': this.selectedUp.favoriteCard}).subscribe((data)=>{
       this.showSuccess('Updated')
       this.playerService.getAll().subscribe((data)=>{this.allPlayers=data})
+
+      if (this.selectedUp.id ==this.currentuser.id){
+        this.tokens.updateUser(JSON.stringify( this.aliasUp))
+      }
+      this.updateCurrentUserCards()
       this.grid.loadData()
     }, (err)=>{
       this.showError(err.error)
@@ -355,6 +360,11 @@ export class PlayersComponent {
     }
 
     var id = this.selectedDelete.id
+
+    if (id == this.currentuser.id){
+      this.showError('cannot delete yourself')
+      return
+    }
 
     this.playerService.delete(id).subscribe((data)=>{
       this.showSuccess('Deleted')

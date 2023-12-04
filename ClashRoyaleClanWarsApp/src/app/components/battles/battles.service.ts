@@ -13,8 +13,4 @@ export class BattlesService extends CrudService<Battle>{
       super(http)
   }
 
-
-  
-
-
 }

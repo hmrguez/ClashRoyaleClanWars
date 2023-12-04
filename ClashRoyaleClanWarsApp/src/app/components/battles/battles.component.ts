@@ -113,12 +113,9 @@ export class BattlesComponent implements OnInit {
       winnerId : data.winner.alias,
       loserId : data.loser.alias,
       amountTrophies : data.amountTrophies,
-      //filter where clans.id = data.id, get the clans.name
       date : data.date,
       durationInSeconds : data.durationInSeconds,
-      id : data.id.value
-
-     
+      id : data.id.value  
     }
   }
 
@@ -136,7 +133,6 @@ export class BattlesComponent implements OnInit {
 
   async Post(){
     
-
     if (!this.selectedLoser || !this.selectedWinner || !this.trophies || !this.duration || !this.date){
       this.showError('Cannot have empty fields')
       return
@@ -146,13 +142,11 @@ export class BattlesComponent implements OnInit {
       this.showError('Winner and Loser are the same')
       return
     }
-
     
     if (this.date > new Date()){
       this.showError('Date is in the future')
       return
     }
-    
     
     this.battleSer.create({'winnerId': this.selectedWinner.id, 'loserId': this.selectedLoser.id,
   'amountTrophies': this.trophies, 'durationInSeconds':this.duration, 'date': this.date.toISOString(), 'id': 1}).subscribe((data)=>{
@@ -161,10 +155,6 @@ export class BattlesComponent implements OnInit {
     this.grid.loadData()
   },(err)=>{this.showError(err.error)})
     
-    
-   
-    
   }
-
 
 }

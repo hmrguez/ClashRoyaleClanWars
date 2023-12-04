@@ -19,21 +19,14 @@ export class CardPopularityComponent implements OnInit{
 
   data:any
   options:any
-
   lb :string[] = []
   count : number[] = []
-
-
 
   constructor(public playerServ: PlayerService) {
 }
 
-
-    
-  
-
   async getBattlesYear(){
-    let datasets1 = [0,0,0,0,0,0,0,0,0,0,0,0]
+    //let datasets1 = [0,0,0,0,0,0,0,0,0,0,0,0]
 
     const func = ((data: IPlayerDto[])=>{
         for (let index = 0; index < data.length; index++) {
@@ -45,7 +38,7 @@ export class CardPopularityComponent implements OnInit{
     const obeservable = await this.playerServ.getAll().toPromise();
     func(obeservable!)
     
-    return datasets1
+    //return datasets1
 
 }
 
@@ -75,8 +68,6 @@ Save(){
       this.lb.push(v)
       this.count.push(1)
     }
-    
-
     }
 
     async ngOnInit() {
@@ -85,7 +76,8 @@ Save(){
       const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
       const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
       let datasets1: number[] = []
-      datasets1 = await this.getBattlesYear()
+      //datasets1 = await this.getBattlesYear()
+      await this.getBattlesYear()
 
       for (let i = 0; i < this.lb.length; i++) {
         for (let j = 0; j < this.lb.length; j++) {

@@ -4,7 +4,7 @@
         <div class="p-inputgroup filterbox">
             <button type="button" pButton label="Search" (click)="Filter()"></button>
            
-            <input type="text" pInputText placeholder="Keyword" [(ngModel)] = "FilterBy"/>
+            <input (keyup.enter)="Filter()" type="text" pInputText placeholder="Keyword" [(ngModel)] = "FilterBy"/>
             <button type="button" pButton icon="pi pi-refresh" styleClass="p-button-warn" (click)="ResetFilter()"></button>
         </div>
 
