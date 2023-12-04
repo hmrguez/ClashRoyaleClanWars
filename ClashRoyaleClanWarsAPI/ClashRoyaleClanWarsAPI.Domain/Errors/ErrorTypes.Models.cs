@@ -55,5 +55,10 @@ public static partial class ErrorTypes
         public static Error WarFull(string description) => new(
                 code: ErrorCode.WarFull,
                 description: description);
+
+        public static Error PlayerHasNoEnoughLevel(string description) => new(
+                code: ErrorCode.PlayerHasNoEnoughLevel,
+                description: description);
+        
     }
 }

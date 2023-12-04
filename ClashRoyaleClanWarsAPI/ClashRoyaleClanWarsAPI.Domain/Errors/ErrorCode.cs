@@ -22,6 +22,7 @@ public class ErrorCode
     public const string ClanAlreadyInWar = "Clan.ClanAlreadyInWar";
     public const string ClanFull = "Clan.ClanFull";
     public const string WarFull = "War.WarFull";
+    public const string PlayerHasNoEnoughLevel = "Player.PlayerHasNoEnoughLevel";
 
 
 }
