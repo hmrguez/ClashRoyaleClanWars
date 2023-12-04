@@ -307,7 +307,7 @@ export class PlayersComponent {
   }
 
   Post(){
-    if (!this.eloAdd || !this.levelAdd || !this.aliasAdd){
+    if (isNaN(this.eloAdd) || isNaN(this.levelAdd) || !this.aliasAdd){
       this.showError("Fields cannot be empty")
       return
     }
@@ -321,19 +321,26 @@ export class PlayersComponent {
   }
 
   Update(){
-    if (!this.eloUp && !this.aliasUp && !this.levelUp){
+    if (isNaN(this.eloUp) && !this.aliasUp && isNaN(this.levelUp)){
       this.showError('Not all fields can be empty')
       return
     }
+
 
     if (!this.selectedUp){
       this.showError('You need to select a player')
       return
     }
 
-    if(!this.eloUp) this.eloUp = this.selectedUp.elo
+    
+    if(isNaN(this.eloUp)) this.eloUp = this.selectedUp.elo
     if (!this.aliasUp) this.aliasUp = this.selectedUp.alias
-    if (!this.levelUp) this.levelUp = this.selectedUp.level
+    if (isNaN(this.levelUp)) this.levelUp = this.selectedUp.level
+    
+    if (this.selectedUp.maxElo < this.eloUp){
+      this.showError('New ELO cannot be greater than current max ELO')
+      return
+    }
 
     var id = this.selectedUp.id
 
@@ -437,7 +444,7 @@ export class PlayersComponent {
   reward!: number
 
   Challenge(){
-    if (!this.challenge || !this.playerChallenge || !this.reward){
+    if (!this.challenge || !this.playerChallenge || isNaN(this.reward)){
       this.showError('No fields can be empty')
       return
     }

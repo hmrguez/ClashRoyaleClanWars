@@ -121,10 +121,11 @@ export class ChallengeComponent {
   isOpenPost = false
 
   Post(){
-    if (!this.namePost || !this.descriptionPost || !this.costPost || !this.amountRewardPost ||!this.startDatePost||!this.durationInHoursPost||!this.minLevelPost||!this.lossLimitPost){
+    if (!this.namePost || !this.descriptionPost || !this.amountRewardPost  || isNaN(this.costPost) ||!this.startDatePost||!this.durationInHoursPost||!this.minLevelPost||!this.lossLimitPost){
       this.showError('Need to fill all fields')
       return
     }
+
 
     var body: Challenge = {
       id:1,
