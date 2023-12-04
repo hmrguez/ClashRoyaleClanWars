@@ -30,6 +30,10 @@ internal class AddChallengePlayerCommandHandler : ICommandHandler<AddChallengePl
         {
             return Result.Failure(ErrorTypes.Models.ChallengeClosed());
         }
+        catch (PlayerHasNoEnoughLevelException e)
+        {
+            return Result.Failure(ErrorTypes.Models.PlayerHasNoEnoughLevel(e.Message));
+        }
 
         return Result.Success();
     }

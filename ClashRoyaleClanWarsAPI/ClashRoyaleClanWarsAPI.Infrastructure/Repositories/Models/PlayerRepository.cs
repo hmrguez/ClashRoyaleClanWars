@@ -75,20 +75,21 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
 
     public override async Task Update(PlayerModel model)
     {
-        _context.Attach(model);
+        var player = await GetSingleByIdAsync(model.Id);
 
         if (await _context.Users.Where(u => u.UserName == model.Alias).FirstOrDefaultAsync() is not null)
             throw new DuplicateNameException();
 
-        _context.Entry(model).Property(x => x.Elo).IsModified = true;
-        _context.Entry(model).Property(x => x.Alias).IsModified = true;
-        _context.Entry(model).Property(x => x.Level).IsModified = true;
+        player.AssignElo(model.Elo);
+        player.ChangeAlias(model.Alias!);
+        player.Level = model.Level;
 
-        _context.Entry(model).Reference(u=> u.User).Load();
+        _context.Entry(player).Reference(u=> u.User).Load();
 
-        if (model.User != null)
-            model.User.UserName = model.Alias!;
+        if (player.User != null)
+            player.User.UserName = model.Alias!;
 
+        _context.Entry(player).State = EntityState.Modified;
 
         await Save();
     }
@@ -115,17 +116,18 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
     {
         var player = await GetSingleByIdAsync(playerId);
 
-        if (await _context.Users.Where(u => u.UserName == alias).FirstOrDefaultAsync() is not null)
-            throw new DuplicateNameException();
-        
-        player!.ChangeAlias(alias!);
-
         _context.Entry(player).Reference(u => u.User).Load();
+
 
         if (player.User != null)
         {
+            if (await _context.Users.Where(u => u.UserName == alias && u.Id != player.User.Id).FirstOrDefaultAsync() is not null)
+                throw new DuplicateNameException();
+
             player.User.UserName = alias;
         }
+
+        player!.ChangeAlias(alias!);
 
         await Save();
     }
@@ -141,6 +143,9 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
             throw new ChallengeClosedException();
 
         var player = await GetSingleByIdAsync(playerId);
+
+        if (player.Level < challenge.MinLevel)
+            throw new PlayerHasNoEnoughLevelException(challenge.MinLevel, player.Level);
 
         var playerChallenge = ChallengePlayersModel.Create(player!, challenge, reward);
 
