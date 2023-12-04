@@ -110,6 +110,7 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
         await Save();
 
     }
+    
     public async Task UpdateAlias(int playerId, string alias)
     {
         var player = await GetSingleByIdAsync(playerId);
