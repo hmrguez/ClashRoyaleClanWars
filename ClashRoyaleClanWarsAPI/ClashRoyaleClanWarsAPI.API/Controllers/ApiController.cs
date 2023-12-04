@@ -40,6 +40,7 @@ public class ApiController : ControllerBase
             error == ErrorCode.ChallengeClosed ||
             error == ErrorCode.PlayerNotHaveCard ||
             error == ErrorCode.PlayerHasNoClan ||
+            error == ErrorCode.PlayerHasNoEnoughTrophies ||
             error == ErrorCode.ClanFull ||
             error == ErrorCode.WarFull)
             return BadRequest(error.Description);

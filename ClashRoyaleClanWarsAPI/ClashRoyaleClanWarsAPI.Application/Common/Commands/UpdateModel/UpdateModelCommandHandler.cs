@@ -2,6 +2,8 @@
 using ClashRoyaleClanWarsAPI.Application.Interfaces.Repositories;
 using ClashRoyaleClanWarsAPI.Domain.Common.Interfaces;
 using ClashRoyaleClanWarsAPI.Domain.Shared;
+using ClashRoyaleClanWarsAPI.Domain.Errors;
+using System.Data;
 
 namespace ClashRoyaleClanWarsAPI.Application.Common.Commands.UpdateModel;
 
@@ -16,7 +18,14 @@ public class UpdateModelCommandHandler<TModel, UId> : ICommandHandler<UpdateMode
 
     public async Task<Result> Handle(UpdateModelCommand<TModel, UId> request, CancellationToken cancellationToken)
     {
-        await _repository.Update(request.Model);
+        try
+        {
+            await _repository.Update(request.Model);
+        }
+        catch (DuplicateNameException)
+        {
+            return Result.Failure(ErrorTypes.Auth.DuplicateUsername());
+        }
 
         return Result.Success();
     }

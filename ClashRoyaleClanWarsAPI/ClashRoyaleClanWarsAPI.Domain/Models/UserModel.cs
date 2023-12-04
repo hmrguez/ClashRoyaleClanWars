@@ -4,6 +4,14 @@ namespace ClashRoyaleClanWarsAPI.Domain.Models;
 
 public class UserModel : IEntity<Guid>
 {
+    public Guid Id { get; private set; }
+    public string UserName { get; set; }
+    public string PasswordHash { get; set; }
+    public Guid? RoleId { get; set; }
+    public RoleModel? Role { get; set; }
+    public int? PlayerId { get; set; }
+    public PlayerModel? Player { get; set; }
+
     private UserModel() { }
     private UserModel(string username, Guid roleId)
     {
@@ -16,13 +24,6 @@ public class UserModel : IEntity<Guid>
         Id = Guid.NewGuid();
         UserName = username;
     }
-    public Guid Id { get; private set; }
-    public string UserName { get; set; }
-    public string PasswordHash { get; set; }
-    public Guid? RoleId { get; set; }
-    public RoleModel? Role { get; set; }
-    public int? PlayerId { get; set; }
-    public PlayerModel? Player { get; set; }
 
     public static UserModel Create(string username, Guid roleId) => new UserModel(username, roleId);
 }
