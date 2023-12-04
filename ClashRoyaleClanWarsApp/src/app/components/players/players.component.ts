@@ -459,6 +459,8 @@ export class PlayersComponent {
 
     this.http.post(url,{'reward': this.reward}).subscribe((data)=>{
       this.showSuccess("Challenge assigned")
+      this.grid.loadData()
+      this.updateCurrentUserCards()
       
 
     },(err)=>{
