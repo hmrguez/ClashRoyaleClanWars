@@ -347,11 +347,6 @@ export class PlayersComponent {
     if(isNaN(this.eloUp)) this.eloUp = this.selectedUp.elo
     if (!this.aliasUp) this.aliasUp = this.selectedUp.alias
     if (isNaN(this.levelUp)) this.levelUp = this.selectedUp.level
-    
-    if (this.selectedUp.maxElo < this.eloUp){
-      this.showError('New ELO cannot be greater than current max ELO')
-      return
-    }
 
     var id = this.selectedUp.id
 
