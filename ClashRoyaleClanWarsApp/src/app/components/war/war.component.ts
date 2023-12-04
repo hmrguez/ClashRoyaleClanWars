@@ -106,7 +106,7 @@ itemParsingFunction(data:any) : War{
       this.showError('Need to select a war')
       return
     }
-    if (!this.prize){
+    if (isNaN(this.prize)){
       this.showError('Need to select a prize')
       return
     }

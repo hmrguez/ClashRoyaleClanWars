@@ -1,6 +1,6 @@
 <div *ngIf="isAdmin" class="add flex justify-content-center">
     <p-button (click)="showAdd()" icon="pi pi-plus-circle" label="Add Challenge"></p-button>
-    <p-button (click)="showDelete()" icon="pi pi-plus-trash" label="Delete Challenge"></p-button>
+    <p-button (click)="showDelete()" icon="pi pi-trash" label="Delete Challenge"></p-button>
   
   </div>
 <div *ngIf="visibleAdd" >
@@ -17,7 +17,7 @@
 
 <div class="row">
   <div class="col">
-<p-inputNumber [(ngModel)]="costPost" [min]="1" inputId="integeronly" placeholder="cost" class="form"></p-inputNumber>
+<p-inputNumber [(ngModel)]="costPost" [min]="0" inputId="integeronly" placeholder="cost" class="form"></p-inputNumber>
 </div>
 <div class="col">
 <p-inputNumber [(ngModel)]="amountRewardPost" [min]="1" inputId="integeronly" placeholder="Reward" class="form"></p-inputNumber>
@@ -28,7 +28,7 @@
 
 <div class="row">
   <div class="col">
-<p-inputNumber [(ngModel)]="lossLimitPost" [min]="1" inputId="integeronly" placeholder="Loss Limit" class="form"></p-inputNumber>
+<p-inputNumber [(ngModel)]="lossLimitPost" [min]="3" inputId="integeronly" placeholder="Loss Limit " class="form"></p-inputNumber>
 </div>
 
 <div class="col">
