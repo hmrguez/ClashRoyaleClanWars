@@ -9,6 +9,7 @@ using ClashRoyaleClanWarsAPI.Domain.Relationships;
 using ClashRoyaleClanWarsAPI.Infrastructure.Persistance;
 using ClashRoyaleClanWarsAPI.Infrastructure.Repositories.Common;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace ClashRoyaleClanWarsAPI.Infrastructure.Repositories.Models;
 
@@ -76,6 +77,9 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
     {
         _context.Attach(model);
 
+        if (await _context.Users.Where(u => u.UserName == model.Alias).FirstOrDefaultAsync() is not null)
+            throw new DuplicateNameException();
+
         _context.Entry(model).Property(x => x.Elo).IsModified = true;
         _context.Entry(model).Property(x => x.Alias).IsModified = true;
         _context.Entry(model).Property(x => x.Level).IsModified = true;
@@ -89,16 +93,38 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
         await Save();
     }
 
+    public override async Task Delete(PlayerModel model)
+    {
+        var clanWar = await _context.ClanPlayers
+            .Include(cp=> cp.Clan)
+            .Where(cp => cp.Player!.Id == model.Id).FirstOrDefaultAsync();
+
+        if (clanWar != null)
+            clanWar.Clan!.RemoveAmountMember();
+
+        await _context.ClanPlayers.Where(cp=> cp.Player!.Id == model.Id).ExecuteDeleteAsync();
+        await _context.PlayerChallenges.Where(cp=> cp.Player!.Id == model.Id).ExecuteDeleteAsync();
+        await _context.Battles.Where(b=> b.Winner!.Id == model.Id || b.Loser!.Id == model.Id).ExecuteDeleteAsync();
+        await _context.Players.Where(p=> p.Id == model.Id).ExecuteDeleteAsync();
+
+        await Save();
+
+    }
     public async Task UpdateAlias(int playerId, string alias)
     {
         var player = await GetSingleByIdAsync(playerId);
 
+        if (await _context.Users.Where(u => u.UserName == alias).FirstOrDefaultAsync() is not null)
+            throw new DuplicateNameException();
+        
         player!.ChangeAlias(alias!);
 
         _context.Entry(player).Reference(u => u.User).Load();
 
         if (player.User != null)
+        {
             player.User.UserName = alias;
+        }
 
         await Save();
     }
@@ -115,10 +141,14 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
 
         var player = await GetSingleByIdAsync(playerId);
 
-        var playerChallenge = ChallengePlayersModel.Create(player!, challenge, 0);
+        var playerChallenge = ChallengePlayersModel.Create(player!, challenge, reward);
 
         await _context.PlayerChallenges.AddAsync(playerChallenge);
 
+        player.UpdateElo(reward);
+
+        _context.Entry(player).State = EntityState.Modified;
+        
         await Save();
     }
     
@@ -132,7 +162,13 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
         if (!await ExistsPlayerChallenge(playerId, challengeId))
             throw new IdNotFoundException<int>(playerId, challengeId);
 
+        var player = await GetSingleByIdAsync(playerId);
+
         var playerChallenge = await _context.PlayerChallenges.FindAsync(playerId, challengeId);
+
+        player.UpdateElo(reward);
+
+        _context.Entry(player).State = EntityState.Modified;
 
         playerChallenge!.AddPrize(reward);
         playerChallenge!.Completed();

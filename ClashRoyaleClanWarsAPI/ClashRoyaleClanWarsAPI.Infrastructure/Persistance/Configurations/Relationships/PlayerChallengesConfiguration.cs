@@ -14,7 +14,7 @@ public class PlayerChallengesConfiguration : IEntityTypeConfiguration<ChallengeP
         builder.HasOne(d => d.Player)
             .WithMany()
             .HasForeignKey("PlayerId")
-            .OnDelete(DeleteBehavior.NoAction);
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(d => d.Challenge)
             .WithMany()

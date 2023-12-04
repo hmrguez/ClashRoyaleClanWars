@@ -3,6 +3,7 @@ using ClashRoyaleClanWarsAPI.Application.Interfaces.Repositories;
 using ClashRoyaleClanWarsAPI.Domain.Errors;
 using ClashRoyaleClanWarsAPI.Domain.Exceptions;
 using ClashRoyaleClanWarsAPI.Domain.Shared;
+using System.Data;
 
 namespace ClashRoyaleClanWarsAPI.Application.Models.Player.Commands.UpdateAlias;
 
@@ -25,7 +26,12 @@ public class UpdatePlayerAliasCommandHandler : ICommandHandler<UpdatePlayerAlias
         {
             return Result.Failure(ErrorTypes.Models.IdNotFound(e.Message));
         }
+        catch (DuplicateNameException)
+        {
+            return Result.Failure(ErrorTypes.Auth.DuplicateUsername());
+        }
 
+        
         return Result.Success();
     }
 }
