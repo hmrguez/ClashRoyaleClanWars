@@ -1,4 +1,6 @@
-<div *ngIf="!is_Admin" class="stats">
+<p-selectButton *ngIf="is_Admin" class="togglebutton add" [options]="stateOptions" [(ngModel)]="value" optionLabel="label" optionValue="value"></p-selectButton>
+
+<div *ngIf="!value" class="stats">
 
   <div class="row">
 
@@ -93,11 +95,15 @@
     </div>
   </div>
 
-  
-
-  
-
-  
+  <div class="col-md-3">
+    <div class="stati amethyst ">
+      <i class="pi pi-arrow-up"></i>
+      <div>
+        <b>Donate Cards to Clan</b>
+        <span><a (click)="ShowDialogDonate()">Here</a></span>
+      </div> 
+    </div>
+  </div>
 
 </div>
 
@@ -123,6 +129,27 @@
   
 </p-dialog>
 
+<p-dialog header="Donate Card" [(visible)]="visibled" [modal]="true"  [draggable]="false" [resizable]="true" >
+ 
+  <p-listbox [options]="currentusercards" [(ngModel)]="donateCard" optionLabel="name" [listStyle]="{ 'max-height': '250px' }" [style]="{ width: '15rem' }" [listStyle]="{'max-height': '220px'}">
+    <ng-template let-card pTemplate="item">
+        <div class="flex align-items-center gap-2">
+            <img src={{card.imageUrl}}  style="width: 18px"/>
+            <div>{{ card.name }}</div>
+        </div>
+    </ng-template>
+</p-listbox>
+
+<p-inputNumber class="form" [(ngModel)]="donateAmountC" [min]="1" inputId="integeronly"
+placeholder="Amount to Donate"> </p-inputNumber>
+
+  <p-button (click)="DonateCard()" [raised]="true" [rounded]="true" [text]="true" class="form"
+            icon="pi pi-check"></p-button>
+  
+</p-dialog>
+
+
+
 
 <p-dialog header="Username" [(visible)]="visibleu" [modal]="visibleu"  [draggable]="false" [resizable]="false">
  
@@ -135,6 +162,7 @@
             icon="pi pi-check"></p-button>
   
 </p-dialog>
+
 
 <p-dialog header="Password" [(visible)]="visiblep" [modal]="visiblep"  [draggable]="false" [resizable]="false">
 
@@ -208,7 +236,7 @@
 
 
 
-<div *ngIf="is_Admin" class="add ">
+<div *ngIf="value" class="add ">
   <p-button (click)="showAdd()" icon="pi pi-plus-circle" label="Add Player"></p-button>
   <p-button (click)="showUpdate()" icon="pi pi-wrench" label="Update Player"></p-button>
   <p-button (click)="showDelete()" icon="pi pi-trash" label="Delete Player"></p-button>
@@ -219,13 +247,13 @@
 
 </div>
 
-<div *ngIf="visibleAdd" class="container">
+<div *ngIf="visibleAdd && value" class="container">
   <div class="row row-cols-3 mt-2">
     <div class="col">
       <input [(ngModel)]="aliasAdd" pInputText placeholder="Alias" type="text"/>
     </div>
     <div class="col">
-      <p-inputNumber [(ngModel)]="eloAdd" [min]="1" inputId="integeronly" placeholder="elo"></p-inputNumber>
+      <p-inputNumber [(ngModel)]="eloAdd" [min]="0" inputId="integeronly" placeholder="elo"></p-inputNumber>
     </div>
     <div class="col">
       <p-inputNumber [(ngModel)]="levelAdd" [min]="1" inputId="integeronly" placeholder="level"></p-inputNumber>
@@ -239,7 +267,7 @@
   </div>
 </div>
 
-<div *ngIf="visibleUpdate" class="container">
+<div *ngIf="visibleUpdate&& value" class="container">
   <div class="row">
   <div class="col-12 text-center mb-2">
     <p-dropdown [(ngModel)]="selectedUp" [filter]="true" [options]="allPlayers" [showClear]="true" class="form"
@@ -262,7 +290,7 @@
   </div>
 
   <div class="col ms-5">
-    <p-inputNumber [(ngModel)]="eloUp" [min]="1" inputId="integeronly" placeholder="elo"> </p-inputNumber>
+    <p-inputNumber [(ngModel)]="eloUp" [min]="0" inputId="integeronly" placeholder="elo"> </p-inputNumber>
   </div>
 
   <div class="col ms-5">
@@ -275,7 +303,7 @@
   </div>
 </div>
 
-<div *ngIf="visibleDelete">
+<div *ngIf="visibleDelete&& value">
 
   <p-dropdown [(ngModel)]="selectedDelete" [filter]="true" [options]="allPlayers" [showClear]="true" class="form"
               filterBy="alias" optionLabel="alias" placeholder="Select a Player">
@@ -297,9 +325,9 @@
             icon="pi pi-check"></p-button>
 </div>
 
-<div *ngIf="visibleChallenge">
+<div *ngIf="visibleChallenge&& value">
   <p-dropdown [(ngModel)]="playerChallenge" [filter]="true" [options]="allPlayers" [showClear]="true" class="form"
-              filterBy="alias" optionLabel="alias" placeholder="Select a Player" (ngModelChange)="getCards()">
+              filterBy="alias" optionLabel="alias" placeholder="Select a Player" >
     <ng-template pTemplate="selectedItem">
       <div *ngIf="playerChallenge" class="flex align-items-center gap-2">
         <div>{{ playerChallenge.alias }}</div>
@@ -335,7 +363,7 @@
 
 </div>
 
-<div *ngIf="visibleDonate">
+<div *ngIf="visibleDonate&& value">
 
   <p-dropdown [(ngModel)]="selectedPlayer" [filter]="true" [options]="allPlayers" [showClear]="true" class="form"
               filterBy="alias" optionLabel="alias" placeholder="Select a Player" (ngModelChange)="getCards()">
@@ -374,7 +402,7 @@
 </div>
 
 
-<div *ngIf="visibleAssign">
+<div *ngIf="visibleAssign&& value">
 
   <p-dropdown [(ngModel)]="playerAssign" [filter]="true" [options]="allPlayers" [showClear]="true" class="form"
               filterBy="alias" optionLabel="alias" placeholder="Select a Player" >
@@ -410,10 +438,11 @@
             icon="pi pi-check"></p-button>
 </div>
 
-<clash-grid *ngIf="is_Admin" #grid 
+<clash-grid *ngIf="value" #grid 
             [columns]="columns"
             [dataService]="playerService"
             [primaryKey]="'id'"
             [title]="'Players'"
 ></clash-grid>
 
+<p-toast [baseZIndex]="1000"></p-toast>

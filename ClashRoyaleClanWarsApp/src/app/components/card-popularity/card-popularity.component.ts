@@ -3,6 +3,7 @@ import { PlayerService } from '../players/player.service';
 import { OnInit } from '@angular/core';
 import { IPlayerDto } from '../players/IPlayerDto';
 import jsPDF from 'jspdf';
+import { Colors } from 'chart.js';
 
 export interface Victories{
   victories: number,
@@ -124,10 +125,22 @@ Save(){
             }
         },
         scales: {
+          
             y: {
+              title:{
+                display:true,
+                text: 'Number of Players',
+                font: {
+                  size: 14,
+                  weight: "bold"
+                }
+              },
+              
                 beginAtZero: true,
                 ticks: {
-                    color: textColorSecondary
+                 
+                    color: textColorSecondary,
+                   
                 },
                 grid: {
                     color: surfaceBorder,
@@ -135,6 +148,14 @@ Save(){
                 }
             },
             x: {
+              title:{
+                display:true,
+                text: 'Victories',
+                font: {
+                  size: 14,
+                  weight: "bold"
+                }
+              },
                 ticks: {
                     color: textColorSecondary
                 },

@@ -38,6 +38,9 @@ internal class WarRepository : BaseRepository<WarModel, int>, IWarRepository
     }
     public async Task AddClanToWar(int warId, int clanId, int prize)
     {
+        if (await IsWarFull(warId))
+            throw new WarFullException(warId);
+
         if (await ExistsClanInWar(clanId, warId))
             throw new DuplicationIdException(clanId, warId);
 
@@ -61,5 +64,9 @@ internal class WarRepository : BaseRepository<WarModel, int>, IWarRepository
     private async Task<bool> ExistsClanInWar(int clanId)
     {
         return await _context.ClanWars.Where(w => w.Clan!.Id == clanId).FirstOrDefaultAsync() is not null;
+    }
+    private async Task<bool> IsWarFull(int warId)
+    {
+        return await _context.ClanWars.Where(w => w.War!.Id == warId).CountAsync() == 5;
     }
 }

@@ -54,7 +54,10 @@ public class PlayerModel : IEntity<int>
             return;
         }
         if (Elo + elo < 0)
+        {
+            Elo = 0;
             return;
+        }
 
         Elo += elo;
 

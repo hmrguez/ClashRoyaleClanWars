@@ -30,6 +30,10 @@ internal class AddClanWarCommandHandler : ICommandHandler<AddClanWarCommand>
         {
             return Result.Failure(ErrorTypes.Models.ClanAlreadyInWar(e.Message));
         }
+        catch (WarFullException e)
+        {
+            return Result.Failure(ErrorTypes.Models.ClanFull(e.Message));
+        }
 
         return Result.Success();
     }

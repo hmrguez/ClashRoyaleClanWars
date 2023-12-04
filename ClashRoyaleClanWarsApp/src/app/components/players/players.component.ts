@@ -23,6 +23,9 @@ export class PlayersComponent {
 
   @ViewChild("grid") grid: GridComponent = {} as GridComponent;
 
+  stateOptions: any[] = [{label: 'View As Player', value: false}, {label: 'View As Admin', value: true}];
+  value = false
+
   columns: IColumn[] = [
     {
       header: 'Alias',
@@ -92,33 +95,22 @@ export class PlayersComponent {
 
 
 
+
+
  
   
 
   constructor(public playerService: PlayerService, private userSer: UsersService, public tokens :TokenStorageService, private mess:MessageService,private challengeSer:ChallengeService, private http:HttpClient, private cardser:CardService) { 
     this.is_Admin = this.tokens.isAdmin() || this.tokens.isSuperAdmin()
 
-    if (!this.is_Admin){
+   
       var user = this.tokens.getUser()
       var url = this.playerService.baseUrl 
       
-      this.playerService.baseUrl = url+ '/'+ user
-      console.log(this.playerService.baseUrl)
-      this.playerService.getAll().subscribe((data: any[])=>{
-        this.currentuser = data[0]
-        console.log(this.currentuser)
-        this.playerService.baseUrl = url + '/' + this.currentuser.id + '/cards'
-        this.playerService.getAll().subscribe((data2)=>{
-          this.currentusercards = data2
-          this.playerService.baseUrl = url
-        })
-      })
+      this.updateCurrentUserCards()
 
-    }
-    
-    this.playerService.getAll().subscribe((data)=>{
+    this.http.get(url).subscribe((data:any)=>{
       this.allPlayers=data
-      
     })
     this.cardser.getAll().subscribe((data)=>{
       this.allcards = data
@@ -135,12 +127,26 @@ export class PlayersComponent {
     
   }
 
+  updateCurrentUserCards(){
+    var user = this.tokens.getUser()
+      var url = this.playerService.baseUrl 
+      
+      this.http.get(url+'/'+user).subscribe((data: any)=>{
+        this.currentuser = data[0]
+        this.http.get(url + '/' + this.currentuser.id + '/cards').subscribe((data2)=>{
+          this.currentusercards = data2
+          
+        })
+      })
+  }
+
   
 
   
       visible = false
       visibleu =false
       visiblep = false
+      visibled = false
 
       newusername!:string
 
@@ -150,6 +156,10 @@ export class PlayersComponent {
 
       ShowDialogPassword(){
         this.visiblep = true
+      }
+
+      ShowDialogDonate(){
+        this.visibled = true
       }
 
       ShowDialog(){
@@ -163,6 +173,28 @@ export class PlayersComponent {
       showSuccess(message:string){
         this.mess.add({ severity: 'success', summary: 'Success', detail: message });
       }
+
+      donateAmountC !: any
+      donateCard !: any
+
+      DonateCard(){
+        this.visibled = false
+        if (!this.donateCard || !this.donateAmountC) {
+          this.showError('Fill all fields')
+          return
+      }
+
+      let url = this.playerService.baseUrl + '/' + this.currentuser.id + '/donate' ;
+
+      
+
+    this.http.post(url,{'cardId':this.donateCard.id,'amount':this.donateAmountC}).subscribe((data)=>{
+      this.showSuccess("Donated")
+    },(err)=>{
+      this.showError(err.error)
+    })
+
+    }
 
       ChangeUsername(){
         this.visibleu = false
@@ -376,8 +408,13 @@ export class PlayersComponent {
 
     this.http.post(url,{}).subscribe((data)=>{
       this.showSuccess("Cards assigned")
+
       this.playerService.getAll().subscribe((data)=>{this.allPlayers=data})
       this.grid.loadData()
+
+      this.updateCurrentUserCards()
+
+      
     },(err)=>{
       this.showError(err.error)
       console.log(err)

@@ -80,6 +80,12 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
         _context.Entry(model).Property(x => x.Alias).IsModified = true;
         _context.Entry(model).Property(x => x.Level).IsModified = true;
 
+        _context.Entry(model).Reference(u=> u.User).Load();
+
+        if (model.User != null)
+            model.User.UserName = model.Alias!;
+
+
         await Save();
     }
 
@@ -89,6 +95,11 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
 
         player!.ChangeAlias(alias!);
 
+        _context.Entry(player).Reference(u => u.User).Load();
+
+        if (player.User != null)
+            player.User.UserName = alias;
+
         await Save();
     }
 
@@ -96,7 +107,11 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
     {
         var challenge = await _challengeRepository.GetSingleByIdAsync(challengeId);
 
-        if (!challenge!.IsOpen) throw new ChallengeClosedException();
+        if (await ExistsChallengePlayer(playerId, challengeId))
+            throw new DuplicationIdException(playerId, challengeId);
+
+        if (!challenge!.IsOpen) 
+            throw new ChallengeClosedException();
 
         var player = await GetSingleByIdAsync(playerId);
 
@@ -105,6 +120,11 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
         await _context.PlayerChallenges.AddAsync(playerChallenge);
 
         await Save();
+    }
+    
+    public async Task<bool> ExistsChallengePlayer(int playerId, int challengeId)
+    {
+        return (await _context.PlayerChallenges.FindAsync(playerId, challengeId)) is not null;
     }
     
     public async Task AddPlayerChallengeResult(int playerId, int challengeId, int reward)

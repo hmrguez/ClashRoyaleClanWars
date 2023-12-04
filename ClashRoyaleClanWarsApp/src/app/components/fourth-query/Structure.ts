@@ -3,6 +3,7 @@ export interface Structure{
     cardName: string
     count : number 
     clanName : string
-    queryId:number
+    queryId:number,
+    cardType: any
     
 }
