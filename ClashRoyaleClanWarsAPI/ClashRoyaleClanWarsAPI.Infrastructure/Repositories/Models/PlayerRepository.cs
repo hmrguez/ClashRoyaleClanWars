@@ -77,17 +77,21 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
     {
         var player = await GetSingleByIdAsync(model.Id);
 
-        if (await _context.Users.Where(u => u.UserName == model.Alias).FirstOrDefaultAsync() is not null)
-            throw new DuplicateNameException();
-
-        player.AssignElo(model.Elo);
-        player.ChangeAlias(model.Alias!);
-        player.Level = model.Level;
+        _context.Entry(player).Reference(u => u.User).Load();
 
         _context.Entry(player).Reference(u=> u.User).Load();
-
+        
         if (player.User != null)
+        {
+            if (await _context.Users.Where(u => u.UserName == model.Alias && u.Id != player.User.Id).FirstOrDefaultAsync() is not null)
+                throw new DuplicateNameException();
+
             player.User.UserName = model.Alias!;
+        }
+
+        player!.ChangeAlias(model.Alias!);
+        player.AssignElo(model.Elo);
+        player.Level = model.Level;
 
         _context.Entry(player).State = EntityState.Modified;
 
@@ -117,7 +121,6 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
         var player = await GetSingleByIdAsync(playerId);
 
         _context.Entry(player).Reference(u => u.User).Load();
-
 
         if (player.User != null)
         {
