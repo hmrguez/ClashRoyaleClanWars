@@ -129,15 +129,26 @@ export class PlayersComponent {
 
   updateCurrentUserCards(){
     var user = this.tokens.getUser()
-      var url = this.playerService.baseUrl 
+
+    var id = 0
+
+    var url1 = this.userSer.baseUrl + '/username/'+user
+
+    this.http.get(url1).subscribe((data:any)=>{
+      id = data.playerId
+      this.playerService.getSingle(id).subscribe((data)=>{this.currentuser = data})
+      this.http.get(this.playerService.baseUrl + '/' + id + '/cards').subscribe((data)=>{this.currentusercards=data})
+    })
+
+
       
-      this.http.get(url+'/'+user).subscribe((data: any)=>{
-        this.currentuser = data[0]
-        this.http.get(url + '/' + this.currentuser.id + '/cards').subscribe((data2)=>{
-          this.currentusercards = data2
+      // this.http.get(url+'/'+user).subscribe((data: any)=>{
+      //   this.currentuser = data[0]
+      //   this.http.get(url + '/' + this.currentuser.id + '/cards').subscribe((data2)=>{
+      //     this.currentusercards = data2
           
-        })
-      })
+      //   })
+      // })
   }
 
   
@@ -212,7 +223,7 @@ export class PlayersComponent {
           this.tokens.updateUser(JSON.stringify( this.newusername))
           this.currentuser.alias = this.newusername
           this.showSuccess('Username changed')
-          console.log(this.tokens.getUser())
+          this.playerService.getAll().subscribe((data)=>{this.allPlayers=data})
         },(err)=>{
           this.visibleu = false
           this.showError(err.error)

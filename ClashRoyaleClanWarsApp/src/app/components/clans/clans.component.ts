@@ -7,6 +7,8 @@ import { PlayerService } from '../players/player.service';
 import { MessageService } from 'primeng/api';
 import { GridComponent } from '../grid/grid.component';
 import { ViewChild } from '@angular/core';
+import { UsersService } from '../users/users.service';
+import { HttpClient } from '@angular/common/http';
 
 
 
@@ -70,12 +72,25 @@ export class ClansComponent {
  allClans : any[] = []
 
   baseUrl !: string
-  constructor(public clanService: ClanService, private tokenStorage: TokenStorageService, public playerSer: PlayerService, private mess:MessageService ) { 
+  constructor(public clanService: ClanService,private http :HttpClient, private tokenStorage: TokenStorageService, public playerSer: PlayerService, private mess:MessageService, private users: UsersService ) { 
     this.isAdmin = this.tokenStorage.isAdmin() || this.tokenStorage.isSuperAdmin()
     this.isUser = !this.isAdmin && !!this.tokenStorage.getToken()
     this.playerSer.getAll().subscribe((data)=>{this.allPlayers=data})
     this.clanService.getAll().subscribe((data)=>{this.allClans=data})
     this.baseUrl = this.clanService.baseUrl
+
+    if (this.isUser){
+
+      var user = this.tokenStorage.getUser()
+      var url1 = this.users.baseUrl + '/username/'+user
+
+      this.http.get(url1).subscribe((data:any)=>{
+      this.playerSer.getSingle(data.playerId).subscribe((data)=>{this.playerAdd = data})
+      
+    })
+
+     
+    }
   }
 
 
@@ -162,11 +177,20 @@ export class ClansComponent {
 
   }
 
-  Post(){
+  async Post(){
 
-    if (this.isUser){
-      this.playerAdd = this.allPlayers.filter(x => x.alias == this.tokenStorage.getUser())[0]
-    }
+    // if (this.isUser){
+
+    //   var user = this.tokenStorage.getUser()
+    //   var url1 = this.users.baseUrl + '/username/'+user
+
+    //   await this.http.get(url1).subscribe((data:any)=>{
+    //   this.playerSer.getSingle(data.playerId).subscribe((data)=>{this.playerAdd = data})
+      
+    // })
+
+    //   //this.playerAdd = this.allPlayers.filter(x => x.alias == this.tokenStorage.getUser())[0]
+    // }
 
     if (!this.playerAdd) {
       this.showError('Player field cannot be empty')
