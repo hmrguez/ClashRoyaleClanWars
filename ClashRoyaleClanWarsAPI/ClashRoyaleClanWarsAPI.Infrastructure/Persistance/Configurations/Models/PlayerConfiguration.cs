@@ -38,6 +38,7 @@ public class PlayerConfiguration : IEntityTypeConfiguration<PlayerModel>
         builder.HasOne(u => u.User)
             .WithOne(p => p.Player)
             .HasForeignKey<UserModel>(p => p.PlayerId)
-            .IsRequired(false);
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.SetNull);
     }
 }
