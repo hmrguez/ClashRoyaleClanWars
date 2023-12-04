@@ -11,6 +11,10 @@ public class UpdateMaxEloInsertPlayerTrigger : IBeforeSaveTrigger<PlayerModel>
         {
             context.Entity.UpdateElo(context.Entity.Elo);
         }
+        if (context.ChangeType == ChangeType.Modified)
+        {
+            context.Entity.UpdateElo(context.Entity.Elo);
+        }
         return Task.CompletedTask;
     }
 }
