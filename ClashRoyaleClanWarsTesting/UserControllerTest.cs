@@ -12,6 +12,7 @@ using ClashRoyaleClanWarsAPI.API.Controllers;
 using ClashRoyaleClanWarsAPI.Domain.Shared;
 using ClashRoyaleClanWarsAPI.Application.Auth.User;
 using ClashRoyaleClanWarsAPI.Application.Auth.Response;
+using ClashRoyaleClanWarsAPI.Domain.Models;
 
 namespace ClashRoyaleClanWarsAPI.Tests
 {
@@ -20,6 +21,7 @@ namespace ClashRoyaleClanWarsAPI.Tests
         private readonly UserController _sut;
         private readonly Mock<ISender> _sender = new Mock<ISender>();
         private readonly Error Error = new Error(ErrorCode.IdNotFound,"Id not found");
+        private readonly Guid guid = Guid.NewGuid();
 
         public UserControllerTest()
         {
@@ -30,7 +32,7 @@ namespace ClashRoyaleClanWarsAPI.Tests
         public async Task GetAll_ShouldReturnOk_WhenSuccess()
         {
             //Arrange
-            var result = Result.Success(It.IsAny<IEnumerable<UserModel>>());
+            var result = Result.Success(It.IsAny<IEnumerable<UserResponse>>());
 
             _sender.Setup(x => x.Send(It.IsAny<GetAllUserQuery>(), default))
                 .Returns(Task.FromResult(result));
@@ -47,7 +49,7 @@ namespace ClashRoyaleClanWarsAPI.Tests
         public async Task GetAll_ShouldReturnProblem_WhenFailure()
         {
             //Arrange
-            var result = Result.Failure<IEnumerable<UserModel>>(Error);
+            var result = Result.Failure<IEnumerable<UserResponse>>(Error);
 
             _sender.Setup(x => x.Send(It.IsAny<GetAllUserQuery>(), default))
                 .Returns(Task.FromResult(result));
@@ -106,7 +108,7 @@ namespace ClashRoyaleClanWarsAPI.Tests
                 .Returns(Task.FromResult(result));
 
             //Act
-            var response = await _sut.GetUserById("1");
+            var response = await _sut.GetUserById(guid);
 
             //Assert
             Assert.NotNull(response);
@@ -123,7 +125,7 @@ namespace ClashRoyaleClanWarsAPI.Tests
                 .Returns(Task.FromResult(result));
 
             //Act
-            var response = await _sut.GetUserById("1");
+            var response = await _sut.GetUserById(guid);
 
             //Assert
             Assert.NotNull(response);
@@ -140,7 +142,7 @@ namespace ClashRoyaleClanWarsAPI.Tests
                 .Returns(Task.FromResult(result));
 
             //Act
-            var response = await _sut.Delete("1");
+            var response = await _sut.Delete(guid);
 
             //Assert
             Assert.NotNull(response);
@@ -157,7 +159,7 @@ namespace ClashRoyaleClanWarsAPI.Tests
                 .Returns(Task.FromResult(result));
 
             //Act
-            var response = await _sut.Delete("1");
+            var response = await _sut.Delete(guid);
 
             //Assert
             Assert.NotNull(response);
@@ -174,7 +176,7 @@ namespace ClashRoyaleClanWarsAPI.Tests
                 .Returns(Task.FromResult(result));
 
             //Act
-            var response = await _sut.UpdateRole("1", RoleEnum.Admin);
+            var response = await _sut.UpdateRole(guid, RoleEnum.Admin);
 
             //Assert
             Assert.NotNull(response);
@@ -191,7 +193,7 @@ namespace ClashRoyaleClanWarsAPI.Tests
                 .Returns(Task.FromResult(result));
 
             //Act
-            var response = await _sut.UpdateRole("1", RoleEnum.Admin);
+            var response = await _sut.UpdateRole(guid, RoleEnum.Admin);
 
             //Assert
             Assert.NotNull(response);

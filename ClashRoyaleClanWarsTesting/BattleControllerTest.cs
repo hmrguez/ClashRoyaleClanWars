@@ -19,7 +19,7 @@ namespace ClashRoyaleClanWarsAPI.Tests
         private readonly BattleController _sut;
         private readonly Mock<ISender> _sender = new Mock<ISender>();
         private readonly Mock<IMapper> _mapper = new Mock<IMapper>();
-        private readonly Mock<PlayerModel> _player = new Mock<PlayerModel>();
+        private readonly PlayerModel _player = PlayerModel.Create("Dráckaro");
 
         public BattleControllerTest()
         {
@@ -32,8 +32,8 @@ namespace ClashRoyaleClanWarsAPI.Tests
             //Arrange
             var query = new GetAllBattleIncludeQuery();
 
-            var battle1 = BattleModel.Create(30, _player.Object, _player.Object, 180, DateTime.Now);
-            var battle2 = BattleModel.Create(28, _player.Object, _player.Object, 180, DateTime.Now);
+            var battle1 = BattleModel.Create(30, _player, _player, 180, DateTime.Now);
+            var battle2 = BattleModel.Create(28, _player, _player, 180, DateTime.Now);
 
             BattleModel[] Battles = new BattleModel[2]
             {
@@ -76,7 +76,7 @@ namespace ClashRoyaleClanWarsAPI.Tests
             //Arrange
             var BattleId = new Guid();
             var query = new GetBattleByIdFullLoadQuery(BattleId, true);
-            var battle = BattleModel.Create(30, _player.Object, _player.Object, 180, DateTime.Now);
+            var battle = BattleModel.Create(30, _player, _player, 180, DateTime.Now);
             var result = Result.Success<BattleModel>(battle);
 
             _sender.Setup(x => x.Send(query, default)).Returns(Task.FromResult(result));

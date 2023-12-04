@@ -192,6 +192,21 @@ public class DummyController : ApiController
             var clanId = GetRandomFromArray(clanIds);
             var clanIdIndex = clanIds.IndexOf(clanId);
 
+            bool found = false;
+            foreach (var b in clanUpdateBooleanMask)
+            {
+                if(!b)
+                {
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found)
+            {
+                break;
+            }
+
             while (clanUpdateBooleanMask[clanIdIndex])
             {
                 clanId = GetRandomFromArray(clanIds);

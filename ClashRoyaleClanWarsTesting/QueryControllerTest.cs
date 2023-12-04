@@ -86,7 +86,7 @@ namespace ClashRoyaleClanWarsAPI.Tests
         public async Task GetFifthQuery_ShouldReturnOk_WhenSuccess()
         {
             //Arrange
-            var Player = new PlayerModel();
+            var Player = PlayerModel.Create("Drackaro");
             Player.UpdateElo(3000);
             var result = Result.Success(Player);
 
