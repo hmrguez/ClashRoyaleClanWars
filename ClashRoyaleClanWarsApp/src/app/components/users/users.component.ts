@@ -141,7 +141,10 @@ export class UsersComponent {
     }
     let user = this.token.getUser()
 
-    if (this.selectedUser.name == user) {
+    
+    
+
+    if (this.selectedUser.username == user) {
 
       this.showError('You cannot change your own role')
       return
@@ -151,8 +154,6 @@ export class UsersComponent {
     this.serv.update(this.selectedUser.id, this.roleSelected.value).subscribe((data) => {
       this.showSuccess('Role Updated')
       this.grid.loadData()
-
-      console.log(data)
     }, (err) => {
       this.showError(err.error)
     })

@@ -1,6 +1,6 @@
-<div class="flex-auto">
+<div class="flex-auto ">
 
-    <p-dropdown class="form" [options]="allPlayers" [(ngModel)]="selectedPlayer" optionLabel="alias" [filter]="true" filterBy="alias" [showClear]="true" placeholder="Select a Player">
+    <p-dropdown class="form " [options]="allPlayers" [(ngModel)]="selectedPlayer" optionLabel="alias" [filter]="true" filterBy="alias" [showClear]="true" placeholder="Select a Player">
         <ng-template pTemplate="selectedItem">
             <div class="flex align-items-center gap-2" *ngIf="selectedPlayer">
                 
@@ -16,7 +16,7 @@
     </p-dropdown>
     
 
-    <p-button class = "btn" icon="pi pi-check" (click)="Show()"></p-button>
+    <p-button class = "btn " icon="pi pi-check" (click)="Show()"></p-button>
    
 </div>
 
