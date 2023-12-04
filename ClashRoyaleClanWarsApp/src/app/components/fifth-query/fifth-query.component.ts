@@ -46,17 +46,11 @@ export class FifthQueryComponent {
       const func = ((data: any)=>{
           this.data = data
           this.grid.data = this.data
-          
-          
       });
   
       const obeservable = await this.queryService.getAll().toPromise();
       func(obeservable)
 
-      
-    
-  
-  
 
 }
   

@@ -106,8 +106,8 @@ export class ClansComponent {
   descAdd !: string
   regionAdd !: string
   openAdd :boolean = false
-  trophiesAdd !: number
-  trophWarAdd !: number
+  trophiesAdd !: number 
+  trophWarAdd !: number 
   playerAdd !: any
 
 
@@ -173,7 +173,12 @@ export class ClansComponent {
       return
     }
 
-    if (!this.nameAdd || !this.descAdd || !this.regionAdd || !this.trophWarAdd || !this.trophiesAdd){
+    if (!this.nameAdd || !this.descAdd || !this.regionAdd){
+      this.showError('Fields cannot be empty')
+      return
+    }
+
+    if (this.trophWarAdd<0 || this.trophiesAdd<0 ){
       this.showError('Fields cannot be empty')
       return
     }
@@ -193,10 +198,6 @@ export class ClansComponent {
     })
 
     this.clanService.baseUrl = this.baseUrl
-
-    
-    
-
   }
 
   Update(){
@@ -204,7 +205,6 @@ export class ClansComponent {
       this.showError('You need to select a clan')
       return
     }
-
 
     if (!this.nameUp) this.nameUp = this.selectedUp.name
     if (!this.descUp) this.descUp = this.selectedUp.description
@@ -223,7 +223,6 @@ export class ClansComponent {
     }, (err)=>{
       this.showError(err.error)
     
-
     })
 
     
