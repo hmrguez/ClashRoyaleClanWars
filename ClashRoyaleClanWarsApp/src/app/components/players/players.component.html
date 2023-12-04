@@ -356,7 +356,7 @@ placeholder="Amount to Donate"> </p-inputNumber>
 
   </p-dropdown>
 
-  <p-inputNumber [(ngModel)]="reward" [min]="1" inputId="integeronly" placeholder="elo" class="form"> </p-inputNumber>
+  <p-inputNumber [(ngModel)]="reward" [min]="0" inputId="integeronly" placeholder="elo" class="form"> </p-inputNumber>
 
   <p-button (click)="Challenge()" [raised]="true" [rounded]="true" [text]="true" class="form"
             icon="pi pi-check"></p-button>

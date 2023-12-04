@@ -178,7 +178,7 @@ export class ClansComponent {
       return
     }
 
-    if (this.trophWarAdd<0 || this.trophiesAdd<0 ){
+    if (isNaN(this.trophWarAdd) || isNaN(this.trophiesAdd) ){
       this.showError('Fields cannot be empty')
       return
     }
@@ -209,8 +209,9 @@ export class ClansComponent {
     if (!this.nameUp) this.nameUp = this.selectedUp.name
     if (!this.descUp) this.descUp = this.selectedUp.description
     if (!this.regionUp) this.regionUp = this.selectedUp.region
-    if (!this.trophWarUp) this.trophWarUp = this.selectedUp.trophiesInWar
-    if (!this.trophiesUp) this.trophiesUp = this.selectedUp.minTrophies
+    console.log(this.trophWarUp)
+    if (isNaN(this.trophWarUp)) this.trophWarUp = this.selectedUp.trophiesInWar
+    if (isNaN(this.trophiesUp)) this.trophiesUp= this.selectedUp.minTrophies
     
 
     var id = this.selectedUp.id

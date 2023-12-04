@@ -5,11 +5,7 @@ using ClashRoyaleClanWarsAPI.Domain.Relationships;
 namespace ClashRoyaleClanWarsAPI.Domain.Models;
 
 public class PlayerModel : IEntity<int>
-{
-    private PlayerModel(string alias)
-    {
-        Alias = alias;
-    }
+{    
     public int Id { get; private set; }
     public string? Alias { get; private set; }
     public int Elo { get; private set; }
@@ -21,6 +17,11 @@ public class PlayerModel : IEntity<int>
     public CardModel? FavoriteCard { get; private set; }
     public List<CollectionModel>? Cards { get; private set; }
 
+    private PlayerModel(string alias)
+    {
+        Alias = alias;
+    }
+    
     public void AddCard(CardModel card)
     {
         Cards ??= new List<CollectionModel>();

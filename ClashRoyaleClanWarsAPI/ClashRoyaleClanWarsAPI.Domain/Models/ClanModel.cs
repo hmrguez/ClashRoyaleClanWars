@@ -31,7 +31,7 @@ public class ClanModel : IEntity<int>
     }
     public void RemoveAmountMember()
     {
-        AmountMembers += 1;
+        AmountMembers -= 1;
     }
     public void ChangeTypeOpen() => TypeOpen = !TypeOpen;
 
