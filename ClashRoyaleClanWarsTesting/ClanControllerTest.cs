@@ -339,9 +339,9 @@ namespace ClashRoyaleClanWarsAPI.Tests
             //Arrange
             int ClanId = 1;
             var query = new GetAllPlayersQuery(ClanId);
-            Mock<PlayerModel> _player = new Mock<PlayerModel>();
-            var Player1 = ClanPlayersModel.Create(_player.Object, _clan.Object, RankClan.Leader);
-            var Player2 = ClanPlayersModel.Create(_player.Object, _clan.Object, RankClan.Member);
+            PlayerModel _player = PlayerModel.Create("Dráckaro");
+            var Player1 = ClanPlayersModel.Create(_player, _clan.Object, RankClan.Leader);
+            var Player2 = ClanPlayersModel.Create(_player, _clan.Object, RankClan.Member);
 
             ClanPlayersModel[] Players = new ClanPlayersModel[2]
             {

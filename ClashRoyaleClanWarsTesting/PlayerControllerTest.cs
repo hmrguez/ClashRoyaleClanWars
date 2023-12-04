@@ -28,7 +28,7 @@ namespace ClashRoyaleClanWarsAPI.Tests
         private readonly PlayerController _sut;
         private readonly Mock<ISender> _sender = new Mock<ISender>();
         private readonly Mock<IMapper> _mapper = new Mock<IMapper>();
-        private readonly Mock<PlayerModel> _player = new Mock<PlayerModel>();
+        private readonly PlayerModel _player = PlayerModel.Create("Dráckaro");
         private readonly Error Error= new Error(ErrorCode.IdNotFound, "Id not found");
 
         public PlayerControllerTest()
@@ -43,7 +43,7 @@ namespace ClashRoyaleClanWarsAPI.Tests
             var query = new GetAllModelQuery<PlayerModel, int>();
             PlayerModel[] Players = new PlayerModel[2]
             {
-                _player.Object, _player.Object
+                _player, _player
             };
 
             var result = Result.Success<IEnumerable<PlayerModel>>(Players);
@@ -64,7 +64,7 @@ namespace ClashRoyaleClanWarsAPI.Tests
             //Arrange
             int PlayerId = 1;
             var query = new GetPlayerByIdFullLoadQuery(PlayerId, true);
-            var result = Result.Success<PlayerModel>(_player.Object);
+            var result = Result.Success<PlayerModel>(_player);
 
             _sender.Setup(x => x.Send(query, default)).Returns(Task.FromResult(result));
 
@@ -102,7 +102,7 @@ namespace ClashRoyaleClanWarsAPI.Tests
             var query = new GetAllPlayerByAliasQuery(PlayerAlias);
             PlayerModel[] Players = new PlayerModel[2]
             {
-                _player.Object, _player.Object
+                _player, _player
             };
 
             var result = Result.Success<IEnumerable<PlayerModel>>(Players);
