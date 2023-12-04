@@ -17,7 +17,7 @@ public class ApiController : ControllerBase
 
     protected IActionResult Problem(Error[] errors)
     {
-        if(errors.Length > 1)
+        if (errors.Length > 1)
             return BadRequest(string.Join(" ", errors.AsEnumerable()));
 
         return Problem(errors[0]);
@@ -42,7 +42,8 @@ public class ApiController : ControllerBase
             error == ErrorCode.PlayerHasNoClan ||
             error == ErrorCode.PlayerHasNoEnoughTrophies ||
             error == ErrorCode.ClanFull ||
-            error == ErrorCode.WarFull)
+            error == ErrorCode.WarFull ||
+            error == ErrorCode.PlayerHasNoEnoughLevel)
             return BadRequest(error.Description);
 
         if (error == ErrorCode.DuplicateId ||

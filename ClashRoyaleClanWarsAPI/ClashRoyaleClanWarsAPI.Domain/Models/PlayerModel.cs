@@ -9,7 +9,7 @@ public class PlayerModel : IEntity<int>
     public int Id { get; private set; }
     public string? Alias { get; private set; }
     public int Elo { get; private set; }
-    public int Level { get; private set; }
+    public int Level { get; set; }
     public int Victories { get; private set; }
     public int CardAmount { get; private set; }
     public int MaxElo { get; private set; }
@@ -46,7 +46,12 @@ public class PlayerModel : IEntity<int>
     private void UpdateMaxElo(int maxElo) => MaxElo = maxElo;
 
     public void AddVictory() => Victories += 1;
-
+    public void AssignElo(int elo)
+    {
+        Elo = elo;
+        if (Elo > MaxElo)
+            UpdateMaxElo(elo);
+    }
     public void UpdateElo(int elo)
     {
         if (MaxElo < Elo)
